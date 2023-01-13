@@ -4,7 +4,7 @@ library(here)
 library(ggdag)
 library(tidyverse)
 
-img_path <- here("sticker", "smdi_sublogo.tiff")
+img_path <- here("sticker", "smdi_sublogo2.png")
 
 sticker(
   img_path,
@@ -17,7 +17,7 @@ sticker(
   # p_x = ,
   p_y = 1.5,
   s_x = 1.05,
-  s_y= .8,
+  s_y= .85,
   s_width=.5,
   s_height =.4,
   dpi = 1200,
