@@ -10,3 +10,4 @@
 
 .quarto
 /.quarto/
+^LICENSE\.md$
