@@ -8,11 +8,11 @@
 #' The function assumes a one-row-per-patient dataframe.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate vector with variable/column names to investigate
+#' @param covar character covariate or covariate vector with variable/column name(s) to investigate
 #' @param top_n_covar integer, display top n missing covariates
 #' @param strata character name of variable/column by which results should be stratified
 #'
-#' @return ggplot2 graph displaying selected or chosen variables by percent missing
+#' @return returns ggplot2 graph displaying selected or chosen variables by percent missing
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr summarize_all
@@ -24,6 +24,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyselect all_of
+#' @importFrom tidyselect everything
 #' @importFrom forcats fct_reorder
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -46,7 +47,7 @@
 #' }
 
 smdi_vis <- function(data = NULL, # dataframe
-                     covar = NULL, # covariate vector to investigate
+                     covar = NULL, # covariate or covariate character vector to investigate
                      top_n_covar = NULL, # integer. display top n missing covariates
                      strata = NULL # visualizations stratified
                      ){

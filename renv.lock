@@ -233,6 +233,16 @@
         "tibble"
       ]
     },
+    "class": {
+      "Package": "class",
+      "Version": "7.3-20",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "da09d82223e669d270e47ed24ac8686e",
+      "Requirements": [
+        "MASS"
+      ]
+    },
     "cli": {
       "Package": "cli",
       "Version": "3.6.0",
@@ -373,6 +383,17 @@
         "vctrs"
       ]
     },
+    "e1071": {
+      "Package": "e1071",
+      "Version": "1.7-12",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0d776df7577206e100c2c4b508208b10",
+      "Requirements": [
+        "class",
+        "proxy"
+      ]
+    },
     "ellipsis": {
       "Package": "ellipsis",
       "Version": "0.3.2",
@@ -456,6 +477,16 @@
         "rlang",
         "rstudioapi",
         "withr"
+      ]
+    },
+    "gdata": {
+      "Package": "gdata",
+      "Version": "2.18.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8c86ee4c7aa7dd31ef0a28b28649bde4",
+      "Requirements": [
+        "gtools"
       ]
     },
     "generics": {
@@ -621,6 +652,17 @@
       "Hash": "4f2596dfb05dac67b9dc558e5c6fba2e",
       "Requirements": []
     },
+    "gmodels": {
+      "Package": "gmodels",
+      "Version": "2.18.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6713a242cb6909e492d8169a35dfe0b0",
+      "Requirements": [
+        "MASS",
+        "gdata"
+      ]
+    },
     "googledrive": {
       "Package": "googledrive",
       "Version": "2.0.0",
@@ -703,6 +745,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "36b4265fb818f6a342bed217549cd896",
+      "Requirements": []
+    },
+    "gtools": {
+      "Package": "gtools",
+      "Version": "3.9.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "88bb96eaf7140cdf29e374ef74182220",
       "Requirements": []
     },
     "haven": {
@@ -882,6 +932,22 @@
       "Hash": "3d5108641f47470611a32d0bdf357a72",
       "Requirements": []
     },
+    "labelled": {
+      "Package": "labelled",
+      "Version": "2.10.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "1c444c7fe66cebddc0e6e3e2a5ca37c1",
+      "Requirements": [
+        "dplyr",
+        "haven",
+        "lifecycle",
+        "rlang",
+        "stringr",
+        "tidyr",
+        "vctrs"
+      ]
+    },
     "lattice": {
       "Package": "lattice",
       "Version": "0.20-45",
@@ -963,6 +1029,26 @@
       "Hash": "18e9c28c1d3ca1560ce30658b22ce104",
       "Requirements": []
     },
+    "minqa": {
+      "Package": "minqa",
+      "Version": "1.2.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "587ce77fd3c7bada7eadb2d18b62930d",
+      "Requirements": [
+        "Rcpp"
+      ]
+    },
+    "mitools": {
+      "Package": "mitools",
+      "Version": "2.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a4b659bd0528226724d55034f11ed7cb",
+      "Requirements": [
+        "DBI"
+      ]
+    },
     "modelr": {
       "Package": "modelr",
       "Version": "0.1.10",
@@ -999,6 +1085,14 @@
       "Requirements": [
         "lattice"
       ]
+    },
+    "numDeriv": {
+      "Package": "numDeriv",
+      "Version": "2016.8-1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "df58958f293b166e4ab885ebcad90e02",
+      "Requirements": []
     },
     "openssl": {
       "Package": "openssl",
@@ -1073,6 +1167,14 @@
         "hms",
         "prettyunits"
       ]
+    },
+    "proxy": {
+      "Package": "proxy",
+      "Version": "0.4-27",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e0ef355c12942cf7a6b91a6cfaea8b3e",
+      "Requirements": []
     },
     "ps": {
       "Package": "ps",
@@ -1332,6 +1434,31 @@
         "vctrs"
       ]
     },
+    "survey": {
+      "Package": "survey",
+      "Version": "4.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8aec2bc6533a6d1e6ef43bbf0c20205a",
+      "Requirements": [
+        "Matrix",
+        "lattice",
+        "minqa",
+        "mitools",
+        "numDeriv",
+        "survival"
+      ]
+    },
+    "survival": {
+      "Package": "survival",
+      "Version": "3.3-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f6189c70451d3d68e0d571235576e833",
+      "Requirements": [
+        "Matrix"
+      ]
+    },
     "sys": {
       "Package": "sys",
       "Version": "3.4.1",
@@ -1356,6 +1483,22 @@
       "Hash": "90b28393209827327de889f49935140a",
       "Requirements": [
         "cpp11"
+      ]
+    },
+    "tableone": {
+      "Package": "tableone",
+      "Version": "0.13.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b1a77da61a4c3585987241b8a1cc6b95",
+      "Requirements": [
+        "MASS",
+        "e1071",
+        "gmodels",
+        "labelled",
+        "nlme",
+        "survey",
+        "zoo"
       ]
     },
     "tibble": {
@@ -1621,6 +1764,16 @@
       "Repository": "CRAN",
       "Hash": "0d0b7cc6da5efc21f07f6b8d966a9cc1",
       "Requirements": []
+    },
+    "zoo": {
+      "Package": "zoo",
+      "Version": "1.8-11",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "874a5b77fe0cfacf2a3450069ae70926",
+      "Requirements": [
+        "lattice"
+      ]
     }
   }
 }

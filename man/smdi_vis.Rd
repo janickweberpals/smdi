@@ -9,14 +9,14 @@ smdi_vis(data = NULL, covar = NULL, top_n_covar = NULL, strata = NULL)
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate vector with variable/column names to investigate}
+\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate}
 
 \item{top_n_covar}{integer, display top n missing covariates}
 
 \item{strata}{character name of variable/column by which results should be stratified}
 }
 \value{
-ggplot2 graph displaying selected or chosen variables by percent missing
+returns ggplot2 graph displaying selected or chosen variables by percent missing
 }
 \description{
 This function takes a dataframe and outputs a nicely formatted
