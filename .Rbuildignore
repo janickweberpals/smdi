@@ -3,3 +3,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^sticker$
+
+.DS_Store
+.DS_Store?
+^DS_Store$
