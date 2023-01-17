@@ -5,3 +5,4 @@
 This package aims to be a helpful addition to routine healthcare database analytics with regards to perform structural missing data investigations.
 
 
+# Installation guidance
