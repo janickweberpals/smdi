@@ -4,16 +4,14 @@
 \alias{smdi_asmd}
 \title{Compute mean/median absolute standardized mean differences}
 \usage{
-smdi_asmd(data = NULL, covar = NULL, strata = NULL, median = TRUE)
+smdi_asmd(data = NULL, covar = NULL, median = TRUE)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
 \item{covar}{character covariate or covariate vector with variable/column name(s) to investigate}
 
-\item{strata}{character name of variable/column by which results should be stratified (typically exposure variable)}
-
-\item{median}{logical if the median (recommended) or mean of all absolute standardized mean differences should be computed}
+\item{median}{logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed}
 }
 \value{
 returns mean/median absolute standardized mean differences
@@ -22,7 +20,7 @@ returns mean/median absolute standardized mean differences
 This function takes a dataframe and covariates which are only partially observed/missing.
 The dataframe should consist of the exposure variable, the outcome variable(s), the partially observed covariates
 and all other fully observed covariates which are deemed important for the final modeling
-or which could be considered as auxiliary variables. If no partially observed covariates are provided
+or which could be considered as auxiliary variables. If no partially observed covariates are provided,
 the function automatically looks for all variables/columns with NA.
 
 Important: don't include variables like ID variables, ZIP codes, dates, etc.

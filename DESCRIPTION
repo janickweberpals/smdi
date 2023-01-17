@@ -16,6 +16,7 @@ Imports:
   glue,
   magrittr,
   tableone,
+  tibble,
   tidyr,
   tidyselect
 
