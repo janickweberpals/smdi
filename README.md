@@ -6,3 +6,5 @@ This package aims to be a helpful addition to routine healthcare database analyt
 
 
 # Installation guidance
+
+*package still in progress, come back later*
