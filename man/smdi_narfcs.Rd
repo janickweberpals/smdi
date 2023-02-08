@@ -4,20 +4,34 @@
 \alias{smdi_narfcs}
 \title{Wrapper of NARFCS enhanced forked mice version: https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html}
 \usage{
-smdi_narfcs(data = NULL)
+smdi_narfcs(
+  i,
+  data = NULL,
+  target_parameter_cont = NULL,
+  target_parameter_binary = NULL,
+  missing_indicator_var = NULL,
+  predictor_var = NULL,
+  nelson_aalen = FALSE,
+  time_var = NULL,
+  outcome_var = NULL,
+  n_impute = 30,
+  verbose = FALSE
+)
 }
 \arguments{
+\item{i}{numeric sensitivity parameter delta; can also be a range of deltas if used in combination with lapply}
+
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 }
 \value{
 returns a table with covariate name, amount missing observations and proportion missing.
 }
 \description{
-This function takes a dataframe and returns all columns which are partially observed with
-the amount of observations missing and corresponding proportion assuming a one-row-per-patient
-dataframe.
-
-Important: avoid to include variables like ID variables, ZIP codes, dates, etc.
+This function is a wrapper of the NARFCS extension of the package `mice` by M. Moreno-Betancur, F. Leacy, D. Tompsett and I. White.
+The function pefroams a sensitivity analysis based on the Not At Random Fully Conditional Specification (NARFCS) procedure. The wrapper
+intends to give users a more friendly version of the package, especially in situations with many covariates. The function itself follows
+the Formula syntax for fully conditionally specified models. For a great introduction to the overall NARFCS procedure
+and implementation, please visit <https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html>
 }
 \examples{
 \dontrun{
