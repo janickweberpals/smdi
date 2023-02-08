@@ -1,7 +1,8 @@
-#' Wrapper of NARFCS enhanced forked mice version: https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html
+#' Wrapper of NARFCS enhanced forked mice version
 #'
 #' @description
-#' This function is a wrapper of the NARFCS extension of the package `mice` by M. Moreno-Betancur, F. Leacy, D. Tompsett and I. White.
+#' This function is a wrapper of the NARFCS extension of the package `mice`
+#' by M. Moreno-Betancur, F. Leacy, D. Tompsett and I. White (https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html)
 #' The function pefroams a sensitivity analysis based on the Not At Random Fully Conditional Specification (NARFCS) procedure. The wrapper
 #' intends to give users a more friendly version of the package, especially in situations with many covariates. The function itself follows
 #' the Formula syntax for fully conditionally specified models. For a great introduction to the overall NARFCS procedure
@@ -9,21 +10,26 @@
 #'
 #' @param i numeric sensitivity parameter delta; can also be a range of deltas if used in combination with lapply
 #' @param data dataframe or tibble object with partially observed/missing variables. Ideally consists only of continuous or binary covariates
-#' @param id character column name with (patient) identifier variable
-#' @covar character covariate or covariate vector with variable/column name(s) to investigate; restricted to one at this time and must be continuous or binary
-#' @missing_indicator_var = character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)
-#' @predictor_covar character covariate vector for narfcs imputation procedure, if not specified takes all available variables in dataset
-#' @n_impute number of imputed datasets per delta parameter value
+#' @param id_var character column name with (patient) identifier variable
+#' @param covar character covariate or covariate vector with variable/column name(s) to investigate; restricted to one at this time and must be continuous or binary
+#' @param missing_indicator_var = character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)
+#' @param predictor_covar character covariate vector for narfcs imputation procedure, if not specified takes all available variables in dataset
+#' @param n_impute number of imputed datasets per delta parameter value
 #'
 #' @return returns a table with covariate name, amount missing observations and proportion missing.
 #'
 #' @importFrom magrittr '%>%'
-#' @importFrom dplyr bind_cols
-#' @importFrom dplyr select
-#' @importFrom dplyr rename_all
-#' @importFrom tidyselect all_of
 #' @importFrom fastDummies dummy_cols
+#' @importFrom glue glue
+#' @importFrom dplyr bind_cols
+#' @importFrom dplyr rename_all
+#' @importFrom dplyr select
+#' @importFrom mice mice
+#' @importFrom mice as.mids
+#' @importFrom mice complete
 #' @importFrom stringr str_replace_all
+#' @importFrom tidyselect all_of
+#' @importFrom tidyselect where
 #'
 #' @export
 #'
@@ -40,8 +46,8 @@ smdi_narfcs <- function(i, # sensitivity parameter delta
                         covar = NULL, # character covariate or covariate vector with variable/column name(s) to investigate; restricted to one at this time
                         missing_indicator_var = NULL, # missing indicator variable(s) for Ycont and Ybin for narfcs (optional)
                         predictor_covar = NULL, # covariate vector for narfcs and cox regression; this should also include your exposure of interest!
-                        n_impute = 30, # amount of imputed datasets per iteration/delta parameter
-                        verbose = FALSE){
+                        n_impute = 30 # amount of imputed datasets per iteration/delta parameter
+                        ){
 
   # initial checks
 
@@ -174,7 +180,7 @@ smdi_narfcs <- function(i, # sensitivity parameter delta
 
   if(!is.null(target_parameter_binary)){
     # impute cont Y as linear regression intercept and non-imputable covariates (covar_vector)
-    form_target_binary <- paste0("~ 1 +", paste0(c(target_parameter_cont, covariates, "status", "time_indicator"), collapse = "+"))
+    form_target_binary <- paste0("~ 1 +", paste0(c(target_parameter_cont, covariates), collapse = "+"))
 
     data_in[[target_parameter_binary]] <- as.factor(data_in[[target_parameter_binary]])
 
@@ -215,22 +221,7 @@ smdi_narfcs <- function(i, # sensitivity parameter delta
   impNARFCS_long <- mice::complete(impNARFCS, action = "long", include = TRUE)
   impNARFCS_long_mids <- mice::as.mids(impNARFCS_long)
 
-  # specify cox formula
-  rhs <- paste0(c(target_parameter_cont, target_parameter_binary, predictor_var_dummy), collapse = "+")
-  form <- as.formula(paste("survival::Surv(time_indicator, status)", "~", rhs))
-
-  # pool results from cox regression
-  cox_fit <- with(data = impNARFCS_long_mids, expr = survival::coxph(formula(paste(format(form), collapse = ""))))
-  cox_result <- summary(pool(cox_fit), conf.int = TRUE, exponentiate = TRUE) %>%
-    as.data.frame() %>%
-    tibble::rownames_to_column(var="variable") %>%
-    dplyr::mutate(delta = i) %>%
-    dplyr::mutate(hr = exp(est)) %>%
-    dplyr::mutate(lcl = exp(`lo 95`)) %>%
-    dplyr::mutate(ucl = exp(`hi 95`)) %>%
-    dplyr::select(variable, delta, hr, lcl, ucl, est, se)
-
-  return(cox_result)
+  return(impNARFCS_long_mids)
 
   # return(
   #   list(
@@ -247,19 +238,19 @@ smdi_narfcs <- function(i, # sensitivity parameter delta
 
 # plot results ------------------------------------------------------------
 # NARFCS plot function
-narfcs_plot <- function(narfcs_results_df = NULL){
-
-  plot <- narfcs_results_df %>%
-    ggplot2::ggplot(aes(x = delta, y = hr)) +
-    ggplot2::geom_line() +
-    ggplot2::geom_ribbon(aes(ymin = lcl, ymax = ucl), linetype = 2, alpha = 0.25) +
-    ggplot2::labs(title = "Not at random fully conditional specification (NARFCS) sensitivity analysis",
-                  x = expression(delta),
-                  y = "Hazard ratio (HR)") +
-    ggplot2::theme_bw()
-
-  return(plot)
-
-}
+# narfcs_plot <- function(narfcs_results_df = NULL){
+#
+#   plot <- narfcs_results_df %>%
+#     ggplot2::ggplot(aes(x = delta, y = hr)) +
+#     ggplot2::geom_line() +
+#     ggplot2::geom_ribbon(aes(ymin = lcl, ymax = ucl), linetype = 2, alpha = 0.25) +
+#     ggplot2::labs(title = "Not at random fully conditional specification (NARFCS) sensitivity analysis",
+#                   x = expression(delta),
+#                   y = "Hazard ratio (HR)") +
+#     ggplot2::theme_bw()
+#
+#   return(plot)
+#
+# }
 
 

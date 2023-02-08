@@ -12,11 +12,13 @@ LazyData: true
 RoxygenNote: 7.2.3
 Imports:
     dplyr,
+    fastDummies,
     forcats,
     ggplot2,
     glue,
     magrittr,
     mice (>= 3.15.0),
+    stringr,
     tableone,
     tibble,
     tidyr,

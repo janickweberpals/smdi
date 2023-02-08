@@ -7,21 +7,27 @@
 smdi_narfcs(
   i,
   data = NULL,
-  target_parameter_cont = NULL,
-  target_parameter_binary = NULL,
+  id_var = NULL,
+  covar = NULL,
   missing_indicator_var = NULL,
-  predictor_var = NULL,
-  nelson_aalen = FALSE,
-  time_var = NULL,
-  outcome_var = NULL,
-  n_impute = 30,
-  verbose = FALSE
+  predictor_covar = NULL,
+  n_impute = 30
 )
 }
 \arguments{
 \item{i}{numeric sensitivity parameter delta; can also be a range of deltas if used in combination with lapply}
 
-\item{data}{dataframe or tibble object with partially observed/missing variables}
+\item{data}{dataframe or tibble object with partially observed/missing variables. Ideally consists only of continuous or binary covariates}
+
+\item{id_var}{character column name with (patient) identifier variable}
+
+\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate; restricted to one at this time and must be continuous or binary}
+
+\item{missing_indicator_var}{= character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)}
+
+\item{predictor_covar}{character covariate vector for narfcs imputation procedure, if not specified takes all available variables in dataset}
+
+\item{n_impute}{number of imputed datasets per delta parameter value}
 }
 \value{
 returns a table with covariate name, amount missing observations and proportion missing.

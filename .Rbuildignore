@@ -12,3 +12,7 @@
 /.quarto/
 ^LICENSE\.md$
 ^README\.md$
+
+datmis.csv
+^datmis.csv$
+
