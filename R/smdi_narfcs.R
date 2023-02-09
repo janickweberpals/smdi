@@ -3,20 +3,20 @@
 #' @description
 #' This function is a wrapper of the NARFCS extension of the package `mice`
 #' by M. Moreno-Betancur, F. Leacy, D. Tompsett and I. White (https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html)
-#' The function pefroams a sensitivity analysis based on the Not At Random Fully Conditional Specification (NARFCS) procedure. The wrapper
+#' The function performs a sensitivity analysis based on the Not At Random Fully Conditional Specification (NARFCS) procedure. The wrapper
 #' intends to give users a more friendly version of the package, especially in situations with many covariates. The function itself follows
 #' the Formula syntax for fully conditionally specified models. For a great introduction to the overall NARFCS procedure
 #' and implementation, please visit <https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html>
 #'
-#' @param i numeric sensitivity parameter delta; can also be a range of deltas if used in combination with lapply
+#' @param i numeric, sensitivity parameter delta; can also be a range of deltas if used in combination with lapply
 #' @param data dataframe or tibble object with partially observed/missing variables. Ideally consists only of continuous or binary covariates
 #' @param id_var character column name with (patient) identifier variable
-#' @param covar character covariate or covariate vector with variable/column name(s) to investigate; restricted to one at this time and must be continuous or binary
-#' @param missing_indicator_var = character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)
+#' @param covar character covariate or covariate vector with variable/column name(s) to investigate; restricted to one covariate at this time which must be continuous or binary
+#' @param missing_indicator_var  character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)
 #' @param predictor_covar character covariate vector for narfcs imputation procedure, if not specified takes all available variables in dataset
-#' @param n_impute number of imputed datasets per delta parameter value
+#' @param n_impute integer, number of imputed datasets per delta parameter value
 #'
-#' @return returns a table with covariate name, amount missing observations and proportion missing.
+#' @return returns a long mids object with multiply imputed datasets
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom fastDummies dummy_cols
@@ -26,6 +26,7 @@
 #' @importFrom dplyr select
 #' @importFrom mice mice
 #' @importFrom mice as.mids
+#' @importFrom mice mice.impute.normSens
 #' @importFrom mice complete
 #' @importFrom stringr str_replace_all
 #' @importFrom tidyselect all_of
@@ -221,36 +222,16 @@ smdi_narfcs <- function(i, # sensitivity parameter delta
   impNARFCS_long <- mice::complete(impNARFCS, action = "long", include = TRUE)
   impNARFCS_long_mids <- mice::as.mids(impNARFCS_long)
 
+  class(impNARFCS_long_mids) <- "narfcs_long"
+
   return(impNARFCS_long_mids)
 
-  # return(
-  #   list(
-  #     mice.object = impNARFCS,
-  #     imputed.data.long = impNARFCS_long,
-  #     imputed.mids.object = impNARFCS_long_mids, # that's the object we use for pooled analysis
-  #     outcome.call = form,
-  #     cox.result = cox_result
-  #     )
-  #   )
 
+  }
+
+# print
+
+print.narfcs_long <- function(x, ...){
+
+  cat()
 }
-
-
-# plot results ------------------------------------------------------------
-# NARFCS plot function
-# narfcs_plot <- function(narfcs_results_df = NULL){
-#
-#   plot <- narfcs_results_df %>%
-#     ggplot2::ggplot(aes(x = delta, y = hr)) +
-#     ggplot2::geom_line() +
-#     ggplot2::geom_ribbon(aes(ymin = lcl, ymax = ucl), linetype = 2, alpha = 0.25) +
-#     ggplot2::labs(title = "Not at random fully conditional specification (NARFCS) sensitivity analysis",
-#                   x = expression(delta),
-#                   y = "Hazard ratio (HR)") +
-#     ggplot2::theme_bw()
-#
-#   return(plot)
-#
-# }
-
-

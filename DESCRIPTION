@@ -17,11 +17,11 @@ Imports:
     ggplot2,
     glue,
     magrittr,
-    mice (>= 3.15.0),
+    mice (>= 2.46.0.9000),
     stringr,
     tableone,
     tibble,
     tidyr,
     tidyselect
-Remotes:  
+Remotes: 
     moreno-betancur/mice

@@ -2,7 +2,7 @@
 % Please edit documentation in R/smdi_narfcs.R
 \name{smdi_narfcs}
 \alias{smdi_narfcs}
-\title{Wrapper of NARFCS enhanced forked mice version: https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html}
+\title{Wrapper of NARFCS enhanced forked mice version}
 \usage{
 smdi_narfcs(
   i,
@@ -15,26 +15,27 @@ smdi_narfcs(
 )
 }
 \arguments{
-\item{i}{numeric sensitivity parameter delta; can also be a range of deltas if used in combination with lapply}
+\item{i}{numeric, sensitivity parameter delta; can also be a range of deltas if used in combination with lapply}
 
 \item{data}{dataframe or tibble object with partially observed/missing variables. Ideally consists only of continuous or binary covariates}
 
 \item{id_var}{character column name with (patient) identifier variable}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate; restricted to one at this time and must be continuous or binary}
+\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate; restricted to one covariate at this time which must be continuous or binary}
 
-\item{missing_indicator_var}{= character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)}
+\item{missing_indicator_var}{character indicating name of the  missing indicator variable(s) for covar for narfcs (optional)}
 
 \item{predictor_covar}{character covariate vector for narfcs imputation procedure, if not specified takes all available variables in dataset}
 
-\item{n_impute}{number of imputed datasets per delta parameter value}
+\item{n_impute}{integer, number of imputed datasets per delta parameter value}
 }
 \value{
-returns a table with covariate name, amount missing observations and proportion missing.
+returns a long mids object with multiply imputed datasets
 }
 \description{
-This function is a wrapper of the NARFCS extension of the package `mice` by M. Moreno-Betancur, F. Leacy, D. Tompsett and I. White.
-The function pefroams a sensitivity analysis based on the Not At Random Fully Conditional Specification (NARFCS) procedure. The wrapper
+This function is a wrapper of the NARFCS extension of the package `mice`
+by M. Moreno-Betancur, F. Leacy, D. Tompsett and I. White (https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html)
+The function performs a sensitivity analysis based on the Not At Random Fully Conditional Specification (NARFCS) procedure. The wrapper
 intends to give users a more friendly version of the package, especially in situations with many covariates. The function itself follows
 the Formula syntax for fully conditionally specified models. For a great introduction to the overall NARFCS procedure
 and implementation, please visit <https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html>
