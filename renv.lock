@@ -1034,22 +1034,19 @@
     },
     "mice": {
       "Package": "mice",
-      "Version": "2.46.0.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "mice",
-      "RemoteUsername": "moreno-betancur",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "7b2ff75bb111ae0facde93da1e90a4301e2a3877",
-      "Hash": "e034b5500a1b79fc162d2c478324e366",
+      "Version": "3.15.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4eff3178ca2dc520156ddf58f9413231",
       "Requirements": [
-        "MASS",
         "Rcpp",
+        "broom",
+        "cpp11",
+        "dplyr",
+        "generics",
         "lattice",
-        "nnet",
-        "rpart",
-        "survival"
+        "rlang",
+        "tidyr"
       ]
     },
     "mime": {
@@ -1116,14 +1113,6 @@
       "Requirements": [
         "lattice"
       ]
-    },
-    "nnet": {
-      "Package": "nnet",
-      "Version": "7.3-17",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "cb1d8d9f300a7e536b89c8a88c53f610",
-      "Requirements": []
     },
     "numDeriv": {
       "Package": "numDeriv",
@@ -1350,14 +1339,6 @@
         "xfun",
         "yaml"
       ]
-    },
-    "rpart": {
-      "Package": "rpart",
-      "Version": "4.1.16",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "ea3ca1d9473daabb3cd0f1b4f974c1ed",
-      "Requirements": []
     },
     "rprojroot": {
       "Package": "rprojroot",

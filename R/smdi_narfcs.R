@@ -26,7 +26,6 @@
 #' @importFrom dplyr select
 #' @importFrom mice mice
 #' @importFrom mice as.mids
-#' @importFrom mice mice.impute.normSens
 #' @importFrom mice complete
 #' @importFrom stringr str_replace_all
 #' @importFrom tidyselect all_of
