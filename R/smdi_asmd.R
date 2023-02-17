@@ -34,7 +34,6 @@
 #'df %>%
 #' smdi_asmd(covar = c("age", "gender", "bmi"))
 #' }
-#'
 
 smdi_asmd <- function(data = NULL,
                       covar = NULL,

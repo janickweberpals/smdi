@@ -16,3 +16,6 @@
 datmis.csv
 ^datmis.csv$
 
+data_generation.qmd
+^data_generation.qmd$
+
