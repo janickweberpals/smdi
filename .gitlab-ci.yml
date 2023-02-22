@@ -11,13 +11,18 @@ default:
   tags:
   - pages
 
+integration:
+    stage: pkgdown
+    artifacts:
+      paths:
+        - docs
+
 pages:
   stage: deploy
   script:
     - echo "The site will be deployed to $CI_PAGES_URL"
   artifacts:
     paths:
-      - docs
       - public
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
