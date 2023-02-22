@@ -3,7 +3,7 @@
 \docType{data}
 \name{smdi_data}
 \alias{smdi_data}
-\title{smdi exmplary lung cancer dataset}
+\title{smdi exemplary lung cancer dataset}
 \format{
 ## `smdi_data`
 A data frame with 1,000 rows and 14 columns:

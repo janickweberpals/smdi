@@ -17,7 +17,7 @@
 #'   \item{histology_is_squamous_cat}{Tumor histology (0 = nonsquamous, 1 = squamous)}
 #'   \item{ldl_num}{LDL level at baseline in mg/dL}
 #'   \item{rr_num}{Average blood pressure level at baseline in mmHg}
-#'   \item{bpm_num}{HAverage heart rate at baseline in beats per minute (bpm)}
+#'   \item{bpm_num}{Average heart rate at baseline in beats per minute (bpm)}
 #'   ...
 #' }
 #' @source <...>
