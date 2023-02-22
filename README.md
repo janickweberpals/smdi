@@ -15,6 +15,12 @@ You can install the latest version of `smdi` with:
 remotes::install_github("https://gitlab.partners.org/janickweberpals/smdi")
 ```
 
+## Package website
+
+Check out the `smdi` pkgdown website:
+
+<https://janickweberpals.gitlab-pages.partners.org/smdi/index>
+
 ## Vignettes
 
 To learn how to use the `smdi` R package, refer to the package vignettes:
