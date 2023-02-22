@@ -117,9 +117,7 @@ Fitting a generalized linear model and assessing the probablity of treatment ass
 exposure_plot <- sim_covar %>% 
   dplyr::mutate(ps = fitted(exposure_fit))
 
-# check
-# print(all.equal(fitted(exposure_fit), predict(exposure_fit, type="response")))
-
+# plot density
 exposure_plot %>% 
   ggplot2::ggplot(ggplot2::aes(x = ps, fill = factor(exposure))) +
   ggplot2::geom_density(alpha = .5) +
