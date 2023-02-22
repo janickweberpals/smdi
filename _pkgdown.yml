@@ -2,3 +2,6 @@ url: ~
 template:
   bootstrap: 5
 
+# Our GitLab runner can just deploy public/
+destination: public/
+

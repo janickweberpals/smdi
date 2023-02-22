@@ -12,7 +12,7 @@ sticker(
   h_fill = "white",
   h_color = "deepskyblue1",
   #h_size = 5,
-  p_size = 8,
+  p_size = 100,
   p_color = "black",
   # p_x = ,
   p_y = 1.5,
@@ -21,5 +21,5 @@ sticker(
   s_width=.5,
   s_height =.4,
   dpi = 1200,
-  filename="sticker/smdi_hexagon.png"
+  filename="man/figures/smdi_hexagon.png"
 )

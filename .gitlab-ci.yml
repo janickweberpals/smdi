@@ -11,12 +11,6 @@ default:
   tags:
   - pages
 
-integration:
-    stage: pkgdown
-    artifacts:
-      paths:
-        - docs
-
 pages:
   stage: deploy
   script:
