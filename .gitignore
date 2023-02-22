@@ -11,3 +11,4 @@
 # some folders with metadata
 .quarto
 /.quarto/
+inst/doc

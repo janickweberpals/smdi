@@ -1,0 +1,305 @@
+---
+title: "Data generation"
+subtitle: "A simulated dataset for package functionality demonstration"
+author: "Janick Weberpals"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data generation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(smdi)
+suppressPackageStartupMessages(library(tidyverse))
+
+# some simulation parameters
+seed_value <- 42
+n <- 1000
+```
+
+# `smdi` dataset background
+
+To get acquainted with the functionality and usage of the `smdi` package, a simulated toy dataset is provided. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `formatC(n, format = "fg", big.mark = ",")` lung cancer patients.
+
+## Exposure and outcome
+
+We assume that we are interested in studying the comparative effectiveness of two antineoplastic systemic drug treatment regimens (`exposure (0/1)`) on the time to death due to any reason (`overall survival`). The anticipated time of follow-up is truncated to 2 years.
+
+The desired strength of effectiveness of the **exposure of interest** is defined with a hazard ratio of 0.7, i.e. the hazard of death due to any reason is decreased by 30% per unit of time under the proportional hazards assumption which is fulfilled for this dataset.
+
+## Confounders
+
+We further assume that there is a biomarker (`EGFR`) with rare to moderate prevalence (\~10-30%) which serves as a strong confounding covariate. Therefore, EGFR is strongly associated with the probablity of treatment initiation (OR \~ 0.7) and the outcome (HR \~ 0.5), indicating that patients with an alteration in the EGFR gene are more likely to get treated with the exposure of interest and benefit signficiantly more than wild-type EGFR patients.
+
+Despite the low dimensionality, the dataset is simulated as realistically as possible with varying strengths of associations between covariates and treatment initiation and the outcome.
+
+## Overview covariates/confounder structure
+
+To get an overview, this table provides a summary of the different covariate-exposure-outcome correlations.
+
+| Variable                  | Description                                      | Associated with exposure | Associated with outcome |
+|------------------|------------------|------------------|------------------|
+| age_num                   | Age at baseline (continuous)                     | Yes                      | Yes                     |
+| female_cat                | Female gender (binary)                           | Yes                      | Yes                     |
+| ecog_cat                  | ECOG performance score (binary 0 vs 1)           | Yes                      | Yes                     |
+| smoking_cat               | Smoker vs. non-smoker at baseline (binary)       | Yes                      | Yes                     |
+| egfr_cat                  | EGFR alteration (binary)                         | Yes                      | Yes                     |
+| kras_cat                  | Alteration in KRAS gene (binary)                 | Yes                      | Yes                     |
+| histology_is_squamous_cat | Tumor histology squamous vs nonsquamous (binary) | No                       | Yes                     |
+| ldl_num                   | LDL cholesterol level (continuous)               | No                       | Yes                     |
+| rr_num                    | Average blood pressure in mmHg (continuous)      | No                       | Yes                     |
+| bpm_num                   | Average heart rate in bpm (continuous)           | No                       | Yes                     |
+
+: Overview of simulated lung cancer dataset
+
+# Simulation of covariates and exposure
+
+```{r}
+#| label: covar_generation
+#| tbl-cap: Covariates summary.
+set.seed(seed_value)
+
+# start with basic dataframe, covariates and their association with exposure
+sim_covar <- tibble::tibble(
+  exposure = rbinom(n = n, size = 1, prob = 0.4),
+  age_num = rnorm(n, mean = 64 - 5.5*exposure, sd = 13.7),
+  female_cat = rbinom(n, size = 1, prob = 0.39 - 0.12*exposure),
+  ecog_cat = rbinom(n, size = 1, prob = 0.63 - 0.08*exposure),
+  smoking_cat = rbinom(n, size = 1, prob = 0.15 + 0.1*exposure), 
+  egfr_cat = rbinom(n, size = 1, prob = 0.10 + 0.2*exposure), 
+  kras_cat = rbinom(n, size = 1, prob = 0.07 + 0.05*exposure),
+  histology_is_squamous_cat = rbinom(n, size = 1, prob = 0.2),
+  ldl_num = rnorm(n, mean = 115.1, sd = 41.1), # cholesterol
+  rr_num = rnorm(n, mean = 123.7, sd = 20.6), # systolic blood pressure
+  bpm_num = rnorm(n, mean = 74.2, sd = 11.7) # heart rate
+  ) %>%  
+  # bring data in right format
+  dplyr::mutate(across(ends_with("num"), as.numeric)) %>% 
+  dplyr::mutate(across(ends_with("num"), function(x) round(x, digits = 2)))
+```
+
+In the first step, we create a dataset with `r nrow(sim_covar)` patients and `r ncol(sim_covar)` variables with the following distributions.
+
+```{r, distributions_covars}
+#| label: distributions_covars
+#| tbl-cap: Table 1 of baseline characteristics of lung cancer patients and mean differences between comparator and intervention exposure.
+
+sim_covar %>% 
+  gtsummary::tbl_summary(by = "exposure") %>% 
+  gtsummary::add_difference()
+```
+
+The following table illustrates the odds of exposure assignment.
+
+```{r}
+#| label: pr(exposure)_tbl
+#| tbl-cap: Treatment assignment probabilities.
+exposure_form <- as.formula(paste("exposure ~ ", paste(colnames(sim_covar %>% dplyr::select(-exposure)), collapse = " + ")))
+
+exposure_fit <- stats::glm(
+  exposure_form,
+  data = sim_covar,
+  family = "binomial"
+  )
+
+exposure_fit %>% 
+  gtsummary::tbl_regression(exponentiate = T)
+```
+
+Fitting a generalized linear model and assessing the probablity of treatment assignment, the above constellation of odds results in the following simulated distributions depicting propensities of treatment initiation (aka propensity scores).
+
+```{r}
+#| label: pr(treatment assignment)
+#| fig-cap: Treatment assignment probabilities.
+
+# compute propensity score
+exposure_plot <- sim_covar %>% 
+  dplyr::mutate(ps = fitted(exposure_fit))
+
+# check
+# print(all.equal(fitted(exposure_fit), predict(exposure_fit, type="response")))
+
+exposure_plot %>% 
+  ggplot2::ggplot(ggplot2::aes(x = ps, fill = factor(exposure))) +
+  ggplot2::geom_density(alpha = .5) +
+  ggplot2::theme_bw() +
+  ggplot2::labs(
+    x = "Pr(exposure)",
+    y = "Density",
+    fill = "Exposed"
+  )
+```
+
+## Simulate time-to-event
+
+Next, we simulate a time-to-event outcome for `overall survival`. For this, the `simsurv` package is used with the following assumptions:
+
+-   Parametric event times follow an exponential distribution
+-   Max event times: 2 years of follow-up
+-   Event times depend on some (time-fixed/baseline) covariate effects as listed in the table above
+-   beta coefficients for the outcome model as defined in the following
+    -   HR(exposure) = 0.7
+    -   HR(EGFR) = 0.5 (strong prognostic factor)
+
+```{r}
+#| label: betas_outcome_generation
+#| tbl-cap: Desired log HRs for overall survival
+betas_os <- c(
+  exposure = log(0.7),
+  age_num = log(1.05),
+  female_cat = log(0.9),
+  ecog_cat = log(1.2),
+  smoking_cat = log(1.3),
+  egfr_cat = log(0.5),
+  kras_cat = log(0.95),
+  histology_is_squamous_cat = log(1.15),
+  ldl_num = log(1.01),
+  rr_num = log(1.05),
+  bpm_num = log(1.005)
+  )
+
+betas_os %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column(var = "Covariate") %>% 
+  gt::gt()
+```
+
+```{r}
+#| label: outcome_generation
+#| tbl-cap: HRs for overall survival
+#| message: false
+set.seed(seed_value)
+
+sim_df <- sim_covar %>% dplyr::bind_cols(
+  simsurv::simsurv(
+    dist = "exponential",
+    lambdas = 0.00005,
+    betas = betas_os,
+    x = sim_covar,
+    maxt = 2
+    )
+  ) %>% 
+  dplyr::mutate(id = paste("ENROL", id)) %>% 
+  dplyr::relocate(id, .before = exposure)
+
+#summary(sim_df)
+```
+
+### Kaplan-Meier estimates
+
+The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 2-ry survival. Estimates belown are shown only for overall and by exposure and EGFR biomarker for overall survival.
+
+```{r}
+#| label: km_estimates
+#| tbl-cap: Crude Kaplan-Meier estimates for 1-yr and 2-ry survival by exposure and EGFR biomarker for overall survival.
+
+km_overall <- survival::survfit(survival::Surv(eventtime, status) ~ 1, data = sim_df)
+km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
+km_egfr <- survival::survfit(survival::Surv(eventtime, status) ~ egfr_cat, data = sim_df)
+
+gtsummary::tbl_survfit(
+  list(km_overall, km_exposure, km_egfr),
+  times = c(1, 2),
+  label_header = "**{time} Year**"
+  )
+```
+
+### Kaplan-Meier curves
+
+#### By exposure
+
+```{r}
+#| label: km_plot_exposure
+#| fig-cap: Crude Kaplan-Meier by exposure for overall survival.
+
+km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
+
+survminer::ggsurvplot(
+  km_exposure, 
+  data = sim_df,
+  conf.int = TRUE,
+  surv.median.line = "hv",
+  palette = "jco",
+  legend.labs = c("Comparator", "Exposure of interest")
+  )
+```
+
+#### By EGFR
+
+```{r}
+#| label: km_plot_eegfr
+#| fig-cap: Crude Kaplan-Meier by EGFR status for overall survival.
+
+km_egfr <- survival::survfit(survival::Surv(eventtime, status) ~ egfr_cat, data = sim_df)
+
+survminer::ggsurvplot(
+  km_egfr, 
+  data = sim_df,
+  conf.int = TRUE,
+  surv.median.line = "hv",
+  palette = "jco",
+  legend.labs = c("EGFR wild-type", "EGFR alteration")
+  )
+```
+
+### Cox proportional hazards
+
+Finally, the simulated dataset results in the following hazard ratios (HR)
+
+```{r}
+#| label: Cox_estimates
+#| tbl-cap: Adjusted hazard ratios for simulated dataset
+
+cox_lhs <- "survival::Surv(eventtime, status)"
+cox_rhs <- paste(colnames(sim_covar), collapse = " + ")
+cox_form = as.formula(paste(cox_lhs, "~ exposure +", cox_rhs))
+  
+cox_fit <- survival::coxph(cox_form, data = sim_df)
+
+cox_fit %>% 
+  gtsummary::tbl_regression(exponentiate = T)
+```
+
+# Overview final simulated dataset
+
+Let's have a look at the final dataset.
+
+```{r}
+#| label: distributions_covars_final
+#| tbl-cap: Table 1 of baseline characteristics in **final dataset** of lung cancer patients and mean differences between comparator and intervention exposure.
+
+sim_df %>% 
+  dplyr::select(-id) %>% 
+  gtsummary::tbl_summary(by = "exposure") %>% 
+  gtsummary::add_difference()
+```
+
+# Export data
+
+Exporting the data to `data/`, so it can be used for educative purposes and for playing around with the package.
+
+```{r}
+#| label: export
+#| message: false
+smdi_data <- sim_df
+usethis::use_data(smdi_data, overwrite = TRUE)
+```
+
+# Log changes
+
+```{bash}
+#| label: log
+#| echo: false
+git log --format='%aD 
+Changes made by: %aE 
+Commit hash:  %h
+Changes made: %B' --follow -- data_generation.Rmd 
+```
