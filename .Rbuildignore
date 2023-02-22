@@ -19,3 +19,6 @@ datmis.csv
 data_generation.qmd
 ^data_generation.qmd$
 
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
