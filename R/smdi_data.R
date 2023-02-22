@@ -1,6 +1,6 @@
 #' smdi exemplary lung cancer dataset
 #'
-#' A subset of data from the World Health Organization Global Tuberculosis
+#'
 #' Report ...
 #'
 #' @format ## `smdi_data`

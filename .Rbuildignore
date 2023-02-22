@@ -21,6 +21,3 @@ datmis.csv
 
 .gitlab-ci.yml
 ^.gitlab-ci.yml$
-
-temp_dir
-^temp_dir$
