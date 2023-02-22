@@ -16,6 +16,7 @@ datmis.csv
 
 ^_pkgdown\.yml$
 ^docs$
+^public$
 ^pkgdown$
 
 .gitlab-ci.yml
