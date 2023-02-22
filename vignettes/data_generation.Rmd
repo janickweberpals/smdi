@@ -21,16 +21,16 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
-library(dplyr)
+suppressPackageStartupMessages(library(dplyr))
 
-# some simulation parameters
+# some global simulation parameters
 seed_value <- 42
 n <- 1000
 ```
 
 # `smdi` dataset background
 
-To get acquainted with the functionality and usage of the `smdi` package, a simulated toy dataset is provided. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `formatC(n, format = "fg", big.mark = ",")` lung cancer patients.
+To get acquainted with the functionality and usage of the `smdi` package, a simulated toy dataset is provided. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `r formatC(n, format = "fg", big.mark = ",")` lung cancer patients.
 
 ## Exposure and outcome
 
@@ -112,7 +112,7 @@ exposure_fit %>%
 
 Fitting a generalized linear model and assessing the probablity of treatment assignment, the above constellation of odds results in the following simulated distributions depicting propensities of treatment initiation (aka propensity scores).
 
-```{r, pr(treatment assignment), fig.cap="Treatment assignment probabilities."}
+```{r, pr_treatment_assignment, fig.cap="Treatment assignment probabilities."}
 # compute propensity score
 exposure_plot <- sim_covar %>% 
   dplyr::mutate(ps = fitted(exposure_fit))

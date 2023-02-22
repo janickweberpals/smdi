@@ -1,4 +1,4 @@
-#' smdi exmplary lung cancer dataset
+#' smdi exemplary lung cancer dataset
 #'
 #' A subset of data from the World Health Organization Global Tuberculosis
 #' Report ...
