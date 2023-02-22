@@ -12,4 +12,4 @@
 .quarto
 /.quarto/
 inst/doc
-docs
+# docs # for now we do local builds until we figure out a way to continuously deploy it on GitLab
