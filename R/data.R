@@ -20,5 +20,5 @@
 #'   \item{bpm_num}{Average heart rate at baseline in beats per minute (bpm)}
 #'   ...
 #' }
-#' @source <...>
+#' @source <https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html>
 "smdi_data"
