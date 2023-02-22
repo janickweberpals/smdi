@@ -18,6 +18,7 @@ pages:
   artifacts:
     paths:
       - docs
+      - public
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
