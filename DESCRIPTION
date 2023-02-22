@@ -16,13 +16,9 @@ Imports:
     forcats,
     ggplot2,
     glue,
-    gtsummary,
     magrittr,
     mice (>= 3.8.0),
-    simsurv,
     stringr,
-    survival,
-    survminer,
     tableone,
     tibble,
     tidyr,
@@ -30,6 +26,12 @@ Imports:
 Depends: 
     R (>= 2.10)
 Suggests: 
+    gt,
+    gtsummary,
     knitr,
-    rmarkdown
+    rmarkdown,
+    simsurv,
+    survival,
+    survminer,
+    usethis
 VignetteBuilder: knitr

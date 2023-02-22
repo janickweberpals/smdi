@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
-suppressPackageStartupMessages(library(tidyverse))
+library(dplyr)
 
 # some simulation parameters
 seed_value <- 42
@@ -260,13 +260,4 @@ Exporting the data to `data/`, so it can be used for educative purposes and for 
 ```{r, export, message=FALSE}
 smdi_data <- sim_df
 usethis::use_data(smdi_data, overwrite = TRUE)
-```
-
-# Log changes
-
-```{bash, echo=FALSE}
-git log --format='%aD 
-Changes made by: %aE 
-Commit hash:  %h
-Changes made: %B' --follow -- data_generation.Rmd 
 ```
