@@ -30,7 +30,6 @@ A data frame with 1,000 rows and 14 columns:
 smdi_data
 }
 \description{
-A subset of data from the World Health Organization Global Tuberculosis
 Report ...
 }
 \keyword{datasets}

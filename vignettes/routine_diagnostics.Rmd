@@ -1,0 +1,53 @@
+---
+title: "Routine structural missing data diagnostics"
+author: "Janick Weberpals"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Routine structural missing data diagnostics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 100,
+  fig.width = 6,
+  fig.height = 4.5
+  )
+```
+
+```{r setup}
+library(smdi)
+suppressPackageStartupMessages(library(dplyr))
+
+# some global simulation parameters
+seed_value <- 42
+n <- 1000
+```
+
+# `smdi` main functionality
+
+## Illustrative dataset
+
+To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package. In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
+
+As a very first step, we load the `smdi_data` dataframe and call the object `df`.
+
+```{r}
+df <- smdi::smdi_data
+```
+
+The dataset consists of `r nrow(df)` patients and `r ncol(df)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively.
+
+## Introduce missingness
+
+To illustrate `smdi's` main functionalities, we introduce some missingness into relevant covariates (e.g. the `egfr_cat` biomarker covariate) which are important confounders of the causal exposure-outcome relationship.
+
+>TO DO: insert DAG for confounder relationship
+
+To introduce missingness, we use the `ampute` function of the [mice](https://amices.org/mice/index.html) package. An excellent tutorial on this very flexible and elegant function can be found [here](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html).
+
+
+
