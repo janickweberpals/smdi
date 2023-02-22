@@ -12,8 +12,11 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
-)
+  comment = "#>",
+  dpi = 100,
+  fig.width = 6,
+  fig.height = 4.5
+  )
 ```
 
 ```{r setup}
@@ -62,9 +65,7 @@ To get an overview, this table provides a summary of the different covariate-exp
 
 # Simulation of covariates and exposure
 
-```{r}
-#| label: covar_generation
-#| tbl-cap: Covariates summary.
+```{r, covar_generation}
 set.seed(seed_value)
 
 # start with basic dataframe, covariates and their association with exposure
@@ -89,9 +90,6 @@ sim_covar <- tibble::tibble(
 In the first step, we create a dataset with `r nrow(sim_covar)` patients and `r ncol(sim_covar)` variables with the following distributions.
 
 ```{r, distributions_covars}
-#| label: distributions_covars
-#| tbl-cap: Table 1 of baseline characteristics of lung cancer patients and mean differences between comparator and intervention exposure.
-
 sim_covar %>% 
   gtsummary::tbl_summary(by = "exposure") %>% 
   gtsummary::add_difference()
@@ -99,9 +97,7 @@ sim_covar %>%
 
 The following table illustrates the odds of exposure assignment.
 
-```{r}
-#| label: pr(exposure)_tbl
-#| tbl-cap: Treatment assignment probabilities.
+```{r, pr(exposure)_tbl}
 exposure_form <- as.formula(paste("exposure ~ ", paste(colnames(sim_covar %>% dplyr::select(-exposure)), collapse = " + ")))
 
 exposure_fit <- stats::glm(
@@ -116,10 +112,7 @@ exposure_fit %>%
 
 Fitting a generalized linear model and assessing the probablity of treatment assignment, the above constellation of odds results in the following simulated distributions depicting propensities of treatment initiation (aka propensity scores).
 
-```{r}
-#| label: pr(treatment assignment)
-#| fig-cap: Treatment assignment probabilities.
-
+```{r, pr(treatment assignment), fig.cap="Treatment assignment probabilities."}
 # compute propensity score
 exposure_plot <- sim_covar %>% 
   dplyr::mutate(ps = fitted(exposure_fit))
@@ -149,9 +142,7 @@ Next, we simulate a time-to-event outcome for `overall survival`. For this, the 
     -   HR(exposure) = 0.7
     -   HR(EGFR) = 0.5 (strong prognostic factor)
 
-```{r}
-#| label: betas_outcome_generation
-#| tbl-cap: Desired log HRs for overall survival
+```{r, betas_outcome_generation}
 betas_os <- c(
   exposure = log(0.7),
   age_num = log(1.05),
@@ -172,10 +163,7 @@ betas_os %>%
   gt::gt()
 ```
 
-```{r}
-#| label: outcome_generation
-#| tbl-cap: HRs for overall survival
-#| message: false
+```{r, outcome_generation, message=FALSE}
 set.seed(seed_value)
 
 sim_df <- sim_covar %>% dplyr::bind_cols(
@@ -189,18 +177,13 @@ sim_df <- sim_covar %>% dplyr::bind_cols(
   ) %>% 
   dplyr::mutate(id = paste("ENROL", id)) %>% 
   dplyr::relocate(id, .before = exposure)
-
-#summary(sim_df)
 ```
 
 ### Kaplan-Meier estimates
 
 The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 2-ry survival. Estimates belown are shown only for overall and by exposure and EGFR biomarker for overall survival.
 
-```{r}
-#| label: km_estimates
-#| tbl-cap: Crude Kaplan-Meier estimates for 1-yr and 2-ry survival by exposure and EGFR biomarker for overall survival.
-
+```{r, km_estimates}
 km_overall <- survival::survfit(survival::Surv(eventtime, status) ~ 1, data = sim_df)
 km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
 km_egfr <- survival::survfit(survival::Surv(eventtime, status) ~ egfr_cat, data = sim_df)
@@ -216,10 +199,7 @@ gtsummary::tbl_survfit(
 
 #### By exposure
 
-```{r}
-#| label: km_plot_exposure
-#| fig-cap: Crude Kaplan-Meier by exposure for overall survival.
-
+```{r, km_plot_exposure}
 km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
 
 survminer::ggsurvplot(
@@ -234,10 +214,7 @@ survminer::ggsurvplot(
 
 #### By EGFR
 
-```{r}
-#| label: km_plot_eegfr
-#| fig-cap: Crude Kaplan-Meier by EGFR status for overall survival.
-
+```{r, km_plot_egfr}
 km_egfr <- survival::survfit(survival::Surv(eventtime, status) ~ egfr_cat, data = sim_df)
 
 survminer::ggsurvplot(
@@ -254,10 +231,7 @@ survminer::ggsurvplot(
 
 Finally, the simulated dataset results in the following hazard ratios (HR)
 
-```{r}
-#| label: Cox_estimates
-#| tbl-cap: Adjusted hazard ratios for simulated dataset
-
+```{r, Cox_estimates}
 cox_lhs <- "survival::Surv(eventtime, status)"
 cox_rhs <- paste(colnames(sim_covar), collapse = " + ")
 cox_form = as.formula(paste(cox_lhs, "~ exposure +", cox_rhs))
@@ -272,10 +246,7 @@ cox_fit %>%
 
 Let's have a look at the final dataset.
 
-```{r}
-#| label: distributions_covars_final
-#| tbl-cap: Table 1 of baseline characteristics in **final dataset** of lung cancer patients and mean differences between comparator and intervention exposure.
-
+```{r, distributions_covars_final}
 sim_df %>% 
   dplyr::select(-id) %>% 
   gtsummary::tbl_summary(by = "exposure") %>% 
@@ -286,18 +257,14 @@ sim_df %>%
 
 Exporting the data to `data/`, so it can be used for educative purposes and for playing around with the package.
 
-```{r}
-#| label: export
-#| message: false
+```{r, export, message=FALSE}
 smdi_data <- sim_df
 usethis::use_data(smdi_data, overwrite = TRUE)
 ```
 
 # Log changes
 
-```{bash}
-#| label: log
-#| echo: false
+```{bash, echo=FALSE}
 git log --format='%aD 
 Changes made by: %aE 
 Commit hash:  %h
