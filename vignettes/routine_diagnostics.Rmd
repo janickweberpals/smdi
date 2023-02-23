@@ -20,11 +20,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
-suppressPackageStartupMessages(library(dplyr))
-
-# some global simulation parameters
-seed_value <- 42
-n <- 1000
+library(dplyr)
 ```
 
 # `smdi` main functionality
@@ -33,21 +29,99 @@ n <- 1000
 
 To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package. In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
 
-As a very first step, we load the `smdi_data` dataframe and call the object `df`.
-
 ```{r}
-df <- smdi::smdi_data
+smdi_data %>% 
+  dplyr::glimpse()
 ```
 
-The dataset consists of `r nrow(df)` patients and `r ncol(df)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively.
+The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",")` patients and `r ncol(smdi_data)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively.
 
 ## Introduce missingness
 
-To illustrate `smdi's` main functionalities, we introduce some missingness into relevant covariates (e.g. the `egfr_cat` biomarker covariate) which are important confounders of the causal exposure-outcome relationship.
+In many different quantitative disciplines from classic epidemiology to machine and deep learning there is an increasing interest in utilizing electronic health records (EHR) to develop prognostic/predictive models or study the comparative effectiveness and safety of medical interventions. Especially information on variables which are not readily available in other datasets (e.g. administrative claims) are of high interest, including vital signs, biomarkers and lab data. However, these covariates are often just partially observed for various reasons:
 
->TO DO: insert DAG for confounder relationship
+-   Physician did perform/order a certain test
+-   Certain measurements are just collected for particularly sick patients
+-   Information is 'hiding' in unstructured records, e.g. clinical notes
+
+To illustrate `smdi's` main functionalities, we introduce some missingness into such relevant covariates (e.g. the `egfr_cat` biomarker covariate) which are critical confounders of the causal exposure-outcome relationship in the `smdi_data` dataset.
+
+> TO DO: insert DAG for confounder relationship
 
 To introduce missingness, we use the `ampute` function of the [mice](https://amices.org/mice/index.html) package. An excellent tutorial on this very flexible and elegant function can be found [here](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html).
 
+### Missing complete at random
 
+Clinically, the Eastern Cooperative Oncology Group (ECOG) performance score how the cancer disease affects the daily living abilities of the patient and is often used as a patient inclusion criterion for clinical trials. The scale ranges from 0 to 5 and typically only patients with 0 and 1 are eligible. Let's assume for our example, we already have a subset of such a pre-selected clinical trial-like cohort, but we still want to adjust for a baseline ECOG of 0 and 1 (definitions are taken from [^1]):
 
+[^1]: <https://ecog-acrin.org/resources/ecog-performance-status/>
+
+* ECOG = 0: Fully active, able to carry on all pre-disease performance without restriction 
+
+* ECOG = 1: Restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature, e.g., light house work, office work
+
+Since we know that all the patients are eligible and have an ECOG of either 0 or 1, some data managers were not very mindful in entering this information into the EHR while others recorded this information. This could be a typical example for such a variable being **missing completely at random** as neither the ECOG variable itself nor other observed or unobserved covariates are related to the missingness
+
+> TO DO: insert DAG for missingness-confounder relationship
+
+```{r, mcar}
+# discard patient ID variable
+smdi_data <- smdi_data %>% 
+  dplyr::select(-id)
+
+# specify missingness patterns in order of covariates in dataset
+# (0 = set to missing, 1 = remains complete)
+# the pattern is the same for all scenarios
+miss_pattern <- rep(1, ncol(smdi_data))
+ecog_col <- which(colnames(smdi_data)=="ecog_cat")
+miss_pattern_ecog <- replace(miss_pattern, ecog_col, 0)
+miss_prop_ecog <- .3
+
+set.seed(42)
+smdi_data_mcar <- mice::ampute(
+  data = smdi_data,
+  prop = miss_prop_ecog,
+  mech = "MCAR",
+  patterns = miss_pattern_ecog,
+  bycases = TRUE
+  )$amp
+
+smdi_data_mcar %>% 
+  dplyr::select(exposure, ecog_cat) %>% 
+  gtsummary::tbl_summary(by = "exposure") %>% 
+  gtsummary::add_overall()
+```
+
+As we can see, around `r formatC(miss_prop_ecog*100, format = "fg")`% of the ECOG observations are missing now.
+
+### Missing at random
+
+```{r, mar}
+# for mar, 
+# c1 covariates (which were used to generate outcome model) receive double the weight
+# c0 covariates have no influence at all
+# according to the patterns matrix (0 in the patterns matrix)
+smoking_col <- which(colnames(smdi_data)=="smoking_cat")
+miss_pattern_smoking <- replace(miss_pattern, smoking_col, 0)
+
+# weights to compute missingness probability
+miss_weights_mar <- rep(0, ncol(smdi_data))
+miss_weights_mar <- replace(miss_weights_mar, smoking_col, 1)
+
+miss_prop_smoking <- .15
+
+set.seed(42)
+smdi_data_mar <- mice::ampute(
+  data = smdi_data,
+  prop = miss_prop_smoking,
+  mech = "MAR",
+  patterns = miss_pattern_smoking,
+  weights = miss_weights_mar,
+  bycases = TRUE
+  )
+
+smdi_data_missing %>% 
+  dplyr::select(exposure, ecog_cat) %>% 
+  gtsummary::tbl_summary(by = "exposure") %>% 
+  gtsummary::add_overall()
+```

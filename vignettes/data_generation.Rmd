@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
-suppressPackageStartupMessages(library(dplyr))
+library(dplyr)
 
 # some global simulation parameters
 seed_value <- 42
@@ -87,7 +87,7 @@ sim_covar <- tibble::tibble(
   dplyr::mutate(across(ends_with("num"), function(x) round(x, digits = 2)))
 ```
 
-In the first step, we create a dataset with `r nrow(sim_covar)` patients and `r ncol(sim_covar)` variables with the following distributions.
+In the first step, we create a dataset with `r formatC(nrow(sim_covar), format = "fg", big.mark = ",")` patients and `r ncol(sim_covar)` variables with the following distributions.
 
 ```{r, distributions_covars}
 sim_covar %>% 
