@@ -68,7 +68,7 @@ Since we know that all the patients are eligible and have an ECOG of either 0 or
 # discard patient ID variable
 smdi_data <- smdi_data %>% 
   dplyr::select(-id)
-
+  
 # specify missingness pattern
 # (0 = set to missing, 1 = remains complete)
 # the pattern is the same for all scenarios
@@ -102,7 +102,7 @@ smoking_col <- which(colnames(smdi_data)=="smoking_cat")
 miss_pattern_smoking <- replace(miss_pattern, smoking_col, 0)
 
 # weights to compute missingness probability
-# all covariates contribute equally
+# all covariates contribute equally (of course except smoking itself)
 miss_weights_mar <- rep(1, ncol(smdi_data))
 miss_weights_mar <- replace(miss_weights_mar, smoking_col, 0)
 
@@ -154,3 +154,10 @@ smdi_data_mnar_v %>%
   gtsummary::add_overall() %>% 
   gtsummary::add_difference()
 ```
+
+```{r}
+df <- smdi::smdi_data %>% 
+  dplyr::select(-c(ecog_cat, smoking_cat, age_num)) %>% 
+  dplyr::bind_cols(ecog_miss = smdi_data_mcar$ecog_cat, smoking_miss = smdi_data_mar$smoking_cat, age_miss = smdi_data_mnar_v$age_num)
+```
+
