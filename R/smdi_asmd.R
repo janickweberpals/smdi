@@ -22,6 +22,7 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate
+#' @importFrom dplyr pull
 #' @importFrom tidyselect all_of
 #' @importFrom tibble tibble
 #' @importFrom stats median
@@ -41,13 +42,11 @@ smdi_asmd <- function(data = NULL,
                       ){
 
   # initializing new variables
-  strata <- covariate <- .data <- na_indicator <-  NULL
+  na_indicator <-  NULL
 
-  # pre-checks
-  if(is.null(strata)){stop("No stratum variable provided, can't compute differences.")}
-
-  # covariate selection
-  covar_miss_all <- smdi::smdi_summarize(data = data)
+  # select covariates with missing values
+  covar_miss_all <- smdi::smdi_summarize(data = data) %>%
+    dplyr::pull(covariate)
 
   if(!is.null(covar)){
 
@@ -61,7 +60,7 @@ smdi_asmd <- function(data = NULL,
 
   }else{
 
-    stop("Found no covariates with missing values. Check that missing values are coded as <NA>.")
+    stop("Found no covariates with missing values. Please either provide covariate names or check that missing values are coded as <NA>.")
 
   }
 
@@ -73,14 +72,15 @@ smdi_asmd <- function(data = NULL,
       dplyr::mutate(na_indicator = ifelse(is.na(.data[[i]]), 1, 0)) %>%
       dplyr::select(-tidyselect::all_of(i))
 
-    smd_tmp <- tableone::CreateTableOne(
+    tbl1_tmp <- tableone::CreateTableOne(
       data = data_tmp,
       vars = names(data_tmp %>% dplyr::select(-na_indicator)),
       strata = "na_indicator",
       # if multiple variables are missing, NA is an own category
       includeNA = TRUE,
       smd = TRUE
-      ) %>%
+      )
+
       tableone::ExtractSmd()
 
     if(isTRUE(median)){
