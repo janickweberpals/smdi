@@ -52,7 +52,7 @@ To introduce missingness, we use the `ampute` function of the [mice](https://ami
 
 ### Missing complete at random
 
-Clinically, the Eastern Cooperative Oncology Group (ECOG) performance score how the cancer disease affects the daily living abilities of the patient and is often used as a patient inclusion criterion for clinical trials. The scale ranges from 0 to 5 and typically only patients with 0 and 1 are eligible. Let's assume for our example, we already have a subset of such a pre-selected clinical trial-like cohort, but we still want to adjust for a baseline ECOG of 0 and 1 (definitions are taken from [^1]):
+The Eastern Cooperative Oncology Group (ECOG) performance score is a clinical measure for how the cancer disease affects the daily living abilities of the patient and is often used as a patient inclusion criterion for clinical trials. The scale ranges from 0 to 5 and typically only patients with 0 and 1 are eligible. Let's assume for our example, we already have a subset of such a pre-selected clinical trial-like cohort, but we still want to adjust for a baseline ECOG of 0 and 1 (definitions are taken from [^1]):
 
 [^1]: <https://ecog-acrin.org/resources/ecog-performance-status/>
 
@@ -60,7 +60,7 @@ Clinically, the Eastern Cooperative Oncology Group (ECOG) performance score how 
 
 * ECOG = 1: Restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature, e.g., light house work, office work
 
-Since we know that all the patients are eligible and have an ECOG of either 0 or 1, some data managers were not very mindful in entering this information into the EHR while others recorded this information. This could be a typical example for such a variable being **missing completely at random** as neither the ECOG variable itself nor other observed or unobserved covariates are related to the missingness
+Since we know that all the patients are eligible and have an ECOG of either 0 or 1, some data managers were not very mindful in entering this information into the EHR while others recorded this information. This could be a typical example for such a variable being **missing completely at random** as neither the ECOG variable itself nor other observed or unobserved covariates are related to the missingness.
 
 > TO DO: insert DAG for missingness-confounder relationship
 
@@ -69,7 +69,7 @@ Since we know that all the patients are eligible and have an ECOG of either 0 or
 smdi_data <- smdi_data %>% 
   dplyr::select(-id)
 
-# specify missingness patterns in order of covariates in dataset
+# specify missingness pattern
 # (0 = set to missing, 1 = remains complete)
 # the pattern is the same for all scenarios
 miss_pattern <- rep(1, ncol(smdi_data))
@@ -89,7 +89,8 @@ smdi_data_mcar <- mice::ampute(
 smdi_data_mcar %>% 
   dplyr::select(exposure, ecog_cat) %>% 
   gtsummary::tbl_summary(by = "exposure") %>% 
-  gtsummary::add_overall()
+  gtsummary::add_overall() %>% 
+  gtsummary::add_difference()
 ```
 
 As we can see, around `r formatC(miss_prop_ecog*100, format = "fg")`% of the ECOG observations are missing now.
@@ -97,16 +98,13 @@ As we can see, around `r formatC(miss_prop_ecog*100, format = "fg")`% of the ECO
 ### Missing at random
 
 ```{r, mar}
-# for mar, 
-# c1 covariates (which were used to generate outcome model) receive double the weight
-# c0 covariates have no influence at all
-# according to the patterns matrix (0 in the patterns matrix)
 smoking_col <- which(colnames(smdi_data)=="smoking_cat")
 miss_pattern_smoking <- replace(miss_pattern, smoking_col, 0)
 
 # weights to compute missingness probability
-miss_weights_mar <- rep(0, ncol(smdi_data))
-miss_weights_mar <- replace(miss_weights_mar, smoking_col, 1)
+# all covariates contribute equally
+miss_weights_mar <- rep(1, ncol(smdi_data))
+miss_weights_mar <- replace(miss_weights_mar, smoking_col, 0)
 
 miss_prop_smoking <- .15
 
@@ -118,10 +116,41 @@ smdi_data_mar <- mice::ampute(
   patterns = miss_pattern_smoking,
   weights = miss_weights_mar,
   bycases = TRUE
-  )
+  )$amp
 
-smdi_data_missing %>% 
-  dplyr::select(exposure, ecog_cat) %>% 
+smdi_data_mar %>% 
+  dplyr::select(exposure, smoking_cat) %>% 
   gtsummary::tbl_summary(by = "exposure") %>% 
-  gtsummary::add_overall()
+  gtsummary::add_overall() %>% 
+  gtsummary::add_difference()
+```
+
+### Missing not at random - value
+
+```{r, mnar_v}
+age_col <- which(colnames(smdi_data)=="age_num")
+miss_pattern_age <- replace(miss_pattern, age_col, 0)
+
+# weights to compute missingness probability
+# covariate itself is only predictor
+miss_weights_mnar_v <- rep(0, ncol(smdi_data))
+miss_weights_mnar_v <- replace(miss_weights_mnar_v, age_col, 1)
+
+miss_prop_age <- .4
+
+set.seed(42)
+smdi_data_mnar_v <- mice::ampute(
+  data = smdi_data,
+  prop = miss_prop_age,
+  mech = "MNAR",
+  patterns = miss_pattern_age,
+  weights = miss_weights_mnar_v,
+  bycases = TRUE
+  )$amp
+
+smdi_data_mnar_v %>% 
+  dplyr::select(exposure, age_num) %>% 
+  gtsummary::tbl_summary(by = "exposure") %>% 
+  gtsummary::add_overall() %>% 
+  gtsummary::add_difference()
 ```
