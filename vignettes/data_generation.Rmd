@@ -173,7 +173,7 @@ sim_df <- sim_covar %>% dplyr::bind_cols(
     maxt = 2
     )
   ) %>% 
-  dplyr::mutate(id = paste("ENROL", id)) %>% 
+  dplyr::mutate(id = paste0("ENROL", id)) %>% 
   dplyr::relocate(id, .before = exposure)
 ```
 
