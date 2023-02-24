@@ -31,7 +31,12 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(smdi)
+#' library(dplyr)
 #'
+#'df <- smdi_data %>%
+#'select(-id) %>%
+#'mutate(across(ends_with("cat"), as.factor))
 #'df %>%
 #' smdi_asmd(covar = c("age", "gender", "bmi"))
 #' }
@@ -42,7 +47,7 @@ smdi_asmd <- function(data = NULL,
                       ){
 
   # initializing new variables
-  na_indicator <-  NULL
+  na_indicator <- NULL
 
   # select covariates with missing values
   covar_miss_all <- smdi::smdi_summarize(data = data) %>%
@@ -68,20 +73,28 @@ smdi_asmd <- function(data = NULL,
   # start applying smd computation over all partially observed covariates
   smd_loop <- function(i){
 
+    # create missing indicator
     data_tmp <- data %>%
       dplyr::mutate(na_indicator = ifelse(is.na(.data[[i]]), 1, 0)) %>%
-      dplyr::select(-tidyselect::all_of(i))
+      dplyr::select(-tidyselect::all_of(i)) %>%
+      # we create dummy variables in case of multi-categorical variables
+      # "missing" is explicitly treated as a separate category
+      fastDummies::dummy_cols(remove_selected_columns = TRUE) # remove_most_frequent_dummy = TRUE,
 
-    tbl1_tmp <- tableone::CreateTableOne(
-      data = data_tmp,
-      vars = names(data_tmp %>% dplyr::select(-na_indicator)),
-      strata = "na_indicator",
-      # if multiple variables are missing, NA is an own category
-      includeNA = TRUE,
-      smd = TRUE
-      )
+    # create tableone
+    tbl1 <- tableone::CreateTableOne(
+        data = data_tmp,
+        vars = names(data_tmp %>% dplyr::select(-na_indicator)),
+        strata = "na_indicator",
+        # if multiple variables are missing, NA is an own category
+        includeNA = TRUE
+        )
 
-      tableone::ExtractSmd()
+    smd <- tableone::ExtractSmd(tbl1)
+
+      as.data.frame() %>%
+      tibble::rownames_to_column(var = "covariate") %>%
+      dplyr::rename(smd = `1 vs 2`)
 
     if(isTRUE(median)){
 
