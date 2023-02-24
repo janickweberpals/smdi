@@ -1,9 +1,9 @@
 #' Util helper to automatically extract all covariates with partially observed covariates
 #'
 #' @description
-#' This function takes a dataframe and returns all columns which are partially observed with
+#' This function takes a dataframe and automatically returns all columns which are partially observed with
 #' the amount of observations missing and corresponding proportion assuming a one-row-per-patient
-#' dataframe.
+#' dataframe. This is an important utility function for many other functions in this package
 #'
 #'Important: avoid to include variables like ID variables, ZIP codes, dates, etc.
 #'
