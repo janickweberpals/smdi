@@ -107,7 +107,7 @@ generation</a> article.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1,000</span></span>
 <span><span class="co">#&gt; Columns: 14</span></span>
-<span><span class="co">#&gt; $ id                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ENROL 1", "ENROL 2", "ENROL 3", "ENROL 4", …</span></span>
+<span><span class="co">#&gt; $ id                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ENROL1", "ENROL2", "ENROL3", "ENROL4", "ENR…</span></span>
 <span><span class="co">#&gt; $ exposure                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0,…</span></span>
 <span><span class="co">#&gt; $ age_num                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 72.60, 71.03, 63.97, 60.36, 48.63, 61.29, 44…</span></span>
 <span><span class="co">#&gt; $ female_cat                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0,…</span></span>
@@ -189,7 +189,7 @@ missingness.</p>
 <code class="sourceCode R"><span><span class="co"># discard patient ID variable</span></span>
 <span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span></span>
-<span></span>
+<span>  </span>
 <span><span class="co"># specify missingness pattern</span></span>
 <span><span class="co"># (0 = set to missing, 1 = remains complete)</span></span>
 <span><span class="co"># the pattern is the same for all scenarios</span></span>
@@ -683,7 +683,7 @@ now.</p>
 <span><span class="va">miss_pattern_smoking</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">miss_pattern</span>, <span class="va">smoking_col</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># weights to compute missingness probability</span></span>
-<span><span class="co"># all covariates contribute equally</span></span>
+<span><span class="co"># all covariates contribute equally (of course except smoking itself)</span></span>
 <span><span class="va">miss_weights_mar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">smdi_data</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">miss_weights_mar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">miss_weights_mar</span>, <span class="va">smoking_col</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
@@ -1662,6 +1662,21 @@ now.</p>
     </tr>
 </tfoot>
 </table>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ecog_cat</span>, <span class="va">smoking_cat</span>, <span class="va">age_num</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span>ecog_miss <span class="op">=</span> <span class="va">smdi_data_mcar</span><span class="op">$</span><span class="va">ecog_cat</span>, smoking_miss <span class="op">=</span> <span class="va">smdi_data_mar</span><span class="op">$</span><span class="va">smoking_cat</span>, age_miss <span class="op">=</span> <span class="va">smdi_data_mnar_v</span><span class="op">$</span><span class="va">age_num</span><span class="op">)</span></span></code></pre></div>
+<p>.blackbox { padding: 1em; background: black; color: white; border:
+2px solid orange; border-radius: 10px; } .center { text-align: center;
+}</p>
+<div class="blackbox">
+<div class="center">
+<p><strong>NOTICE!</strong></p>
+</div>
+<p>Thank you for noticing this <strong>new notice</strong>! Your
+noticing it has been noted, and <em>will be reported to the
+authorities</em>!</p>
 </div>
 </div>
 </div>

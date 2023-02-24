@@ -158,6 +158,8 @@ smdi_data_mnar_v %>%
 ```{r}
 df <- smdi::smdi_data %>% 
   dplyr::select(-c(ecog_cat, smoking_cat, age_num)) %>% 
-  dplyr::bind_cols(ecog_miss = smdi_data_mcar$ecog_cat, smoking_miss = smdi_data_mar$smoking_cat, age_miss = smdi_data_mnar_v$age_num)
+  dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, smoking_cat = smdi_data_mar$smoking_cat, age_num = smdi_data_mnar_v$age_num) %>% 
+  mutate(across(ends_with("cat")|ends_with("miss"), as.factor)) %>% 
+  select(-id)
 ```
 

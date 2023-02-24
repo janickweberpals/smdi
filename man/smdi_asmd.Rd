@@ -27,7 +27,12 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \examples{
 \dontrun{
+library(smdi)
+library(dplyr)
 
+df <- smdi_data \%>\%
+select(-id) \%>\%
+mutate(across(ends_with("cat"), as.factor))
 df \%>\%
 smdi_asmd(covar = c("age", "gender", "bmi"))
 }
