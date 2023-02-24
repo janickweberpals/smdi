@@ -21,7 +21,7 @@
 #' @param na_strategy "retain" or "drop" according to the two possible strategies
 #' @param ... additional parameters
 #'
-#' @return returns the input dataframe/tibble with one-hot-encoded
+#' @return returns the dataframe with one-hot-encoded covariates with missing indicator variables
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across

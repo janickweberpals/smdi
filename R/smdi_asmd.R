@@ -11,21 +11,25 @@
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with variable/column name(s) to investigate
+#' @param na_strategy "retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()
 #' @param median logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed
 #'
 #' @return returns mean/median absolute standardized mean differences
 #'
 #' @importFrom magrittr '%>%'
-#' @importFrom tableone CreateTableOne
-#' @importFrom tableone ExtractSmd
-#' @importFrom dplyr select
+#' @importFrom dplyr across
+#' @importFrom dplyr arrange
 #' @importFrom dplyr filter
-#' @importFrom dplyr left_join
 #' @importFrom dplyr mutate
 #' @importFrom dplyr pull
-#' @importFrom tidyselect all_of
-#' @importFrom tibble tibble
+#' @importFrom dplyr summarize_all
+#' @importFrom fastDummies dummy_cols
 #' @importFrom stats median
+#' @importFrom tableone CreateTableOne
+#' @importFrom tableone ExtractSmd
+#' @importFrom tidyselect all_of
+#' @importFrom tidyselect everything
+#' @importFrom tidyselect where
 #'
 #' @export
 #'
@@ -43,11 +47,13 @@
 
 smdi_asmd <- function(data = NULL,
                       covar = NULL,
-                      median = TRUE
+                      na_strategy = c("retain", "drop"),
+                      median = TRUE,
+                      ...
                       ){
 
-  # initializing new variables
-  na_indicator <- NULL
+  # additional arguments
+  add_args <- list(...)
 
   # select covariates with missing values
   covar_miss_all <- smdi::smdi_summarize(data = data) %>%
@@ -74,12 +80,10 @@ smdi_asmd <- function(data = NULL,
   smd_loop <- function(i){
 
     # create missing indicator
-    data_tmp <- data %>%
-      dplyr::mutate(na_indicator = ifelse(is.na(.data[[i]]), 1, 0)) %>%
-      dplyr::select(-tidyselect::all_of(i)) %>%
-      # we create dummy variables in case of multi-categorical variables
-      # "missing" is explicitly treated as a separate category
-      fastDummies::dummy_cols(remove_selected_columns = TRUE) # remove_most_frequent_dummy = TRUE,
+    data_encoded <- data %>%
+      smdi::smdi_na_indicator(
+        na_strategy = na_strategy
+      )
 
     # create tableone
     tbl1 <- tableone::CreateTableOne(
