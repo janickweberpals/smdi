@@ -20,6 +20,8 @@ smdi_asmd(
 \item{na_strategy}{"retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()}
 
 \item{median}{logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed}
+
+\item{...}{further arguments}
 }
 \value{
 returns mean/median absolute standardized mean differences

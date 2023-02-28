@@ -6,7 +6,6 @@ vignette: >
   %\VignetteIndexEntry{NARFCS sensitivity analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -28,7 +27,7 @@ library(dplyr)
 
 As we have seen earlier, if the missingness mechanism of an important covariate, such as a strong partially observed confounder, truly follows either a missing completely at random (MCAR) or a missing not at random *value* (MNAR[value]) scenario, the distinction between the two can turn out very difficult. This can have serious consequences since covariates that follow a true MNAR(value) mechanism may severely bias the effect estimation of an exposure of interest.
 
-In reality, we will not be able to know 100% what the true missingness mechanism is and there may always be some residual uncertainty in case of MNAR(value). On the positive side, however, Leacy and Moreno-Betancur et al.[^1] have proposed a useful procedure to impute multivariable missing data under MNAR(value) conditions. By definition, under a MNAR(value) mechanism, the true (but unobserved) values of a variable systematically differ from the observed values. The idea of the not at random fully conditional specification (NARFCS) sensitivity analysis is to specify an imputation model containing a sensitivity parameter **𝛅** that reflects this systematic departure from a missing at random (MAR) mechanism
+In reality, we will not be able to know 100% what the true missingness mechanism is and there may always be some residual uncertainty in case of MNAR(value). On the positive side, however, Leacy and Moreno-Betancur et al.[^1] have proposed a useful procedure to impute multivariable missing data under MNAR(value) conditions. By definition, under a MNAR(value) mechanism, the true (but unobserved) values of a variable systematically differ from the observed values. The idea of the not at random fully conditional specification (NARFCS) sensitivity analysis is to specify an imputation model containing a sensitivity parameter **𝛅** that reflects this systematic departure from a missing at random (MAR) mechanism.
 
 ## Illustrative example
 
@@ -150,8 +149,8 @@ cox_fit_imp <- mice::mice(
 forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>% 
   dplyr::mutate(analysis = factor(analysis, levels = c("True estimate", "Complete case analysis", "Multiple imputation"))) %>% 
   ggplot2::ggplot(ggplot2::aes(y = forcats::fct_rev(analysis))) +
-  ggplot2::geom_point(aes(x = estimate), shape = 15, size = 3) +
-  ggplot2::geom_errorbar(aes(xmin = conf.low, xmax = conf.high)) +
+  ggplot2::geom_point(ggplot2::aes(x = estimate), shape = 15, size = 3) +
+  ggplot2::geom_errorbar(ggplot2::aes(xmin = conf.low, xmax = conf.high)) +
   ggplot2::geom_vline(xintercept = cox_fit_true[[2]], linetype = "dashed") +
   ggplot2::labs(x = "Hazard Ratio", y= "") +
   ggplot2::theme_bw()
@@ -164,13 +163,11 @@ table <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
 gridExtra::grid.arrange(gridExtra::tableGrob(table, rows = NULL), forest)
 ```
 
-As we can observe, the complete case analysis slightly overestimates the true treatment effect while the multiple imputation approach slightly underestimates it. However, the confidence intervals are highly overlapping and the bias is limited given the rather weak association between age and exposure (~ OR 0.97) and age and the outcome (~ HR 1.05).
+As we can observe, the complete case analysis slightly overestimates the true treatment effect while the multiple imputation approach slightly underestimates it. However, the confidence intervals are highly overlapping and the bias is limited given the rather weak/moderate association between age and exposure (~ OR 0.97) and age and the outcome (~ HR 1.05).
 
-Nevertheless, let's assume we wouldn't know this as in reality we actually don't. We want to make sure that whatever analytical decision we would have chosen for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
+## NARFCS imputation
 
-This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**: we model multiple NARFCS-specified imputation models over a range of𝛅sensitivity parameters and evaluate if at any pre-specified 𝛅, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis. 
-
-The interpretation of𝛅would be the difference in the distribution of missing and observed age values conditioned on other baseline factors. More specifically, for continuous covariates (like in our example) it would be the difference in mean conditional on `r toString(paste0(covariates[-1], collapse = " + "))`
+As mentioned above, the true (but unobserved) values of a variable systematically differ from the observed values and this difference is reflected in the sensitivity parameter **𝛅**. More specifically, the interpretation of𝛅would be the difference in the distribution of missing and observed age values conditioned on other baseline factors. Hence, for continuous covariates (like in our example) it would be the difference in mean conditional on `r toString(paste0(covariates[-1], collapse = " + "))`.
 
 ```{r}
 mean <- mean(smdi_data$age_num) - mean(smdi_data_mnar_v$age_num, na.rm = TRUE)
@@ -190,9 +187,9 @@ mnar_imp_method <- which(colnames(smdi_data_mnar_v) == "age_num")
 method_vector <- replace(x = method_vector, list = c(mnar_imp_method), values = c("mnar.norm"))
 
 # mnar model specification
-mnar_blot <- list(age_num = list(ums = "-5.144647"))
+mnar_blot <- list(age_num = list(ums = toString(mean)))
 
-imp_narfcs <- mice::mice(
+narfcs_imp <- mice::mice(
   data = smdi_data_mnar_v,
   method = method_vector,
   blots = mnar_blot,
@@ -208,60 +205,72 @@ imp_narfcs <- mice::mice(
   dplyr::select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>% 
   dplyr::mutate(analysis = "NARFCS imputation")
 
-forest + 
+forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp, narfcs_imp) %>% 
+  dplyr::mutate(analysis = factor(analysis, levels = c("True estimate", "Complete case analysis", "Multiple imputation", "NARFCS imputation"))) %>% 
+  ggplot2::ggplot(ggplot2::aes(y = forcats::fct_rev(analysis), color = ifelse(analysis == "NARFCS imputation", 'red', 'black'))) +
+  ggplot2::geom_point(ggplot2::aes(x = estimate), shape = 15, size = 3) +
+  ggplot2::geom_errorbar(ggplot2::aes(xmin = conf.low, xmax = conf.high)) +
+  ggplot2::geom_vline(xintercept = cox_fit_true[[2]], linetype = "dashed") +
+  ggplot2::labs(x = "Hazard Ratio", y= "") +
+  ggplot2::scale_color_identity() +
+  ggplot2::theme_bw()
+
+forest
 ```
 
-```{r}
-# single narfcs
-mice::pool(
-  with(
-    data = imp_narfcs, 
-    expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
-    )
-  )$pooled
-```
+### Tipping point analysis 
+
+But unfortunately, in reality we don't know the value of  **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
+
+This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis. 
 
 ```{r}
 # modeled over a range of deltas
-
 narfcs_modeled <- function(i){
   
-  # mnar model specification
+  # mnar model specification ('i' is delta parameter)
   mnar_blot <- list(age_num = list(ums = paste(i)))
 
-  imp_narfcs <- mice::mice(
-    data = df,
+  narfcs_imp <- mice::mice(
+    data = smdi_data_mnar_v,
     method = method_vector,
     blots = mnar_blot,
     seed = 42, 
     print = FALSE
-    )
-
-  results <- mice::pool(
+    ) %>% 
     with(
-      data = imp_narfcs, 
       expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
-      )
-    )$pooled %>% 
+      ) %>% 
+    mice::pool() %>% 
+    summary(conf.int = TRUE, exponentiate = TRUE) %>% 
     dplyr::filter(term == "exposure") %>% 
+    dplyr::select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>% 
     dplyr::mutate(delta = i)
   
 } 
 
 narfcs_range <- lapply(
-  X = seq(-20, 20, 1),
+  X = seq(-10, 10, 1),
   FUN = narfcs_modeled
-)
+  )
 
 narfcs_range_df <- do.call(rbind, narfcs_range)
 
+reference_lines <- tibble::tibble(
+  yintercept = c(1, cox_fit_true[[2]]),
+  Reference = c("H0 rejection", "True HR"),
+  color = c("red", "darkgreen")
+)
+
 narfcs_range_df %>% 
   ggplot2::ggplot(ggplot2::aes(x = delta, y = estimate)) +
-  ggplot2::geom_smooth() +
-  ggplot2::labs(x = "Sensitivity parameter δ", y = "Effect estimate, e.g. Hazard ratio (95% CI)") +
-  #ggplot2::scale_x_continuous(breaks = seq(-5, 5, 1), limits = c(-5, 5)) +
-  #ggplot2::scale_y_continuous(breaks = seq(.6, 3.4, 0.2), limits = c(.6, 3.4)) +
-  ggplot2::geom_hline(yintercept = estimate_true, linetype = "dashed", color = "red") +
+  ggplot2::geom_point() +
+  ggplot2::geom_line() +
+  ggplot2::geom_ribbon(ggplot2::aes(ymin = conf.low, ymax = conf.high), alpha = 0.15) +
+  ggplot2::labs(x = "Sensitivity parameter δ", y = "Hazard ratio (95% CI)") +
+  ggplot2::scale_x_continuous(breaks = seq(-10, 10, 1), limits = c(-10, 10)) +
+  ggplot2::geom_hline(ggplot2::aes(yintercept = yintercept, color = Reference), reference_lines) +
+  ggplot2::scale_colour_manual(values = reference_lines$color) +
   ggplot2::theme_bw()
 ```
 

@@ -13,7 +13,7 @@
 #' @param covar character covariate or covariate vector with variable/column name(s) to investigate
 #' @param na_strategy "retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()
 #' @param median logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed
-#'
+#' @param ... further arguments
 #' @return returns mean/median absolute standardized mean differences
 #'
 #' @importFrom magrittr '%>%'
