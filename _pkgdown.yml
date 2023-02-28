@@ -5,3 +5,10 @@ template:
 # Our GitLab runner can just deploy public/
 destination: public/
 
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - data_generation
+  - routine_diagnostics
+  - narfcs_sensitivity_analysis

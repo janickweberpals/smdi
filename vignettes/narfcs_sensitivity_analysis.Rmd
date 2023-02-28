@@ -12,7 +12,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  dpi = 100,
+  fig.align = "center",
+  dpi = 150,
   fig.width = 6,
   fig.height = 4.5
   )
@@ -67,8 +68,6 @@ smdi_mnar_v <- mice::ampute(
   bycases = TRUE,
   type = "LEFT"
   )
-
-smdi_mnar_v
 ```
 
 ## Visual comparison
@@ -224,7 +223,7 @@ But unfortunately, in reality we don't know the value of  **𝛅**. Nevertheless
 
 This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis. 
 
-```{r}
+```{r, fig.width=6}
 # modeled over a range of deltas
 narfcs_modeled <- function(i){
   
@@ -271,7 +270,8 @@ narfcs_range_df %>%
   ggplot2::scale_x_continuous(breaks = seq(-10, 10, 1), limits = c(-10, 10)) +
   ggplot2::geom_hline(ggplot2::aes(yintercept = yintercept, color = Reference), reference_lines) +
   ggplot2::scale_colour_manual(values = reference_lines$color) +
-  ggplot2::theme_bw()
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position="top")
 ```
 
 # More on sensitivity analyses

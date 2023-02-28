@@ -43,6 +43,11 @@
 #'library(dplyr)
 #'
 #' smdi_data %>%
+#'   smdi_na_indicator(na_strategy = "retain") %>%
+#'   glimpse()
+#'
+#' smdi_data %>%
+#'   select(-id) %>%
 #'   smdi_na_indicator(na_strategy = "drop") %>%
 #'   glimpse()
 #'

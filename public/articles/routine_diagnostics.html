@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
     <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
@@ -103,7 +104,7 @@ therapy regimens and a time-to-event outcome. More information on the
 underlying dataset is given in the <a href="https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html" class="external-link">Data
 generation</a> article.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1,000</span></span>
 <span><span class="co">#&gt; Columns: 14</span></span>
@@ -187,7 +188,7 @@ missingness.</p>
 </blockquote>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># discard patient ID variable</span></span>
-<span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="co"># specify missingness pattern</span></span>
@@ -1186,7 +1187,8 @@ now.</p>
 <span>  mech <span class="op">=</span> <span class="st">"MNAR"</span>,</span>
 <span>  patterns <span class="op">=</span> <span class="va">miss_pattern_age</span>,</span>
 <span>  weights <span class="op">=</span> <span class="va">miss_weights_mnar_v</span>,</span>
-<span>  bycases <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  bycases <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"RIGHT"</span></span>
 <span>  <span class="op">)</span><span class="op">$</span><span class="va">amp</span></span>
 <span></span>
 <span><span class="va">smdi_data_mnar_v</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -1666,18 +1668,9 @@ now.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ecog_cat</span>, <span class="va">smoking_cat</span>, <span class="va">age_num</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span>ecog_miss <span class="op">=</span> <span class="va">smdi_data_mcar</span><span class="op">$</span><span class="va">ecog_cat</span>, smoking_miss <span class="op">=</span> <span class="va">smdi_data_mar</span><span class="op">$</span><span class="va">smoking_cat</span>, age_miss <span class="op">=</span> <span class="va">smdi_data_mnar_v</span><span class="op">$</span><span class="va">age_num</span><span class="op">)</span></span></code></pre></div>
-<p>.blackbox { padding: 1em; background: black; color: white; border:
-2px solid orange; border-radius: 10px; } .center { text-align: center;
-}</p>
-<div class="blackbox">
-<div class="center">
-<p><strong>NOTICE!</strong></p>
-</div>
-<p>Thank you for noticing this <strong>new notice</strong>! Your
-noticing it has been noted, and <em>will be reported to the
-authorities</em>!</p>
-</div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span>ecog_cat <span class="op">=</span> <span class="va">smdi_data_mcar</span><span class="op">$</span><span class="va">ecog_cat</span>, smoking_cat <span class="op">=</span> <span class="va">smdi_data_mar</span><span class="op">$</span><span class="va">smoking_cat</span>, age_num <span class="op">=</span> <span class="va">smdi_data_mnar_v</span><span class="op">$</span><span class="va">age_num</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"cat"</span><span class="op">)</span>, <span class="va">as.factor</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
