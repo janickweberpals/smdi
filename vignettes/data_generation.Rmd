@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
-library(dplyr)
+suppressPackageStartupMessages(library(dplyr))
 
 # some global simulation parameters
 seed_value <- 42

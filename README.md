@@ -19,7 +19,7 @@ remotes::install_github("https://gitlab.partners.org/janickweberpals/smdi")
 
 Check out the `smdi` pkgdown website:
 
-<https://janickweberpals.gitlab-pages.partners.org/smdi/index>
+<https://janickweberpals.gitlab-pages.partners.org/smdi>
 
 ## Vignettes
 

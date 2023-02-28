@@ -78,16 +78,10 @@ Weberpals</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># basic setup</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice" class="external-link">mice</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="sensitivity-analysis-for-mnarvalue">Sensitivity analysis for <code>MNAR(value)</code><a class="anchor" aria-label="anchor" href="#sensitivity-analysis-for-mnarvalue"></a>
 </h2>
@@ -119,8 +113,8 @@ from a missing at random (MAR) mechanism.</p>
 cut-off may be systematically less frequently recorded. Despite this,
 <code>age</code> may still be an important predictor for the initiation
 of the treatment of interest and simultaneously an import prognostic
-variable for the outcome (to to death due to any reason in this
-example).</p>
+variable for the outcome (time to death due to any reason [overall
+survival] in this example).</p>
 <p>For now, we don’t assume any other missing covariates. In order to
 introduce an MNAR(value) mechanism for the <code>age</code> covariate,
 we:</p>
@@ -130,12 +124,12 @@ pattern</a>, in which only <code>age</code> will be set to missing</li>
 <li>Create a <a href="https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights" class="external-link">weight
 vector</a>, in which only <code>age</code> itself (by a non-zero value)
 is the linear predictor for the probability of observations becoming
-missing.</li>
-<li>We specify a type of logistic probabillity distribution for the
+missing</li>
+<li>Specify a type of logistic probabillity distribution for the
 missingness weights, so that cases with low weighted sum scores
 (i.e. younger <code>age</code>) will have a larger probability of
-becoming incomplete.</li>
-<li>A missingness probability of ~40%</li>
+becoming incomplete</li>
+<li>Define an overall missingness proportion of ~40%</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load data and drop id column</span></span>
@@ -155,7 +149,7 @@ becoming incomplete.</li>
 <span><span class="va">miss_prop_age</span> <span class="op">&lt;-</span> <span class="fl">.4</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="va">smdi_mnar_v</span> <span class="op">&lt;-</span> <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/ampute.html" class="external-link">ampute</a></span><span class="op">(</span></span>
+<span><span class="va">smdi_data_mnar_v</span> <span class="op">&lt;-</span> <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/ampute.html" class="external-link">ampute</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data</span>,</span>
 <span>  prop <span class="op">=</span> <span class="va">miss_prop_age</span>,</span>
 <span>  mech <span class="op">=</span> <span class="st">"MNAR"</span>,</span>
@@ -163,19 +157,18 @@ becoming incomplete.</li>
 <span>  weights <span class="op">=</span> <span class="va">miss_weights_mnar_v</span>,</span>
 <span>  bycases <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"LEFT"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span><span class="op">$</span><span class="va">amp</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visual-comparison">Visual comparison<a class="anchor" aria-label="anchor" href="#visual-comparison"></a>
 </h3>
 <p>If we plot the direct comparison of <code>age</code> distributions
 between the original data and the data with complete cases after
-removing those who had a missing value following an MNAR(value)
+removing those who have a missing value following an MNAR(value)
 mechanism, we can observe the systematic difference in the two
-datasets,</p>
+datasets.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">smdi_data_mnar_v</span> <span class="op">&lt;-</span> <span class="va">smdi_mnar_v</span><span class="op">$</span><span class="va">amp</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="co"># plot</span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
 <span>  <span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">age_num</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">"Complete"</span><span class="op">)</span>,</span>
 <span>  <span class="va">smdi_data_mnar_v</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">age_num</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="st">"MNAR(value)"</span><span class="op">)</span></span>
@@ -183,6 +176,11 @@ datasets,</p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dataset</span>, y <span class="op">=</span> <span class="va">age_num</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html" class="external-link">geom_violin</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html" class="external-link">stat_summary</a></span><span class="op">(</span></span>
+<span>    fun <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>    geom <span class="op">=</span> <span class="st">"pointrange"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"red"</span></span>
+<span>      <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    y <span class="op">=</span> <span class="st">"Age [years]"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Cohort"</span></span>
@@ -201,8 +199,8 @@ datasets,</p>
 <div class="section level3">
 <h3 id="comparing-treatment-effect-estimates">Comparing treatment effect estimates<a class="anchor" aria-label="anchor" href="#comparing-treatment-effect-estimates"></a>
 </h3>
-<p>We can now compare and estimate the estimated bias caused by the 40%
-of MNAR(value) missing values.</p>
+<p>We can now compare and estimate the bias caused by the 40% of
+MNAR(value) missing values.</p>
 <p>First, we specify a general outcome model.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># outcome model (see data generation script)</span></span>
@@ -255,7 +253,7 @@ the standard <em>mice</em> multiple imputation HR.</p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">15</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">conf.low</span>, xmax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">cox_fit_true</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Hazard Ratio"</span>, y<span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Hazard ratio (95% CI)"</span>, y<span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">cox_fit_true</span>, <span class="va">cox_fit_cc</span>, <span class="va">cox_fit_imp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -278,12 +276,15 @@ association between age and exposure (~ OR 0.97) and age and the outcome
 <p>As mentioned above, the true (but unobserved) values of a variable
 systematically differ from the observed values and this difference is
 reflected in the sensitivity parameter <strong>𝛅</strong>. More
-specifically, the interpretation of𝛅would be the difference in the
-distribution of missing and observed age values conditioned on other
-baseline factors. Hence, for continuous covariates (like in our example)
-it would be the difference in mean conditional on female_cat + ecog_cat
-+ smoking_cat + egfr_cat + kras_cat + histology_is_squamous_cat +
-ldl_num + rr_num + bpm_num.</p>
+specifically, the interpretation of <strong>𝛅</strong> would be the
+difference in the distribution of missing and observed age values
+conditioned on other baseline factors. Hence, for continuous covariates
+(like in our example) it would be the difference in mean conditional on
+female_cat + ecog_cat + smoking_cat + egfr_cat + kras_cat +
+histology_is_squamous_cat + ldl_num + rr_num + bpm_num. Since our data
+generation model did not specifiy any interactions or relationships
+between covariates, we can simplify this here a little and just take the
+crude difference in means.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">smdi_data</span><span class="op">$</span><span class="va">age_num</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">smdi_data_mnar_v</span><span class="op">$</span><span class="va">age_num</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">mean</span></span>
@@ -325,15 +326,16 @@ easily plug it into our NARFCS.</p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">15</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">conf.low</span>, xmax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">cox_fit_true</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Hazard Ratio"</span>, y<span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Hazard ratio (95% CI)"</span>, y<span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_color_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">forest</span></span></code></pre></div>
 <p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-6-1.png" width="900" style="display: block; margin: auto;"></p>
-<div class="section level4">
-<h4 id="tipping-point-analysis">Tipping point analysis<a class="anchor" aria-label="anchor" href="#tipping-point-analysis"></a>
-</h4>
+</div>
+<div class="section level3">
+<h3 id="tipping-point-analysis">Tipping point analysis<a class="anchor" aria-label="anchor" href="#tipping-point-analysis"></a>
+</h3>
 <p>But unfortunately, in reality we don’t know the value of
 <strong>𝛅</strong>. Nevertheless, we want to make sure that whatever
 analytical decision we chose for our primary analysis (be it a complete
@@ -343,9 +345,9 @@ MNAR(value).</p>
 <p>This is where the NARFCS sensitivity analysis comes in handy as it is
 also often used as a <strong>tipping point analysis</strong>, i.e. we
 model multiple NARFCS-specified imputation models over a range of
-<strong>𝛅</strong> sensitivity parameters and evaluate if at any
-pre-specified <strong>𝛅</strong>, our confidence interval would cross a
-certain estimate threshold which would discard the qualitative
+realistic <strong>𝛅</strong> sensitivity parameters and evaluate if at
+any pre-specified <strong>𝛅</strong>, our confidence interval would
+cross a certain estimate threshold which would discard the qualitative
 conclusion of our main analysis.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># modeled over a range of deltas</span></span>
@@ -383,7 +385,7 @@ conclusion of our main analysis.</p>
 <span>  yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">cox_fit_true</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  Reference <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"H0 rejection"</span>, <span class="st">"True HR"</span><span class="op">)</span>,</span>
 <span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"darkgreen"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">narfcs_range_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">delta</span>, y <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -399,7 +401,6 @@ conclusion of our main analysis.</p>
 <p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="900" style="display: block; margin: auto;"></p>
 </div>
 </div>
-</div>
 <div class="section level2">
 <h2 id="more-on-sensitivity-analyses">More on sensitivity analyses<a class="anchor" aria-label="anchor" href="#more-on-sensitivity-analyses"></a>
 </h2>
@@ -407,8 +408,8 @@ conclusion of our main analysis.</p>
 analyses for missing data, we recommend checking out the following links
 and manuscripts:</p>
 <p><a href="https://stefvanbuuren.name/fimd/sec-sensitivity.html" class="external-link uri">https://stefvanbuuren.name/fimd/sec-sensitivity.html</a></p>
-<p><a href="https://amices.org/mice/reference/mice.impute.mnar.html?q=narfcs#references" class="external-link uri">https://amices.org/mice/reference/mice.impute.mnar.html?q=narfcs#references</a></p>
-<p><a href="https://github.com/moreno-betancur/NARFCS" class="external-link uri">https://github.com/moreno-betancur/NARFCS</a></p>
+<p><a href="https://amices.org/mice/reference/mice.impute.mnar.html" class="external-link uri">https://amices.org/mice/reference/mice.impute.mnar.html</a></p>
+<p><a href="https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html" class="external-link uri">https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html</a></p>
 <p>Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., &amp;
 White, I. R. (2018). On the use of the not-at-random fully conditional
 specification (NARFCS) procedure in practice. Statistics in Medicine,

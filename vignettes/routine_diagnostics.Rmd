@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
-library(dplyr)
+suppressPackageStartupMessages(library(dplyr))
 ```
 
 # `smdi` main functionality

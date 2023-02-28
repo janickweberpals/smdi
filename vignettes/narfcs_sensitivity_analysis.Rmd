@@ -20,8 +20,10 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+# basic setup
 library(smdi)
-library(dplyr)
+suppressPackageStartupMessages(library(mice))
+suppressPackageStartupMessages(library(dplyr))
 ```
 
 # Sensitivity analysis for `MNAR(value)`
@@ -32,14 +34,14 @@ In reality, we will not be able to know 100% what the true missingness mechanism
 
 ## Illustrative example
 
-For example, the `age` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (to to death due to any reason in this example).
+For example, the `age` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival] in this example).
 
 For now, we don't assume any other missing covariates. In order to introduce an MNAR(value) mechanism for the `age` covariate, we:
 
 * Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age` will be set to missing
-* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing.
-* We specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger `age`) will have a larger probability of becoming incomplete. 
-* A missingness probability of ~40%
+* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+* Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger `age`) will have a larger probability of becoming incomplete
+* Define an overall missingness proportion of ~40%
 
 ```{r, create_mnar_v}
 # load data and drop id column
@@ -59,7 +61,7 @@ miss_weights_mnar_v <- replace(miss_weights_mnar_v, age_col, 1)
 miss_prop_age <- .4
 
 set.seed(42)
-smdi_mnar_v <- mice::ampute(
+smdi_data_mnar_v <- mice::ampute(
   data = smdi_data,
   prop = miss_prop_age,
   mech = "MNAR",
@@ -67,16 +69,15 @@ smdi_mnar_v <- mice::ampute(
   weights = miss_weights_mnar_v,
   bycases = TRUE,
   type = "LEFT"
-  )
+  )$amp
 ```
 
 ## Visual comparison
 
-If we plot the direct comparison of `age` distributions between the original data and the data with complete cases after removing those who had a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets,
+If we plot the direct comparison of `age` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
 
 ```{r, warning=FALSE}
-smdi_data_mnar_v <- smdi_mnar_v$amp
-
+# plot
 dplyr::bind_rows(
   smdi_data %>% dplyr::select(age_num) %>% dplyr::mutate(dataset = "Complete"),
   smdi_data_mnar_v %>% dplyr::select(age_num) %>% dplyr::mutate(dataset = "MNAR(value)")
@@ -84,6 +85,11 @@ dplyr::bind_rows(
   ggplot2::ggplot(ggplot2::aes(x = dataset, y = age_num)) +
   ggplot2::geom_violin() +
   ggplot2::geom_boxplot(width = 0.3) +
+  ggplot2::stat_summary(
+    fun = "mean",
+    geom = "pointrange",
+    color = "red"
+      ) +
   ggplot2::labs(
     y = "Age [years]",
     x = "Cohort"
@@ -97,7 +103,7 @@ dplyr::bind_rows(
 
 ## Comparing treatment effect estimates
 
-We can now compare and estimate the estimated bias caused by the 40% of MNAR(value) missing values.
+We can now compare and estimate the bias caused by the 40% of MNAR(value) missing values.
 
 First, we specify a general outcome model.
 
@@ -151,7 +157,7 @@ forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
   ggplot2::geom_point(ggplot2::aes(x = estimate), shape = 15, size = 3) +
   ggplot2::geom_errorbar(ggplot2::aes(xmin = conf.low, xmax = conf.high)) +
   ggplot2::geom_vline(xintercept = cox_fit_true[[2]], linetype = "dashed") +
-  ggplot2::labs(x = "Hazard Ratio", y= "") +
+  ggplot2::labs(x = "Hazard ratio (95% CI)", y= "") +
   ggplot2::theme_bw()
 
 table <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>% 
@@ -166,7 +172,7 @@ As we can observe, the complete case analysis slightly overestimates the true tr
 
 ## NARFCS imputation
 
-As mentioned above, the true (but unobserved) values of a variable systematically differ from the observed values and this difference is reflected in the sensitivity parameter **𝛅**. More specifically, the interpretation of𝛅would be the difference in the distribution of missing and observed age values conditioned on other baseline factors. Hence, for continuous covariates (like in our example) it would be the difference in mean conditional on `r toString(paste0(covariates[-1], collapse = " + "))`.
+As mentioned above, the true (but unobserved) values of a variable systematically differ from the observed values and this difference is reflected in the sensitivity parameter **𝛅**. More specifically, the interpretation of **𝛅** would be the difference in the distribution of missing and observed age values conditioned on other baseline factors. Hence, for continuous covariates (like in our example) it would be the difference in mean conditional on `r toString(paste0(covariates[-1], collapse = " + "))`. Since our data generation model did not specifiy any interactions or relationships between covariates, we can simplify this here a little and just take the crude difference in means.
 
 ```{r}
 mean <- mean(smdi_data$age_num) - mean(smdi_data_mnar_v$age_num, na.rm = TRUE)
@@ -210,18 +216,18 @@ forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp, narfcs_imp) %>
   ggplot2::geom_point(ggplot2::aes(x = estimate), shape = 15, size = 3) +
   ggplot2::geom_errorbar(ggplot2::aes(xmin = conf.low, xmax = conf.high)) +
   ggplot2::geom_vline(xintercept = cox_fit_true[[2]], linetype = "dashed") +
-  ggplot2::labs(x = "Hazard Ratio", y= "") +
+  ggplot2::labs(x = "Hazard ratio (95% CI)", y= "") +
   ggplot2::scale_color_identity() +
   ggplot2::theme_bw()
 
 forest
 ```
 
-### Tipping point analysis 
+## Tipping point analysis 
 
 But unfortunately, in reality we don't know the value of  **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
 
-This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis. 
+This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis. 
 
 ```{r, fig.width=6}
 # modeled over a range of deltas
@@ -259,7 +265,7 @@ reference_lines <- tibble::tibble(
   yintercept = c(1, cox_fit_true[[2]]),
   Reference = c("H0 rejection", "True HR"),
   color = c("red", "darkgreen")
-)
+  )
 
 narfcs_range_df %>% 
   ggplot2::ggplot(ggplot2::aes(x = delta, y = estimate)) +
@@ -280,9 +286,9 @@ For more information and helpful resources regarding sensitivity analyses for mi
 
 <https://stefvanbuuren.name/fimd/sec-sensitivity.html>
 
-<https://amices.org/mice/reference/mice.impute.mnar.html?q=narfcs#references>
+<https://amices.org/mice/reference/mice.impute.mnar.html>
 
-<https://github.com/moreno-betancur/NARFCS>
+<https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html>
 
 Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., & White, I. R. (2018). On the use of the not-at-random fully conditional specification (NARFCS) procedure in practice. Statistics in Medicine, 37(15), 2338-2353. <doi:10.1002/sim.7643> .
 

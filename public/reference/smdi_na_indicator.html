@@ -1153,11 +1153,11 @@ newly created NA category is 1</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ id_ENROL1000              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">smdi_na_indicator</span><span class="op">(</span>na_strategy <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1,000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ id                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ENROL1", "ENROL2", "ENROL3", "ENROL4", "ENR…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ exposure                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0,…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ age_num                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 72.60, 71.03, 63.97, 60.36, 48.63, 61.29, 44…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ female_cat                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0,…</span>
