@@ -4,12 +4,20 @@
 \alias{smdi_asmd}
 \title{Compute mean/median absolute standardized mean differences}
 \usage{
-smdi_asmd(data = NULL, covar = NULL, median = TRUE)
+smdi_asmd(
+  data = NULL,
+  covar = NULL,
+  na_strategy = c("retain", "drop"),
+  median = TRUE,
+  ...
+)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
 \item{covar}{character covariate or covariate vector with variable/column name(s) to investigate}
+
+\item{na_strategy}{"retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()}
 
 \item{median}{logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed}
 }

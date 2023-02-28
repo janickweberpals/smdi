@@ -145,7 +145,8 @@ smdi_data_mnar_v <- mice::ampute(
   mech = "MNAR",
   patterns = miss_pattern_age,
   weights = miss_weights_mnar_v,
-  bycases = TRUE
+  bycases = TRUE,
+  type = "RIGHT"
   )$amp
 
 smdi_data_mnar_v %>% 
@@ -159,7 +160,9 @@ smdi_data_mnar_v %>%
 df <- smdi::smdi_data %>% 
   dplyr::select(-c(ecog_cat, smoking_cat, age_num)) %>% 
   dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, smoking_cat = smdi_data_mar$smoking_cat, age_num = smdi_data_mnar_v$age_num) %>% 
-  mutate(across(ends_with("cat")|ends_with("miss"), as.factor)) %>% 
+  mutate(across(ends_with("cat"), as.factor)) %>% 
   select(-id)
 ```
+
+
 

@@ -21,7 +21,7 @@ smdi_na_indicator(
 \item{...}{additional parameters}
 }
 \value{
-returns the input dataframe/tibble with one-hot-encoded
+returns the dataframe with one-hot-encoded covariates with missing indicator variables
 }
 \description{
 This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be with two
