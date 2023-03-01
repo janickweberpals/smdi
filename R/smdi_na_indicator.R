@@ -4,15 +4,12 @@
 #'This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be with two
 #'different approaches.
 #'
-#'Approach 1 ("retain"): "retains" information on partially observed covariates
+#'Approach 1 ("retain"): "retains" information on variables with missing observations, i.e.
 #'Continuous/numeric variables: binary missing indicator categories are created and the NA values are imputed with the column median
 #'Categorical variables: variable gets one-hot-encoded and a missing indicator category is assigned, i.e. all categories are 0 but the
 #'newly created NA category is 1
 #'
-#'Approach 2 ("drop"): only creates a binary missing indicator variable and "drops" all variables with at least one missing value
-#'Continuous/numeric variables: binary missing indicator categories are created and the NA values are imputed with the column median
-#'Categorical variables: variable gets one-hot-encoded and a missing indicator category is assigned, i.e. all categories are 0 but the
-#'newly created NA category is 1
+#'Approach 2 ("drop"): only creates a binary missing indicator variable for variables with missing observations and "drops" the original variables
 #'
 #'Important: Make sure you have your variables format correct and avoid to include variables like ID variables, ZIP codes, dates, etc.
 #'
@@ -21,7 +18,7 @@
 #' @param na_strategy "retain" or "drop" according to the two possible strategies
 #' @param ... additional parameters
 #'
-#' @return returns the dataframe with one-hot-encoded covariates with missing indicator variables
+#' @return returns the dataframe with one-hot-encoded covariates with missing indicator variables (ending on "_NA")
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across
@@ -43,6 +40,7 @@
 #'library(dplyr)
 #'
 #' smdi_data %>%
+#'   select(-id) %>%
 #'   smdi_na_indicator(na_strategy = "retain") %>%
 #'   glimpse()
 #'
