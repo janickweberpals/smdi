@@ -4,7 +4,7 @@
 #' Report ...
 #'
 #' @format ## `smdi_data`
-#' A data frame with 1,000 rows and 12 columns:
+#' A data frame with 1,000 rows and 14 columns:
 #' \describe{
 #'   \item{exposure}{Treatment assignment variable (binary). Indicates initiation of the exposure of interest (1) versus a comparator regimen (0)}
 #'   \item{age_num}{Age at baseline in years}
@@ -18,6 +18,8 @@
 #'   \item{histology_cat}{Tumor histology (0 = nonsquamous, 1 = squamous)}
 #'   \item{ses_cat}{Socio-economic status (multi-categorical: 1-low, 2-middle, 3-high)}
 #'   \item{copd_cat}{COPD comorbidity at baseline}
+#'   \item{eventtime}{time to censoring event}
+#'   \item{status}{event indicator at time t; 0 = censored, 1 = deceased}
 #'   ...
 #' }
 #' @source <https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html>
