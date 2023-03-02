@@ -32,15 +32,17 @@ As we have seen earlier, if the missingness mechanism of an important covariate,
 
 In reality, we will not be able to know 100% what the true missingness mechanism is and there may always be some residual uncertainty in case of MNAR(value). On the positive side, however, Leacy and Moreno-Betancur et al.[^1] have proposed a useful procedure to impute multivariable missing data under MNAR(value) conditions. By definition, under a MNAR(value) mechanism, the true (but unobserved) values of a variable systematically differ from the observed values. The idea of the not at random fully conditional specification (NARFCS) sensitivity analysis is to specify an imputation model containing a sensitivity parameter **𝛅** that reflects this systematic departure from a missing at random (MAR) mechanism.
 
+[^1]: Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., & White, I. R. (2018). On the use of the not-at-random fully conditional specification (NARFCS) procedure in practice. *Statistics in Medicine*, **37**(15), 2338-2353. [doi:10.1002/sim.7643](https://doi.org/10.1002/sim.7643).
+
 ## Illustrative example
 
-For example, the `age` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival] in this example).
+For example, the `pdl1_num` cell staining percentage of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[^2]
 
-
+[^2]: Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy AP. Real-world progression, treatment, and survival outcomes during rapid adoption of immunotherapy for advanced non-small cell lung cancer. Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub 2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.
 
 ## Visual comparison
 
-If we plot the direct comparison of `age` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
+If we plot the direct comparison of `pdl1_num` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
 
 ```{r, warning=FALSE}
 # plot
@@ -134,7 +136,7 @@ table <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
 gridExtra::grid.arrange(gridExtra::tableGrob(table, rows = NULL), forest)
 ```
 
-As we can observe, the complete case analysis slightly overestimates the true treatment effect while the multiple imputation approach slightly underestimates it. However, the confidence intervals are highly overlapping and the bias is limited given the rather weak/moderate association between age and exposure (~ OR 0.97) and age and the outcome (~ HR 1.05).
+As we can observe, the complete case analysis slightly overestimates the true treatment effect while the multiple imputation approach slightly underestimates it. However, the confidence intervals are highly overlapping and the bias is limited given the rather weak/moderate association between age and exposure (\~ OR 0.97) and age and the outcome (\~ HR 1.05).
 
 ## NARFCS imputation
 
@@ -189,11 +191,11 @@ forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp, narfcs_imp) %>
 forest
 ```
 
-## Tipping point analysis 
+## Tipping point analysis
 
-But unfortunately, in reality we don't know the value of  **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
+But unfortunately, in reality we don't know the value of **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
 
-This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis. 
+This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis.
 
 ```{r, fig.width=6}
 # modeled over a range of deltas
@@ -259,5 +261,3 @@ For more information and helpful resources regarding sensitivity analyses for mi
 Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., & White, I. R. (2018). On the use of the not-at-random fully conditional specification (NARFCS) procedure in practice. Statistics in Medicine, 37(15), 2338-2353. <doi:10.1002/sim.7643> .
 
 Van Buuren, S., Boshuizen, H.C., Knook, D.L. (1999) Multiple imputation of missing blood pressure covariates in survival analysis. Statistics in Medicine, 18, 681--694.
-
-[^1]: Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., & White, I. R. (2018). On the use of the not-at-random fully conditional specification (NARFCS) procedure in practice. *Statistics in Medicine*, **37**(15), 2338-2353. [doi:10.1002/sim.7643](https://doi.org/10.1002/sim.7643).
