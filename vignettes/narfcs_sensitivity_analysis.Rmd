@@ -47,29 +47,28 @@ For simplicity, we don't assume any other missing covariates for now. In order t
 
 ```{r}
 # load complete dataset
-smdi_data <- smdi::smdi_data_complete %>% 
-  # and one hot encode the SES variable
+smdi_data_complete <- smdi::smdi_data_complete %>% 
   fastDummies::dummy_columns(
     select_columns = "ses_cat",
-    remove_most_frequent_dummy = TRUE, 
+    remove_most_frequent_dummy = TRUE,
     remove_selected_columns = TRUE
-    )
+  )
 
 # determine missingness pattern
-age_col <- which(colnames(smdi_data)=="age_num")
-miss_pattern <- rep(1, ncol(smdi_data))
+age_col <- which(colnames(smdi_data_complete)=="age_num")
+miss_pattern <- rep(1, ncol(smdi_data_complete))
 miss_pattern_age <- replace(miss_pattern, age_col, 0)
 
 # weights to compute missingness probability
 # covariate itself is only predictor
-miss_weights_mnar_v <- rep(0, ncol(smdi_data))
+miss_weights_mnar_v <- rep(0, ncol(smdi_data_complete))
 miss_weights_mnar_v <- replace(miss_weights_mnar_v, age_col, 1)
 
-miss_prop_age <- .2
+miss_prop_age <- .3
 
 set.seed(42)
-smdi_data_mnar_v <- mice::ampute(
-  data = smdi_data,
+smdi_data_complete_mnar_v <- mice::ampute(
+  data = smdi_data_complete,
   prop = miss_prop_age,
   mech = "MNAR",
   patterns = miss_pattern_age,
@@ -86,7 +85,7 @@ If we plot the direct comparison of `age` distributions between the original dat
 ```{r, warning=FALSE}
 # plot
 dplyr::bind_rows(
-  smdi_data %>% dplyr::select(age_num) %>% dplyr::mutate(dataset = "Complete"),
+  smdi_data_complete %>% dplyr::select(age_num) %>% dplyr::mutate(dataset = "Complete"),
   smdi_data_mnar_v %>% dplyr::select(age_num) %>% dplyr::mutate(dataset = "MNAR(value)")
   ) %>% 
   ggplot2::ggplot(ggplot2::aes(x = dataset, y = age_num)) +
@@ -117,9 +116,10 @@ First, we specify a general outcome model.
 ```{r}
 # outcome model (see data generation script)
 cox_lhs <- "survival::Surv(eventtime, status)"
-covariates <- smdi_data %>% 
+covariates <- smdi_data_complete %>% 
   dplyr::select(-c(exposure, eventtime, status)) %>% 
   names()
+
 cox_rhs <- paste(covariates, collapse = " + ")
 cox_form <- as.formula(paste(cox_lhs, "~ exposure +", cox_rhs))
 
@@ -130,7 +130,7 @@ Next, we compute the true Hazard Ratio (HR), the complete case HR and the standa
 
 ```{r}
 # true outcome model
-cox_fit_true <- survival::coxph(cox_form, data = smdi_data) %>% 
+cox_fit_true <- survival::coxph(cox_form, data = smdi_data_complete) %>% 
   broom::tidy(exponentiate = TRUE, conf.int = TRUE) %>% 
   dplyr::filter(term == "exposure") %>% 
   dplyr::select(term, estimate, conf.low, conf.high, std.error) %>% 
@@ -163,7 +163,7 @@ forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
   ggplot2::ggplot(ggplot2::aes(y = forcats::fct_rev(analysis))) +
   ggplot2::geom_point(ggplot2::aes(x = estimate), shape = 15, size = 3) +
   ggplot2::geom_errorbar(ggplot2::aes(xmin = conf.low, xmax = conf.high)) +
-  ggplot2::geom_vline(xintercept = cox_fit_true[[2]], linetype = "dashed") +
+  ggplot2::geom_vline(xintercept = 1, linetype = "dashed") +
   ggplot2::labs(x = "Hazard ratio (95% CI)", y= "") +
   ggplot2::theme_bw()
 
@@ -175,15 +175,25 @@ table <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
 gridExtra::grid.arrange(gridExtra::tableGrob(table, rows = NULL), forest)
 ```
 
-As we can observe, the complete case analysis and the multiple imputation approach are off.
+As we can observe, the multiple imputation approach would have led to a wrong conclusion
 
 ## NARFCS imputation
 
-As mentioned above, the true (but unobserved) values of a variable systematically differ from the observed values and this difference is reflected in the sensitivity parameter **𝛅**. More specifically, the interpretation of **𝛅** would be the difference in the distribution of missing and observed age values conditioned on other baseline factors. Hence, for continuous covariates (like in our example) it would be the difference in mean conditional on `r toString(paste0(covariates[-1], collapse = " + "))`. Since our data generation model did not specifiy any interactions or relationships between covariates, we can simplify this here a little and just take the crude difference in means.
+As mentioned above, the true (but unobserved) values of a variable systematically differ from the observed values and this difference is reflected in the sensitivity parameter **𝛅**. More specifically, the interpretation of **𝛅** would be the difference in the distribution of missing and observed `age_num` values conditional on other covariates. Hence, for continuous covariates (like in our example) it would be the difference in mean conditional on `r toString(paste0(covariates[-1], collapse = " + "))`. Since our data generation model did not specifiy any interactions or relationships between covariates, we can simplify this here a little and just take the crude difference in means.
 
 ```{r}
-mean <- mean(smdi_data$age_num) - mean(smdi_data_mnar_v$age_num, na.rm = TRUE)
-mean
+# compute the conditional mean difference in age 
+# between dataset with complete observations
+# and dataset with partially observed age covariate
+lm_form <- as.formula(paste("age_num ~ complete_dataset + exposure + ", paste(covariates[-1], collapse = "+")))
+
+data_combined <- rbind(
+  smdi_data_complete %>% dplyr::mutate(complete_dataset = 1), 
+  smdi_data_mnar_v %>% dplyr::mutate(complete_dataset = 0)
+  )
+
+cond_mean_diff <- lm(lm_form, data = data_combined)$coefficients[["complete_dataset"]]
+cond_mean_diff
 ```
 
 If in reality, we would know this sensitivity parameter, we could easily plug it into our NARFCS.
@@ -199,7 +209,7 @@ mnar_imp_method <- which(colnames(smdi_data_mnar_v) == "age_num")
 method_vector <- replace(x = method_vector, list = c(mnar_imp_method), values = c("mnar.norm"))
 
 # mnar model specification
-mnar_blot <- list(age_num = list(ums = toString(-mean)))
+mnar_blot <- list(age_num = list(ums = toString(cond_mean_diff)))
 
 narfcs_imp <- mice::mice(
   data = smdi_data_mnar_v,
@@ -234,7 +244,7 @@ forest
 
 But unfortunately, in reality we don't know the value of **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
 
-This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the qualitative conclusion of our main analysis.
+This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the global conclusion of our primary analysis.
 
 ```{r, fig.width=6}
 # modeled over a range of deltas
@@ -262,7 +272,7 @@ narfcs_modeled <- function(i){
 } 
 
 narfcs_range <- lapply(
-  X = seq(-50, 50, 1),
+  X = seq(-25, 25, 1),
   FUN = narfcs_modeled
   )
 
@@ -270,8 +280,8 @@ narfcs_range_df <- do.call(rbind, narfcs_range)
 
 reference_lines <- tibble::tibble(
   yintercept = c(1, cox_fit_true[[2]]),
-  Reference = c("H0 rejection", "True HR"),
-  color = c("red", "darkgreen")
+  Reference = c("TRUE HR", "Complete model"),
+  color = c("blue", "darkgreen")
   )
 
 narfcs_range_df %>% 
@@ -280,13 +290,23 @@ narfcs_range_df %>%
   ggplot2::geom_line() +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = conf.low, ymax = conf.high), alpha = 0.15) +
   ggplot2::labs(x = "Sensitivity parameter δ", y = "Hazard ratio (95% CI)") +
-  ggplot2::scale_x_continuous(breaks = seq(-50, 50, 1), limits = c(-50, 50)) +
-  ggplot2::scale_y_continuous(breaks = seq(0.6, 1.1, 0.1), limits = c(0.6, 1.1)) +
+  ggplot2::scale_x_continuous(breaks = seq(-25, 25, 1), limits = c(-25, 25)) +
+  ggplot2::scale_y_continuous(breaks = seq(0.6, 1.2, 0.1), limits = c(0.6, 1.2)) +
   ggplot2::geom_hline(ggplot2::aes(yintercept = yintercept, color = Reference), reference_lines) +
   ggplot2::scale_colour_manual(values = reference_lines$color) +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position="top")
 ```
+
+# Multivariate missingness PD-L1 biomarker example
+
+Now, we can do the same in our *missing" `smdi_data` dataset. However, this gets a little tricky since we have multiple missing covariates, each of which follow different missingness mechanisms. Here is again a quick overview of the missing variables using the `smdi_summarize()` function.
+
+```{r}
+smdi::smdi_data %>% 
+  smdi::smdi_summarize()
+```
+
 
 # More on sensitivity analyses
 
