@@ -5,31 +5,15 @@
 \alias{smdi_data}
 \title{smdi exemplary lung cancer dataset}
 \format{
-## `smdi_data`
-A data frame with 1,000 rows and 14 columns:
-\describe{
-  \item{id}{Patient identifier}
-  \item{exposure}{Treatment assignment variable (binary). Indicates initiation of the exposure of interest (1) versus a comparator regimen (0)}
-  \item{age_num}{Age at baseline in years}
-  \item{female_cat}{Is gender female (0 = no, 1 = yes)}
-  \item{ecog_cat}{ECOG performance score at baseline (0 versus 1)}
-  \item{smoking_cat}{Smoking status at baseline (0 = non-smoker, 1 = smoker)}
-  \item{egfr_cat}{EGFR mutation status (0 = wild-type, 1 = alteration)}
-  \item{kras_cat}{KRAS mutation status (0 = wild-type, 1 = alteration)}
-  \item{histology_is_squamous_cat}{Tumor histology (0 = nonsquamous, 1 = squamous)}
-  \item{ldl_num}{LDL level at baseline in mg/dL}
-  \item{rr_num}{Average blood pressure level at baseline in mmHg}
-  \item{bpm_num}{Average heart rate at baseline in beats per minute (bpm)}
-  ...
-}
+
 }
 \source{
-<https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html>
+https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html
 }
 \usage{
 smdi_data
 }
 \description{
-Report ...
+Example dataset with only complete cases.
 }
 \keyword{datasets}

@@ -13,7 +13,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  dpi = 100,
+  dpi = 150,
   fig.width = 6,
   fig.height = 4.5
   )
@@ -165,7 +165,7 @@ betas_os %>%
 ```
 
 ```{r, outcome_generation, message=FALSE}
-set.seed(seed_value)
+set.seed(420)
 
 sim_df <- sim_covar %>% dplyr::bind_cols(
   simsurv::simsurv(
@@ -226,7 +226,7 @@ cox_fit %>%
   gtsummary::tbl_regression(exponentiate = T)
 ```
 
-## `smdi_data_complete`
+## Export `smdi_data_complete`
 
 To provide flexibility to play with the complete data *before* introducing missingness, we offer two datasets:
 
@@ -260,7 +260,7 @@ In brief, we introduce missingness by...
 ```{r}
 # prepare a placeholder df for missing simulation
 # we do not consider ses_cat
-tmp <- sim_df %>% 
+tmp <- smdi_data_complete %>% 
   dplyr::select(-c(ses_cat))
 
 # determine missingness pattern template
@@ -305,7 +305,7 @@ smdi_data_mcar %>%
 
 ### Missing at random
 
-`egfr_cat`[^1] will be set to missing according to the following specification:
+`egfr_cat` will be set to missing according to the following specification:
 
 -   Missingness pattern: Only `egfr_cat` will be set to missing
 -   Weight vector: all covariates (except `egfr_cat` itself and `ses_cat`) contribute with equal weights as linear predictors for the probability of observations becoming missing
@@ -382,7 +382,7 @@ smdi_data_mnar_v %>%
 ## Assemble final dataset
 
 ```{r}
-smdi_data <- sim_df %>% 
+smdi_data <- smdi_data_complete %>% 
   dplyr::select(-c(ecog_cat, egfr_cat, pdl1_num)) %>% 
   dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, egfr_cat = smdi_data_mar$egfr_cat, pdl1_num = smdi_data_mnar_v$pdl1_num) %>% 
   mutate(across(ends_with("cat"), as.factor))
@@ -399,11 +399,10 @@ smdi_data %>%
   gtsummary::add_difference()
 ```
 
-# Export data (II)
+# Export `smdi_data`
 
 Exporting the data to `data/`, so it can be used for educative purposes and for playing around with the package.
 
-```{r, export, message=FALSE}
-smdi_data <- sim_df
+```{r, export_missing_data, message=FALSE}
 usethis::use_data(smdi_data, overwrite = TRUE)
 ```

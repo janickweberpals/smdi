@@ -36,13 +36,9 @@ smdi::smdi_data %>%
 
 The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",")` patients and `r ncol(smdi_data)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively.
 
-
 ```{r}
-df <- smdi::smdi_data %>% 
-  dplyr::select(-c(ecog_cat, smoking_cat, age_num)) %>% 
-  dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, smoking_cat = smdi_data_mar$smoking_cat, age_num = smdi_data_mnar_v$age_num) %>% 
-  mutate(across(ends_with("cat"), as.factor)) %>% 
-  select(-id)
+smdi_data %>% 
+  smdi::smdi_na_indicator(na_strategy = "drop")
 ```
 
 

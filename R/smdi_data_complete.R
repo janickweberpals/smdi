@@ -1,10 +1,9 @@
 #' smdi exemplary lung cancer dataset (with complete data)
 #'
-#'
-#' Report ...
+#' Example dataset with complete cases.
 #'
 #' @format ## `smdi_data_complete`
-#' A data frame with 1,000 rows and 14 columns:
+#' A data frame with 7,240 rows and 60 columns:
 #' \describe{
 #'   \item{exposure}{Treatment assignment variable (binary). Indicates initiation of the exposure of interest (1) versus a comparator regimen (0)}
 #'   \item{age_num}{Age at baseline in years}
@@ -22,5 +21,6 @@
 #'   \item{status}{event indicator at time t; 0 = censored, 1 = deceased}
 #'   ...
 #' }
-#' @source <https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html>
+
+#' @source https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html
 "smdi_data_complete"

@@ -36,13 +36,13 @@ In reality, we will not be able to know 100% what the true missingness mechanism
 
 ## Illustrative example
 
-For example, the `age` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival] in this example).
+For example, the `age_num` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age_num` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival] in this example).
 
-For simplicity, we don't assume any other missing covariates for now. In order to introduce an MNAR(value) mechanism for the `age` covariate, we:
+For simplicity, we don't assume any other missing covariates for now. In order to introduce an MNAR(value) mechanism for the `age_num` covariate, we:
 
-* Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age` will be set to missing
-* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing
-* Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger `age`) will have a larger probability of becoming incomplete
+* Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age_num` will be set to missing
+* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age_num` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+* Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger `age_num`) will have a larger probability of becoming incomplete
 * Define an overall missingness proportion of ~40%
 
 ```{r}
@@ -52,7 +52,7 @@ smdi_data_complete <- smdi::smdi_data_complete %>%
     select_columns = "ses_cat",
     remove_most_frequent_dummy = TRUE,
     remove_selected_columns = TRUE
-  )
+    )
 
 # determine missingness pattern
 age_col <- which(colnames(smdi_data_complete)=="age_num")
@@ -67,7 +67,7 @@ miss_weights_mnar_v <- replace(miss_weights_mnar_v, age_col, 1)
 miss_prop_age <- .3
 
 set.seed(42)
-smdi_data_complete_mnar_v <- mice::ampute(
+smdi_data_mnar_v <- mice::ampute(
   data = smdi_data_complete,
   prop = miss_prop_age,
   mech = "MNAR",
@@ -80,7 +80,7 @@ smdi_data_complete_mnar_v <- mice::ampute(
 
 ## Visual comparison
 
-If we plot the direct comparison of `age` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
+If we plot the direct comparison of `age_num` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
 
 ```{r, warning=FALSE}
 # plot
@@ -192,61 +192,28 @@ data_combined <- rbind(
   smdi_data_mnar_v %>% dplyr::mutate(complete_dataset = 0)
   )
 
-cond_mean_diff <- lm(lm_form, data = data_combined)$coefficients[["complete_dataset"]]
+cond_mean_diff <- stats::lm(lm_form, data = data_combined)$coefficients[["complete_dataset"]]
 cond_mean_diff
 ```
 
 If in reality, we would know this sensitivity parameter, we could easily plug it into our NARFCS.
 
-```{r}
+## Tipping point analysis
+
+But unfortunately, in reality we usually don't know the value of **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
+
+This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the global conclusion of our primary analysis.
+
+```{r, fig.width=6}
 # initialize method vector
 method_vector <- rep("", ncol(smdi_data_mnar_v))
-                    
+
 # columns for narfcs imputation with sensitivity parameter
 mnar_imp_method <- which(colnames(smdi_data_mnar_v) == "age_num")
 
 # update method vector
 method_vector <- replace(x = method_vector, list = c(mnar_imp_method), values = c("mnar.norm"))
 
-# mnar model specification
-mnar_blot <- list(age_num = list(ums = toString(cond_mean_diff)))
-
-narfcs_imp <- mice::mice(
-  data = smdi_data_mnar_v,
-  method = method_vector,
-  blots = mnar_blot,
-  seed = 42, 
-  print = FALSE
-  ) %>% 
-  with(
-    expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
-    ) %>% 
-  mice::pool() %>% 
-  summary(conf.int = TRUE, exponentiate = TRUE) %>% 
-  dplyr::filter(term == "exposure") %>% 
-  dplyr::select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>% 
-  dplyr::mutate(analysis = "NARFCS imputation")
-
-forest <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp, narfcs_imp) %>% 
-  dplyr::mutate(analysis = factor(analysis, levels = c("True estimate", "Complete case analysis", "Multiple imputation", "NARFCS imputation"))) %>% 
-  ggplot2::ggplot(ggplot2::aes(y = forcats::fct_rev(analysis), color = ifelse(analysis == "NARFCS imputation", 'red', 'black'))) +
-  ggplot2::geom_point(ggplot2::aes(x = estimate), shape = 15, size = 3) +
-  ggplot2::geom_errorbar(ggplot2::aes(xmin = conf.low, xmax = conf.high)) +
-  ggplot2::geom_vline(xintercept = cox_fit_true[[2]], linetype = "dashed") +
-  ggplot2::labs(x = "Hazard ratio (95% CI)", y= "") +
-  ggplot2::scale_color_identity() +
-  ggplot2::theme_bw()
-
-forest
-```
-
-## Tipping point analysis
-
-But unfortunately, in reality we don't know the value of **𝛅**. Nevertheless, we want to make sure that whatever analytical decision we chose for our primary analysis (be it a complete case approach or an imputation approach), our results would not drastically change if the true underlying missingness mechanism was MNAR(value).
-
-This is where the NARFCS sensitivity analysis comes in handy as it is also often used as a **tipping point analysis**, i.e. we model multiple NARFCS-specified imputation models over a range of realistic **𝛅** sensitivity parameters and evaluate if at any pre-specified **𝛅**, our confidence interval would cross a certain estimate threshold which would discard the global conclusion of our primary analysis.
-
-```{r, fig.width=6}
 # modeled over a range of deltas
 narfcs_modeled <- function(i){
   
@@ -279,9 +246,9 @@ narfcs_range <- lapply(
 narfcs_range_df <- do.call(rbind, narfcs_range)
 
 reference_lines <- tibble::tibble(
-  yintercept = c(1, cox_fit_true[[2]]),
-  Reference = c("TRUE HR", "Complete model"),
-  color = c("blue", "darkgreen")
+  yintercept = c(cox_fit_true[[2]]),
+  Reference = c("TRUE HR"),
+  color = c("darkgreen")
   )
 
 narfcs_range_df %>% 
@@ -290,21 +257,117 @@ narfcs_range_df %>%
   ggplot2::geom_line() +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = conf.low, ymax = conf.high), alpha = 0.15) +
   ggplot2::labs(x = "Sensitivity parameter δ", y = "Hazard ratio (95% CI)") +
-  ggplot2::scale_x_continuous(breaks = seq(-25, 25, 1), limits = c(-25, 25)) +
+  ggplot2::scale_x_continuous(breaks = seq(-25, 25, 2), limits = c(-25, 25)) +
   ggplot2::scale_y_continuous(breaks = seq(0.6, 1.2, 0.1), limits = c(0.6, 1.2)) +
   ggplot2::geom_hline(ggplot2::aes(yintercept = yintercept, color = Reference), reference_lines) +
   ggplot2::scale_colour_manual(values = reference_lines$color) +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position="top")
 ```
+Based on this tipping point analysis, we would have figured that a systematic departure of `age_num` from MAR may be very likely in our main anlysis, suggesting that the primary analysis estimates for `exposure` are likely biased by a not at random value (MNAR[value]) missingness of `age_num`.
 
 # Multivariate missingness PD-L1 biomarker example
 
-Now, we can do the same in our *missing" `smdi_data` dataset. However, this gets a little tricky since we have multiple missing covariates, each of which follow different missingness mechanisms. Here is again a quick overview of the missing variables using the `smdi_summarize()` function.
+Now, we can do the same in our *missing* `smdi_data` dataset. However, this gets a little tricky since we have multiple missing covariates, each of which follow different missingness mechanisms. Here is again a quick overview of the missing variables using the `smdi_summarize()` function.
 
 ```{r}
 smdi::smdi_data %>% 
   smdi::smdi_summarize()
+```
+
+Alternatively, we can use `smdi_vis()`.
+
+```{r}
+smdi::smdi_data %>% 
+  smdi::smdi_vis(top_n_covar = 3)
+```
+
+## `smdi_diagnose` analysis
+
+> TO DO
+
+## NARFCS imputation
+
+The [NARFCS procedure that comes with the `mice` package](https://amices.org/mice/reference/mice.impute.mnar.html) provides the flexibility to execute the NARFCS procedure in the presence of other partially observed covariates which may be assumed missing at random.
+
+Given the `smdi_diagnose` analysis, we hypothesize that `pdl1_num` may be MNAR(value). This is plausible in the context that the `pdl1_num` cell staining percentage of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[^2] Hence, we decide to run a tipping point sensitivity analysis by imputing `pdl1_num` over a range of **𝛅** sensitivity parameters while imputing `ecog_cat` and `egfr_cat` under a "normal" imputation model.
+
+[^2]: Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy AP. Real-world progression, treatment, and survival outcomes during rapid adoption of immunotherapy for advanced non-small cell lung cancer. Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub 2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.
+
+```{r}
+# we one hot encode the `ses_cat` variable again 
+# in the smdi_data dataset
+smdi_data <- smdi::smdi_data %>% 
+  fastDummies::dummy_columns(
+    select_columns = "ses_cat",
+    remove_most_frequent_dummy = TRUE,
+    remove_selected_columns = TRUE
+    )
+
+# initialize method vector
+method_vector <- rep("", ncol(smdi_data))
+
+# specify columns for narfcs and 'normal' imputation
+pdl1_mnar_col <- which(colnames(smdi_data) == "pdl1_num")
+ecog_mar_col <- which(colnames(smdi_data) == "ecog_cat")
+egfr_mnar_col <- which(colnames(smdi_data) == "egfr_cat")
+
+# update method vector
+method_vector <- replace(
+  x = method_vector, 
+  list = c(pdl1_mnar_col, ecog_mar_col, egfr_mnar_col), 
+  values = c("mnar.norm", "logreg", "logreg")
+  )
+
+# modeled over a range of deltas
+narfcs_modeled <- function(i){
+  
+  # mnar model specification for pdl1_num ('i' is delta parameter)
+  mnar_blot <- list(pdl1_num = list(ums = paste(i)))
+
+  narfcs_imp <- mice::mice(
+    data = smdi_data,
+    method = method_vector,
+    blots = mnar_blot,
+    seed = 42, 
+    print = FALSE
+    ) %>%
+    with(
+      expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
+      ) %>%
+    mice::pool() %>%
+    summary(conf.int = TRUE, exponentiate = TRUE) %>%
+    dplyr::filter(term == "exposure") %>%
+    dplyr::select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>%
+    dplyr::mutate(delta = i)
+  
+} 
+
+narfcs_range <- lapply(
+  X = seq(-25, 25, 1),
+  FUN = narfcs_modeled
+  )
+
+narfcs_range_df <- do.call(rbind, narfcs_range)
+
+reference_lines <- tibble::tibble(
+  yintercept = c(cox_fit_true[[2]]),
+  Reference = c("TRUE HR"),
+  color = c("darkgreen")
+  )
+
+narfcs_range_df %>% 
+  ggplot2::ggplot(ggplot2::aes(x = delta, y = estimate)) +
+  ggplot2::geom_point() +
+  ggplot2::geom_line() +
+  ggplot2::geom_ribbon(ggplot2::aes(ymin = conf.low, ymax = conf.high), alpha = 0.15) +
+  ggplot2::labs(x = "Sensitivity parameter δ", y = "Hazard ratio (95% CI)") +
+  ggplot2::scale_x_continuous(breaks = seq(-25, 25, 2), limits = c(-25, 25)) +
+  ggplot2::scale_y_continuous(breaks = seq(0.5, 1.2, 0.1), limits = c(0.5, 1.2)) +
+  ggplot2::geom_hline(ggplot2::aes(yintercept = yintercept, color = Reference), reference_lines) +
+  ggplot2::scale_colour_manual(values = reference_lines$color) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position="top")
 ```
 
 
