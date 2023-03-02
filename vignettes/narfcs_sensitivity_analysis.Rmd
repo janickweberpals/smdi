@@ -36,13 +36,52 @@ In reality, we will not be able to know 100% what the true missingness mechanism
 
 ## Illustrative example
 
-For example, the `pdl1_num` cell staining percentage of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[^2]
+For example, the `age` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival] in this example).
 
-[^2]: Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy AP. Real-world progression, treatment, and survival outcomes during rapid adoption of immunotherapy for advanced non-small cell lung cancer. Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub 2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.
+For simplicity, we don't assume any other missing covariates for now. In order to introduce an MNAR(value) mechanism for the `age` covariate, we:
+
+* Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age` will be set to missing
+* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+* Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger `age`) will have a larger probability of becoming incomplete
+* Define an overall missingness proportion of ~40%
+
+```{r}
+# load complete dataset
+smdi_data <- smdi::smdi_data_complete %>% 
+  # and one hot encode the SES variable
+  fastDummies::dummy_columns(
+    select_columns = "ses_cat",
+    remove_most_frequent_dummy = TRUE, 
+    remove_selected_columns = TRUE
+    )
+
+# determine missingness pattern
+age_col <- which(colnames(smdi_data)=="age_num")
+miss_pattern <- rep(1, ncol(smdi_data))
+miss_pattern_age <- replace(miss_pattern, age_col, 0)
+
+# weights to compute missingness probability
+# covariate itself is only predictor
+miss_weights_mnar_v <- rep(0, ncol(smdi_data))
+miss_weights_mnar_v <- replace(miss_weights_mnar_v, age_col, 1)
+
+miss_prop_age <- .2
+
+set.seed(42)
+smdi_data_mnar_v <- mice::ampute(
+  data = smdi_data,
+  prop = miss_prop_age,
+  mech = "MNAR",
+  patterns = miss_pattern_age,
+  weights = miss_weights_mnar_v,
+  bycases = TRUE,
+  type = "LEFT"
+  )$amp
+```
 
 ## Visual comparison
 
-If we plot the direct comparison of `pdl1_num` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
+If we plot the direct comparison of `age` distributions between the original data and the data with complete cases after removing those who have a missing value following an MNAR(value) mechanism, we can observe the systematic difference in the two datasets.
 
 ```{r, warning=FALSE}
 # plot
@@ -78,8 +117,8 @@ First, we specify a general outcome model.
 ```{r}
 # outcome model (see data generation script)
 cox_lhs <- "survival::Surv(eventtime, status)"
-covariates <- smdi::smdi_data %>% 
-  dplyr::select(-c(id, exposure, eventtime, status)) %>% 
+covariates <- smdi_data %>% 
+  dplyr::select(-c(exposure, eventtime, status)) %>% 
   names()
 cox_rhs <- paste(covariates, collapse = " + ")
 cox_form <- as.formula(paste(cox_lhs, "~ exposure +", cox_rhs))
@@ -91,7 +130,7 @@ Next, we compute the true Hazard Ratio (HR), the complete case HR and the standa
 
 ```{r}
 # true outcome model
-cox_fit_true <- survival::coxph(cox_form, data = smdi::smdi_data) %>% 
+cox_fit_true <- survival::coxph(cox_form, data = smdi_data) %>% 
   broom::tidy(exponentiate = TRUE, conf.int = TRUE) %>% 
   dplyr::filter(term == "exposure") %>% 
   dplyr::select(term, estimate, conf.low, conf.high, std.error) %>% 
@@ -136,7 +175,7 @@ table <- dplyr::bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
 gridExtra::grid.arrange(gridExtra::tableGrob(table, rows = NULL), forest)
 ```
 
-As we can observe, the complete case analysis slightly overestimates the true treatment effect while the multiple imputation approach slightly underestimates it. However, the confidence intervals are highly overlapping and the bias is limited given the rather weak/moderate association between age and exposure (\~ OR 0.97) and age and the outcome (\~ HR 1.05).
+As we can observe, the complete case analysis and the multiple imputation approach are off.
 
 ## NARFCS imputation
 
@@ -160,7 +199,7 @@ mnar_imp_method <- which(colnames(smdi_data_mnar_v) == "age_num")
 method_vector <- replace(x = method_vector, list = c(mnar_imp_method), values = c("mnar.norm"))
 
 # mnar model specification
-mnar_blot <- list(age_num = list(ums = toString(mean)))
+mnar_blot <- list(age_num = list(ums = toString(-mean)))
 
 narfcs_imp <- mice::mice(
   data = smdi_data_mnar_v,
@@ -223,7 +262,7 @@ narfcs_modeled <- function(i){
 } 
 
 narfcs_range <- lapply(
-  X = seq(-10, 10, 1),
+  X = seq(-50, 50, 1),
   FUN = narfcs_modeled
   )
 
@@ -241,7 +280,8 @@ narfcs_range_df %>%
   ggplot2::geom_line() +
   ggplot2::geom_ribbon(ggplot2::aes(ymin = conf.low, ymax = conf.high), alpha = 0.15) +
   ggplot2::labs(x = "Sensitivity parameter δ", y = "Hazard ratio (95% CI)") +
-  ggplot2::scale_x_continuous(breaks = seq(-10, 10, 1), limits = c(-10, 10)) +
+  ggplot2::scale_x_continuous(breaks = seq(-50, 50, 1), limits = c(-50, 50)) +
+  ggplot2::scale_y_continuous(breaks = seq(0.6, 1.1, 0.1), limits = c(0.6, 1.1)) +
   ggplot2::geom_hline(ggplot2::aes(yintercept = yintercept, color = Reference), reference_lines) +
   ggplot2::scale_colour_manual(values = reference_lines$color) +
   ggplot2::theme_bw() +
