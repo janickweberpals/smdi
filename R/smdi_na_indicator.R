@@ -1,4 +1,4 @@
-#' Util helper to create binary missing indicator variables by two different strategies which can be selected ("retain" and "drop")
+#' Util helper to create binary missing indicator variables by two different strategies, one of which must be selected ("retain" and "drop")
 #'
 #' @description
 #'This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be with two
@@ -40,12 +40,10 @@
 #'library(dplyr)
 #'
 #' smdi_data %>%
-#'   select(-id) %>%
 #'   smdi_na_indicator(na_strategy = "retain") %>%
 #'   glimpse()
 #'
 #' smdi_data %>%
-#'   select(-id) %>%
 #'   smdi_na_indicator(na_strategy = "drop") %>%
 #'   glimpse()
 #'
@@ -79,15 +77,7 @@ smdi_na_indicator <- function(data = NULL,
     data_encoded <- data %>%
       # first we create a NA category for continuous covariates and then median impute the missings
       dplyr::mutate(dplyr::across(c(cont_covars), ~ ifelse(is.na(.x), 1, 0), .names = "{.col}_NA")) %>%
-      dplyr::mutate(dplyr::across(c(cont_covars), ~ ifelse(is.na(.x), stats::median(.x, na.rm = TRUE), .x))) %>%
-      # next we one-hot encode all remaining binary/categorical variables
-      fastDummies::dummy_cols(
-        ignore_na = FALSE,
-        remove_selected_columns = TRUE,
-        remove_first_dummy = TRUE
-        ) %>%
-      # fill up 0's of remaining categorical variables
-      dplyr::mutate(dplyr::across(tidyselect::everything(), ~ ifelse(is.na(.x), 0, .x)))
+      dplyr::mutate(dplyr::across(c(cont_covars), ~ ifelse(is.na(.x), stats::median(.x, na.rm = TRUE), .x)))
 
     }
 
