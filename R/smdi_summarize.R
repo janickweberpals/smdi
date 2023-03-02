@@ -46,6 +46,12 @@ smdi_summarize <- function(data = NULL
     dplyr::arrange(dplyr::desc(perc_miss), covariate) %>%
     dplyr::mutate(perc_miss = paste0(formatC(perc_miss, format = 'f', digits = 2), "%"))
 
+  if(length(covar_miss$covariate)==0){
+
+    message("Note: Found no covariates with missing values. Check that missing values are coded as <NA>.")
+
+  }
+
   return(covar_miss)
 
 }

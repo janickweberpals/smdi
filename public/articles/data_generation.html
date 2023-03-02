@@ -1357,7 +1357,7 @@ initiation (aka propensity scores).</p>
 <span>    fill <span class="op">=</span> <span class="st">"Exposed"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="data_generation_files/figure-html/pr_treatment_assignment-1.png" alt="Treatment assignment probabilities." width="600"><p class="caption">
+<img src="data_generation_files/figure-html/pr_treatment_assignment-1.png" alt="Treatment assignment probabilities." width="900"><p class="caption">
 Treatment assignment probabilities.
 </p>
 </div>
@@ -2351,7 +2351,7 @@ Kaplan-Meier curve.</p>
 <span>  xlab <span class="op">=</span> <span class="st">"Time [Months]"</span>,</span>
 <span>  legend.labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Comparator"</span>, <span class="st">"Exposure of interest"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="data_generation_files/figure-html/unnamed-chunk-2-1.png" width="600"></p>
+<p><img src="data_generation_files/figure-html/unnamed-chunk-2-1.png" width="900"></p>
 </div>
 <div class="section level4">
 <h4 id="cox-proportional-hazards">Cox proportional hazards<a class="anchor" aria-label="anchor" href="#cox-proportional-hazards"></a>
@@ -3442,14 +3442,7 @@ dependent on any other observed or unobserved covariates</li>
 <div class="section level4">
 <h4 id="missing-at-random">Missing at random<a class="anchor" aria-label="anchor" href="#missing-at-random"></a>
 </h4>
-<p><code>egfr_cat</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;The Eastern Cooperative Oncology Group (ECOG)
-performance score is a clinical measure for how the cancer disease
-affects the daily living abilities of the patient and is often used as a
-patient inclusion criterion for clinical trials. The scale ranges from 0
-to 5 and typically only patients with 0 and 1 are eligible. Let’s assume
-for our example, we already have a subset of such a pre-selected
-clinical trial-like cohort, but we still want to adjust for a baseline
-ECOG of 0 and 1 (definitions are taken from &lt;a href="https://ecog-acrin.org/resources/ecog-performance-status/" class="external-link uri"&gt;https://ecog-acrin.org/resources/ecog-performance-status/&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a> will be set to missing according to the
+<p><code>egfr_cat</code> will be set to missing according to the
 following specification:</p>
 <ul>
 <li>Missingness pattern: Only <code>egfr_cat</code> will be set to

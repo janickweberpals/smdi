@@ -22,4 +22,3 @@
 #' }
 #' @source https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html
 "smdi_data"
-

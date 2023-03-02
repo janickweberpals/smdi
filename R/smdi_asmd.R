@@ -10,7 +10,7 @@
 #'Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate or covariate vector with variable/column name(s) to investigate
+#' @param covar character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
 #' @param na_strategy "retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()
 #' @param median logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed
 #' @param ... further arguments
@@ -55,25 +55,10 @@ smdi_asmd <- function(data = NULL,
   # additional arguments
   add_args <- list(...)
 
-  # select covariates with missing values
-  covar_miss_all <- smdi::smdi_summarize(data = data) %>%
-    dplyr::pull(covariate)
-
-  if(!is.null(covar)){
-
-    # from all missing covars, select and use only the specified ones
-    covar_miss <- covar_miss_all %>%
-      dplyr::filter(covariate %in% covar)
-
-  }else if(is.null(covar)){
-
-    covar_miss <- covar_miss_all
-
-  }else{
-
-    stop("Found no covariates with missing values. Please either provide covariate names or check that missing values are coded as <NA>.")
-
-  }
+  covar_miss <- smdi::smdi_check_covar(
+    data = data,
+    covar = covar
+    )
 
 
   # start applying smd computation over all partially observed covariates

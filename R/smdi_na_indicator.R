@@ -1,22 +1,18 @@
 #' Util helper to create binary missing indicator variables by two different strategies, one of which must be selected ("retain" and "drop")
 #'
 #' @description
-#'This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be with two
-#'different approaches.
+#'This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be realized with two
+#'different approaches:
 #'
-#'Approach 1 ("retain"): "retains" information on variables with missing observations, i.e.
-#'Continuous/numeric variables: binary missing indicator categories are created and the NA values are imputed with the column median
-#'Categorical variables: variable gets one-hot-encoded and a missing indicator category is assigned, i.e. all categories are 0 but the
-#'newly created NA category is 1
+#'Approach 1 ("retain"): "retains" variables with missing observations, i.e.
 #'
-#'Approach 2 ("drop"): only creates a binary missing indicator variable for variables with missing observations and "drops" the original variables
+#'Approach 2 ("drop"): only creates a binary missing indicator variable for variables with missing observations and "drops" the original variables with missing observations.
 #'
 #'Important: Make sure you have your variables format correct and avoid to include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param cont_n_levels integer, number of unique levels of a variable to classify it as a continuous variable (as opposed to a categorical one). Default is 10. Only needed when strategy = "retain".
+#' @param covar character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
 #' @param na_strategy "retain" or "drop" according to the two possible strategies
-#' @param ... additional parameters
 #'
 #' @return returns the dataframe with one-hot-encoded covariates with missing indicator variables (ending on "_NA")
 #'
@@ -48,19 +44,15 @@
 #'   glimpse()
 #'
 smdi_na_indicator <- function(data = NULL,
-                              cont_n_levels = 10,
-                              na_strategy = c("retain", "drop"),
-                              ...
+                              covar = NULL,
+                              na_strategy = c("retain", "drop")
                               ){
 
   # initializing new variables
 
-  # additional arguments
-  add_args <- list(...)
-
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
-  if(!na_strategy %in% c("retain", "drop")){stop("na_strategy: you must select one of <retain> or <drop>. There is no default.")}
+  if(!na_strategy %in% c("retain", "drop")){stop("<na_strategy>: you must select one of <retain> or <drop>. There is no default.")}
 
   if(na_strategy == "retain"){
 

@@ -2,37 +2,27 @@
 % Please edit documentation in R/smdi_na_indicator.R
 \name{smdi_na_indicator}
 \alias{smdi_na_indicator}
-\title{Util helper to create binary missing indicator variables by two different strategies which can be selected ("retain" and "drop")}
+\title{Util helper to create binary missing indicator variables by two different strategies, one of which must be selected ("retain" and "drop")}
 \usage{
-smdi_na_indicator(
-  data = NULL,
-  cont_n_levels = 10,
-  na_strategy = c("retain", "drop"),
-  ...
-)
+smdi_na_indicator(data = NULL, covar = NULL, na_strategy = c("retain", "drop"))
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{cont_n_levels}{integer, number of unique levels of a variable to classify it as a continuous variable (as opposed to a categorical one). Default is 10. Only needed when strategy = "retain".}
+\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
 
 \item{na_strategy}{"retain" or "drop" according to the two possible strategies}
-
-\item{...}{additional parameters}
 }
 \value{
 returns the dataframe with one-hot-encoded covariates with missing indicator variables (ending on "_NA")
 }
 \description{
-This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be with two
-different approaches.
+This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be realized with two
+different approaches:
 
-Approach 1 ("retain"): "retains" information on variables with missing observations, i.e.
-Continuous/numeric variables: binary missing indicator categories are created and the NA values are imputed with the column median
-Categorical variables: variable gets one-hot-encoded and a missing indicator category is assigned, i.e. all categories are 0 but the
-newly created NA category is 1
+Approach 1 ("retain"): "retains" variables with missing observations, i.e.
 
-Approach 2 ("drop"): only creates a binary missing indicator variable for variables with missing observations and "drops" the original variables
+Approach 2 ("drop"): only creates a binary missing indicator variable for variables with missing observations and "drops" the original variables with missing observations.
 
 Important: Make sure you have your variables format correct and avoid to include variables like ID variables, ZIP codes, dates, etc.
 }

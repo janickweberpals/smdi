@@ -15,7 +15,7 @@ smdi_asmd(
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate}
+\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
 
 \item{na_strategy}{"retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()}
 
