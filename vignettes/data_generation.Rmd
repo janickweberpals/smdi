@@ -226,6 +226,18 @@ cox_fit %>%
   gtsummary::tbl_regression(exponentiate = T)
 ```
 
+## `smdi_data_complete`
+
+To provide flexibility to play with the complete data *before* introducing missingness, we offer two datasets:
+
+* `smdi_data_complete`: complete data
+* `smdi_data`: data with certain covariates missing (see next chapter)
+
+```{r, export_complete_data, message=FALSE}
+smdi_data_complete <- sim_df
+usethis::use_data(smdi_data_complete, overwrite = TRUE)
+```
+
 # Introduce missingness
 
 In many different quantitative disciplines from classic epidemiology to machine and deep learning there is an increasing interest in utilizing electronic health records (EHR) to develop prognostic/predictive models or study the comparative effectiveness and safety of medical interventions. Especially information on variables which are not readily available in other datasets (e.g. administrative claims) are of high interest, including vital signs, biomarkers and lab data. However, these covariates are often just partially observed for various reasons:
@@ -330,47 +342,6 @@ smdi_data_mar %>%
   gtsummary::tbl_summary()
 ```
 
-## Missing not at random - unmeasured
-
-In this missingness scenario, `physical_cat` will be set missing as a function of `smoking_cat` only. To simulate an MNAR(unmeasured scenario), `smoking_cat` will need to be dropped from the dataset. As another feature, we created `copd_cat` as an auxiliary covariate which neither associated with the exposure nor the outcome but correlated with `smoking_cat` (the covariate to be dropped). This way, imputation exercises with auxiliary variables and MNAR(unmeasured) mechanisms become more interesting.
-
--   Missingness pattern: Only `pdl1_num` will be set to missing
--   Weight vector: Only `pdl1_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
--   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete 
--   Define an overall missingness proportion of \~20%
-
-```{r, create_mnar_u}
-# determine missingness pattern
-mnar_u_col <- which(colnames(tmp)=="physical_cat")
-miss_pattern <- rep(1, ncol(tmp))
-miss_pattern_mnar_u <- replace(miss_pattern, mnar_u_col, 0)
-
-# weights to compute missingness probability 
-# by assigning a non-zero value
-# MNAR_v: covariate itself is only predictor
-miss_weights_mnar_u <- rep(0, ncol(tmp))
-miss_weights_col_mnar_u <- rep(0, ncol(tmp))
-miss_weights_mnar_u <- replace(miss_weights_mnar_u, mnar_u_col, 1)
-
-miss_prop_mnar_u <- .2
-
-set.seed(42)
-smdi_data_mnar_u <- mice::ampute(
-  data = tmp,
-  prop = miss_prop_mnar_u,
-  mech = "MNAR",
-  patterns = miss_pattern_mnar_u,
-  weights = miss_weights_mnar_u,
-  bycases = TRUE,
-  type = "LEFT"
-  )$amp
-
-smdi_data_mnar_u %>% 
-  dplyr::select(physical_cat) %>% 
-  dplyr::mutate(physical_cat = forcats::fct_na_value_to_level(factor(egfr_cat), level = "physical_cat")) %>%
-  gtsummary::tbl_summary()
-```
-
 ## Missing not at random - value
 
 -   Missingness pattern: Only `pdl1_num` will be set to missing
@@ -428,7 +399,7 @@ smdi_data %>%
   gtsummary::add_difference()
 ```
 
-# Export data
+# Export data (II)
 
 Exporting the data to `data/`, so it can be used for educative purposes and for playing around with the package.
 
