@@ -30,27 +30,27 @@ n <- 2500
 
 # `smdi` dataset background
 
-To get acquainted with the functionality and usage of the `smdi` package, a simulated example dataset is provided. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `r formatC(n, format = "fg", big.mark = ",")` lung cancer patients. The dataset follows the general *one-row-per-patient* structure, in which one row stands for an individual patient and the columns represent the variables.
+To get acquainted with the functionality and usage of the `smdi` package, the package includes a simulated example dataset. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `r formatC(n, format = "fg", big.mark = ",")` lung cancer patients. The dataset follows the general *one-row-per-patient* structure, in which one row stands for an individual patient and the columns represent the variables.
 
 ## Exposure and outcome
 
-We assume that we are interested in studying the comparative effectiveness of two antineoplastic systemic drug treatment regimens (`exposure (0/1)`) on the time to death due to any reason (`overall survival`). The anticipated time of follow-up is truncated to 5 years.
+Let's assume that we are interested in studying the comparative effectiveness of two antineoplastic systemic drug treatment regimens (`exposure (0/1)`) on the time to death due to any reason as the outcome (`overall survival`). The anticipated time of follow-up is truncated to 5 years.
 
-The desired strength of effectiveness of the **exposure of interest** is defined with a hazard ratio of 0.7, i.e. the hazard of death due to any reason is decreased by 30% per unit of time under the proportional hazards assumption which is fulfilled for this dataset.
+The desired strength of effectiveness of the **exposure of interest** is defined with a hazard ratio of 1.0, i.e. there is no difference in overall survival among patients who are treated with the exposure of interest as compared to the comparator regimen. The proportional hazards assumption is fulfilled for this dataset.
 
 ## Confounders
 
-We further assume that there is a biomarker (`EGFR`) with rare to moderate prevalence (\~10-30%) which serves as a strong binary confounder. Therefore, EGFR is strongly associated with the probablity of treatment initiation (OR \~ 0.7) and the outcome (HR \~ 0.5), indicating that patients with an alteration in the EGFR gene are more likely to get treated with the exposure of interest and benefit signficiantly more than wild-type EGFR patients. However, this biomarker is only partially observed and will follow a MAR missingness mechanism
+We further assume that there are a some confounders which we need to specify to estimate our outcome model. Most of the covariates are associated with both the probability of treatmente initation and the outcome but there are also some that are not predictive of the exposure and just the outcome or not associated with any of the exposure or outcome, whatsoever.
 
 Despite the low dimensionality, the dataset is simulated as realistically as possible with varying strengths of associations between covariates and treatment initiation and the outcome.
 
-Missingness
+## Missingness
 
-Some of the above mentioned confounders are just partially observed
+Most importantly for testing the functionality of this package, some of the above mentioned confounders are just partially observed according to the missingness mechanisms and proportions specified below in the table \@ref(overview)) below.
 
 ## Overview covariates/confounder structure {#overview}
 
-To get an overview, this table provides a summary of the different covariate-exposure-outcome correlations.
+To get an overview of the dataset, this table provides a summary of the different covariate-exposure-outcome-missingness correlations.
 
 | Variable      | Description                                      | Associated with exposure/outcome | Missingness [%]        |
 |------------------|--------------------|------------------|------------------|
@@ -174,11 +174,10 @@ sim_df <- sim_covar %>% dplyr::bind_cols(
     gammas = 3.5,
     betas = betas_os,
     x = sim_covar,
-    maxt = 60
+    maxt = 60 # in months
     )
-  )
-
-summary(sim_df[, c("eventtime", "status")])
+  ) %>% 
+  dplyr::select(-id)
 ```
 
 ### Kaplan-Meier estimates
@@ -196,7 +195,7 @@ gtsummary::tbl_survfit(
   )
 ```
 
-Given, that the true exposure effect is null, the crude model has some severe bias as we can see even more clearly in the crude Kaplan-Meier curve.
+Given, that the true exposure effect is null, the crude model is severely biased as we can see even more clearly in the crude Kaplan-Meier curve.
 
 ```{r}
 km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
@@ -231,7 +230,7 @@ cox_fit %>%
 
 In many different quantitative disciplines from classic epidemiology to machine and deep learning there is an increasing interest in utilizing electronic health records (EHR) to develop prognostic/predictive models or study the comparative effectiveness and safety of medical interventions. Especially information on variables which are not readily available in other datasets (e.g. administrative claims) are of high interest, including vital signs, biomarkers and lab data. However, these covariates are often just partially observed for various reasons:
 
--   Physician did perform/order a certain test
+-   Physician did simply not perform/order a certain test
 -   Certain measurements are just collected for particularly sick patients
 -   Information is 'hiding' in unstructured records, e.g. clinical notes
 
@@ -242,12 +241,12 @@ In order to introduce missingness following different missingness mechanisms, we
 In brief, we introduce missingness by...
 
 -   Determining a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns)
--   Creating a [weight vectors](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), using linear predictors for the probability of observations becoming missing
--   Specifying a type of logistic probabillity distribution for the missingness weights,
+-   Creating a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), using fitted linear models for the probability of observations becoming missing
+-   Specifying a type of logistic probabillity distribution for the missingness weights
 -   Defining an overall missingness proportion
 
 ```{r}
-# prepare a df for missing simulation
+# prepare a placeholder df for missing simulation
 # we do not consider ses_cat
 tmp <- sim_df %>% 
   dplyr::select(-c(ses_cat))
@@ -255,9 +254,6 @@ tmp <- sim_df %>%
 # determine missingness pattern template
 miss_pattern <- rep(1, ncol(tmp))
 ```
-
-
-> TO DO: insert DAG for confounder relationship
 
 ### Missing complete at random
 
@@ -291,24 +287,29 @@ smdi_data_mcar <- mice::ampute(
 
 smdi_data_mcar %>% 
   dplyr::select(ecog_cat) %>% 
-  dplyr::mutate(ecog_cat = forcats::fct_explicit_na(as.factor(ecog_cat))) %>% 
+  dplyr::mutate(ecog_cat = forcats::fct_na_value_to_level(factor(ecog_cat), level = "missing")) %>% 
   gtsummary::tbl_summary()
 ```
 
-As a results, around `r formatC(miss_prop_ecog*100, format = "fg")`% of the ECOG observations are missing now.
-
 ### Missing at random
+
+`egfr_cat`[^1] will be set to missing according to the following specification:
+
+-   Missingness pattern: Only `egfr_cat` will be set to missing
+-   Weight vector: all covariates (except `egfr_cat` itself and `ses_cat`) contribute with equal weights as linear predictors for the probability of observations becoming missing
+-   Type: higher weighted sum scores (i.e. higher odds of having an `egfr_cat` mutation) will have a larger probability of becoming incomplete 
+-   Define an overall missingness proportion of \~20%
 
 ```{r, mar}
 # specify missingness pattern
 # (0 = set to missing, 1 = remains complete)
 mar_col <- which(colnames(tmp)=="egfr_cat")
-miss_pattern_mar <- replace(miss_pattern, egfr_col, 0)
+miss_pattern_mar <- replace(miss_pattern, mar_col, 0)
 
 # weights to compute missingness probability 
 # by assigning a non-zero value
 miss_weights_mar <- rep(1, ncol(tmp))
-miss_weights_mar <- replace(miss_weights_mar, egfr_col, 0)
+miss_weights_mar <- replace(miss_weights_mar, mar_col, 0)
 
 miss_prop_mar <- .2
 
@@ -319,20 +320,63 @@ smdi_data_mar <- mice::ampute(
   mech = "MAR",
   patterns = miss_pattern_mar,
   weights = miss_weights_mar,
-  bycases = TRUE
+  bycases = TRUE,
+  type = "RIGHT"
   )$amp
 
 smdi_data_mar %>% 
   dplyr::select(egfr_cat) %>% 
-  dplyr::mutate(egfr_cat = forcats::fct_explicit_na(as.factor(egfr_cat))) %>% 
+  dplyr::mutate(egfr_cat = forcats::fct_na_value_to_level(factor(egfr_cat), level = "missing")) %>%
+  gtsummary::tbl_summary()
+```
+
+## Missing not at random - unmeasured
+
+In this missingness scenario, `physical_cat` will be set missing as a function of `smoking_cat` only. To simulate an MNAR(unmeasured scenario), `smoking_cat` will need to be dropped from the dataset. As another feature, we created `copd_cat` as an auxiliary covariate which neither associated with the exposure nor the outcome but correlated with `smoking_cat` (the covariate to be dropped). This way, imputation exercises with auxiliary variables and MNAR(unmeasured) mechanisms become more interesting.
+
+-   Missingness pattern: Only `pdl1_num` will be set to missing
+-   Weight vector: Only `pdl1_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+-   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete 
+-   Define an overall missingness proportion of \~20%
+
+```{r, create_mnar_u}
+# determine missingness pattern
+mnar_u_col <- which(colnames(tmp)=="physical_cat")
+miss_pattern <- rep(1, ncol(tmp))
+miss_pattern_mnar_u <- replace(miss_pattern, mnar_u_col, 0)
+
+# weights to compute missingness probability 
+# by assigning a non-zero value
+# MNAR_v: covariate itself is only predictor
+miss_weights_mnar_u <- rep(0, ncol(tmp))
+miss_weights_col_mnar_u <- rep(0, ncol(tmp))
+miss_weights_mnar_u <- replace(miss_weights_mnar_u, mnar_u_col, 1)
+
+miss_prop_mnar_u <- .2
+
+set.seed(42)
+smdi_data_mnar_u <- mice::ampute(
+  data = tmp,
+  prop = miss_prop_mnar_u,
+  mech = "MNAR",
+  patterns = miss_pattern_mnar_u,
+  weights = miss_weights_mnar_u,
+  bycases = TRUE,
+  type = "LEFT"
+  )$amp
+
+smdi_data_mnar_u %>% 
+  dplyr::select(physical_cat) %>% 
+  dplyr::mutate(physical_cat = forcats::fct_na_value_to_level(factor(egfr_cat), level = "physical_cat")) %>%
   gtsummary::tbl_summary()
 ```
 
 ## Missing not at random - value
 
--   Missingness pattern: Only `age_num` will be set to missing
--   Weight vector: Only age itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
--   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger age) will have a larger probability of becoming incomplete Define an overall missingness proportion of \~40%
+-   Missingness pattern: Only `pdl1_num` will be set to missing
+-   Weight vector: Only `pdl1_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+-   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete 
+-   Define an overall missingness proportion of \~40%
 
 ```{r, create_mnar_v}
 # determine missingness pattern
@@ -358,16 +402,19 @@ smdi_data_mnar_v <- mice::ampute(
   bycases = TRUE,
   type = "LEFT"
   )$amp
+
+smdi_data_mnar_v %>% 
+  dplyr::select(pdl1_num) %>% 
+  gtsummary::tbl_summary()
 ```
 
 ## Assemble final dataset
 
 ```{r}
-df <- smdi::smdi_data %>% 
-  dplyr::select(-c(ecog_cat, smoking_cat, age_num)) %>% 
-  dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, smoking_cat = smdi_data_mar$smoking_cat, age_num = smdi_data_mnar_v$age_num) %>% 
-  mutate(across(ends_with("cat"), as.factor)) %>% 
-  select(-id)
+smdi_data <- sim_df %>% 
+  dplyr::select(-c(ecog_cat, egfr_cat, pdl1_num)) %>% 
+  dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, egfr_cat = smdi_data_mar$egfr_cat, pdl1_num = smdi_data_mnar_v$pdl1_num) %>% 
+  mutate(across(ends_with("cat"), as.factor))
 ```
 
 # Overview final simulated dataset
@@ -375,9 +422,9 @@ df <- smdi::smdi_data %>%
 Let's have a look at the final dataset.
 
 ```{r, distributions_covars_final}
-sim_df %>% 
-  dplyr::select(-id) %>% 
+smdi_data %>% 
   gtsummary::tbl_summary(by = "exposure") %>% 
+  gtsummary::add_overall() %>% 
   gtsummary::add_difference()
 ```
 
