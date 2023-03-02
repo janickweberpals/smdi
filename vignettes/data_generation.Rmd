@@ -25,43 +25,46 @@ suppressPackageStartupMessages(library(dplyr))
 
 # some global simulation parameters
 seed_value <- 42
-n <- 1000
+n <- 2500
 ```
 
 # `smdi` dataset background
 
-To get acquainted with the functionality and usage of the `smdi` package, a simulated toy dataset is provided. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `r formatC(n, format = "fg", big.mark = ",")` lung cancer patients.
+To get acquainted with the functionality and usage of the `smdi` package, a simulated example dataset is provided. The dataset is an exemplary low-dimensional electronic health records (EHR) dataset depicting a cohort of `r formatC(n, format = "fg", big.mark = ",")` lung cancer patients. The dataset follows the general *one-row-per-patient* structure, in which one row stands for an individual patient and the columns represent the variables.
 
 ## Exposure and outcome
 
-We assume that we are interested in studying the comparative effectiveness of two antineoplastic systemic drug treatment regimens (`exposure (0/1)`) on the time to death due to any reason (`overall survival`). The anticipated time of follow-up is truncated to 2 years.
+We assume that we are interested in studying the comparative effectiveness of two antineoplastic systemic drug treatment regimens (`exposure (0/1)`) on the time to death due to any reason (`overall survival`). The anticipated time of follow-up is truncated to 5 years.
 
 The desired strength of effectiveness of the **exposure of interest** is defined with a hazard ratio of 0.7, i.e. the hazard of death due to any reason is decreased by 30% per unit of time under the proportional hazards assumption which is fulfilled for this dataset.
 
 ## Confounders
 
-We further assume that there is a biomarker (`EGFR`) with rare to moderate prevalence (\~10-30%) which serves as a strong confounding covariate. Therefore, EGFR is strongly associated with the probablity of treatment initiation (OR \~ 0.7) and the outcome (HR \~ 0.5), indicating that patients with an alteration in the EGFR gene are more likely to get treated with the exposure of interest and benefit signficiantly more than wild-type EGFR patients.
+We further assume that there is a biomarker (`EGFR`) with rare to moderate prevalence (\~10-30%) which serves as a strong binary confounder. Therefore, EGFR is strongly associated with the probablity of treatment initiation (OR \~ 0.7) and the outcome (HR \~ 0.5), indicating that patients with an alteration in the EGFR gene are more likely to get treated with the exposure of interest and benefit signficiantly more than wild-type EGFR patients. However, this biomarker is only partially observed and will follow a MAR missingness mechanism
 
 Despite the low dimensionality, the dataset is simulated as realistically as possible with varying strengths of associations between covariates and treatment initiation and the outcome.
 
-## Overview covariates/confounder structure
+Missingness
+
+Some of the above mentioned confounders are just partially observed
+
+## Overview covariates/confounder structure {#overview}
 
 To get an overview, this table provides a summary of the different covariate-exposure-outcome correlations.
 
-| Variable                  | Description                                      | Associated with exposure | Associated with outcome |
-|------------------|------------------|------------------|------------------|
-| age_num                   | Age at baseline (continuous)                     | Yes                      | Yes                     |
-| female_cat                | Female gender (binary)                           | Yes                      | Yes                     |
-| ecog_cat                  | ECOG performance score (binary 0 vs 1)           | Yes                      | Yes                     |
-| smoking_cat               | Smoker vs. non-smoker at baseline (binary)       | Yes                      | Yes                     |
-| egfr_cat                  | EGFR alteration (binary)                         | Yes                      | Yes                     |
-| kras_cat                  | Alteration in KRAS gene (binary)                 | Yes                      | Yes                     |
-| histology_is_squamous_cat | Tumor histology squamous vs nonsquamous (binary) | No                       | Yes                     |
-| ldl_num                   | LDL cholesterol level (continuous)               | No                       | Yes                     |
-| rr_num                    | Average blood pressure in mmHg (continuous)      | No                       | Yes                     |
-| bpm_num                   | Average heart rate in bpm (continuous)           | No                       | Yes                     |
-
-: Overview of simulated lung cancer dataset
+| Variable      | Description                                      | Associated with exposure/outcome | Missingness [%]        |
+|------------------|--------------------|------------------|------------------|
+| age_num       | Age at baseline (continuous)                     | Yes/Yes                          |                        |
+| female_cat    | Female gender (binary)                           | Yes/Yes                          |                        |
+| ecog_cat      | ECOG performance score 0/1 or \>1 (binary)       | Yes/Yes                          | MCAR [30%]             |
+| smoking_cat   | Smoker vs. non-smoker at baseline (binary)       | Yes/Yes                          |                        |
+| physical_cat  | Physically active vs not active (binary)         | Yes/Yes                          | MNAR(unmeasured) [20%] |
+| egfr_cat      | EGFR alteration (binary)                         | Yes/Yes                          | MAR [20%]              |
+| alk_cat       | ALK translocation (binary)                       | No/Yes                           |                        |
+| pdl1_num      | PD-L1 expression in % (continuous)               | Yes/Yes                          | MNAR(value) [40%]      |
+| histology_cat | Tumor histology squamous vs nonsquamous (binary) | No/Yes                           |                        |
+| ses_cat       | Socio-economic status (multi-categorical)        | No/No                            |                        |
+| copd_cat      | History of COPD (binary)                         | No/No                            | Auxiliary to smoking   |
 
 # Simulation of covariates and exposure
 
@@ -71,16 +74,17 @@ set.seed(seed_value)
 # start with basic dataframe, covariates and their association with exposure
 sim_covar <- tibble::tibble(
   exposure = rbinom(n = n, size = 1, prob = 0.4),
-  age_num = rnorm(n, mean = 64 - 5.5*exposure, sd = 13.7),
+  age_num = rnorm(n, mean = 64 - 7.5*exposure, sd = 13.7),
   female_cat = rbinom(n, size = 1, prob = 0.39 - 0.12*exposure),
   ecog_cat = rbinom(n, size = 1, prob = 0.63 - 0.08*exposure),
-  smoking_cat = rbinom(n, size = 1, prob = 0.15 + 0.1*exposure), 
-  egfr_cat = rbinom(n, size = 1, prob = 0.10 + 0.2*exposure), 
-  kras_cat = rbinom(n, size = 1, prob = 0.07 + 0.05*exposure),
-  histology_is_squamous_cat = rbinom(n, size = 1, prob = 0.2),
-  ldl_num = rnorm(n, mean = 115.1, sd = 41.1), # cholesterol
-  rr_num = rnorm(n, mean = 123.7, sd = 20.6), # systolic blood pressure
-  bpm_num = rnorm(n, mean = 74.2, sd = 11.7) # heart rate
+  smoking_cat = rbinom(n, size = 1, prob = 0.45 + 0.1*exposure), 
+  physical_cat = rbinom(n, size = 1, prob = 0.35 + 0.15*exposure),
+  egfr_cat = rbinom(n, size = 1, prob = 0.20 + 0.1*exposure), 
+  alk_cat = rbinom(n, size = 1, prob = 0.03),
+  pdl1_num = rnorm(n, mean = 30 + 20*exposure, sd = 20.5),
+  histology_cat = rbinom(n, size = 1, prob = 0.2),
+  ses_cat = sample(x = c("1_low", "2_middle", "3_high"), size = n, replace = TRUE, prob = c(0.2 , 0.4, 0.4)),
+  copd_cat = rbinom(n, size = 1, prob = 0.3 + 0.5*smoking_cat)
   ) %>%  
   # bring data in right format
   dplyr::mutate(across(ends_with("num"), as.numeric)) %>% 
@@ -133,31 +137,30 @@ exposure_plot %>%
 
 Next, we simulate a time-to-event outcome for `overall survival`. For this, the `simsurv` package is used with the following assumptions:
 
--   Parametric event times follow an exponential distribution
--   Max event times: 2 years of follow-up
+-   Parametric event times follow a Weibull distribution
+-   Max event times: 5 years of follow-up
 -   Event times depend on some (time-fixed/baseline) covariate effects as listed in the table above
 -   beta coefficients for the outcome model as defined in the following
-    -   HR(exposure) = 0.7
-    -   HR(EGFR) = 0.5 (strong prognostic factor)
 
 ```{r, betas_outcome_generation}
 betas_os <- c(
-  exposure = log(0.7),
+  exposure = log(1),
   age_num = log(1.05),
-  female_cat = log(0.9),
-  ecog_cat = log(1.2),
+  female_cat = log(0.94),
+  ecog_cat = log(1.25),
   smoking_cat = log(1.3),
+  physical_cat = log(0.79),
   egfr_cat = log(0.5),
-  kras_cat = log(0.95),
-  histology_is_squamous_cat = log(1.15),
-  ldl_num = log(1.01),
-  rr_num = log(1.05),
-  bpm_num = log(1.005)
+  alk_cat = log(0.91),
+  pdl1_num = log(0.72),
+  histology_cat = log(1.15)
   )
 
 betas_os %>% 
   as.data.frame() %>% 
+  dplyr::transmute(logHR = round(`.`, 2)) %>% 
   tibble::rownames_to_column(var = "Covariate") %>% 
+  dplyr::mutate(HR = round(exp(logHR), 2)) %>% 
   gt::gt()
 ```
 
@@ -166,38 +169,36 @@ set.seed(seed_value)
 
 sim_df <- sim_covar %>% dplyr::bind_cols(
   simsurv::simsurv(
-    dist = "exponential",
-    lambdas = 0.00005,
+    dist = "weibull",
+    lambdas = 5,
+    gammas = 3.5,
     betas = betas_os,
     x = sim_covar,
-    maxt = 2
+    maxt = 60
     )
-  ) %>% 
-  dplyr::mutate(id = paste0("ENROL", id)) %>% 
-  dplyr::relocate(id, .before = exposure)
+  )
+
+summary(sim_df[, c("eventtime", "status")])
 ```
 
 ### Kaplan-Meier estimates
 
-The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 2-ry survival. Estimates belown are shown only for overall and by exposure and EGFR biomarker for overall survival.
+The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 5-yr survival. Unadjusted estimates belown are shown for overall and by exposure for overall survival.
 
 ```{r, km_estimates}
 km_overall <- survival::survfit(survival::Surv(eventtime, status) ~ 1, data = sim_df)
 km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
-km_egfr <- survival::survfit(survival::Surv(eventtime, status) ~ egfr_cat, data = sim_df)
 
 gtsummary::tbl_survfit(
-  list(km_overall, km_exposure, km_egfr),
-  times = c(1, 2),
-  label_header = "**{time} Year**"
+  list(km_overall, km_exposure),
+  times = c(12, 60),
+  label_header = "**{time} Months**"
   )
 ```
 
-### Kaplan-Meier curves
+Given, that the true exposure effect is null, the crude model has some severe bias as we can see even more clearly in the crude Kaplan-Meier curve.
 
-#### By exposure
-
-```{r, km_plot_exposure}
+```{r}
 km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
 
 survminer::ggsurvplot(
@@ -206,28 +207,14 @@ survminer::ggsurvplot(
   conf.int = TRUE,
   surv.median.line = "hv",
   palette = "jco",
+  xlab = "Time [Months]",
   legend.labs = c("Comparator", "Exposure of interest")
-  )
-```
-
-#### By EGFR
-
-```{r, km_plot_egfr}
-km_egfr <- survival::survfit(survival::Surv(eventtime, status) ~ egfr_cat, data = sim_df)
-
-survminer::ggsurvplot(
-  km_egfr, 
-  data = sim_df,
-  conf.int = TRUE,
-  surv.median.line = "hv",
-  palette = "jco",
-  legend.labs = c("EGFR wild-type", "EGFR alteration")
   )
 ```
 
 ### Cox proportional hazards
 
-Finally, the simulated dataset results in the following hazard ratios (HR)
+After adjusting, the simulated data results in the following hazard ratio (HR) estimates
 
 ```{r, Cox_estimates}
 cox_lhs <- "survival::Surv(eventtime, status)"
@@ -238,6 +225,149 @@ cox_fit <- survival::coxph(cox_form, data = sim_df)
 
 cox_fit %>% 
   gtsummary::tbl_regression(exponentiate = T)
+```
+
+# Introduce missingness
+
+In many different quantitative disciplines from classic epidemiology to machine and deep learning there is an increasing interest in utilizing electronic health records (EHR) to develop prognostic/predictive models or study the comparative effectiveness and safety of medical interventions. Especially information on variables which are not readily available in other datasets (e.g. administrative claims) are of high interest, including vital signs, biomarkers and lab data. However, these covariates are often just partially observed for various reasons:
+
+-   Physician did perform/order a certain test
+-   Certain measurements are just collected for particularly sick patients
+-   Information is 'hiding' in unstructured records, e.g. clinical notes
+
+To illustrate `smdi's` main functionalities using this dataset, we introduce some missingness into relevant covariates (see table in \@ref(overview)) which are critical confounders of the causal exposure-outcome relationship in the `smdi_data` dataset.
+
+In order to introduce missingness following different missingness mechanisms, we use the `ampute` function of the [mice](https://amices.org/mice/index.html) package. An excellent tutorial on this very flexible and elegant function can be found [here](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html).
+
+In brief, we introduce missingness by...
+
+-   Determining a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns)
+-   Creating a [weight vectors](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), using linear predictors for the probability of observations becoming missing
+-   Specifying a type of logistic probabillity distribution for the missingness weights,
+-   Defining an overall missingness proportion
+
+```{r}
+# prepare a df for missing simulation
+# we do not consider ses_cat
+tmp <- sim_df %>% 
+  dplyr::select(-c(ses_cat))
+
+# determine missingness pattern template
+miss_pattern <- rep(1, ncol(tmp))
+```
+
+
+> TO DO: insert DAG for confounder relationship
+
+### Missing complete at random
+
+`ecog_cat`[^1] will be set to missing according to the following specification:
+
+-   Missingness pattern: Only `ecog_cat` will be set to missing
+-   Weight vector: There are no weights, since the missingness is not dependent on any other observed or unobserved covariates
+-   Type: Not applicable
+
+[^1]: The Eastern Cooperative Oncology Group (ECOG) performance score is a clinical measure for how the cancer disease affects the daily living abilities of the patient and is often used as a patient inclusion criterion for clinical trials. The scale ranges from 0 to 5 and typically only patients with 0 and 1 are eligible. Let's assume for our example, we already have a subset of such a pre-selected clinical trial-like cohort, but we still want to adjust for a baseline ECOG of 0 and 1 (definitions are taken from <https://ecog-acrin.org/resources/ecog-performance-status/>
+
+> TO DO: insert DAG for missingness-confounder relationship
+
+```{r, mcar}
+# specify missingness pattern
+# (0 = set to missing, 1 = remains complete)
+mcar_col <- which(colnames(tmp)=="ecog_cat")
+miss_pattern_mcar <- replace(miss_pattern, mcar_col, 0)
+
+miss_prop_mcar <- .3
+
+set.seed(42)
+smdi_data_mcar <- mice::ampute(
+  data = tmp,
+  prop = miss_prop_mcar,
+  mech = "MCAR",
+  patterns = miss_pattern_mcar,
+  bycases = TRUE
+  )$amp %>% 
+  dplyr::select(ecog_cat)
+
+smdi_data_mcar %>% 
+  dplyr::select(ecog_cat) %>% 
+  dplyr::mutate(ecog_cat = forcats::fct_explicit_na(as.factor(ecog_cat))) %>% 
+  gtsummary::tbl_summary()
+```
+
+As a results, around `r formatC(miss_prop_ecog*100, format = "fg")`% of the ECOG observations are missing now.
+
+### Missing at random
+
+```{r, mar}
+# specify missingness pattern
+# (0 = set to missing, 1 = remains complete)
+mar_col <- which(colnames(tmp)=="egfr_cat")
+miss_pattern_mar <- replace(miss_pattern, egfr_col, 0)
+
+# weights to compute missingness probability 
+# by assigning a non-zero value
+miss_weights_mar <- rep(1, ncol(tmp))
+miss_weights_mar <- replace(miss_weights_mar, egfr_col, 0)
+
+miss_prop_mar <- .2
+
+set.seed(42)
+smdi_data_mar <- mice::ampute(
+  data = tmp,
+  prop = miss_prop_mar,
+  mech = "MAR",
+  patterns = miss_pattern_mar,
+  weights = miss_weights_mar,
+  bycases = TRUE
+  )$amp
+
+smdi_data_mar %>% 
+  dplyr::select(egfr_cat) %>% 
+  dplyr::mutate(egfr_cat = forcats::fct_explicit_na(as.factor(egfr_cat))) %>% 
+  gtsummary::tbl_summary()
+```
+
+## Missing not at random - value
+
+-   Missingness pattern: Only `age_num` will be set to missing
+-   Weight vector: Only age itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+-   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger age) will have a larger probability of becoming incomplete Define an overall missingness proportion of \~40%
+
+```{r, create_mnar_v}
+# determine missingness pattern
+mnar_v_col <- which(colnames(tmp)=="pdl1_num")
+miss_pattern <- rep(1, ncol(tmp))
+miss_pattern_mnar_v <- replace(miss_pattern, mnar_v_col, 0)
+
+# weights to compute missingness probability 
+# by assigning a non-zero value
+# MNAR_v: covariate itself is only predictor
+miss_weights_mnar_v <- rep(0, ncol(tmp))
+miss_weights_mnar_v <- replace(miss_weights_mnar_v, mnar_v_col, 1)
+
+miss_prop_mnar_v <- .4
+
+set.seed(42)
+smdi_data_mnar_v <- mice::ampute(
+  data = tmp,
+  prop = miss_prop_mnar_v,
+  mech = "MNAR",
+  patterns = miss_pattern_mnar_v,
+  weights = miss_weights_mnar_v,
+  bycases = TRUE,
+  type = "LEFT"
+  )$amp
+```
+
+## Assemble final dataset
+
+```{r}
+df <- smdi::smdi_data %>% 
+  dplyr::select(-c(ecog_cat, smoking_cat, age_num)) %>% 
+  dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, smoking_cat = smdi_data_mar$smoking_cat, age_num = smdi_data_mnar_v$age_num) %>% 
+  mutate(across(ends_with("cat"), as.factor)) %>% 
+  select(-id)
 ```
 
 # Overview final simulated dataset

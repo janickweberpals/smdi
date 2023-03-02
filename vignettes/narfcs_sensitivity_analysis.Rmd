@@ -36,41 +36,7 @@ In reality, we will not be able to know 100% what the true missingness mechanism
 
 For example, the `age` of patients below a certain age cut-off may be systematically less frequently recorded. Despite this, `age` may still be an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival] in this example).
 
-For now, we don't assume any other missing covariates. In order to introduce an MNAR(value) mechanism for the `age` covariate, we:
 
-* Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age` will be set to missing
-* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing
-* Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. younger `age`) will have a larger probability of becoming incomplete
-* Define an overall missingness proportion of ~40%
-
-```{r, create_mnar_v}
-# load data and drop id column
-smdi_data <- smdi::smdi_data %>% 
-  dplyr::select(-id)
-
-# determine missingness pattern
-age_col <- which(colnames(smdi_data)=="age_num")
-miss_pattern <- rep(1, ncol(smdi_data))
-miss_pattern_age <- replace(miss_pattern, age_col, 0)
-
-# weights to compute missingness probability
-# covariate itself is only predictor
-miss_weights_mnar_v <- rep(0, ncol(smdi_data))
-miss_weights_mnar_v <- replace(miss_weights_mnar_v, age_col, 1)
-
-miss_prop_age <- .4
-
-set.seed(42)
-smdi_data_mnar_v <- mice::ampute(
-  data = smdi_data,
-  prop = miss_prop_age,
-  mech = "MNAR",
-  patterns = miss_pattern_age,
-  weights = miss_weights_mnar_v,
-  bycases = TRUE,
-  type = "LEFT"
-  )$amp
-```
 
 ## Visual comparison
 
