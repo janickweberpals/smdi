@@ -52,19 +52,19 @@ Most importantly for testing the functionality of this package, some of the abov
 
 To get an overview of the dataset, this table provides a summary of the different covariate-exposure-outcome-missingness correlations.
 
-| Variable      | Description                                      | Associated with exposure/outcome | Missingness [%]        |
-|------------------|--------------------|------------------|------------------|
-| age_num       | Age at baseline (continuous)                     | Yes/Yes                          |                        |
-| female_cat    | Female gender (binary)                           | Yes/Yes                          |                        |
-| ecog_cat      | ECOG performance score 0/1 or \>1 (binary)       | Yes/Yes                          | MCAR [30%]             |
-| smoking_cat   | Smoker vs. non-smoker at baseline (binary)       | Yes/Yes                          |                        |
-| physical_cat  | Physically active vs not active (binary)         | Yes/Yes                          | MNAR(unmeasured) [20%] |
-| egfr_cat      | EGFR alteration (binary)                         | Yes/Yes                          | MAR [20%]              |
-| alk_cat       | ALK translocation (binary)                       | No/Yes                           |                        |
-| pdl1_num      | PD-L1 expression in % (continuous)               | Yes/Yes                          | MNAR(value) [40%]      |
-| histology_cat | Tumor histology squamous vs nonsquamous (binary) | No/Yes                           |                        |
-| ses_cat       | Socio-economic status (multi-categorical)        | No/No                            |                        |
-| copd_cat      | History of COPD (binary)                         | No/No                            | Auxiliary to smoking   |
+| Variable      | Description                                      | Associated with exposure/outcome | Missingness [%]      |
+|------------------|-------------------|------------------|------------------|
+| age_num       | Age at baseline (continuous)                     | Yes/Yes                          |                      |
+| female_cat    | Female gender (binary)                           | Yes/Yes                          |                      |
+| ecog_cat      | ECOG performance score 0/1 or \>1 (binary)       | Yes/Yes                          | MCAR [30%]           |
+| smoking_cat   | Smoker vs. non-smoker at baseline (binary)       | Yes/Yes                          |                      |
+| physical_cat  | Physically active vs not active (binary)         | Yes/Yes                          |                      |
+| egfr_cat      | EGFR alteration (binary)                         | Yes/Yes                          | MAR [20%]            |
+| alk_cat       | ALK translocation (binary)                       | No/Yes                           |                      |
+| pdl1_num      | PD-L1 expression in % (continuous)               | Yes/Yes                          | MNAR(value) [40%]    |
+| histology_cat | Tumor histology squamous vs nonsquamous (binary) | No/Yes                           |                      |
+| ses_cat       | Socio-economic status (multi-categorical)        | No/No                            |                      |
+| copd_cat      | History of COPD (binary)                         | No/No                            | Auxiliary to smoking |
 
 # Simulation of covariates and exposure
 
@@ -230,8 +230,8 @@ cox_fit %>%
 
 To provide flexibility to play with the complete data *before* introducing missingness, we offer two datasets:
 
-* `smdi_data_complete`: complete data
-* `smdi_data`: data with certain covariates missing (see next chapter)
+-   `smdi_data_complete`: complete data
+-   `smdi_data`: data with certain covariates missing (see next chapter)
 
 ```{r, export_complete_data, message=FALSE}
 smdi_data_complete <- sim_df
@@ -271,11 +271,11 @@ miss_pattern <- rep(1, ncol(tmp))
 
 `ecog_cat`[^1] will be set to missing according to the following specification:
 
+[^1]: The Eastern Cooperative Oncology Group (ECOG) performance score is a clinical measure for how the cancer disease affects the daily living abilities of the patient and is often used as a patient inclusion criterion for clinical trials. The scale ranges from 0 to 5 and typically only patients with 0 and 1 are eligible. Let's assume for our example, we already have a subset of such a pre-selected clinical trial-like cohort, but we still want to adjust for a baseline ECOG of 0 and 1 (definitions are taken from <https://ecog-acrin.org/resources/ecog-performance-status/>
+
 -   Missingness pattern: Only `ecog_cat` will be set to missing
 -   Weight vector: There are no weights, since the missingness is not dependent on any other observed or unobserved covariates
 -   Type: Not applicable
-
-[^1]: The Eastern Cooperative Oncology Group (ECOG) performance score is a clinical measure for how the cancer disease affects the daily living abilities of the patient and is often used as a patient inclusion criterion for clinical trials. The scale ranges from 0 to 5 and typically only patients with 0 and 1 are eligible. Let's assume for our example, we already have a subset of such a pre-selected clinical trial-like cohort, but we still want to adjust for a baseline ECOG of 0 and 1 (definitions are taken from <https://ecog-acrin.org/resources/ecog-performance-status/>
 
 > TO DO: insert DAG for missingness-confounder relationship
 
@@ -309,7 +309,7 @@ smdi_data_mcar %>%
 
 -   Missingness pattern: Only `egfr_cat` will be set to missing
 -   Weight vector: all covariates (except `egfr_cat` itself and `ses_cat`) contribute with equal weights as linear predictors for the probability of observations becoming missing
--   Type: higher weighted sum scores (i.e. higher odds of having an `egfr_cat` mutation) will have a larger probability of becoming incomplete 
+-   Type: higher weighted sum scores (i.e. higher odds of having an `egfr_cat` mutation) will have a larger probability of becoming incomplete
 -   Define an overall missingness proportion of \~20%
 
 ```{r, mar}
@@ -346,7 +346,7 @@ smdi_data_mar %>%
 
 -   Missingness pattern: Only `pdl1_num` will be set to missing
 -   Weight vector: Only `pdl1_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
--   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete 
+-   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete
 -   Define an overall missingness proportion of \~40%
 
 ```{r, create_mnar_v}
