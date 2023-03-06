@@ -2,27 +2,27 @@
 % Please edit documentation in R/smdi_na_indicator.R
 \name{smdi_na_indicator}
 \alias{smdi_na_indicator}
-\title{Util helper to create binary missing indicator variables by two different strategies, one of which must be selected ("retain" and "drop")}
+\title{Create binary missing indicator variables by two different strategies}
 \usage{
-smdi_na_indicator(data = NULL, covar = NULL, na_strategy = c("retain", "drop"))
+smdi_na_indicator(data = NULL, covar = NULL, drop_NA_col = TRUE)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
 \item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
 
-\item{na_strategy}{"retain" or "drop" according to the two possible strategies}
+\item{drop_NA_col}{logical, drop specified columns with NA (default) or retain those columns}
 }
 \value{
-returns the dataframe with one-hot-encoded covariates with missing indicator variables (ending on "_NA")
+returns the dataframe with missing indicator variables (ending on "_NA")
 }
 \description{
-This function takes a dataframe and creates binay missing indicator for all covariates which have at least one missing covariate. This can be realized with two
+This function takes a dataframe and creates binary missing indicator variable. This can be realized with two
 different approaches:
 
-Approach 1 ("retain"): "retains" variables with missing observations, i.e.
+Approach 1 (drop_NA_col = FALSE): retains variables in the dataframe with missing observations
 
-Approach 2 ("drop"): only creates a binary missing indicator variable for variables with missing observations and "drops" the original variables with missing observations.
+Approach 2 (drop_NA_col = TRUE): only creates a binary missing indicator variable for variables with missing observations and drops the original variables with missing observations.
 
 Important: Make sure you have your variables format correct and avoid to include variables like ID variables, ZIP codes, dates, etc.
 }
@@ -31,11 +31,11 @@ library(smdi)
 library(dplyr)
 
 smdi_data \%>\%
-  smdi_na_indicator(na_strategy = "retain") \%>\%
+  smdi_na_indicator(drop_NA_col = FALSE) \%>\%
   glimpse()
 
 smdi_data \%>\%
-  smdi_na_indicator(na_strategy = "drop") \%>\%
+  smdi_na_indicator(drop_NA_col = TRUE) \%>\%
   glimpse()
 
 }
