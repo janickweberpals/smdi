@@ -2,24 +2,18 @@
 % Please edit documentation in R/smdi_asmd.R
 \name{smdi_asmd}
 \alias{smdi_asmd}
-\title{Compute mean/median absolute standardized mean differences}
+\title{Computes mean/median absolute standardized mean differences between observed and missing observations}
 \usage{
-smdi_asmd(
-  data = NULL,
-  covar = NULL,
-  na_strategy = c("retain", "drop"),
-  median = TRUE,
-  ...
-)
+smdi_asmd(data = NULL, covar = NULL, median = TRUE, includeNA = FALSE, ...)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
+\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
-\item{na_strategy}{"retain" or "drop" covariates after creating misisng indicator variables; more info see ?smdi::smdi_na_indicator()}
+\item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed}
 
-\item{median}{logical if the median (recommended default) or mean of all absolute standardized mean differences should be computed}
+\item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)}
 
 \item{...}{further arguments}
 }
@@ -27,13 +21,28 @@ smdi_asmd(
 returns mean/median absolute standardized mean differences
 }
 \description{
-This function takes a dataframe and covariates which are only partially observed/missing.
-The dataframe should consist of the exposure variable, the outcome variable(s), the partially observed covariates
-and all other fully observed covariates which are deemed important for the final modeling
-or which could be considered as auxiliary variables. If no partially observed covariates are provided,
-the function automatically looks for all variables/columns with NA.
+This function takes a dataframe with covariates which are only partially observed/missing and returns the
+median/average absolute standardized mean difference (*asmd*) for every specified covariate in `covar`
+(if NULL all covariates with at least one NA are considered).
+}
+\details{
+The *asmd* is computed for every covariate one-by-one and not jointly. If there is multivariate
+missingness, i.e. more than just one missing covariate exist, you can decide what should
+happen with the other partially observed 'predictor' covariates using the `includeNA` parameter.
+That is, if `includeNA` is set to FALSE (default), only the *asmd* between observed cases will be computed,
+and if `includeNA` is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
 
-Important: don't include variables like ID variables, ZIP codes, dates, etc.
+If any other behavior is desired, data transformations for example with the smdi::smdi_na_indicator function, may make sense
+before calling the function.
+
+The dataframe should generally consist of the exposure variable, the outcome variable(s), the partially observed covariates
+and all other fully observed covariates which are deemed important for the final modeling
+and (optionally) which could be considered as auxiliary variables. If no partially observed covariates are provided,
+the function automatically looks for all variables/columns with NA (powered by the smdi::smdi_summarize() function)
+
+*Important*: don't include variables like ID variables, ZIP codes, dates, etc.
+
+Credit: Much of this function utilizes functionalities from tableone::CreateTableOne
 }
 \examples{
 \dontrun{
