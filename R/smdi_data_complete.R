@@ -3,7 +3,7 @@
 #' Example dataset with complete cases.
 #'
 #' @format ## `smdi_data_complete`
-#' A data frame with 7,240 rows and 60 columns:
+#' A data frame with 2,500 rows and 14 columns:
 #' \describe{
 #'   \item{exposure}{Treatment assignment variable (binary). Indicates initiation of the exposure of interest (1) versus a comparator regimen (0)}
 #'   \item{age_num}{Age at baseline in years}
@@ -13,7 +13,7 @@
 #'   \item{physical_cat}{Physical activity at baseline (not active versus active)}
 #'   \item{egfr_cat}{EGFR mutation status (0 = wild-type, 1 = alteration)}
 #'   \item{alk_cat}{ALK transolcation mutation status (0 = wild-type, 1 = alteration)}
-#'   \item{pdl1_num}{PD-L1 cell staining biomarker in %}
+#'   \item{pdl1_num}{PD-L1 cell staining biomarker in \%}
 #'   \item{histology_cat}{Tumor histology (0 = nonsquamous, 1 = squamous)}
 #'   \item{ses_cat}{Socio-economic status (multi-categorical: 1-low, 2-middle, 3-high)}
 #'   \item{copd_cat}{COPD comorbidity at baseline}
