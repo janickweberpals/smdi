@@ -118,25 +118,6 @@ generation</a> article.</p>
 <code>exposure</code> representing the two treatment regimens under
 comparison and <code>status</code> and <code>eventtime</code> the vital
 status and censoring time, respectively.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_na_indicator.html">smdi_na_indicator</a></span><span class="op">(</span>na_strategy <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,500 × 14</span></span></span>
-<span><span class="co">#&gt;    exposure age_num female_cat smoking…¹ physi…² alk_cat histo…³ ses_cat copd_…⁴</span></span>
-<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>        1    35.2 1          1         1       0       1       2_midd… 1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>        1    51.2 0          1         1       0       1       3_high  0      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>        0    88.2 0          0         0       0       0       2_midd… 1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>        1    50.8 0          1         0       0       0       2_midd… 1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>        1    40.5 0          1         0       0       0       2_midd… 1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>        0    64.6 0          0         0       0       0       2_midd… 0      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>        1    73.6 0          1         1       0       0       2_midd… 1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>        0    42.4 1          1         0       0       0       3_high  1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>        1    53.0 1          1         1       0       0       1_low   1      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        1    62.9 1          0         0       0       0       3_high  1      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2,490 more rows, 5 more variables: eventtime &lt;dbl&gt;, status &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   pdl1_num_NA &lt;dbl&gt;, ecog_cat_NA &lt;dbl&gt;, egfr_cat_NA &lt;dbl&gt;, and abbreviated</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​smoking_cat, ²​physical_cat, ³​histology_cat, ⁴​copd_cat</span></span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

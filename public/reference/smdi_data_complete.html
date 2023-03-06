@@ -58,10 +58,52 @@
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    
+    <p>## `smdi_data_complete`
+A data frame with 2,500 rows and 14 columns:</p><dl><dt>exposure</dt>
+<dd><p>Treatment assignment variable (binary). Indicates initiation of the exposure of interest (1) versus a comparator regimen (0)</p></dd>
 
+  <dt>age_num</dt>
+<dd><p>Age at baseline in years</p></dd>
 
-    </div>
+  <dt>female_cat</dt>
+<dd><p>Is gender female (0 = no, 1 = yes)</p></dd>
+
+  <dt>ecog_cat</dt>
+<dd><p>ECOG performance score at baseline (0 versus 1)</p></dd>
+
+  <dt>smoking_cat</dt>
+<dd><p>Smoking status at baseline (0 = non-smoker, 1 = smoker)</p></dd>
+
+  <dt>physical_cat</dt>
+<dd><p>Physical activity at baseline (not active versus active)</p></dd>
+
+  <dt>egfr_cat</dt>
+<dd><p>EGFR mutation status (0 = wild-type, 1 = alteration)</p></dd>
+
+  <dt>alk_cat</dt>
+<dd><p>ALK transolcation mutation status (0 = wild-type, 1 = alteration)</p></dd>
+
+  <dt>pdl1_num</dt>
+<dd><p>PD-L1 cell staining biomarker in %</p></dd>
+
+  <dt>histology_cat</dt>
+<dd><p>Tumor histology (0 = nonsquamous, 1 = squamous)</p></dd>
+
+  <dt>ses_cat</dt>
+<dd><p>Socio-economic status (multi-categorical: 1-low, 2-middle, 3-high)</p></dd>
+
+  <dt>copd_cat</dt>
+<dd><p>COPD comorbidity at baseline</p></dd>
+
+  <dt>eventtime</dt>
+<dd><p>time to censoring event</p></dd>
+
+  <dt>status</dt>
+<dd><p>event indicator at time t; 0 = censored, 1 = deceased</p></dd>
+
+  ...
+
+</dl></div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
     <p>https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html</p>

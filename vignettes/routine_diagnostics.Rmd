@@ -36,10 +36,5 @@ smdi::smdi_data %>%
 
 The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",")` patients and `r ncol(smdi_data)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively.
 
-```{r}
-smdi_data %>% 
-  smdi::smdi_na_indicator(na_strategy = "drop")
-```
-
 
 
