@@ -12,7 +12,7 @@ This package aims to be a helpful addition to routine healthcare database analyt
 You can install the latest version of `smdi` with:
 
 ```r
-remotes::install_github("https://gitlab.partners.org/janickweberpals/smdi")
+remotes::install_github("https://gitlab-scm.partners.org/janickweberpals/smdi")
 ```
 
 ## Package website
