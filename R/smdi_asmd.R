@@ -174,12 +174,15 @@ smdi_asmd <- function(data = NULL,
 }
 
 #' @export
-print.asmd <- function(object, ...){
+print.asmd <- function(x, ...){
 
+
+  tbl <- do.call(rbind, lapply(x,'[[',4))
   cat("Summary ASMD table: \n")
-  df <- do.call(rbind, lapply(object,'[[',4))
+  cat(tbl)
 
-  return(df)
+  return(tbl)
+
 }
 
 
