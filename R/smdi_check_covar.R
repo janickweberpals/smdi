@@ -15,6 +15,8 @@ smdi_check_covar <- function(data = NULL,
                              covar = NULL
                              ){
 
+  covariate <- NULL
+
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
 
