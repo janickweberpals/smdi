@@ -370,6 +370,7 @@ narfcs_range_df %>%
   ggplot2::theme(legend.position="top")
 ```
 
+As we can see, also `pdl1_num` is sensitive to departures from MAR under small, realistic **𝛅** sensitivity parameter values.
 
 # More on sensitivity analyses
 
