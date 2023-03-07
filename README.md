@@ -1,5 +1,7 @@
 # smdi <img src="./man/figures/smdi_hexagon.png" align="right" width="180"/>
 
+**`S`tructural `M`issing `D`ata `I`nvestigations**
+
 [![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)
 
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
