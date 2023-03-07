@@ -89,14 +89,14 @@ Weberpals</h4>
 are also accessible separately. <code>smdi_diagnose()</code> builds on
 theoretical concepts developed and validated in a comprehensive
 simulation study as part of the FDA Sentinel Innovation Center
-workstream <em>[Approaches to Handling Partially Observed Confounder
-Data From Electronic Health Records (EHR) In Non-randomized Studies of
-Medication Outcomes]</em>(<a href="https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health" class="external-link uri">https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health</a>).</p>
+workstream <a href="https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health" class="external-link">Approaches
+to Handling Partially Observed Confounder Data From Electronic Health
+Records (EHR) In Non-randomized Studies of Medication Outcomes</a>.</p>
 <p>For details, we refer to <em>[INSERT REFERENCE ONCE PUBLISHED]</em>
 and <em>[INSERT JSS REFERENCE ONCE PUBLISHED]</em>.</p>
 <p>In brief, <code>smdi_diagnose()</code> compute three group
 diagnostics.</p>
-<p><img src="smdi_diagnose_table.png" width="2370"></p>
+<p><img src="smdi_diagnose_table.png" width="1575"></p>
 <div class="section level3">
 <h3 id="illustrative-dataset">Illustrative dataset<a class="anchor" aria-label="anchor" href="#illustrative-dataset"></a>
 </h3>
@@ -163,13 +163,13 @@ convenient functions to screen the data for missingness.</p>
 <span></span>
 <span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span><span class="op">)</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="600"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="900"></p>
 <p>For <code>smdi_vis</code>, it’s also possible to query the
 <strong>top n</strong> missing covariates in a dataset:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>top_n_covar <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="600"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="900"></p>
 </div>
 <div class="section level3">
 <h3 id="group-1-diagnostics-differences-in-covariate-distributions">Group 1 diagnostics: differences in covariate distributions<a class="anchor" aria-label="anchor" href="#group-1-diagnostics-differences-in-covariate-distributions"></a>

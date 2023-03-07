@@ -74,28 +74,16 @@ sample size, the combined investigation along with smdi_asmd() is highly recomme
 <dt>covar</dt>
 <dd><p>character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors</p></dd>
 
-
-<dt>median</dt>
-<dd><p>logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed</p></dd>
-
-
-<dt>includeNA</dt>
-<dd><p>logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)</p></dd>
-
-
-<dt>...</dt>
-<dd><p>further arguments</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>returns an asmd object with mean/median absolute standardized mean differences</p>
+<p>returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Wrapper of
+    <p>Wrapper of hotelling.test() (Hotelling package)
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.</p>
     </div>
     <div class="section level2">
@@ -108,6 +96,9 @@ sample size, the combined investigation along with smdi_asmd() is highly recomme
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span> <span class="fu">smdi_hotteling</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
