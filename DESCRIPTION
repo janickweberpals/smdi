@@ -16,7 +16,7 @@ Imports:
     forcats,
     ggplot2,
     glue,
-    hotteling,
+    Hotelling,
     magrittr,
     naniar,
     randomForest,

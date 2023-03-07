@@ -21,7 +21,7 @@ As the power of statistical hypothesis tests can be influenced by
 sample size, the combined investigation along with smdi_asmd() is highly recommended.
 }
 \details{
-Wrapper of Hotelling::hotelling.test()
+Wrapper of hotelling.test() (Hotelling package)
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \examples{

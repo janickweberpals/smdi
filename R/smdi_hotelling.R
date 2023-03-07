@@ -7,7 +7,7 @@
 #' sample size, the combined investigation along with smdi_asmd() is highly recommended.
 #'
 #' @details
-#' Wrapper of hotelling.test (Hotelling package)
+#' Wrapper of hotelling.test() (Hotelling package)
 #' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @references
@@ -46,7 +46,11 @@ smdi_hotelling <- function(data = NULL,
                            ){
 
 
-  #covariate <- `1 vs 2` <- NULL
+  # initialize variables
+  .data <- V1 <- NULL
+
+  # pre-checks
+  if(is.null(data)){stop("No dataframe provided.")}
 
   # pick missing indicator columns/partially observed covariates
   # check for missing covariates
