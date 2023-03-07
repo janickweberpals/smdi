@@ -7,7 +7,7 @@
 #' sample size, the combined investigation along with smdi_asmd() is highly recommended.
 #'
 #' @details
-#' Wrapper of Hotelling::hotelling.test()
+#' Wrapper of hotelling.test (Hotelling package)
 #' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @references
@@ -66,7 +66,7 @@ smdi_hotelling <- function(data = NULL,
       remove_most_frequent_dummy = TRUE,
       ignore_na = FALSE,
       remove_selected_columns = TRUE
-    )
+      )
 
   # start applying smd computation over all partially observed covariates
   hotelling_loop <- function(i){
