@@ -17,6 +17,16 @@
       "Hash": "b2866e62bab9378c3cc9476a1954226b",
       "Requirements": []
     },
+    "Hotelling": {
+      "Package": "Hotelling",
+      "Version": "1.0-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0c8f2297b3d33b874c78fa9f6fcb1149",
+      "Requirements": [
+        "corpcor"
+      ]
+    },
     "KMsurv": {
       "Package": "KMsurv",
       "Version": "0.1-5",
@@ -377,6 +387,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "b6e3e947d1d7ebf3d2bdcea1bde63fe7",
+      "Requirements": []
+    },
+    "corpcor": {
+      "Package": "corpcor",
+      "Version": "1.6.10",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "17ebe3b6d75d09c5bab3891880b34237",
       "Requirements": []
     },
     "corrplot": {

@@ -25,7 +25,7 @@
 #'Credit: Much of this function utilizes functionalities from tableone::CreateTableOne
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
+#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
 #' @param median logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed
 #' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)
 #' @param ... further arguments

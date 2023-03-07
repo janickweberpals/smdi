@@ -8,7 +8,7 @@
 #' The function assumes a one-row-per-patient dataframe.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate or covariate vector with variable/column name(s) to investigate
+#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
 #' @param top_n_covar integer, display top n missing covariates
 #' @param strata character name of variable/column by which results should be stratified
 #'

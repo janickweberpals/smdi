@@ -9,7 +9,7 @@ smdi_asmd(data = NULL, covar = NULL, median = TRUE, includeNA = FALSE, ...)
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
 \item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed}
 

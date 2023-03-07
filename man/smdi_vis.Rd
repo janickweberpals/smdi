@@ -9,7 +9,7 @@ smdi_vis(data = NULL, covar = NULL, top_n_covar = NULL, strata = NULL)
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate}
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
 
 \item{top_n_covar}{integer, display top n missing covariates}
 

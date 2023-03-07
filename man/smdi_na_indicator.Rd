@@ -9,7 +9,7 @@ smdi_na_indicator(data = NULL, covar = NULL, drop_NA_col = TRUE)
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
 
 \item{drop_NA_col}{logical, drop specified columns with NA (default) or retain those columns}
 }

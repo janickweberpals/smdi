@@ -11,7 +11,7 @@
 #'Important: Make sure you have your variables format correct and avoid to include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
+#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
 #' @param drop_NA_col logical, drop specified columns with NA (default) or retain those columns
 #'
 #' @return returns the dataframe with missing indicator variables (ending on "_NA")

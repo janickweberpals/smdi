@@ -12,7 +12,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  dpi = 100,
+  dpi = 150,
   fig.width = 6,
   fig.height = 4.5
   )
@@ -31,7 +31,7 @@ For details, we refer to *[INSERT REFERENCE ONCE PUBLISHED]* and *[INSERT JSS RE
 
 In brief, `smdi_diagnose()` compute three group diagnostics.
 
-```{r out.width = '50%', echo = FALSE}
+```{r, echo = FALSE}
 knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
 ```
 
@@ -69,12 +69,21 @@ smdi_data %>%
 
 ... or visually
 
->TO DO: implement smdi_check_covar here
+```{r}
+covars_missing <- smdi_summarize(data = smdi_data) %>% 
+  pull(covariate)
+
+smdi_data %>% 
+  smdi_vis(covar = covars_missing)
+```
+
+For `smdi_vis`, it's also possible to query the **top n** missing covariates in a dataset:
 
 ```{r}
 smdi_data %>% 
   smdi_vis(top_n_covar = 3)
 ```
+
 
 ## Group 1 diagnostics: differences in covariate distributions
 

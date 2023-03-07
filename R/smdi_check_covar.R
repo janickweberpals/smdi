@@ -1,7 +1,7 @@
 #' This is a util function to help check input data and covariates provided
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
+#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
 #'
 #' @return returns the covariate vector for subsequent tasks or warnings/errors
 #'

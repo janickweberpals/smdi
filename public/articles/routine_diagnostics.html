@@ -81,9 +81,22 @@ Weberpals</h4>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="smdi-main-functionality">
-<code>smdi</code> main functionality<a class="anchor" aria-label="anchor" href="#smdi-main-functionality"></a>
+<h2 id="smdi-main-functionalities">
+<code>smdi</code> main functionalities<a class="anchor" aria-label="anchor" href="#smdi-main-functionalities"></a>
 </h2>
+<p>The <code>smdi</code> flagship function is
+<code>smdi_diagnose()</code> which calls multiple sub-functions which
+are also accessible separately. <code>smdi_diagnose()</code> builds on
+theoretical concepts developed and validated in a comprehensive
+simulation study as part of the FDA Sentinel Innovation Center
+workstream <em>[Approaches to Handling Partially Observed Confounder
+Data From Electronic Health Records (EHR) In Non-randomized Studies of
+Medication Outcomes]</em>(<a href="https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health" class="external-link uri">https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health</a>).</p>
+<p>For details, we refer to <em>[INSERT REFERENCE ONCE PUBLISHED]</em>
+and <em>[INSERT JSS REFERENCE ONCE PUBLISHED]</em>.</p>
+<p>In brief, <code>smdi_diagnose()</code> compute three group
+diagnostics.</p>
+<p><img src="smdi_diagnose_table.png" width="2370"></p>
 <div class="section level3">
 <h3 id="illustrative-dataset">Illustrative dataset<a class="anchor" aria-label="anchor" href="#illustrative-dataset"></a>
 </h3>
@@ -117,7 +130,57 @@ generation</a> article.</p>
 <p>The dataset consists of 2,500 patients and 14 variables with
 <code>exposure</code> representing the two treatment regimens under
 comparison and <code>status</code> and <code>eventtime</code> the vital
-status and censoring time, respectively.</p>
+status and censoring time, respectively. For more information, please
+checkout:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># dataset with simulated missingness</span></span>
+<span><span class="op">?</span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_data.html">smdi_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># complete dataset</span></span>
+<span><span class="op">?</span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_data_complete.html">smdi_data_complete</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="descriptives">Descriptives<a class="anchor" aria-label="anchor" href="#descriptives"></a>
+</h3>
+<p>As with basically any first step into exploring (new) datasets, it’s
+a good idea to get an overview of partially observed covariates and the
+magnitude of missingness. For this <code>smdi</code> comes with two
+convenient functions to screen the data for missingness.</p>
+<p>This can be either as a table …</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
+<span><span class="co">#&gt;   covariate n_miss perc_miss</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pdl1_num     971 38.84%   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat     786 31.44%   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> egfr_cat     536 21.44%</span></span></code></pre></div>
+<p>… or visually</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">covars_missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">covariate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span><span class="op">)</span></span></code></pre></div>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="600"></p>
+<p>For <code>smdi_vis</code>, it’s also possible to query the
+<strong>top n</strong> missing covariates in a dataset:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>top_n_covar <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="600"></p>
+</div>
+<div class="section level3">
+<h3 id="group-1-diagnostics-differences-in-covariate-distributions">Group 1 diagnostics: differences in covariate distributions<a class="anchor" aria-label="anchor" href="#group-1-diagnostics-differences-in-covariate-distributions"></a>
+</h3>
+<div class="section level4">
+<h4 id="medianaverage-absolute-standardized-mean-differences">Median/average absolute standardized mean differences<a class="anchor" aria-label="anchor" href="#medianaverage-absolute-standardized-mean-differences"></a>
+</h4>
+<blockquote>
+<p>Cite STRATOS paper</p>
+</blockquote>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

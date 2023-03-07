@@ -9,7 +9,7 @@ smdi_check_covar(data = NULL, covar = NULL)
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
 }
 \value{
 returns the covariate vector for subsequent tasks or warnings/errors
