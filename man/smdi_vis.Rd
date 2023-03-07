@@ -27,8 +27,11 @@ The function assumes a one-row-per-patient dataframe.
 }
 \examples{
 \dontrun{
+library(smdi)
+library(dplyr)
 
-df \%>\%
-smdi_vis(covar = "age")
+smdi_data \%>\%
+smdi_vis()
+
 }
 }

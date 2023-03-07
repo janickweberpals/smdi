@@ -23,7 +23,18 @@ library(smdi)
 suppressPackageStartupMessages(library(dplyr))
 ```
 
-# `smdi` main functionality
+# `smdi` main functionalities
+
+The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. `smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study as part of the FDA Sentinel Innovation Center workstream *[Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes]*(https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health).
+
+For details, we refer to *[INSERT REFERENCE ONCE PUBLISHED]* and *[INSERT JSS REFERENCE ONCE PUBLISHED]*.
+
+In brief, `smdi_diagnose()` compute three group diagnostics.
+
+```{r out.width = '50%', echo = FALSE}
+knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
+```
+
 
 ## Illustrative dataset
 
@@ -34,7 +45,43 @@ smdi::smdi_data %>%
   dplyr::glimpse()
 ```
 
-The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",")` patients and `r ncol(smdi_data)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively.
+The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",")` patients and `r ncol(smdi_data)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively. For more information, please checkout:
+
+```{r, eval=FALSE}
+# dataset with simulated missingness
+?smdi::smdi_data()
+
+# complete dataset
+?smdi::smdi_data_complete()
+```
+
+
+## Descriptives
+
+As with basically any first step into exploring (new) datasets, it's a good idea to get an overview of partially observed covariates and the magnitude of missingness. For this `smdi` comes with two convenient functions to screen the data for missingness.
+
+This can be either as a table ...
+
+```{r}
+smdi_data %>% 
+  smdi_summarize()
+```
+
+... or visually
+
+>TO DO: implement smdi_check_covar here
+
+```{r}
+smdi_data %>% 
+  smdi_vis(top_n_covar = 3)
+```
+
+## Group 1 diagnostics: differences in covariate distributions
+
+### Median/average absolute standardized mean differences
+
+>Cite STRATOS paper
+
 
 
 

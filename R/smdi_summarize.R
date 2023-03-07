@@ -24,9 +24,12 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(smdi)
+#' library(dplyr)
 #'
-#'df %>%
-#' smdi_summarize()
+#' smdi_data %>%
+#'  smdi_summarize()
+#'
 #' }
 
 smdi_summarize <- function(data = NULL

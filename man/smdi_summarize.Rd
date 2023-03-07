@@ -21,8 +21,11 @@ Important: avoid to include variables like ID variables, ZIP codes, dates, etc.
 }
 \examples{
 \dontrun{
+library(smdi)
+library(dplyr)
 
-df \%>\%
-smdi_summarize()
+smdi_data \%>\%
+ smdi_summarize()
+
 }
 }

@@ -18,19 +18,19 @@ smdi_asmd(data = NULL, covar = NULL, median = TRUE, includeNA = FALSE, ...)
 \item{...}{further arguments}
 }
 \value{
-returns mean/median absolute standardized mean differences
+returns an asmd object with mean/median absolute standardized mean differences
 }
 \description{
 This function takes a dataframe with covariates which are only partially observed/missing and returns the
-median/average absolute standardized mean difference (*asmd*) for every specified covariate in `covar`
+median/average absolute standardized mean difference (asmd) for every specified covariate in covar
 (if NULL all covariates with at least one NA are considered).
 }
 \details{
-The *asmd* is computed for every covariate one-by-one and not jointly. If there is multivariate
+The asmd is computed for every covariate one-by-one and not jointly. If there is multivariate
 missingness, i.e. more than just one missing covariate exist, you can decide what should
-happen with the other partially observed 'predictor' covariates using the `includeNA` parameter.
-That is, if `includeNA` is set to FALSE (default), only the *asmd* between observed cases will be computed,
-and if `includeNA` is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
+happen with the other partially observed 'predictor' covariates using the includeNA parameter.
+That is, if includeNA is set to FALSE (default), only the asmd between observed cases will be computed,
+and if includeNA is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
 
 If any other behavior is desired, data transformations for example with the smdi::smdi_na_indicator function, may make sense
 before calling the function.
@@ -40,7 +40,7 @@ and all other fully observed covariates which are deemed important for the final
 and (optionally) which could be considered as auxiliary variables. If no partially observed covariates are provided,
 the function automatically looks for all variables/columns with NA (powered by the smdi::smdi_summarize() function)
 
-*Important*: don't include variables like ID variables, ZIP codes, dates, etc.
+Important: don't include variables like ID variables, ZIP codes, dates, etc.
 
 Credit: Much of this function utilizes functionalities from tableone::CreateTableOne
 }
@@ -49,10 +49,15 @@ Credit: Much of this function utilizes functionalities from tableone::CreateTabl
 library(smdi)
 library(dplyr)
 
-df <- smdi_data \%>\%
-select(-id) \%>\%
-mutate(across(ends_with("cat"), as.factor))
-df \%>\%
-smdi_asmd(covar = c("age", "gender", "bmi"))
+# S3 print method
+asmd <- smdi_asmd(data = smdi_data)
+print(asmd)
+
+# let's look at the first variable
+# we can check the complete covariate distribution
+asmd$pdl1_num$asmd_table1
+# we can also plot the AMSD distribution per covariate
+asmd$pdl1_num$asmd_plot
+
 }
 }

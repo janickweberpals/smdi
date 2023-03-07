@@ -41,9 +41,12 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(smdi)
+#' library(dplyr)
 #'
-#'df %>%
-#' smdi_vis(covar = "age")
+#'smdi_data %>%
+#' smdi_vis()
+#'
 #' }
 
 smdi_vis <- function(data = NULL, # dataframe
