@@ -49,10 +49,10 @@
 #'
 #' }
 
-smdi_vis <- function(data = NULL, # dataframe
-                     covar = NULL, # covariate or covariate character vector to investigate
-                     top_n_covar = NULL, # integer. display top n missing covariates
-                     strata = NULL # visualizations stratified
+smdi_vis <- function(data = NULL,
+                     covar = NULL,
+                     top_n_covar = NULL,
+                     strata = NULL
                      ){
 
   # initializing new variables
@@ -96,7 +96,7 @@ smdi_vis <- function(data = NULL, # dataframe
   }
 
 
-  # in case results are stratified, group it by stratifying variable +> select covars
+  # in case results are stratified, group it by stratifying variable => select covars
   if(!is.null(strata)){
 
     # strata variable (helper variable easier to operate with)
