@@ -10,15 +10,9 @@ smdi_hotelling(data = NULL, covar = NULL)
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
-
-\item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed}
-
-\item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)}
-
-\item{...}{further arguments}
 }
 \value{
-returns an asmd object with mean/median absolute standardized mean differences
+returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.
 }
 \description{
 Hotelling's multivariate t-test, which examines variable
@@ -27,13 +21,16 @@ As the power of statistical hypothesis tests can be influenced by
 sample size, the combined investigation along with smdi_asmd() is highly recommended.
 }
 \details{
-Wrapper of
+Wrapper of Hotelling::hotelling.test()
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \examples{
 \dontrun{
 library(smdi)
 library(dplyr)
+
+smdi_data \%>\%
+ smdi_hotteling()
 
 }
 }

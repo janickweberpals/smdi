@@ -184,8 +184,7 @@ print.asmd <- function(x, ...){
 
 
   tbl <- do.call(rbind, lapply(x,'[[',4))
-  cat("Summary ASMD table: \n")
-  cat(tbl)
+  print(tbl)
 
   return(tbl)
 

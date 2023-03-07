@@ -17,22 +17,17 @@
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
 #'
-#' @return returns an asmd object with mean/median absolute standardized mean differences
+#' @return returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.
 #'
 #' @importFrom magrittr '%>%'
-#' @importFrom dplyr across
 #' @importFrom dplyr arrange
 #' @importFrom dplyr filter
 #' @importFrom dplyr mutate
-#' @importFrom dplyr pull
-#' @importFrom dplyr summarize_all
+#' @importFrom dplyr select
 #' @importFrom fastDummies dummy_cols
-#' @importFrom stats median
 #' @importFrom Hotelling hotelling.test
-#' @importFrom tableone ExtractSmd
+#' @importFrom tibble rownames_to_column
 #' @importFrom tidyselect all_of
-#' @importFrom tidyselect everything
-#' @importFrom tidyselect where
 #'
 #' @export
 #'
@@ -40,6 +35,9 @@
 #'\dontrun{
 #' library(smdi)
 #' library(dplyr)
+#'
+#' smdi_data %>%
+#'  smdi_hotteling()
 #'
 #' }
 
@@ -57,45 +55,63 @@ smdi_hotelling <- function(data = NULL,
     covar = covar
     )
 
-  # apply smdi_na_indicator for i to create missing
-  # indicator variable
-  strata_df <- smdi::smdi_na_indicator(
+  # apply smdi_na_indicator for datset to create missing
+  # indicator variables
+  data_encoded <- smdi::smdi_na_indicator(
     data = data,
     covar = covar,
     drop_NA_col = TRUE
+    ) %>%
+    fastDummies::dummy_columns(
+      remove_most_frequent_dummy = TRUE,
+      ignore_na = FALSE,
+      remove_selected_columns = TRUE
     )
 
   # start applying smd computation over all partially observed covariates
-  smd_loop <- function(i){
-
+  hotelling_loop <- function(i){
 
     # create strata variable
     strata_var <- paste0(i, "_NA")
 
     # create matrices
-    hotelling_matrix_missing <- data_miss_diagnostics %>%
-      dplyr::filter(strata_var == 1) %>%
-      dplyr::select(-strata_var) %>%
+    hotelling_matrix_missing <- data_encoded %>%
+      dplyr::filter(.data[[strata_var]] == 1) %>%
+      dplyr::select(-tidyselect::all_of(strata_var)) %>%
       as.matrix()
 
-    hotelling_matrix_complete <- data_miss_diagnostics %>%
-      dplyr::filter(coi_missing_indicator == 0) %>%
-      dplyr::select(-coi_missing_indicator) %>%
+    hotelling_matrix_complete <- data_encoded %>%
+      dplyr::filter(.data[[strata_var]] == 0) %>%
+      dplyr::select(-tidyselect::all_of(strata_var)) %>%
       as.matrix()
 
     hotelling <- Hotelling::hotelling.test(hotelling_matrix_missing, hotelling_matrix_complete)
 
+    return(hotelling)
+
+    }
+
+  hotelling_out <- lapply(covar_miss, FUN = hotelling_loop)
+  names(hotelling_out) <- covar_miss
+
+  class(hotelling_out) <- "hotelling"
+
+  return(hotelling_out)
+
   }
 
-}
 
 #' @export
-print.asmd <- function(x, ...){
+print.hotelling <- function(x, ...){
 
 
-  tbl <- do.call(rbind, lapply(x,'[[',4))
-  cat("Summary ASMD table: \n")
-  cat(tbl)
+  tbl <- do.call(rbind, lapply(x,'[[',2)) %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column(var = "covariate") %>%
+    dplyr::mutate(hotteling_p = V1) %>%
+    dplyr::select(-V1)
+
+  print(tbl)
 
   return(tbl)
 
