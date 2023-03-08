@@ -56,12 +56,12 @@ To get an overview of the dataset, this table provides a summary of the differen
 |------------------|-------------------|------------------|------------------|
 | age_num       | Age at baseline (continuous)                     | Yes/Yes                          |                      |
 | female_cat    | Female gender (binary)                           | Yes/Yes                          |                      |
-| ecog_cat      | ECOG performance score 0/1 or \>1 (binary)       | Yes/Yes                          | MCAR [30%]           |
+| ecog_cat      | ECOG performance score 0/1 or \>1 (binary)       | Yes/Yes                          | MCAR [35%]           |
 | smoking_cat   | Smoker vs. non-smoker at baseline (binary)       | Yes/Yes                          |                      |
 | physical_cat  | Physically active vs not active (binary)         | Yes/Yes                          |                      |
-| egfr_cat      | EGFR alteration (binary)                         | Yes/Yes                          | MAR [20%]            |
+| egfr_cat      | EGFR alteration (binary)                         | Yes/Yes                          | MAR [40%]            |
 | alk_cat       | ALK translocation (binary)                       | No/Yes                           |                      |
-| pdl1_num      | PD-L1 expression in % (continuous)               | Yes/Yes                          | MNAR(value) [40%]    |
+| pdl1_num      | PD-L1 expression in % (continuous)               | Yes/Yes                          | MNAR(value) [20%]    |
 | histology_cat | Tumor histology squamous vs nonsquamous (binary) | No/Yes                           |                      |
 | ses_cat       | Socio-economic status (multi-categorical)        | No/No                            |                      |
 | copd_cat      | History of COPD (binary)                         | No/No                            | Auxiliary to smoking |
@@ -75,13 +75,13 @@ set.seed(seed_value)
 sim_covar <- tibble::tibble(
   exposure = rbinom(n = n, size = 1, prob = 0.4),
   age_num = rnorm(n, mean = 64 - 7.5*exposure, sd = 13.7),
-  female_cat = rbinom(n, size = 1, prob = 0.39 - 0.12*exposure),
-  ecog_cat = rbinom(n, size = 1, prob = 0.63 - 0.08*exposure),
+  female_cat = rbinom(n, size = 1, prob = 0.39 - 0.05*exposure),
+  ecog_cat = rbinom(n, size = 1, prob = 0.63 - 0.04*exposure),
   smoking_cat = rbinom(n, size = 1, prob = 0.45 + 0.1*exposure), 
-  physical_cat = rbinom(n, size = 1, prob = 0.35 + 0.15*exposure),
-  egfr_cat = rbinom(n, size = 1, prob = 0.20 + 0.1*exposure), 
+  physical_cat = rbinom(n, size = 1, prob = 0.35 + 0.02*exposure),
+  egfr_cat = rbinom(n, size = 1, prob = 0.20 + 0.07*exposure), 
   alk_cat = rbinom(n, size = 1, prob = 0.03),
-  pdl1_num = rnorm(n, mean = 30 + 20*exposure, sd = 20.5),
+  pdl1_num = rnorm(n, mean = 40 + 10*exposure, sd = 10.5),
   histology_cat = rbinom(n, size = 1, prob = 0.2),
   ses_cat = sample(x = c("1_low", "2_middle", "3_high"), size = n, replace = TRUE, prob = c(0.2 , 0.4, 0.4)),
   copd_cat = rbinom(n, size = 1, prob = 0.3 + 0.5*smoking_cat)
@@ -137,7 +137,7 @@ exposure_plot %>%
 
 Next, we simulate a time-to-event outcome for `overall survival`. For this, the `simsurv` package is used with the following assumptions:
 
--   Parametric event times follow a Weibull distribution
+-   Parametric event times follow an exponential distribution
 -   Max event times: 5 years of follow-up
 -   Event times depend on some (time-fixed/baseline) covariate effects as listed in the table above
 -   beta coefficients for the outcome model as defined in the following
@@ -152,7 +152,7 @@ betas_os <- c(
   physical_cat = log(0.79),
   egfr_cat = log(0.5),
   alk_cat = log(0.91),
-  pdl1_num = log(0.72),
+  pdl1_num = log(0.98),
   histology_cat = log(1.15)
   )
 
@@ -165,16 +165,15 @@ betas_os %>%
 ```
 
 ```{r, outcome_generation, message=FALSE}
-set.seed(420)
+set.seed(seed_value)
 
 sim_df <- sim_covar %>% dplyr::bind_cols(
   simsurv::simsurv(
-    dist = "weibull",
-    lambdas = 5,
-    gammas = 3.5,
+    dist = "exponential",
+    lambdas = 0.05,
     betas = betas_os,
     x = sim_covar,
-    maxt = 60 # in months
+    maxt = 5 # in months
     )
   ) %>% 
   dplyr::select(-id)
@@ -190,8 +189,8 @@ km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, d
 
 gtsummary::tbl_survfit(
   list(km_overall, km_exposure),
-  times = c(12, 60),
-  label_header = "**{time} Months**"
+  times = c(1, 5),
+  label_header = "**{time} Years**"
   )
 ```
 
@@ -206,7 +205,7 @@ survminer::ggsurvplot(
   conf.int = TRUE,
   surv.median.line = "hv",
   palette = "jco",
-  xlab = "Time [Months]",
+  xlab = "Time [Years]",
   legend.labs = c("Comparator", "Exposure of interest")
   )
 ```
@@ -285,7 +284,7 @@ miss_pattern <- rep(1, ncol(tmp))
 mcar_col <- which(colnames(tmp)=="ecog_cat")
 miss_pattern_mcar <- replace(miss_pattern, mcar_col, 0)
 
-miss_prop_mcar <- .3
+miss_prop_mcar <- .35
 
 set.seed(42)
 smdi_data_mcar <- mice::ampute(
@@ -323,7 +322,7 @@ miss_pattern_mar <- replace(miss_pattern, mar_col, 0)
 miss_weights_mar <- rep(1, ncol(tmp))
 miss_weights_mar <- replace(miss_weights_mar, mar_col, 0)
 
-miss_prop_mar <- .2
+miss_prop_mar <- .4
 
 set.seed(42)
 smdi_data_mar <- mice::ampute(
@@ -361,7 +360,7 @@ miss_pattern_mnar_v <- replace(miss_pattern, mnar_v_col, 0)
 miss_weights_mnar_v <- rep(0, ncol(tmp))
 miss_weights_mnar_v <- replace(miss_weights_mnar_v, mnar_v_col, 1)
 
-miss_prop_mnar_v <- .4
+miss_prop_mnar_v <- .2
 
 set.seed(42)
 smdi_data_mnar_v <- mice::ampute(

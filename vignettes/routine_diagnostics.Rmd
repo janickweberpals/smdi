@@ -35,10 +35,9 @@ In brief, `smdi_diagnose()` compute three group diagnostics.
 knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
 ```
 
-
 ## Illustrative dataset
 
-To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package. In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
+To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package. In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the previous [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
 
 ```{r}
 smdi::smdi_data %>% 
@@ -91,6 +90,45 @@ smdi_data %>%
 
 >Cite STRATOS paper
 
+```{r}
+amsd <- smdi_asmd(data = smdi_data)
+amsd
+```
 
+```{r}
+summary(amsd)
+```
 
+```{r}
+amsd$egfr_cat$asmd_table1
+```
+
+```{r}
+amsd$egfr_cat$asmd_plot
+```
+
+### Hotelling's and Little's hypothesis tests
+
+```{r}
+h0 <- smdi_hotelling(data = smdi_data)
+h0
+```
+
+```{r}
+h0$ecog_cat
+```
+
+Little's global
+
+```{r}
+h0_global <- smdi_little(data = smdi_data)
+h0_global
+```
+
+## Group 2 diagnostics: ability to predict missingness
+
+```{r}
+auc <- smdi_rf(data = smdi_data)
+auc
+```
 

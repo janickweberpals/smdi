@@ -106,7 +106,7 @@ dataset that comes bundled with the package. In brief, the
 <code>smdi_data</code> dataset consists of a simulated lung cancer
 cohort with a fictional comparison of two antineoplastic systemic
 therapy regimens and a time-to-event outcome. More information on the
-underlying dataset is given in the <a href="https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html" class="external-link">Data
+underlying dataset is given in the previous <a href="https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html" class="external-link">Data
 generation</a> article.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -117,16 +117,16 @@ generation</a> article.</p>
 <span><span class="co">#&gt; $ age_num       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.24, 51.18, 88.17, 50.79, 40.52, 64.57, 73.58, 42.38, …</span></span>
 <span><span class="co">#&gt; $ female_cat    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ smoking_cat   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1,…</span></span>
-<span><span class="co">#&gt; $ physical_cat  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,…</span></span>
+<span><span class="co">#&gt; $ physical_cat  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,…</span></span>
 <span><span class="co">#&gt; $ alk_cat       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
 <span><span class="co">#&gt; $ histology_cat <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,…</span></span>
 <span><span class="co">#&gt; $ ses_cat       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 2_middle, 3_high, 2_middle, 2_middle, 2_middle, 2_middle…</span></span>
 <span><span class="co">#&gt; $ copd_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1,…</span></span>
-<span><span class="co">#&gt; $ eventtime     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.8706642, 5.7247147, 4.4106465, 13.4542815, 0.4781390,…</span></span>
-<span><span class="co">#&gt; $ status        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,…</span></span>
+<span><span class="co">#&gt; $ eventtime     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 5.000000000, 4.754220474, 0.253391563, 5.000000000, 5.00…</span></span>
+<span><span class="co">#&gt; $ status        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ ecog_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, NA, 0, 1, NA, 0, 1, 0, 1, NA, 1, NA, NA, 1, 1, 0, 1, …</span></span>
-<span><span class="co">#&gt; $ egfr_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> NA, NA, 1, 1, 1, 0, 1, 0, NA, 0, 1, 1, 0, 0, 0, 0, NA, N…</span></span>
-<span><span class="co">#&gt; $ pdl1_num      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 40.29, NA, 33.40, 41.23, NA, 26.11, 44.68, NA, 43.12, 32…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ egfr_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> NA, 0, 1, NA, 1, NA, NA, 0, NA, 0, 1, NA, 0, NA, NA, 0, …</span></span>
+<span><span class="co">#&gt; $ pdl1_num      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 45.03, NA, 41.74, 45.51, 31.28, NA, 47.28, 37.28, 46.47,…</span></span></code></pre></div>
 <p>The dataset consists of 2,500 patients and 14 variables with
 <code>exposure</code> representing the two treatment regimens under
 comparison and <code>status</code> and <code>eventtime</code> the vital
@@ -153,9 +153,9 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   covariate n_miss perc_miss</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pdl1_num     971 38.84%   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat     786 31.44%   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> egfr_cat     536 21.44%</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat    <span style="text-decoration: underline;">1</span>015 40.60%   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat     899 35.96%   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num     517 20.68%</span></span></code></pre></div>
 <p>… or visually</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">covars_missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -180,7 +180,96 @@ convenient functions to screen the data for missingness.</p>
 <blockquote>
 <p>Cite STRATOS paper</p>
 </blockquote>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">amsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_asmd.html">smdi_asmd</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
+<span><span class="va">amsd</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">#&gt;   covariate asmd_median</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat       0.243 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat       0.029<span style="text-decoration: underline;">2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num       0.061<span style="text-decoration: underline;">9</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">amsd</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          Length Class  Mode</span></span>
+<span><span class="co">#&gt; egfr_cat 4      -none- list</span></span>
+<span><span class="co">#&gt; ecog_cat 4      -none- list</span></span>
+<span><span class="co">#&gt; pdl1_num 4      -none- list</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">amsd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_table1</span></span>
+<span><span class="co">#&gt;                        Stratified by egfr_cat_NA</span></span>
+<span><span class="co">#&gt;                         0               1               p        test SMD     </span></span>
+<span><span class="co">#&gt;   n                     " 1485"         " 1015"         ""       ""   ""      </span></span>
+<span><span class="co">#&gt;   exposure (mean (SD))  " 0.32 (0.47)"  " 0.51 (0.50)"  "&lt;0.001" ""   " 0.393"</span></span>
+<span><span class="co">#&gt;   age_num (mean (SD))   "60.44 (13.80)" "61.58 (14.61)" " 0.048" ""   " 0.080"</span></span>
+<span><span class="co">#&gt;   female_cat = 1 (%)    "  457 (30.8) " "  465 (45.8) " "&lt;0.001" ""   " 0.313"</span></span>
+<span><span class="co">#&gt;   smoking_cat = 1 (%)   "  608 (40.9) " "  645 (63.5) " "&lt;0.001" ""   " 0.465"</span></span>
+<span><span class="co">#&gt;   physical_cat = 1 (%)  "  454 (30.6) " "  428 (42.2) " "&lt;0.001" ""   " 0.243"</span></span>
+<span><span class="co">#&gt;   alk_cat = 1 (%)       "   27 ( 1.8) " "   42 ( 4.1) " " 0.001" ""   " 0.137"</span></span>
+<span><span class="co">#&gt;   histology_cat = 1 (%) "  225 (15.2) " "  283 (27.9) " "&lt;0.001" ""   " 0.314"</span></span>
+<span><span class="co">#&gt;   ses_cat (%)           "  "            "  "            " 0.039" ""   " 0.103"</span></span>
+<span><span class="co">#&gt;      1_low              "  287 (19.3) " "  237 (23.3) " ""       ""   ""      </span></span>
+<span><span class="co">#&gt;      2_middle           "  596 (40.1) " "  373 (36.7) " ""       ""   ""      </span></span>
+<span><span class="co">#&gt;      3_high             "  602 (40.5) " "  405 (39.9) " ""       ""   ""      </span></span>
+<span><span class="co">#&gt;   copd_cat = 1 (%)      "  661 (44.5) " "  677 (66.7) " "&lt;0.001" ""   " 0.458"</span></span>
+<span><span class="co">#&gt;   eventtime (mean (SD)) " 2.17 (1.86)"  " 2.15 (1.76)"  " 0.816" ""   " 0.010"</span></span>
+<span><span class="co">#&gt;   status (mean (SD))    " 0.79 (0.41)"  " 0.84 (0.37)"  " 0.001" ""   " 0.132"</span></span>
+<span><span class="co">#&gt;   ecog_cat = 1 (%)      "  539 (57.0) " "  433 (66.1) " "&lt;0.001" ""   " 0.189"</span></span>
+<span><span class="co">#&gt;   pdl1_num (mean (SD))  "44.07 (10.37)" "49.33 (11.31)" "&lt;0.001" ""   " 0.485"</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">amsd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_plot</span></span></code></pre></div>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" width="900"></p>
 </div>
+<div class="section level4">
+<h4 id="hotellings-and-littles-hypothesis-tests">Hotelling’s and Little’s hypothesis tests<a class="anchor" aria-label="anchor" href="#hotellings-and-littles-hypothesis-tests"></a>
+</h4>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_hotelling.html">smdi_hotelling</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
+<span><span class="va">h0</span></span>
+<span><span class="co">#&gt;   covariate hotteling_p</span></span>
+<span><span class="co">#&gt; 1  egfr_cat   0.0000000</span></span>
+<span><span class="co">#&gt; 2  ecog_cat   0.7833704</span></span>
+<span><span class="co">#&gt; 3  pdl1_num   0.0000000</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h0</span><span class="op">$</span><span class="va">ecog_cat</span></span>
+<span><span class="co">#&gt; Test stat:  9.7519 </span></span>
+<span><span class="co">#&gt; Numerator df:  14 </span></span>
+<span><span class="co">#&gt; Denominator df:  2485 </span></span>
+<span><span class="co">#&gt; P-value:  0.7834</span></span></code></pre></div>
+<p>Little’s global</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h0_global</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_little.html">smdi_little</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
+<span><span class="va">h0_global</span></span>
+<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; [1] 801.0009</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $df</span></span>
+<span><span class="co">#&gt; [1] 86</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $p.value</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $missing.patterns</span></span>
+<span><span class="co">#&gt; [1] 8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "little"</span></span>
+<span><span class="co">#&gt; attr(,"row.names")</span></span>
+<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="group-2-diagnostics-ability-to-predict-missingness">Group 2 diagnostics: ability to predict missingness<a class="anchor" aria-label="anchor" href="#group-2-diagnostics-ability-to-predict-missingness"></a>
+</h3>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">auc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_rf.html">smdi_rf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
+<span><span class="va">auc</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">#&gt;   covariate   rf_auc</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat_NA  0.629</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat_NA  0.510</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num_NA  0.516</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

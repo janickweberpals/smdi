@@ -167,7 +167,7 @@ the different covariate-exposure-outcome-missingness correlations.</p>
 <td>ecog_cat</td>
 <td>ECOG performance score 0/1 or &gt;1 (binary)</td>
 <td>Yes/Yes</td>
-<td>MCAR [30%]</td>
+<td>MCAR [35%]</td>
 </tr>
 <tr class="even">
 <td>smoking_cat</td>
@@ -185,7 +185,7 @@ the different covariate-exposure-outcome-missingness correlations.</p>
 <td>egfr_cat</td>
 <td>EGFR alteration (binary)</td>
 <td>Yes/Yes</td>
-<td>MAR [20%]</td>
+<td>MAR [40%]</td>
 </tr>
 <tr class="odd">
 <td>alk_cat</td>
@@ -197,7 +197,7 @@ the different covariate-exposure-outcome-missingness correlations.</p>
 <td>pdl1_num</td>
 <td>PD-L1 expression in % (continuous)</td>
 <td>Yes/Yes</td>
-<td>MNAR(value) [40%]</td>
+<td>MNAR(value) [20%]</td>
 </tr>
 <tr class="odd">
 <td>histology_cat</td>
@@ -231,13 +231,13 @@ the different covariate-exposure-outcome-missingness correlations.</p>
 <span><span class="va">sim_covar</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  exposure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span>,</span>
 <span>  age_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">64</span> <span class="op">-</span> <span class="fl">7.5</span><span class="op">*</span><span class="va">exposure</span>, sd <span class="op">=</span> <span class="fl">13.7</span><span class="op">)</span>,</span>
-<span>  female_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.39</span> <span class="op">-</span> <span class="fl">0.12</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>,</span>
-<span>  ecog_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.63</span> <span class="op">-</span> <span class="fl">0.08</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>,</span>
+<span>  female_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.39</span> <span class="op">-</span> <span class="fl">0.05</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>,</span>
+<span>  ecog_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.63</span> <span class="op">-</span> <span class="fl">0.04</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>,</span>
 <span>  smoking_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.45</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>, </span>
-<span>  physical_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.35</span> <span class="op">+</span> <span class="fl">0.15</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>,</span>
-<span>  egfr_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.20</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>, </span>
+<span>  physical_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.35</span> <span class="op">+</span> <span class="fl">0.02</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>,</span>
+<span>  egfr_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.20</span> <span class="op">+</span> <span class="fl">0.07</span><span class="op">*</span><span class="va">exposure</span><span class="op">)</span>, </span>
 <span>  alk_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.03</span><span class="op">)</span>,</span>
-<span>  pdl1_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">30</span> <span class="op">+</span> <span class="fl">20</span><span class="op">*</span><span class="va">exposure</span>, sd <span class="op">=</span> <span class="fl">20.5</span><span class="op">)</span>,</span>
+<span>  pdl1_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">40</span> <span class="op">+</span> <span class="fl">10</span><span class="op">*</span><span class="va">exposure</span>, sd <span class="op">=</span> <span class="fl">10.5</span><span class="op">)</span>,</span>
 <span>  histology_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
 <span>  ses_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1_low"</span>, <span class="st">"2_middle"</span>, <span class="st">"3_high"</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span> , <span class="fl">0.4</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  copd_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.3</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span><span class="va">smoking_cat</span><span class="op">)</span></span>
@@ -693,18 +693,18 @@ variables with the following distributions.</p>
 <tr>
 <td headers="label" class="gt_row gt_left">female_cat</td>
 <td headers="stat_1" class="gt_row gt_center">588 (39%)</td>
-<td headers="stat_2" class="gt_row gt_center">262 (26%)</td>
-<td headers="estimate" class="gt_row gt_center">13%</td>
-<td headers="ci" class="gt_row gt_center">9.1%, 17%</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center">334 (33%)</td>
+<td headers="estimate" class="gt_row gt_center">5.7%</td>
+<td headers="ci" class="gt_row gt_center">1.8%, 9.6%</td>
+<td headers="p.value" class="gt_row gt_center">0.004</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">ecog_cat</td>
 <td headers="stat_1" class="gt_row gt_center">923 (61%)</td>
-<td headers="stat_2" class="gt_row gt_center">544 (55%)</td>
-<td headers="estimate" class="gt_row gt_center">6.9%</td>
-<td headers="ci" class="gt_row gt_center">2.9%, 11%</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center">578 (58%)</td>
+<td headers="estimate" class="gt_row gt_center">3.5%</td>
+<td headers="ci" class="gt_row gt_center">-0.48%, 7.5%</td>
+<td headers="p.value" class="gt_row gt_center">0.084</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">smoking_cat</td>
@@ -717,17 +717,17 @@ variables with the following distributions.</p>
 <tr>
 <td headers="label" class="gt_row gt_left">physical_cat</td>
 <td headers="stat_1" class="gt_row gt_center">502 (33%)</td>
-<td headers="stat_2" class="gt_row gt_center">514 (52%)</td>
-<td headers="estimate" class="gt_row gt_center">-18%</td>
-<td headers="ci" class="gt_row gt_center">-22%, -14%</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center">380 (38%)</td>
+<td headers="estimate" class="gt_row gt_center">-4.7%</td>
+<td headers="ci" class="gt_row gt_center">-8.6%, -0.73%</td>
+<td headers="p.value" class="gt_row gt_center">0.019</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">egfr_cat</td>
 <td headers="stat_1" class="gt_row gt_center">286 (19%)</td>
-<td headers="stat_2" class="gt_row gt_center">282 (28%)</td>
-<td headers="estimate" class="gt_row gt_center">-9.2%</td>
-<td headers="ci" class="gt_row gt_center">-13%, -5.7%</td>
+<td headers="stat_2" class="gt_row gt_center">255 (26%)</td>
+<td headers="estimate" class="gt_row gt_center">-6.5%</td>
+<td headers="ci" class="gt_row gt_center">-10%, -3.1%</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
@@ -740,10 +740,10 @@ variables with the following distributions.</p>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
-<td headers="stat_1" class="gt_row gt_center">30 (16, 44)</td>
-<td headers="stat_2" class="gt_row gt_center">49 (36, 64)</td>
-<td headers="estimate" class="gt_row gt_center">-20</td>
-<td headers="ci" class="gt_row gt_center">-22, -18</td>
+<td headers="stat_1" class="gt_row gt_center">40 (33, 47)</td>
+<td headers="stat_2" class="gt_row gt_center">50 (43, 57)</td>
+<td headers="estimate" class="gt_row gt_center">-10</td>
+<td headers="ci" class="gt_row gt_center">-11, -9.2</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
@@ -1254,51 +1254,51 @@ variables with the following distributions.</p>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">female_cat</td>
-<td headers="estimate" class="gt_row gt_center">0.52</td>
-<td headers="ci" class="gt_row gt_center">0.42, 0.64</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="estimate" class="gt_row gt_center">0.73</td>
+<td headers="ci" class="gt_row gt_center">0.60, 0.88</td>
+<td headers="p.value" class="gt_row gt_center">0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">ecog_cat</td>
-<td headers="estimate" class="gt_row gt_center">0.71</td>
-<td headers="ci" class="gt_row gt_center">0.59, 0.86</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="estimate" class="gt_row gt_center">0.83</td>
+<td headers="ci" class="gt_row gt_center">0.69, 1.00</td>
+<td headers="p.value" class="gt_row gt_center">0.054</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">smoking_cat</td>
 <td headers="estimate" class="gt_row gt_center">1.36</td>
-<td headers="ci" class="gt_row gt_center">1.09, 1.69</td>
-<td headers="p.value" class="gt_row gt_center">0.007</td>
+<td headers="ci" class="gt_row gt_center">1.10, 1.69</td>
+<td headers="p.value" class="gt_row gt_center">0.005</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">physical_cat</td>
-<td headers="estimate" class="gt_row gt_center">2.22</td>
-<td headers="ci" class="gt_row gt_center">1.84, 2.70</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="estimate" class="gt_row gt_center">1.27</td>
+<td headers="ci" class="gt_row gt_center">1.05, 1.54</td>
+<td headers="p.value" class="gt_row gt_center">0.015</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">egfr_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.73</td>
-<td headers="ci" class="gt_row gt_center">1.38, 2.16</td>
+<td headers="estimate" class="gt_row gt_center">1.47</td>
+<td headers="ci" class="gt_row gt_center">1.18, 1.84</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">alk_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.29</td>
-<td headers="ci" class="gt_row gt_center">0.72, 2.29</td>
-<td headers="p.value" class="gt_row gt_center">0.4</td>
+<td headers="estimate" class="gt_row gt_center">1.36</td>
+<td headers="ci" class="gt_row gt_center">0.77, 2.36</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
-<td headers="estimate" class="gt_row gt_center">1.05</td>
-<td headers="ci" class="gt_row gt_center">1.04, 1.06</td>
+<td headers="estimate" class="gt_row gt_center">1.10</td>
+<td headers="ci" class="gt_row gt_center">1.08, 1.11</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">histology_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.13</td>
-<td headers="ci" class="gt_row gt_center">0.90, 1.43</td>
-<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="estimate" class="gt_row gt_center">1.15</td>
+<td headers="ci" class="gt_row gt_center">0.91, 1.44</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">ses_cat</td>
@@ -1314,21 +1314,21 @@ variables with the following distributions.</p>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    2_middle</td>
-<td headers="estimate" class="gt_row gt_center">0.89</td>
-<td headers="ci" class="gt_row gt_center">0.69, 1.15</td>
-<td headers="p.value" class="gt_row gt_center">0.4</td>
+<td headers="estimate" class="gt_row gt_center">0.88</td>
+<td headers="ci" class="gt_row gt_center">0.69, 1.13</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    3_high</td>
-<td headers="estimate" class="gt_row gt_center">0.86</td>
-<td headers="ci" class="gt_row gt_center">0.66, 1.11</td>
+<td headers="estimate" class="gt_row gt_center">0.85</td>
+<td headers="ci" class="gt_row gt_center">0.66, 1.09</td>
 <td headers="p.value" class="gt_row gt_center">0.2</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">copd_cat</td>
 <td headers="estimate" class="gt_row gt_center">1.39</td>
-<td headers="ci" class="gt_row gt_center">1.11, 1.73</td>
-<td headers="p.value" class="gt_row gt_center">0.004</td>
+<td headers="ci" class="gt_row gt_center">1.12, 1.72</td>
+<td headers="p.value" class="gt_row gt_center">0.003</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes"><tr>
@@ -1368,7 +1368,7 @@ Treatment assignment probabilities.
 <code>overall survival</code>. For this, the <code>simsurv</code>
 package is used with the following assumptions:</p>
 <ul>
-<li>Parametric event times follow a Weibull distribution</li>
+<li>Parametric event times follow an exponential distribution</li>
 <li>Max event times: 5 years of follow-up</li>
 <li>Event times depend on some (time-fixed/baseline) covariate effects
 as listed in the table above</li>
@@ -1385,7 +1385,7 @@ following</li>
 <span>  physical_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.79</span><span class="op">)</span>,</span>
 <span>  egfr_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>  alk_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.91</span><span class="op">)</span>,</span>
-<span>  pdl1_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.72</span><span class="op">)</span>,</span>
+<span>  pdl1_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.98</span><span class="op">)</span>,</span>
 <span>  histology_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">1.15</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
@@ -1855,8 +1855,8 @@ following</li>
 </tr>
 <tr>
 <td headers="Covariate" class="gt_row gt_left">pdl1_num</td>
-<td headers="logHR" class="gt_row gt_right">-0.33</td>
-<td headers="HR" class="gt_row gt_right">0.72</td>
+<td headers="logHR" class="gt_row gt_right">-0.02</td>
+<td headers="HR" class="gt_row gt_right">0.98</td>
 </tr>
 <tr>
 <td headers="Covariate" class="gt_row gt_left">histology_cat</td>
@@ -1867,16 +1867,15 @@ following</li>
 </table>
 </div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">420</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="va">seed_value</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim_df</span> <span class="op">&lt;-</span> <span class="va">sim_covar</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span></span>
 <span>  <span class="fu">simsurv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsurv/man/simsurv.html" class="external-link">simsurv</a></span><span class="op">(</span></span>
-<span>    dist <span class="op">=</span> <span class="st">"weibull"</span>,</span>
-<span>    lambdas <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>    gammas <span class="op">=</span> <span class="fl">3.5</span>,</span>
+<span>    dist <span class="op">=</span> <span class="st">"exponential"</span>,</span>
+<span>    lambdas <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>    betas <span class="op">=</span> <span class="va">betas_os</span>,</span>
 <span>    x <span class="op">=</span> <span class="va">sim_covar</span>,</span>
-<span>    maxt <span class="op">=</span> <span class="fl">60</span> <span class="co"># in months</span></span>
+<span>    maxt <span class="op">=</span> <span class="fl">5</span> <span class="co"># in months</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
@@ -1892,15 +1891,15 @@ overall and by exposure for overall survival.</p>
 <span></span>
 <span><span class="fu">gtsummary</span><span class="fu">::</span><span class="fu"><a href="https://www.danieldsjoberg.com/gtsummary/reference/tbl_survfit.html" class="external-link">tbl_survfit</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">km_overall</span>, <span class="va">km_exposure</span><span class="op">)</span>,</span>
-<span>  times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>  label_header <span class="op">=</span> <span class="st">"**{time} Months**"</span></span>
+<span>  times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  label_header <span class="op">=</span> <span class="st">"**{time} Years**"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="bkjxsgovhy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fjfzcinuri" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bkjxsgovhy .gt_table {
+#fjfzcinuri .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1925,7 +1924,7 @@ overall and by exposure for overall survival.</p>
   border-left-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_heading {
+#fjfzcinuri .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1937,12 +1936,12 @@ overall and by exposure for overall survival.</p>
   border-right-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_caption {
+#fjfzcinuri .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bkjxsgovhy .gt_title {
+#fjfzcinuri .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1954,7 +1953,7 @@ overall and by exposure for overall survival.</p>
   border-bottom-width: 0;
 }
 
-#bkjxsgovhy .gt_subtitle {
+#fjfzcinuri .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1966,13 +1965,13 @@ overall and by exposure for overall survival.</p>
   border-top-width: 0;
 }
 
-#bkjxsgovhy .gt_bottom_border {
+#fjfzcinuri .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_col_headings {
+#fjfzcinuri .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1987,7 +1986,7 @@ overall and by exposure for overall survival.</p>
   border-right-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_col_heading {
+#fjfzcinuri .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2007,7 +2006,7 @@ overall and by exposure for overall survival.</p>
   overflow-x: hidden;
 }
 
-#bkjxsgovhy .gt_column_spanner_outer {
+#fjfzcinuri .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2019,15 +2018,15 @@ overall and by exposure for overall survival.</p>
   padding-right: 4px;
 }
 
-#bkjxsgovhy .gt_column_spanner_outer:first-child {
+#fjfzcinuri .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bkjxsgovhy .gt_column_spanner_outer:last-child {
+#fjfzcinuri .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bkjxsgovhy .gt_column_spanner {
+#fjfzcinuri .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2039,7 +2038,7 @@ overall and by exposure for overall survival.</p>
   width: 100%;
 }
 
-#bkjxsgovhy .gt_group_heading {
+#fjfzcinuri .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2065,7 +2064,7 @@ overall and by exposure for overall survival.</p>
   text-align: left;
 }
 
-#bkjxsgovhy .gt_empty_group_heading {
+#fjfzcinuri .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2080,15 +2079,15 @@ overall and by exposure for overall survival.</p>
   vertical-align: middle;
 }
 
-#bkjxsgovhy .gt_from_md > :first-child {
+#fjfzcinuri .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bkjxsgovhy .gt_from_md > :last-child {
+#fjfzcinuri .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bkjxsgovhy .gt_row {
+#fjfzcinuri .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2107,7 +2106,7 @@ overall and by exposure for overall survival.</p>
   overflow-x: hidden;
 }
 
-#bkjxsgovhy .gt_stub {
+#fjfzcinuri .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2120,7 +2119,7 @@ overall and by exposure for overall survival.</p>
   padding-right: 5px;
 }
 
-#bkjxsgovhy .gt_stub_row_group {
+#fjfzcinuri .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2134,11 +2133,11 @@ overall and by exposure for overall survival.</p>
   vertical-align: top;
 }
 
-#bkjxsgovhy .gt_row_group_first td {
+#fjfzcinuri .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bkjxsgovhy .gt_summary_row {
+#fjfzcinuri .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2148,16 +2147,16 @@ overall and by exposure for overall survival.</p>
   padding-right: 5px;
 }
 
-#bkjxsgovhy .gt_first_summary_row {
+#fjfzcinuri .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_first_summary_row.thick {
+#fjfzcinuri .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bkjxsgovhy .gt_last_summary_row {
+#fjfzcinuri .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2167,7 +2166,7 @@ overall and by exposure for overall survival.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_grand_summary_row {
+#fjfzcinuri .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2177,7 +2176,7 @@ overall and by exposure for overall survival.</p>
   padding-right: 5px;
 }
 
-#bkjxsgovhy .gt_first_grand_summary_row {
+#fjfzcinuri .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2187,11 +2186,11 @@ overall and by exposure for overall survival.</p>
   border-top-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_striped {
+#fjfzcinuri .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bkjxsgovhy .gt_table_body {
+#fjfzcinuri .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2200,7 +2199,7 @@ overall and by exposure for overall survival.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_footnotes {
+#fjfzcinuri .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2214,7 +2213,7 @@ overall and by exposure for overall survival.</p>
   border-right-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_footnote {
+#fjfzcinuri .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2223,7 +2222,7 @@ overall and by exposure for overall survival.</p>
   padding-right: 5px;
 }
 
-#bkjxsgovhy .gt_sourcenotes {
+#fjfzcinuri .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2237,7 +2236,7 @@ overall and by exposure for overall survival.</p>
   border-right-color: #D3D3D3;
 }
 
-#bkjxsgovhy .gt_sourcenote {
+#fjfzcinuri .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2245,78 +2244,78 @@ overall and by exposure for overall survival.</p>
   padding-right: 5px;
 }
 
-#bkjxsgovhy .gt_left {
+#fjfzcinuri .gt_left {
   text-align: left;
 }
 
-#bkjxsgovhy .gt_center {
+#fjfzcinuri .gt_center {
   text-align: center;
 }
 
-#bkjxsgovhy .gt_right {
+#fjfzcinuri .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bkjxsgovhy .gt_font_normal {
+#fjfzcinuri .gt_font_normal {
   font-weight: normal;
 }
 
-#bkjxsgovhy .gt_font_bold {
+#fjfzcinuri .gt_font_bold {
   font-weight: bold;
 }
 
-#bkjxsgovhy .gt_font_italic {
+#fjfzcinuri .gt_font_italic {
   font-style: italic;
 }
 
-#bkjxsgovhy .gt_super {
+#fjfzcinuri .gt_super {
   font-size: 65%;
 }
 
-#bkjxsgovhy .gt_footnote_marks {
+#fjfzcinuri .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bkjxsgovhy .gt_asterisk {
+#fjfzcinuri .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bkjxsgovhy .gt_indent_1 {
+#fjfzcinuri .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bkjxsgovhy .gt_indent_2 {
+#fjfzcinuri .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bkjxsgovhy .gt_indent_3 {
+#fjfzcinuri .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bkjxsgovhy .gt_indent_4 {
+#fjfzcinuri .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bkjxsgovhy .gt_indent_5 {
+#fjfzcinuri .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;12 Months&lt;/strong&gt;"><strong>12 Months</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;60 Months&lt;/strong&gt;"><strong>60 Months</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;1 Years&lt;/strong&gt;"><strong>1 Years</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;5 Years&lt;/strong&gt;"><strong>5 Years</strong></th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
 <td headers="label" class="gt_row gt_left">Overall</td>
-<td headers="stat_1" class="gt_row gt_center">42% (40%, 44%)</td>
-<td headers="stat_2" class="gt_row gt_center">18% (17%, 20%)</td>
+<td headers="stat_1" class="gt_row gt_center">61% (60%, 63%)</td>
+<td headers="stat_2" class="gt_row gt_center">19% (18%, 21%)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">exposure</td>
@@ -2325,13 +2324,13 @@ overall and by exposure for overall survival.</p>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_1" class="gt_row gt_center">27% (25%, 29%)</td>
-<td headers="stat_2" class="gt_row gt_center">7.6% (6.4%, 9.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">56% (54%, 59%)</td>
+<td headers="stat_2" class="gt_row gt_center">15% (13%, 17%)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_1" class="gt_row gt_center">65% (62%, 68%)</td>
-<td headers="stat_2" class="gt_row gt_center">34% (31%, 37%)</td>
+<td headers="stat_1" class="gt_row gt_center">69% (66%, 72%)</td>
+<td headers="stat_2" class="gt_row gt_center">26% (23%, 29%)</td>
 </tr>
 </tbody>
 </table>
@@ -2348,7 +2347,7 @@ Kaplan-Meier curve.</p>
 <span>  conf.int <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  surv.median.line <span class="op">=</span> <span class="st">"hv"</span>,</span>
 <span>  palette <span class="op">=</span> <span class="st">"jco"</span>,</span>
-<span>  xlab <span class="op">=</span> <span class="st">"Time [Months]"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Time [Years]"</span>,</span>
 <span>  legend.labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Comparator"</span>, <span class="st">"Exposure of interest"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="data_generation_files/figure-html/unnamed-chunk-2-1.png" width="900"></p>
@@ -2367,12 +2366,12 @@ ratio (HR) estimates</p>
 <span></span>
 <span><span class="va">cox_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">gtsummary</span><span class="fu">::</span><span class="fu"><a href="https://www.danieldsjoberg.com/gtsummary/reference/tbl_regression.html" class="external-link">tbl_regression</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<div id="gsugocmyfs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="xmcgowxkna" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#gsugocmyfs .gt_table {
+#xmcgowxkna .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2397,7 +2396,7 @@ ratio (HR) estimates</p>
   border-left-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_heading {
+#xmcgowxkna .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2409,12 +2408,12 @@ ratio (HR) estimates</p>
   border-right-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_caption {
+#xmcgowxkna .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gsugocmyfs .gt_title {
+#xmcgowxkna .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2426,7 +2425,7 @@ ratio (HR) estimates</p>
   border-bottom-width: 0;
 }
 
-#gsugocmyfs .gt_subtitle {
+#xmcgowxkna .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2438,13 +2437,13 @@ ratio (HR) estimates</p>
   border-top-width: 0;
 }
 
-#gsugocmyfs .gt_bottom_border {
+#xmcgowxkna .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_col_headings {
+#xmcgowxkna .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2459,7 +2458,7 @@ ratio (HR) estimates</p>
   border-right-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_col_heading {
+#xmcgowxkna .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2479,7 +2478,7 @@ ratio (HR) estimates</p>
   overflow-x: hidden;
 }
 
-#gsugocmyfs .gt_column_spanner_outer {
+#xmcgowxkna .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2491,15 +2490,15 @@ ratio (HR) estimates</p>
   padding-right: 4px;
 }
 
-#gsugocmyfs .gt_column_spanner_outer:first-child {
+#xmcgowxkna .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gsugocmyfs .gt_column_spanner_outer:last-child {
+#xmcgowxkna .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gsugocmyfs .gt_column_spanner {
+#xmcgowxkna .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2511,7 +2510,7 @@ ratio (HR) estimates</p>
   width: 100%;
 }
 
-#gsugocmyfs .gt_group_heading {
+#xmcgowxkna .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2537,7 +2536,7 @@ ratio (HR) estimates</p>
   text-align: left;
 }
 
-#gsugocmyfs .gt_empty_group_heading {
+#xmcgowxkna .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2552,15 +2551,15 @@ ratio (HR) estimates</p>
   vertical-align: middle;
 }
 
-#gsugocmyfs .gt_from_md > :first-child {
+#xmcgowxkna .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gsugocmyfs .gt_from_md > :last-child {
+#xmcgowxkna .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gsugocmyfs .gt_row {
+#xmcgowxkna .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2579,7 +2578,7 @@ ratio (HR) estimates</p>
   overflow-x: hidden;
 }
 
-#gsugocmyfs .gt_stub {
+#xmcgowxkna .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2592,7 +2591,7 @@ ratio (HR) estimates</p>
   padding-right: 5px;
 }
 
-#gsugocmyfs .gt_stub_row_group {
+#xmcgowxkna .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2606,11 +2605,11 @@ ratio (HR) estimates</p>
   vertical-align: top;
 }
 
-#gsugocmyfs .gt_row_group_first td {
+#xmcgowxkna .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gsugocmyfs .gt_summary_row {
+#xmcgowxkna .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2620,16 +2619,16 @@ ratio (HR) estimates</p>
   padding-right: 5px;
 }
 
-#gsugocmyfs .gt_first_summary_row {
+#xmcgowxkna .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_first_summary_row.thick {
+#xmcgowxkna .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gsugocmyfs .gt_last_summary_row {
+#xmcgowxkna .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2639,7 +2638,7 @@ ratio (HR) estimates</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_grand_summary_row {
+#xmcgowxkna .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2649,7 +2648,7 @@ ratio (HR) estimates</p>
   padding-right: 5px;
 }
 
-#gsugocmyfs .gt_first_grand_summary_row {
+#xmcgowxkna .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2659,11 +2658,11 @@ ratio (HR) estimates</p>
   border-top-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_striped {
+#xmcgowxkna .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gsugocmyfs .gt_table_body {
+#xmcgowxkna .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2672,7 +2671,7 @@ ratio (HR) estimates</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_footnotes {
+#xmcgowxkna .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2686,7 +2685,7 @@ ratio (HR) estimates</p>
   border-right-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_footnote {
+#xmcgowxkna .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2695,7 +2694,7 @@ ratio (HR) estimates</p>
   padding-right: 5px;
 }
 
-#gsugocmyfs .gt_sourcenotes {
+#xmcgowxkna .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2709,7 +2708,7 @@ ratio (HR) estimates</p>
   border-right-color: #D3D3D3;
 }
 
-#gsugocmyfs .gt_sourcenote {
+#xmcgowxkna .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2717,64 +2716,64 @@ ratio (HR) estimates</p>
   padding-right: 5px;
 }
 
-#gsugocmyfs .gt_left {
+#xmcgowxkna .gt_left {
   text-align: left;
 }
 
-#gsugocmyfs .gt_center {
+#xmcgowxkna .gt_center {
   text-align: center;
 }
 
-#gsugocmyfs .gt_right {
+#xmcgowxkna .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gsugocmyfs .gt_font_normal {
+#xmcgowxkna .gt_font_normal {
   font-weight: normal;
 }
 
-#gsugocmyfs .gt_font_bold {
+#xmcgowxkna .gt_font_bold {
   font-weight: bold;
 }
 
-#gsugocmyfs .gt_font_italic {
+#xmcgowxkna .gt_font_italic {
   font-style: italic;
 }
 
-#gsugocmyfs .gt_super {
+#xmcgowxkna .gt_super {
   font-size: 65%;
 }
 
-#gsugocmyfs .gt_footnote_marks {
+#xmcgowxkna .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#gsugocmyfs .gt_asterisk {
+#xmcgowxkna .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gsugocmyfs .gt_indent_1 {
+#xmcgowxkna .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gsugocmyfs .gt_indent_2 {
+#xmcgowxkna .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gsugocmyfs .gt_indent_3 {
+#xmcgowxkna .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gsugocmyfs .gt_indent_4 {
+#xmcgowxkna .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gsugocmyfs .gt_indent_5 {
+#xmcgowxkna .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2792,63 +2791,63 @@ ratio (HR) estimates</p>
 <tbody class="gt_table_body">
 <tr>
 <td headers="label" class="gt_row gt_left">exposure</td>
-<td headers="estimate" class="gt_row gt_center">1.00</td>
-<td headers="ci" class="gt_row gt_center">0.90, 1.11</td>
-<td headers="p.value" class="gt_row gt_center">&gt;0.9</td>
+<td headers="estimate" class="gt_row gt_center">1.01</td>
+<td headers="ci" class="gt_row gt_center">0.91, 1.12</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">age_num</td>
 <td headers="estimate" class="gt_row gt_center">1.05</td>
-<td headers="ci" class="gt_row gt_center">1.05, 1.06</td>
+<td headers="ci" class="gt_row gt_center">1.04, 1.05</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">female_cat</td>
-<td headers="estimate" class="gt_row gt_center">0.97</td>
-<td headers="ci" class="gt_row gt_center">0.89, 1.07</td>
-<td headers="p.value" class="gt_row gt_center">0.6</td>
+<td headers="estimate" class="gt_row gt_center">0.92</td>
+<td headers="ci" class="gt_row gt_center">0.84, 1.01</td>
+<td headers="p.value" class="gt_row gt_center">0.087</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">ecog_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.24</td>
-<td headers="ci" class="gt_row gt_center">1.14, 1.36</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="estimate" class="gt_row gt_center">1.15</td>
+<td headers="ci" class="gt_row gt_center">1.05, 1.26</td>
+<td headers="p.value" class="gt_row gt_center">0.002</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">smoking_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.19</td>
-<td headers="ci" class="gt_row gt_center">1.07, 1.32</td>
-<td headers="p.value" class="gt_row gt_center">0.001</td>
+<td headers="estimate" class="gt_row gt_center">1.44</td>
+<td headers="ci" class="gt_row gt_center">1.30, 1.60</td>
+<td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">physical_cat</td>
-<td headers="estimate" class="gt_row gt_center">0.77</td>
-<td headers="ci" class="gt_row gt_center">0.71, 0.85</td>
+<td headers="estimate" class="gt_row gt_center">0.84</td>
+<td headers="ci" class="gt_row gt_center">0.77, 0.92</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">egfr_cat</td>
-<td headers="estimate" class="gt_row gt_center">0.50</td>
-<td headers="ci" class="gt_row gt_center">0.45, 0.56</td>
+<td headers="estimate" class="gt_row gt_center">0.52</td>
+<td headers="ci" class="gt_row gt_center">0.46, 0.58</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">alk_cat</td>
 <td headers="estimate" class="gt_row gt_center">0.88</td>
-<td headers="ci" class="gt_row gt_center">0.68, 1.14</td>
-<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="ci" class="gt_row gt_center">0.66, 1.16</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
-<td headers="estimate" class="gt_row gt_center">0.71</td>
-<td headers="ci" class="gt_row gt_center">0.71, 0.72</td>
+<td headers="estimate" class="gt_row gt_center">0.98</td>
+<td headers="ci" class="gt_row gt_center">0.98, 0.98</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">histology_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.14</td>
-<td headers="ci" class="gt_row gt_center">1.02, 1.27</td>
-<td headers="p.value" class="gt_row gt_center">0.022</td>
+<td headers="estimate" class="gt_row gt_center">1.17</td>
+<td headers="ci" class="gt_row gt_center">1.05, 1.30</td>
+<td headers="p.value" class="gt_row gt_center">0.004</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">ses_cat</td>
@@ -2864,21 +2863,21 @@ ratio (HR) estimates</p>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    2_middle</td>
-<td headers="estimate" class="gt_row gt_center">1.06</td>
-<td headers="ci" class="gt_row gt_center">0.94, 1.20</td>
-<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="estimate" class="gt_row gt_center">1.03</td>
+<td headers="ci" class="gt_row gt_center">0.92, 1.16</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    3_high</td>
-<td headers="estimate" class="gt_row gt_center">1.07</td>
-<td headers="ci" class="gt_row gt_center">0.95, 1.20</td>
-<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="estimate" class="gt_row gt_center">1.04</td>
+<td headers="ci" class="gt_row gt_center">0.92, 1.17</td>
+<td headers="p.value" class="gt_row gt_center">0.5</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">copd_cat</td>
-<td headers="estimate" class="gt_row gt_center">1.10</td>
-<td headers="ci" class="gt_row gt_center">0.99, 1.22</td>
-<td headers="p.value" class="gt_row gt_center">0.070</td>
+<td headers="estimate" class="gt_row gt_center">0.90</td>
+<td headers="ci" class="gt_row gt_center">0.81, 1.00</td>
+<td headers="p.value" class="gt_row gt_center">0.042</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes"><tr>
@@ -2980,7 +2979,7 @@ dependent on any other observed or unobserved covariates</li>
 <span><span class="va">mcar_col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span><span class="op">==</span><span class="st">"ecog_cat"</span><span class="op">)</span></span>
 <span><span class="va">miss_pattern_mcar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">miss_pattern</span>, <span class="va">mcar_col</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">miss_prop_mcar</span> <span class="op">&lt;-</span> <span class="fl">.3</span></span>
+<span><span class="va">miss_prop_mcar</span> <span class="op">&lt;-</span> <span class="fl">.35</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">smdi_data_mcar</span> <span class="op">&lt;-</span> <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/ampute.html" class="external-link">ampute</a></span><span class="op">(</span></span>
@@ -3421,15 +3420,15 @@ dependent on any other observed or unobserved covariates</li>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">699 (28%)</td>
+<td headers="stat_0" class="gt_row gt_center">629 (25%)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">1,015 (41%)</td>
+<td headers="stat_0" class="gt_row gt_center">972 (39%)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    missing</td>
-<td headers="stat_0" class="gt_row gt_center">786 (31%)</td>
+<td headers="stat_0" class="gt_row gt_center">899 (36%)</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes"><tr>
@@ -3466,7 +3465,7 @@ becoming incomplete</li>
 <span><span class="va">miss_weights_mar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">miss_weights_mar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">miss_weights_mar</span>, <span class="va">mar_col</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">miss_prop_mar</span> <span class="op">&lt;-</span> <span class="fl">.2</span></span>
+<span><span class="va">miss_prop_mar</span> <span class="op">&lt;-</span> <span class="fl">.4</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">smdi_data_mar</span> <span class="op">&lt;-</span> <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/ampute.html" class="external-link">ampute</a></span><span class="op">(</span></span>
@@ -3908,15 +3907,15 @@ becoming incomplete</li>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">1,544 (62%)</td>
+<td headers="stat_0" class="gt_row gt_center">1,175 (47%)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">420 (17%)</td>
+<td headers="stat_0" class="gt_row gt_center">310 (12%)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    missing</td>
-<td headers="stat_0" class="gt_row gt_center">536 (21%)</td>
+<td headers="stat_0" class="gt_row gt_center">1,015 (41%)</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes"><tr>
@@ -3953,7 +3952,7 @@ probability of becoming incomplete</li>
 <span><span class="va">miss_weights_mnar_v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">miss_weights_mnar_v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">miss_weights_mnar_v</span>, <span class="va">mnar_v_col</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">miss_prop_mnar_v</span> <span class="op">&lt;-</span> <span class="fl">.4</span></span>
+<span><span class="va">miss_prop_mnar_v</span> <span class="op">&lt;-</span> <span class="fl">.2</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">smdi_data_mnar_v</span> <span class="op">&lt;-</span> <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/ampute.html" class="external-link">ampute</a></span><span class="op">(</span></span>
@@ -4390,11 +4389,11 @@ probability of becoming incomplete</li>
 <tbody class="gt_table_body">
 <tr>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
-<td headers="stat_0" class="gt_row gt_center">44 (31, 60)</td>
+<td headers="stat_0" class="gt_row gt_center">46 (39, 53)</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">971</td>
+<td headers="stat_0" class="gt_row gt_center">517</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes"><tr>
@@ -4871,24 +4870,24 @@ probability of becoming incomplete</li>
 <td headers="stat_0" class="gt_row gt_center"></td>
 <td headers="stat_1" class="gt_row gt_center"></td>
 <td headers="stat_2" class="gt_row gt_center"></td>
-<td headers="estimate" class="gt_row gt_center">0.28</td>
-<td headers="ci" class="gt_row gt_center">0.20, 0.36</td>
+<td headers="estimate" class="gt_row gt_center">0.12</td>
+<td headers="ci" class="gt_row gt_center">0.04, 0.20</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">1,650 (66%)</td>
+<td headers="stat_0" class="gt_row gt_center">1,578 (63%)</td>
 <td headers="stat_1" class="gt_row gt_center">914 (61%)</td>
-<td headers="stat_2" class="gt_row gt_center">736 (74%)</td>
+<td headers="stat_2" class="gt_row gt_center">664 (67%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">850 (34%)</td>
+<td headers="stat_0" class="gt_row gt_center">922 (37%)</td>
 <td headers="stat_1" class="gt_row gt_center">588 (39%)</td>
-<td headers="stat_2" class="gt_row gt_center">262 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">334 (33%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
@@ -4925,24 +4924,24 @@ probability of becoming incomplete</li>
 <td headers="stat_0" class="gt_row gt_center"></td>
 <td headers="stat_1" class="gt_row gt_center"></td>
 <td headers="stat_2" class="gt_row gt_center"></td>
-<td headers="estimate" class="gt_row gt_center">0.37</td>
-<td headers="ci" class="gt_row gt_center">0.29, 0.45</td>
+<td headers="estimate" class="gt_row gt_center">0.10</td>
+<td headers="ci" class="gt_row gt_center">0.02, 0.18</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">1,484 (59%)</td>
+<td headers="stat_0" class="gt_row gt_center">1,618 (65%)</td>
 <td headers="stat_1" class="gt_row gt_center">1,000 (67%)</td>
-<td headers="stat_2" class="gt_row gt_center">484 (48%)</td>
+<td headers="stat_2" class="gt_row gt_center">618 (62%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">1,016 (41%)</td>
+<td headers="stat_0" class="gt_row gt_center">882 (35%)</td>
 <td headers="stat_1" class="gt_row gt_center">502 (33%)</td>
-<td headers="stat_2" class="gt_row gt_center">514 (52%)</td>
+<td headers="stat_2" class="gt_row gt_center">380 (38%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
@@ -5066,19 +5065,19 @@ probability of becoming incomplete</li>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">eventtime</td>
-<td headers="stat_0" class="gt_row gt_center">8 (2, 34)</td>
-<td headers="stat_1" class="gt_row gt_center">4 (1, 14)</td>
-<td headers="stat_2" class="gt_row gt_center">26 (7, 60)</td>
-<td headers="estimate" class="gt_row gt_center">-20</td>
-<td headers="ci" class="gt_row gt_center">-21, -18</td>
+<td headers="stat_0" class="gt_row gt_center">1.57 (0.52, 3.95)</td>
+<td headers="stat_1" class="gt_row gt_center">1.28 (0.43, 3.13)</td>
+<td headers="stat_2" class="gt_row gt_center">2.18 (0.75, 5.00)</td>
+<td headers="estimate" class="gt_row gt_center">-0.64</td>
+<td headers="ci" class="gt_row gt_center">-0.78, -0.49</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">status</td>
-<td headers="stat_0" class="gt_row gt_center">2,045 (82%)</td>
-<td headers="stat_1" class="gt_row gt_center">1,388 (92%)</td>
-<td headers="stat_2" class="gt_row gt_center">657 (66%)</td>
-<td headers="estimate" class="gt_row gt_center">27%</td>
+<td headers="stat_0" class="gt_row gt_center">2,017 (81%)</td>
+<td headers="stat_1" class="gt_row gt_center">1,277 (85%)</td>
+<td headers="stat_2" class="gt_row gt_center">740 (74%)</td>
+<td headers="estimate" class="gt_row gt_center">11%</td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
@@ -5087,33 +5086,33 @@ probability of becoming incomplete</li>
 <td headers="stat_0" class="gt_row gt_center"></td>
 <td headers="stat_1" class="gt_row gt_center"></td>
 <td headers="stat_2" class="gt_row gt_center"></td>
-<td headers="estimate" class="gt_row gt_center">0.12</td>
-<td headers="ci" class="gt_row gt_center">0.03, 0.22</td>
+<td headers="estimate" class="gt_row gt_center">0.04</td>
+<td headers="ci" class="gt_row gt_center">-0.06, 0.14</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">699 (41%)</td>
-<td headers="stat_1" class="gt_row gt_center">395 (38%)</td>
-<td headers="stat_2" class="gt_row gt_center">304 (44%)</td>
+<td headers="stat_0" class="gt_row gt_center">629 (39%)</td>
+<td headers="stat_1" class="gt_row gt_center">368 (39%)</td>
+<td headers="stat_2" class="gt_row gt_center">261 (40%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">1,015 (59%)</td>
-<td headers="stat_1" class="gt_row gt_center">634 (62%)</td>
-<td headers="stat_2" class="gt_row gt_center">381 (56%)</td>
+<td headers="stat_0" class="gt_row gt_center">972 (61%)</td>
+<td headers="stat_1" class="gt_row gt_center">586 (61%)</td>
+<td headers="stat_2" class="gt_row gt_center">386 (60%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">786</td>
-<td headers="stat_1" class="gt_row gt_center">473</td>
-<td headers="stat_2" class="gt_row gt_center">313</td>
+<td headers="stat_0" class="gt_row gt_center">899</td>
+<td headers="stat_1" class="gt_row gt_center">548</td>
+<td headers="stat_2" class="gt_row gt_center">351</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
@@ -5123,51 +5122,51 @@ probability of becoming incomplete</li>
 <td headers="stat_0" class="gt_row gt_center"></td>
 <td headers="stat_1" class="gt_row gt_center"></td>
 <td headers="stat_2" class="gt_row gt_center"></td>
-<td headers="estimate" class="gt_row gt_center">0.19</td>
-<td headers="ci" class="gt_row gt_center">0.10, 0.28</td>
+<td headers="estimate" class="gt_row gt_center">0.20</td>
+<td headers="ci" class="gt_row gt_center">0.09, 0.30</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">1,544 (79%)</td>
-<td headers="stat_1" class="gt_row gt_center">1,025 (81%)</td>
-<td headers="stat_2" class="gt_row gt_center">519 (74%)</td>
+<td headers="stat_0" class="gt_row gt_center">1,175 (79%)</td>
+<td headers="stat_1" class="gt_row gt_center">823 (82%)</td>
+<td headers="stat_2" class="gt_row gt_center">352 (74%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">420 (21%)</td>
-<td headers="stat_1" class="gt_row gt_center">234 (19%)</td>
-<td headers="stat_2" class="gt_row gt_center">186 (26%)</td>
+<td headers="stat_0" class="gt_row gt_center">310 (21%)</td>
+<td headers="stat_1" class="gt_row gt_center">184 (18%)</td>
+<td headers="stat_2" class="gt_row gt_center">126 (26%)</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">536</td>
-<td headers="stat_1" class="gt_row gt_center">243</td>
-<td headers="stat_2" class="gt_row gt_center">293</td>
+<td headers="stat_0" class="gt_row gt_center">1,015</td>
+<td headers="stat_1" class="gt_row gt_center">495</td>
+<td headers="stat_2" class="gt_row gt_center">520</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
-<td headers="stat_0" class="gt_row gt_center">44 (31, 60)</td>
-<td headers="stat_1" class="gt_row gt_center">37 (24, 49)</td>
-<td headers="stat_2" class="gt_row gt_center">54 (41, 68)</td>
-<td headers="estimate" class="gt_row gt_center">-18</td>
-<td headers="ci" class="gt_row gt_center">-20, -16</td>
+<td headers="stat_0" class="gt_row gt_center">46 (39, 53)</td>
+<td headers="stat_1" class="gt_row gt_center">42 (35, 49)</td>
+<td headers="stat_2" class="gt_row gt_center">51 (45, 58)</td>
+<td headers="estimate" class="gt_row gt_center">-9.1</td>
+<td headers="ci" class="gt_row gt_center">-10, -8.2</td>
 <td headers="p.value" class="gt_row gt_center"></td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">    Unknown</td>
-<td headers="stat_0" class="gt_row gt_center">971</td>
-<td headers="stat_1" class="gt_row gt_center">681</td>
-<td headers="stat_2" class="gt_row gt_center">290</td>
+<td headers="stat_0" class="gt_row gt_center">517</td>
+<td headers="stat_1" class="gt_row gt_center">376</td>
+<td headers="stat_2" class="gt_row gt_center">141</td>
 <td headers="estimate" class="gt_row gt_center"></td>
 <td headers="ci" class="gt_row gt_center"></td>
 <td headers="p.value" class="gt_row gt_center"></td>

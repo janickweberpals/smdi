@@ -7,9 +7,9 @@
 smdi_rf(
   data = NULL,
   covar = NULL,
-  tune = FALSE,
   train_test_ratio = c(0.7, 0.3),
   set_seed = 42,
+  ntree = 1000,
   ...
 )
 }
@@ -18,16 +18,16 @@ smdi_rf(
 
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
-\item{tune}{logical if random forest model for AUC diagnostic should be tuned and cross-validated (CAVE: very time consuming, default is FALSE)}
-
 \item{train_test_ratio}{numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default}
 
 \item{set_seed}{seed for reproducibility, defaults to 42}
 
+\item{ntree}{integer, number of trees (defaults to 1000 trees)}
+
 \item{...}{additional arguments}
 }
 \value{
-...
+trf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
 }
 \description{
 The function trains and fits a random forest model to assess the ability to predict missingness for
@@ -37,7 +37,7 @@ MAR may be a likely scenario and would imply that imputation may be feasible.
 #' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-...
+The random forest utilizes the randomForest engine.
 }
 \examples{
 \dontrun{

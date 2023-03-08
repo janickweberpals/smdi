@@ -8,8 +8,6 @@ smdi_little(data = NULL)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
-
-\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 }
 \value{
 returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.
