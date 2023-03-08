@@ -40,6 +40,7 @@
 #' @importFrom pROC roc
 #' @importFrom randomForest randomForest
 #' @importFrom stats predict
+#' @importFrom stringr str_remove
 #' @importFrom tibble tibble
 #' @importFrom tibble rownames_to_column
 #' @importFrom tidyselect all_of
@@ -47,14 +48,9 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
 #' library(smdi)
-#' library(dplyr)
 #'
-#' smdi_data %>%
-#'  smdi_little()
-#'
-#' }
+#' smdi_rf(data = smdi_data)
 
 smdi_rf <- function(data = NULL,
                     covar = NULL,
@@ -65,7 +61,7 @@ smdi_rf <- function(data = NULL,
                     ){
 
   # initialize
-  .data <- MeanDecreaseAccuracy <- V1 <- covariate <- NULL
+  .data <- MeanDecreaseAccuracy <- V1 <- covariate <- rf_auc <- NULL
 
   # additional arguments
   add_args <- list(...)
@@ -115,9 +111,10 @@ smdi_rf <- function(data = NULL,
     auc <- pROC::auc(rf.roc)[[1]]
 
     rf_tbl_out <- tibble::tibble(
-      covariate = target_var,
+      covariate = stringr::str_remove(target_var, "_NA"),
       rf_auc = auc
-      )
+      ) %>%
+      dplyr::mutate(rf_auc = formatC(rf_auc, format = "f", digits = 3))
 
     rf_plot_out <- rf$importance %>%
       as.data.frame() %>%
@@ -127,7 +124,7 @@ smdi_rf <- function(data = NULL,
       ggplot2::labs(
         x = "Covariate",
         y = "Mean decrease in accuracy",
-        title = glue::glue("Covariate importance for {target_var} (training set)")
+        title = glue::glue("Covariate importance for predicting {stringr::str_remove(target_var, '_NA')} (training set)")
       ) +
       ggplot2::coord_flip() +
       ggplot2::theme_bw()

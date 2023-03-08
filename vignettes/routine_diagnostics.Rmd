@@ -40,7 +40,7 @@ knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
 To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package. In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the previous [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
 
 ```{r}
-smdi::smdi_data %>% 
+smdi_data %>% 
   dplyr::glimpse()
 ```
 
@@ -130,5 +130,47 @@ h0_global
 ```{r}
 auc <- smdi_rf(data = smdi_data)
 auc
+```
+
+## Group 3 diagnostics: association between missingness and outcome
+
+Fitting an outcome model with the missingness indicator crude and conditional on all other prognostic covariates would indicate a meaningful difference in the outcome between patients with vs w/o the observed confounder conditional on other covariates that could explain that difference.
+
+MCAR: No association in neither crude nor adjusted model
+MAR: Association in crude but not adjusted model
+MNAR: If there was a meaningful difference also after comprehensive adjustment (log HR), this may be indicative of differential MNAR scenarios
+
+```{r}
+smdi_outcome(
+  data = smdi_data, 
+  model = "cox",
+  form_lhs = "Surv(eventtime, status)"
+  )
+```
+
+```{r}
+smdi_outcome(
+  data = smdi_data, 
+  model = "logistic",
+  form_lhs = "exposure"
+  )
+```
+
+```{r}
+smdi_outcome(
+  data = smdi_data, 
+  model = "linear",
+  form_lhs = "eventtime"
+  )
+```
+
+
+```{r}
+test <- smdi_diagnose(
+  data = smdi_data,
+  covar = NULL,
+  model = "cox",
+  form_lhs = "Surv(eventtime, status)"
+  )
 ```
 

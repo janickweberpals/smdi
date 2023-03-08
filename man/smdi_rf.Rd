@@ -27,7 +27,7 @@ smdi_rf(
 \item{...}{additional arguments}
 }
 \value{
-trf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
+rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
 }
 \description{
 The function trains and fits a random forest model to assess the ability to predict missingness for
@@ -40,14 +40,9 @@ MAR may be a likely scenario and would imply that imputation may be feasible.
 The random forest utilizes the randomForest engine.
 }
 \examples{
-\dontrun{
 library(smdi)
-library(dplyr)
 
-smdi_data \%>\%
- smdi_little()
-
-}
+smdi_rf(data = smdi_data)
 }
 \references{
 Weberpals J, Sondhi A., et al.

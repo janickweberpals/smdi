@@ -11,6 +11,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Imports:
+    broom,
     dplyr,
     fastDummies,
     forcats,
@@ -21,6 +22,8 @@ Imports:
     naniar,
     pROC,
     randomForest,
+    stringr,
+    survival,
     tableone,
     tibble,
     tidyr,
@@ -28,7 +31,6 @@ Imports:
 Depends: 
     R (>= 2.10)
 Suggests: 
-    broom,
     gridExtra,
     gt,
     gtsummary,
@@ -37,7 +39,6 @@ Suggests:
     mice,
     rmarkdown,
     simsurv,
-    survival,
     survminer,
     usethis
 VignetteBuilder: knitr

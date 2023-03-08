@@ -1,0 +1,29 @@
+---
+title: "Get started with smdi"
+author: "Janick Weberpals"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started with smdi}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 150,
+  fig.width = 6,
+  fig.height = 4.5
+  )
+```
+
+```{r setup}
+library(smdi)
+```
+
+# `smdi` - the flagship function
+
+The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. `smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study as part of the FDA Sentinel Innovation Center workstream [Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health).
+
+

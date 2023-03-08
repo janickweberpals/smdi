@@ -108,6 +108,8 @@ smdi_hotelling <- function(data = NULL,
 #' @export
 print.hotelling <- function(x, ...){
 
+  # initialize
+  V1 <- NULL
 
   tbl <- do.call(rbind, lapply(x,'[[',2)) %>%
     as.data.frame() %>%

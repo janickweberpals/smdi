@@ -141,7 +141,7 @@ smdi_asmd <- function(data = NULL,
         ) +
       ggplot2::geom_point(size = 3) +
       ggplot2::labs(
-        title = glue::glue("ASMD plot for covariate '{i}'"),
+        title = glue::glue("ASMD plot for covariate {i}"),
         x = "Absolute standardized mean difference [ASMD]",
         y = "",
         color = "asmd < 0.1",
@@ -192,9 +192,7 @@ smdi_asmd <- function(data = NULL,
 #' @export
 print.asmd <- function(x, ...){
 
-
   tbl <- do.call(rbind, lapply(x,'[[',4))
-  print(tbl)
 
   return(tbl)
 
