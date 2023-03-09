@@ -34,7 +34,8 @@
 #' and (optionally) which could be considered as auxiliary variables. If no partially observed covariates are provided,
 #' the function automatically looks for all variables/columns with NA (powered by the \code{\link{smdi_summarize}} function)
 #'
-#'Credit: Much of this function utilizes functionalities from \code{\link{CreateTableOne}}
+#' @seealso
+#' \code{\link{CreateTableOne}}
 #'
 #' @references
 #' Austin PC. Balance diagnostics for comparing the distribution of baseline covariates between treatment groups in propensity-score matched samples. Stat Med. 2009 Nov 10;28(25):3083-107.

@@ -31,7 +31,7 @@ The function trains and fits a random forest model to assess the ability to pred
 the specified covariate(s). If missing indicator can be predicted as a function of observed covariates,
 MAR may be a likely scenario and would imply that imputation may be feasible.
 
-#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
+Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
 The random forest utilizes the randomForest engine.
@@ -42,8 +42,9 @@ library(smdi)
 smdi_rf(data = smdi_data)
 }
 \references{
-Weberpals J, Sondhi A., et al.
-	[Pharmacoepidemiol Drug Saf, Vol. 30, pp. 36-36, 2021](https://onlinelibrary.wiley.com/doi/10.1002/pds.5305),
-	presented as an oral presentation at the International Conference on
-	Pharmacoepidemiology and Risk Management (2021)
+Weberpals J,  Sondhi A, Jiang C, Yerram P, Taylor MD,  Samant M, Cherng ST. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. 37th International Conference on Pharmacoepidemiology & Therapeutic Risk Management 2021. Pharmacoepidemiol Drug Saf 2021; 30:36-36.
+https://onlinelibrary.wiley.com/doi/10.1002/pds.5305
+}
+\seealso{
+\code{\link{randomForest}}
 }

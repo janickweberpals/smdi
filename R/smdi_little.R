@@ -8,15 +8,19 @@
 #'#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' Wrapper of mcar_test (naniar package)
+#' ...
+#'
+#' @seealso
+#' \code{\link{mcar_test}}
 #'
 #' @references
-#' 	Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.
-#' 	J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722
+#' Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.
+#' J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722
+#'
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #'
-#' @return returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.
+#' @return returns a little object with statistics on little's test globally.
 #'
 #' @importFrom naniar mcar_test
 #'

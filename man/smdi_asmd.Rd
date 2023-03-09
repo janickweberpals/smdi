@@ -51,8 +51,6 @@ The dataframe should generally consist of the exposure variable, the outcome var
 and all other fully observed covariates which are deemed important for the final modeling
 and (optionally) which could be considered as auxiliary variables. If no partially observed covariates are provided,
 the function automatically looks for all variables/columns with NA (powered by the \code{\link{smdi_summarize}} function)
-
-Credit: Much of this function utilizes functionalities from \code{\link{CreateTableOne}}
 }
 \examples{
 library(smdi)
@@ -71,4 +69,7 @@ asmd$pdl1_num$asmd_table1
 Austin PC. Balance diagnostics for comparing the distribution of baseline covariates between treatment groups in propensity-score matched samples. Stat Med. 2009 Nov 10;28(25):3083-107.
 
 Normand SLT, Landrum MB, Guadagnoli E, Ayanian JZ, Ryan TJ, Cleary PD, McNeil BJ. Validating recommendations for coronary angiography following an acute myocardial infarction in the elderly: a matched analysis using propensity scores. Journal of Clinical Epidemiology. 2001;54:387–398.
+}
+\seealso{
+\code{\link{CreateTableOne}}
 }

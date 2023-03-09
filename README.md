@@ -16,12 +16,6 @@ You can install the latest version of `smdi` with:
 remotes::install_github("https://gitlab-scm.partners.org/janickweberpals/smdi")
 ```
 
-## Package website
-
-Check out the `smdi` pkgdown website:
-
-<https://janickweberpals.gitlab-pages.partners.org/smdi>
-
 ## About
 
 The core of this package aims to conveniently implement routine missing covariate data diagnostics in epidemiological studies.
@@ -40,6 +34,12 @@ In brief, the simulation found that the combination of three group diagnostics m
 
 ![Table. Overview three group diagnostics](./vignettes/smdi_diagnose_table.png)
 
+## Package website
+
+Check out the `smdi` pkgdown website:
+
+<https://janickweberpals.gitlab-pages.partners.org/smdi>
+
 ## Vignettes
 
 To learn how to use the `smdi` R package, refer to the package vignettes:
@@ -49,3 +49,9 @@ utils::browseVignettes("smdi")
 ```
 
 ## More References
+
+Lee KJ, Tilling KM, Cornish RP, Little RJA, Bell ML, Goetghebeur E, Hogan JW, Carpenter JR; STRATOS initiative. Framework for the treatment and reporting of missing data in observational studies: The Treatment And Reporting of Missing data in Observational Studies framework. J Clin Epidemiol. 2021 Jun;134:79-88. doi: 10.1016/j.jclinepi.2021.01.008. Epub 2021 Feb 2. PMID: 33539930; PMCID: PMC8168830.
+
+Weberpals J,  Sondhi A, Jiang C, Yerram P, Taylor MD,  Samant M, Cherng ST. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. 37th International Conference on Pharmacoepidemiology & Therapeutic Risk Management 2021. Pharmacoepidemiol Drug Saf 2021; 30:36-36. 
+
+Carpenter JR, Smuk M. Missing data: A statistical framework for practice. Biom J. 2021 Jun;63(5):915-947. doi: 10.1002/bimj.202000196. Epub 2021 Feb 24. PMID: 33624862.

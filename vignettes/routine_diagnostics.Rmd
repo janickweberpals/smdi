@@ -25,11 +25,9 @@ suppressPackageStartupMessages(library(dplyr))
 
 # `smdi` main functionalities
 
-The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. `smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study as part of the FDA Sentinel Innovation Center workstream [Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health).
+The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. This article aims to give an introduction to missing covariate data diagnostics using the individual `smdi` diagnostics function that all funnel into the main function `smdi_diagnose()`.
 
-For details, we refer to *[INSERT REFERENCE ONCE PUBLISHED]* and *[INSERT JSS REFERENCE ONCE PUBLISHED]*.
-
-In brief, `smdi_diagnose()` compute three group diagnostics.
+In brief, `smdi_diagnose()` computes three group diagnostics.
 
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
@@ -37,7 +35,9 @@ knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
 
 ## Illustrative dataset
 
-To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package. In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the previous [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
+To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package and includes some ready to use simulated partially observed covariates. If you prefer to simulate missingness yourself, you can do so using the `smdi_data_complete` dataset.
+
+In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the previous [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
 
 ```{r}
 smdi_data %>% 
@@ -53,7 +53,6 @@ The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",
 # complete dataset
 ?smdi::smdi_data_complete()
 ```
-
 
 ## Descriptives
 
@@ -76,55 +75,80 @@ smdi_data %>%
   smdi_vis(covar = covars_missing)
 ```
 
-For `smdi_vis`, it's also possible to query the **top n** missing covariates in a dataset:
+For `smdi_vis`, it's also possible to query the **top n** missing covariates in a dataset.
 
 ```{r}
 smdi_data %>% 
   smdi_vis(top_n_covar = 3)
 ```
 
-Another great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package.
+The plot also provides flexibility to stratify, e.g. by `exposure`.
 
 ```{r}
+smdi_data %>% 
+  smdi_vis(covar = covars_missing, strata = "exposure")
+```
+
+Another great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package.
+
+```{r, fig.width = 8, fig.height=6}
 mice::md.pattern(smdi_data, rotate.names = TRUE)
 ```
 
+## Before we are getting started: data format
+
+Generally, the dataframe(s) used for `smdi` (defined as the `data` parameter in all functions) should consist of the partially observed covariates, other relevant observed covariates as well as the the exposure and outcome variables. Avoid having meta-variables such as e.g. ID variables, dates and zip codes in your dataframe as all present columns in your dataframe will be used to make inferences about potential missing data mechanisms.
 
 ## Group 1 diagnostics: differences in covariate distributions
 
 ### Median/average absolute standardized mean differences
 
->Cite STRATOS paper
+As discussed in the documentation of the `smdi_asmd` and `smdi_hotelling`, the median/average standardized mean difference (asmd) may be one indicator as to how much patient characteristics differ between patients with and without an observed value for a partially observed covariate. If the median/average asmd is above a certain threshold this may indicate imbalance in patient covariate distributions which may be indicative of the partially observed covariate following a missing at random (MAR) mechanims, i.e. the missingness is explainable by other observed covariates. Similarly, no imbalance between observed covariates may be indicative that missingness cannot be explained with observed covariates and the underlying missingness mechanism may be completely at random (MCAR) or not at random (e.g. missingness is only associated with unobserved factors or through the partially observed covariate itself).
+
+To get an idea about the asmd for our partially observed covariates we can run the `smdi_asmd` function. We are ok with the default parameters (i.e. we let the function investigate all covariates with at least one NA [covar = NULL], compute the median asmd [median = TRUE] and don't explicitly model the missingness of other partially observed covariates [includeNA = FALSE]).
 
 ```{r}
 asmd <- smdi_asmd(data = smdi_data)
 asmd
 ```
 
+The output returns an *asmd* object that contains a lot of information in the following structure that can be accessed using the "\$" operator:
+
+-   asmd
+    -   covar
+        -   covariate modeled
+        -   complete table 1
+        -   asmd plot
+        -   aggregate median/average asmd
+
+To limit the output, we can use the generic `summary` output of the object which returns a summary table of the aggregate median/average asmd per covariate.
+
 ```{r}
 summary(asmd)
 ```
 
-```{r}
-asmd$egfr_cat$asmd_table1
-```
-
-```{r}
-asmd$egfr_cat$asmd_plot
-```
-
 ### Hotelling's and Little's hypothesis tests
+
+#### Hotteling
+
+The `smdi_hotelling` function follows the same logic, but is a formal hypothesis test for the difference in covariate distributions based on a multivariate student t-test.[^1] The output (a hotteling object) follows the same structure as above. It's important to remember that the power of statistical hypothesis tests can be influenced by sample size, so the combined investigation along with `smdi_asmd()` is highly recommended.
+
+-   hotelling
+    -   covar
+        -   Hotelling test statistics
+
+[^1]: [Hotelling H. The Generalization of Student\'s Ratio. Ann Math Stat. 1931;2(3):360-378. doi:10.1214/aoms/1177732979](https://www.semanticscholar.org/paper/The-Generalization-of-Student%E2%80%99s-Ratio-Hotelling/23efca695ccca0924211f711adc862ea857449f2)
 
 ```{r}
 h0 <- smdi_hotelling(data = smdi_data)
 h0
 ```
 
-```{r}
-h0$ecog_cat
-```
+#### Little
 
-Little's global
+Little proposes a single global test statistic for MCAR that uses all of the available data.[^2] Hence, the `smdi_little` does not return one test statistic per partially observed covariate but one globally for the entire dataset. 
+
+[^2]: [	Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values. J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722](https://www.tandfonline.com/doi/abs/10.1080/01621459.1988.10478722)
 
 ```{r}
 h0_global <- smdi_little(data = smdi_data)
@@ -133,18 +157,36 @@ h0_global
 
 ## Group 2 diagnostics: ability to predict missingness
 
+Since MAR mechanisms are defined as the missingness being a function of observed covariates, MAR may be predictable and evaluable by fitting a classification model e.g. random forest, which would yield moderate to high area under the curve (AUC) values in the case of MAR.
+
+The `smdi_rf` function trains and fits a random forest model to assess the ability to predict missingness for the specified covariate(s). If missing indicator can be predicted as a function of observed covariates.
+
+CAVE: Depending on the amount of data (sample size x covariates), the computation of the function can take some minutes.
+
+The structure of the output again follows the general schema.
+
+-   rf
+    -   covar
+        -   rf_table (AUC)
+        -   rf_plot (variable importance)
+
 ```{r}
 auc <- smdi_rf(data = smdi_data)
-auc
+auc$ecog_cat$rf_table
+auc$ecog_cat$rf_plot
 ```
 
 ## Group 3 diagnostics: association between missingness and outcome
 
-Fitting an outcome model with the missingness indicator crude and conditional on all other prognostic covariates would indicate a meaningful difference in the outcome between patients with vs w/o the observed confounder conditional on other covariates that could explain that difference.
+The group 3 diagnostic focuses on assessing the association between the missing indicator of the partially observed covar and the outcome under study. This may reveal important covariate relationships with the outcome and could give additional pieces of information.
 
-MCAR: No association in neither crude nor adjusted model
-MAR: Association in crude but not adjusted model
-MNAR: If there was a meaningful difference also after comprehensive adjustment (log HR), this may be indicative of differential MNAR scenarios
+Currently, the main types of outcome regressions are supported, namely logistic (*glm*), linear (*lm*) and Cox proportional hazards (*survival*) models are supported and need to be specified using the model and form_lhs. For more details, see the `smdi_outcome` function documentation via
+
+```{r, eval=FALSE}
+?smdi::smdi_outcome()
+```
+
+The output of `smdi_outcome` returns a table of the crude and adjusted beta coefficients and 95% confidence intervals for all covar.
 
 ```{r}
 smdi_outcome(
@@ -154,29 +196,23 @@ smdi_outcome(
   )
 ```
 
-```{r}
-smdi_outcome(
-  data = smdi_data, 
-  model = "logistic",
-  form_lhs = "exposure"
-  )
-```
+# `smdi_diagnose` - one function to rule them all
+
+Finally, all of the functions above funnel into `smdi_diagnose()` which outputs an smdi object including a summary table of all three smdi group diagnostics and little's global p-value statistic. If details of the individual functions above are needed, this method may not be preferable but is a convenient way to implement routine structural missing covariate diagnostics by calling a single function.
+
+Note that all parameters of the individual functions that make up `smdi_diagnose()` can be specified and will be passed on but only the required parameter must be specified. A most minimal example could look like this.
 
 ```{r}
-smdi_outcome(
-  data = smdi_data, 
-  model = "linear",
-  form_lhs = "eventtime"
-  )
-```
-
-
-```{r}
-smdi_diagnose(
+diagnostics <- smdi_diagnose(
   data = smdi_data,
-  covar = NULL,
+  covar = NULL, # NULL includes all covariates with at least one NA
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
+
+gt::gt(diagnostics$smdi_tbl)
 ```
 
+```{r}
+diagnostics$p_little
+```

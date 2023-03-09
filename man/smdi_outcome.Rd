@@ -41,8 +41,11 @@ For adjusted models, the function uses all available covariates found in the dat
 be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
 
 The left-hand side of the formula (<form_lhs>) needs to specify the outcome in one of the following ways:
+
 - glm (binary): character of column name with binary outcome, e.g. "MACE"
+
 - lm (continuous): character of column name with binary outcome, e.g. "WEIGHT_LOSS"
+
 - cox (time-to-event): LHS specifying time-to-event outcome, e.g. "Surv(TIME, STATUS)"
 }
 \examples{

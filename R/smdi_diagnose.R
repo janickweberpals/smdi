@@ -40,7 +40,7 @@
 #' @examples
 #' library(smdi)
 #'
-#' smdi_outcome(
+#' smdi_diagnose(
 #'  data = smdi_data,
 #'  model = "cox",
 #'  form_lhs = "Surv(eventtime, status)"

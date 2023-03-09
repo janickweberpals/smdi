@@ -12,28 +12,30 @@ smdi_hotelling(data = NULL, covar = NULL)
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 }
 \value{
-returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.
+returns a hotelling object with statistics on hotellings test by covariate. S3 generic summary returns a summarized dataframe with hypothesis test p-values.
 }
 \description{
 Hotelling's multivariate t-test, which examines variable
 differences conditional on having an observed covariate value or not.
 As the power of statistical hypothesis tests can be influenced by
 sample size, the combined investigation along with smdi_asmd() is highly recommended.
+
+Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-Wrapper of hotelling.test() (Hotelling package)
-#' Important: don't include variables like ID variables, ZIP codes, dates, etc.
+...
 }
 \examples{
 \dontrun{
 library(smdi)
-library(dplyr)
 
-smdi_data \%>\%
- smdi_hotteling()
+smdi_hotteling(data = smdi_data)
 
 }
 }
 \references{
 Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. doi:10.1214/aoms/1177732979
+}
+\seealso{
+\code{\link{hotelling.test}}
 }

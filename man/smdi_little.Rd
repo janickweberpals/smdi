@@ -10,7 +10,7 @@ smdi_little(data = NULL)
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 }
 \value{
-returns a hotelling object with statistics on hotellings test by covariate. S3 method print returns a summarized dataframe with hypothesis test p-values.
+returns a little object with statistics on little's test globally.
 }
 \description{
 Little’s chi-squared test takes into account possible patterns of missingness across all variables in the dataset.
@@ -20,7 +20,7 @@ Please note that compared to smdi_hotelling, this function tests for MCAR global
 #' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-Wrapper of mcar_test (naniar package)
+...
 }
 \examples{
 library(smdi)
@@ -32,5 +32,8 @@ smdi_data \%>\%
 }
 \references{
 Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.
-	J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722
+J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722
+}
+\seealso{
+\code{\link{mcar_test}}
 }
