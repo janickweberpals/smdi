@@ -275,17 +275,6 @@ smdi::smdi_data %>%
   smdi::smdi_summarize()
 ```
 
-Alternatively, we can use `smdi_vis()`.
-
-```{r}
-smdi::smdi_data %>% 
-  smdi::smdi_vis(top_n_covar = 3)
-```
-
-## `smdi_diagnose` analysis
-
-> TO DO
-
 ## NARFCS imputation
 
 The [NARFCS procedure that comes with the `mice` package](https://amices.org/mice/reference/mice.impute.mnar.html) provides the flexibility to execute the NARFCS procedure in the presence of other partially observed covariates which may be assumed missing at random.
