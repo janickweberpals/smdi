@@ -56,7 +56,7 @@ print(asmd)
 # let's look at the first variable
 # we can check the complete covariate distribution
 asmd$pdl1_num$asmd_table1
-# we can also plot the AMSD distribution per covariate
+# we can also plot the ASMD distribution per covariate
 asmd$pdl1_num$asmd_plot
 
 }

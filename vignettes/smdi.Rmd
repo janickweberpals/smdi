@@ -26,4 +26,11 @@ library(smdi)
 
 The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. `smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study as part of the FDA Sentinel Innovation Center workstream [Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health).
 
-
+```{r}
+smdi_diagnose(
+  data = smdi_data,
+  covar = NULL,
+  model = "cox",
+  form_lhs = "Surv(eventtime, status)"
+  )
+```

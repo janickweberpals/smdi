@@ -149,11 +149,22 @@ smdi_rf <- function(data = NULL,
 
 }
 
-#' @export
+# generic print -----------------------------------------------------------
+
 print.rf <- function(x, ...){
 
   tbl <- do.call(rbind, lapply(x,'[[',1))
-  print(tbl)
+
+  return(print(tbl))
+
+}
+
+# generic summary ---------------------------------------------------------
+
+#' @export
+summary.rf <- function(object, ...){
+
+  tbl <- do.call(rbind, lapply(object,'[[',1))
 
   return(tbl)
 

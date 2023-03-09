@@ -22,11 +22,9 @@ smdi_diagnose(
 \item{form_lhs}{string specifying the left-hand side of the outcome formula (see smdi_outcome)}
 
 \item{...}{further arguments to pass on to smdi_asmd, smdi_hotelling, smdi_little, smdi_rf or smdi_outcome}
-
-\item{exponentiated}{logical, should results of the fitted outcome model be exponentiated (see smdi_outcome)}
 }
 \value{
-smdi object with details of all wrapped functions. print() returns convenient summary table
+smdi object with summary table of all three smdi group diagnostics.
 }
 \description{
 This function
@@ -34,14 +32,7 @@ This function
 #' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-The function automatically fits a crude and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
-For adjusted models, the function uses all available covariates found in the dataset specified with the <data> parameter. If covariates should not
-be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
-
-The left-hand side of the formula (<form_lhs>) needs to specify the outcome in one of the following ways:
-- glm (binary): character of column name with binary outcome, e.g. "MACE"
-- lm (continuous): character of column name with binary outcome, e.g. "WEIGHT_LOSS"
-- cox (time-to-event): LHS specifying time-to-event outcome, e.g. "Surv(TIME, STATUS)"
+Wrapper for individual diagnostics function.
 }
 \examples{
 library(smdi)
@@ -50,7 +41,7 @@ smdi_outcome(
  data = smdi_data,
  model = "cox",
  form_lhs = "Surv(eventtime, status)"
-)
+ )
 
 
 }

@@ -91,20 +91,20 @@ smdi_data %>%
 >Cite STRATOS paper
 
 ```{r}
-amsd <- smdi_asmd(data = smdi_data)
-amsd
+asmd <- smdi_asmd(data = smdi_data)
+asmd
 ```
 
 ```{r}
-summary(amsd)
+summary(asmd)
 ```
 
 ```{r}
-amsd$egfr_cat$asmd_table1
+asmd$egfr_cat$asmd_table1
 ```
 
 ```{r}
-amsd$egfr_cat$asmd_plot
+asmd$egfr_cat$asmd_plot
 ```
 
 ### Hotelling's and Little's hypothesis tests
@@ -166,7 +166,7 @@ smdi_outcome(
 
 
 ```{r}
-test <- smdi_diagnose(
+smdi_diagnose(
   data = smdi_data,
   covar = NULL,
   model = "cox",

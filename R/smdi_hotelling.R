@@ -105,7 +105,9 @@ smdi_hotelling <- function(data = NULL,
   }
 
 
-#' @export
+
+# generic print -----------------------------------------------------------
+
 print.hotelling <- function(x, ...){
 
   # initialize
@@ -114,10 +116,27 @@ print.hotelling <- function(x, ...){
   tbl <- do.call(rbind, lapply(x,'[[',2)) %>%
     as.data.frame() %>%
     tibble::rownames_to_column(var = "covariate") %>%
-    dplyr::mutate(hotteling_p = V1) %>%
+    dplyr::mutate(hotteling_p = ifelse(V1 < 0.001, "<.001", formatC(V1, format = "f", digits = 3))) %>%
     dplyr::select(-V1)
 
-  print(tbl)
+  return(print(tbl))
+
+}
+
+
+# generic summary ---------------------------------------------------------
+
+#' @export
+summary.hotelling <- function(object, ...){
+
+  # initialize
+  V1 <- NULL
+
+  tbl <- do.call(rbind, lapply(object,'[[',2)) %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column(var = "covariate") %>%
+    dplyr::mutate(hotteling_p = ifelse(V1 < 0.001, "<.001", formatC(V1, format = "f", digits = 3))) %>%
+    dplyr::select(-V1)
 
   return(tbl)
 

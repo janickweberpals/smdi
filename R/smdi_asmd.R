@@ -72,7 +72,7 @@
 #' # we can check the complete covariate distribution
 #' asmd$pdl1_num$asmd_table1
 
-#' # we can also plot the AMSD distribution per covariate
+#' # we can also plot the ASMD distribution per covariate
 #' asmd$pdl1_num$asmd_plot
 #'
 #' }
@@ -189,10 +189,24 @@ smdi_asmd <- function(data = NULL,
 
 }
 
-#' @export
+# generic print -----------------------------------------------------------
+
 print.asmd <- function(x, ...){
 
-  tbl <- do.call(rbind, lapply(x,'[[',4))
+  tbl <- do.call(rbind, lapply(x,'[[',4)) %>%
+    dplyr::mutate(dplyr::across(tidyselect::where(is.numeric), ~ formatC(.x, format = "f", digits = 3)))
+
+  return(print(tbl))
+
+}
+
+# generic summary ---------------------------------------------------------
+
+#' @export
+summary.asmd <- function(object, ...){
+
+  tbl <- do.call(rbind, lapply(object,'[[',4)) %>%
+    dplyr::mutate(dplyr::across(tidyselect::where(is.numeric), ~ formatC(.x, format = "f", digits = 3)))
 
   return(tbl)
 
