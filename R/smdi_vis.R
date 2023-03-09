@@ -52,7 +52,7 @@ smdi_vis <- function(data = NULL,
 
   # initializing new variables
   # tip: https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
-  n_miss <- covariate <- perc_miss <- perc_miss_label <- NULL
+  n_miss <- covariate <- perc_miss <- perc_miss_label <- .data <- NULL
 
   # check for missing covariates
   # if they are not specified, all NAs are returned
