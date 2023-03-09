@@ -75,13 +75,6 @@ smdi_data %>%
   smdi_vis(covar = covars_missing)
 ```
 
-For `smdi_vis`, it's also possible to query the **top n** missing covariates in a dataset.
-
-```{r}
-smdi_data %>% 
-  smdi_vis(top_n_covar = 3)
-```
-
 The plot also provides flexibility to stratify, e.g. by `exposure`.
 
 ```{r}
@@ -91,7 +84,7 @@ smdi_data %>%
 
 Another great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package.
 
-```{r, fig.width = 8, fig.height=6}
+```{r, fig.width = 8, fig.height=6, fig.width = 10}
 mice::md.pattern(smdi_data, rotate.names = TRUE)
 ```
 
