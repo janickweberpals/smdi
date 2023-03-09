@@ -24,13 +24,22 @@ library(smdi)
 
 # `smdi` - the flagship function
 
-The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. `smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study as part of the FDA Sentinel Innovation Center workstream [Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health).
+The `smdi` main function is `smdi_diagnose()` which calls all three group diagnostics, all of which are also accessible individually `smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study based on the [workstream]((https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)) *Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes*.
+
+A most minimal example could look like this (if you want to accept all of the default parameters).
 
 ```{r}
-smdi_diagnose(
+diagnostics <- smdi_diagnose(
   data = smdi_data,
-  covar = NULL,
+  covar = NULL, # NULL includes all covariates with at least one NA
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
+
+gt::gt(diagnostics$smdi_tbl)
 ```
+
+```{r}
+diagnostics$p_little
+```
+

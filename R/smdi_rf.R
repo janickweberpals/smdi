@@ -21,7 +21,6 @@
 #' @param ntree integer, number of trees (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default
 #' @param set_seed seed for reproducibility, defaults to 42
-#' @param ... additional arguments
 #'
 #' @return rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
 #'
@@ -56,15 +55,11 @@ smdi_rf <- function(data = NULL,
                     covar = NULL,
                     train_test_ratio = c(.7, .3),
                     set_seed = 42,
-                    ntree = 1000,
-                    ...
+                    ntree = 1000
                     ){
 
   # initialize
   .data <- MeanDecreaseAccuracy <- V1 <- covariate <- rf_auc <- NULL
-
-  # additional arguments
-  add_args <- list(...)
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}

@@ -83,6 +83,12 @@ smdi_data %>%
   smdi_vis(top_n_covar = 3)
 ```
 
+Another great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package.
+
+```{r}
+mice::md.pattern(smdi_data, rotate.names = TRUE)
+```
+
 
 ## Group 1 diagnostics: differences in covariate distributions
 

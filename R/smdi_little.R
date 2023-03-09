@@ -23,14 +23,12 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
 #' library(smdi)
 #' library(dplyr)
 #'
 #' smdi_data %>%
 #'  smdi_little()
 #'
-#' }
 
 smdi_little <- function(data = NULL
                         ){

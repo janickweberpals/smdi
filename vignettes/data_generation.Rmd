@@ -266,7 +266,7 @@ tmp <- smdi_data_complete %>%
 miss_pattern <- rep(1, ncol(tmp))
 ```
 
-### Missing complete at random
+## Missing complete at random
 
 `ecog_cat`[^1] will be set to missing according to the following specification:
 
@@ -302,14 +302,14 @@ smdi_data_mcar %>%
   gtsummary::tbl_summary()
 ```
 
-### Missing at random
+## Missing at random
 
 `egfr_cat` will be set to missing according to the following specification:
 
 -   Missingness pattern: Only `egfr_cat` will be set to missing
 -   Weight vector: all covariates (except `egfr_cat` itself and `ses_cat`) contribute with equal weights as linear predictors for the probability of observations becoming missing
 -   Type: higher weighted sum scores (i.e. higher odds of having an `egfr_cat` mutation) will have a larger probability of becoming incomplete
--   Define an overall missingness proportion of \~20%
+-   Define an overall missingness proportion of \~40%
 
 ```{r, mar}
 # specify missingness pattern
@@ -346,7 +346,7 @@ smdi_data_mar %>%
 -   Missingness pattern: Only `pdl1_num` will be set to missing
 -   Weight vector: Only `pdl1_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
 -   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete
--   Define an overall missingness proportion of \~40%
+-   Define an overall missingness proportion of \~20%
 
 ```{r, create_mnar_v}
 # determine missingness pattern

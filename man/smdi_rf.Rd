@@ -9,8 +9,7 @@ smdi_rf(
   covar = NULL,
   train_test_ratio = c(0.7, 0.3),
   set_seed = 42,
-  ntree = 1000,
-  ...
+  ntree = 1000
 )
 }
 \arguments{
@@ -23,8 +22,6 @@ smdi_rf(
 \item{set_seed}{seed for reproducibility, defaults to 42}
 
 \item{ntree}{integer, number of trees (defaults to 1000 trees)}
-
-\item{...}{additional arguments}
 }
 \value{
 rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)

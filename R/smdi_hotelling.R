@@ -65,12 +65,20 @@ smdi_hotelling <- function(data = NULL,
     data = data,
     covar = covar,
     drop_NA_col = TRUE
-    ) %>%
-    fastDummies::dummy_columns(
-      remove_most_frequent_dummy = TRUE,
-      ignore_na = FALSE,
-      remove_selected_columns = TRUE
-      )
+    )
+
+  # for hottelling we need to one-hot-encode categorical variables
+  # multi-categorical variables if exist
+  if(any(sapply(data_encoded, function(.x) is.factor(.x) || is.character(.x)))){
+
+    data_encoded <- data_encoded %>%
+      fastDummies::dummy_columns(
+        remove_most_frequent_dummy = TRUE,
+        ignore_na = FALSE,
+        remove_selected_columns = TRUE
+        )
+    }
+
 
   # start applying smd computation over all partially observed covariates
   hotelling_loop <- function(i){

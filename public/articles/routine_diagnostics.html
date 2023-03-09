@@ -173,6 +173,32 @@ convenient functions to screen the data for missingness.</p>
 <code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>top_n_covar <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="900"></p>
+<p>Another great way to explore the patterns of missingness is the
+<code>md.pattern</code> function which is part of the <code>mice</code>
+package.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html" class="external-link">md.pattern</a></span><span class="op">(</span><span class="va">smdi_data</span>, rotate.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-8-1.png" width="900"></p>
+<pre><code><span><span class="co">#&gt;     exposure age_num female_cat smoking_cat physical_cat alk_cat histology_cat</span></span>
+<span><span class="co">#&gt; 795        1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 479        1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 446        1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 263        1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 151        1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 176        1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 93         1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt; 97         1       1          1           1            1       1             1</span></span>
+<span><span class="co">#&gt;            0       0          0           0            0       0             0</span></span>
+<span><span class="co">#&gt;     ses_cat copd_cat eventtime status pdl1_num ecog_cat egfr_cat     </span></span>
+<span><span class="co">#&gt; 795       1        1         1      1        1        1        1    0</span></span>
+<span><span class="co">#&gt; 479       1        1         1      1        1        1        0    1</span></span>
+<span><span class="co">#&gt; 446       1        1         1      1        1        0        1    1</span></span>
+<span><span class="co">#&gt; 263       1        1         1      1        1        0        0    2</span></span>
+<span><span class="co">#&gt; 151       1        1         1      1        0        1        1    1</span></span>
+<span><span class="co">#&gt; 176       1        1         1      1        0        1        0    2</span></span>
+<span><span class="co">#&gt; 93        1        1         1      1        0        0        1    2</span></span>
+<span><span class="co">#&gt; 97        1        1         1      1        0        0        0    3</span></span>
+<span><span class="co">#&gt;           0        0         0      0      517      899     1015 2431</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="group-1-diagnostics-differences-in-covariate-distributions">Group 1 diagnostics: differences in covariate distributions<a class="anchor" aria-label="anchor" href="#group-1-diagnostics-differences-in-covariate-distributions"></a>
@@ -183,7 +209,7 @@ convenient functions to screen the data for missingness.</p>
 <blockquote>
 <p>Cite STRATOS paper</p>
 </blockquote>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_asmd.html">smdi_asmd</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
 <span><span class="va">asmd</span></span>
 <span><span class="co">#&gt; $egfr_cat</span></span>
@@ -212,7 +238,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt;   pdl1_num (mean (SD))  "44.07 (10.37)" "49.33 (11.31)" "&lt;0.001" ""   " 0.485"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $egfr_cat$asmd_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-8-1.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-9-1.png" width="900"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $egfr_cat$asmd_aggregate</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
@@ -247,7 +273,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt;   pdl1_num (mean (SD))  "46.29 (11.07)" "45.59 (10.95)" " 0.179" ""   " 0.063"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $ecog_cat$asmd_plot</span></span></code></pre>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-8-2.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-9-2.png" width="900"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $ecog_cat$asmd_aggregate</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
@@ -282,7 +308,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt;   egfr_cat = 1 (%)      "  252 (20.3) " "   58 (23.8) " " 0.258" ""   " 0.084"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pdl1_num$asmd_plot</span></span></code></pre>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-8-3.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-9-3.png" width="900"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pdl1_num$asmd_aggregate</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
@@ -293,7 +319,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
 <span><span class="co">#&gt; [1] "asmd"</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">asmd</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   covariate asmd_median</span></span>
@@ -301,7 +327,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat  0.243      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat  0.029      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num  0.062</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_table1</span></span>
 <span><span class="co">#&gt;                        Stratified by egfr_cat_NA</span></span>
 <span><span class="co">#&gt;                         0               1               p        test SMD     </span></span>
@@ -322,14 +348,14 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt;   status (mean (SD))    " 0.79 (0.41)"  " 0.84 (0.37)"  " 0.001" ""   " 0.132"</span></span>
 <span><span class="co">#&gt;   ecog_cat = 1 (%)      "  539 (57.0) " "  433 (66.1) " "&lt;0.001" ""   " 0.189"</span></span>
 <span><span class="co">#&gt;   pdl1_num (mean (SD))  "44.07 (10.37)" "49.33 (11.31)" "&lt;0.001" ""   " 0.485"</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-12-1.png" width="900"></p>
 </div>
 <div class="section level4">
 <h4 id="hotellings-and-littles-hypothesis-tests">Hotelling’s and Little’s hypothesis tests<a class="anchor" aria-label="anchor" href="#hotellings-and-littles-hypothesis-tests"></a>
 </h4>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_hotelling.html">smdi_hotelling</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
 <span><span class="va">h0</span></span>
 <span><span class="co">#&gt; $egfr_cat</span></span>
@@ -352,14 +378,14 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
 <span><span class="co">#&gt; [1] "hotelling"</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h0</span><span class="op">$</span><span class="va">ecog_cat</span></span>
 <span><span class="co">#&gt; Test stat:  9.7519 </span></span>
 <span><span class="co">#&gt; Numerator df:  14 </span></span>
 <span><span class="co">#&gt; Denominator df:  2485 </span></span>
 <span><span class="co">#&gt; P-value:  0.7834</span></span></code></pre></div>
 <p>Little’s global</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h0_global</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_little.html">smdi_little</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
 <span><span class="va">h0_global</span></span>
 <span><span class="co">#&gt; $statistic</span></span>
@@ -383,7 +409,7 @@ convenient functions to screen the data for missingness.</p>
 <div class="section level3">
 <h3 id="group-2-diagnostics-ability-to-predict-missingness">Group 2 diagnostics: ability to predict missingness<a class="anchor" aria-label="anchor" href="#group-2-diagnostics-ability-to-predict-missingness"></a>
 </h3>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">auc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_rf.html">smdi_rf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
 <span><span class="va">auc</span></span>
 <span><span class="co">#&gt; $egfr_cat</span></span>
@@ -394,7 +420,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat  0.629 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $egfr_cat$rf_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-15-1.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-16-1.png" width="900"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $ecog_cat</span></span>
@@ -405,7 +431,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.510 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $ecog_cat$rf_plot</span></span></code></pre>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-15-2.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-16-2.png" width="900"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pdl1_num</span></span>
@@ -416,7 +442,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pdl1_num  0.516 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pdl1_num$rf_plot</span></span></code></pre>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-15-3.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-16-3.png" width="900"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attr(,"class")</span></span>
@@ -435,7 +461,7 @@ that difference.</p>
 Association in crude but not adjusted model MNAR: If there was a
 meaningful difference also after comprehensive adjustment (log HR), this
 may be indicative of differential MNAR scenarios</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/smdi_outcome.html">smdi_outcome</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data</span>, </span>
 <span>  model <span class="op">=</span> <span class="st">"cox"</span>,</span>
@@ -447,7 +473,7 @@ may be indicative of differential MNAR scenarios</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat  0.06 (95% CI -0.03, 0.15)  -0.01 (95% CI -0.10, 0.09)</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat  -0.06 (95% CI -0.16, 0.03) -0.06 (95% CI -0.16, 0.03)</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num  0.12 (95% CI 0.01, 0.23)   0.11 (95% CI -0.00, 0.22)</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/smdi_outcome.html">smdi_outcome</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data</span>, </span>
 <span>  model <span class="op">=</span> <span class="st">"logistic"</span>,</span>
@@ -459,7 +485,7 @@ may be indicative of differential MNAR scenarios</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat  0.79 (95% CI 0.63, 0.96)    0.98 (95% CI 0.79, 1.18)   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat  -0.06 (95% CI -0.22, 0.11)  -0.08 (95% CI -0.26, 0.10) </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num  -0.71 (95% CI -0.92, -0.50) -0.88 (95% CI -1.11, -0.65)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/smdi_outcome.html">smdi_outcome</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data</span>, </span>
 <span>  model <span class="op">=</span> <span class="st">"linear"</span>,</span>
@@ -471,7 +497,7 @@ may be indicative of differential MNAR scenarios</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat  -0.02 (95% CI -0.16, 0.13)  0.18 (95% CI 0.08, 0.28)   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat  0.09 (95% CI -0.06, 0.24)   -0.00 (95% CI -0.10, 0.09) </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num  -0.21 (95% CI -0.39, -0.04) -0.11 (95% CI -0.23, -0.00)</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/smdi_diagnose.html">smdi_diagnose</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data</span>,</span>
 <span>  covar <span class="op">=</span> <span class="cn">NULL</span>,</span>

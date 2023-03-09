@@ -7,9 +7,14 @@
 smdi_diagnose(
   data = NULL,
   covar = NULL,
+  median = TRUE,
+  includeNA = FALSE,
+  train_test_ratio = c(0.7, 0.3),
+  set_seed = 42,
+  ntree = 1000,
   model = c("logistic", "linear", "cox"),
   form_lhs = NULL,
-  ...
+  exponentiated = FALSE
 )
 }
 \arguments{
@@ -17,19 +22,30 @@ smdi_diagnose(
 
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
+\item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd)}
+
+\item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled for computation of absoulate standardized mean differences (default is FALSE)}
+
+\item{train_test_ratio}{numeric vector to indicate the test/train split ratio for random forest missingness prediction model, e.g. c(.7, .3) is the default}
+
+\item{set_seed}{seed for reproducibility of random forest missingness prediction model, defaults to 42}
+
+\item{ntree}{integer, number of trees for random forest missingness prediction model (defaults to 1000 trees)}
+
 \item{model}{character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox (see smdi_outcome)}
 
 \item{form_lhs}{string specifying the left-hand side of the outcome formula (see smdi_outcome)}
 
-\item{...}{further arguments to pass on to smdi_asmd, smdi_hotelling, smdi_little, smdi_rf or smdi_outcome}
+\item{exponentiated}{logical, should results of outcome regression to assess association between missingness and outcome be exponentiated (default is FALSE)}
 }
 \value{
-smdi object with summary table of all three smdi group diagnostics.
+smdi object including a summary table of all three smdi group diagnostics.
 }
 \description{
-This function
+This function bundles and calls all three group diagnostics and returns the most important summary metrics.
+For more information and details, please refer to the individual functions.
 
-#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
+Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
 Wrapper for individual diagnostics function.
@@ -46,12 +62,12 @@ smdi_outcome(
 
 }
 \references{
-...
+TBD
 }
 \seealso{
-[smdi_asmd()]
-[smdi_hotteling()]
-[smdi_little()]
-[smdi_rf()]
-[smdi_outcome()]
+\code{\link{smdi_asmd}}
+\code{\link{smdi_hotelling}}
+\code{\link{smdi_little}}
+\code{\link{smdi_rf}}
+\code{\link{smdi_outcome}}
 }

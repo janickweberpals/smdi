@@ -1,30 +1,36 @@
 #' Computes three group missing data summary diagnostics
 #'
 #' @description
-#' This function
+#' This function bundles and calls all three group diagnostics and returns the most important summary metrics.
+#' For more information and details, please refer to the individual functions.
 #'
-#'#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
+#' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
 #' Wrapper for individual diagnostics function.
 #'
 #' @seealso
-#' [smdi_asmd()]
-#' [smdi_hotteling()]
-#' [smdi_little()]
-#' [smdi_rf()]
-#' [smdi_outcome()]
+#' \code{\link{smdi_asmd}}
+#' \code{\link{smdi_hotelling}}
+#' \code{\link{smdi_little}}
+#' \code{\link{smdi_rf}}
+#' \code{\link{smdi_outcome}}
 #'
 #' @references
-#' ...
+#' TBD
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
+#' @param median logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd)
+#' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled for computation of absoulate standardized mean differences (default is FALSE)
+#' @param ntree integer, number of trees for random forest missingness prediction model (defaults to 1000 trees)
+#' @param train_test_ratio numeric vector to indicate the test/train split ratio for random forest missingness prediction model, e.g. c(.7, .3) is the default
+#' @param set_seed seed for reproducibility of random forest missingness prediction model, defaults to 42
 #' @param model character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox (see smdi_outcome)
 #' @param form_lhs string specifying the left-hand side of the outcome formula (see smdi_outcome)
-#' @param ... further arguments to pass on to smdi_asmd, smdi_hotelling, smdi_little, smdi_rf or smdi_outcome
+#' @param exponentiated logical, should results of outcome regression to assess association between missingness and outcome be exponentiated (default is FALSE)
 #'
-#' @return smdi object with summary table of all three smdi group diagnostics.
+#' @return smdi object including a summary table of all three smdi group diagnostics.
 #'
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join
@@ -43,15 +49,21 @@
 #'
 smdi_diagnose <- function(data = NULL,
                           covar = NULL,
+
+                          median = TRUE,
+                          includeNA = FALSE,
+
+                          train_test_ratio = c(.7, .3),
+                          set_seed = 42,
+                          ntree = 1000,
+
                           model = c("logistic", "linear", "cox"),
                           form_lhs = NULL,
-                          ...){
+                          exponentiated = FALSE
+                          ){
 
   # initialize
   #covariate <- `1 vs 2` <- term <- estimate <- conf.low <- conf.high <- NULL
-
-  # additional arguments
-  add_args <- list(...)
 
   # check for missing covariates
   covar_miss <- smdi::smdi_check_covar(
@@ -63,7 +75,8 @@ smdi_diagnose <- function(data = NULL,
   asmd_out <- smdi::smdi_asmd(
     data = data,
     covar = covar_miss,
-    ...
+    median = median,
+    includeNA = includeNA
     )
 
   tbl_asmd <- summary(asmd_out)
@@ -72,8 +85,7 @@ smdi_diagnose <- function(data = NULL,
   # hotelling ---------------------------------------------------------------
   hotelling_out <- smdi::smdi_hotelling(
     data = data,
-    covar = covar_miss,
-    ...
+    covar = covar_miss
     )
 
   tbl_hotelling <- summary(hotelling_out)
@@ -90,7 +102,9 @@ smdi_diagnose <- function(data = NULL,
   rf_out <- smdi::smdi_rf(
     data = data,
     covar = covar_miss,
-    ...
+    train_test_ratio = train_test_ratio,
+    set_seed = set_seed,
+    ntree = ntree
     )
 
   tbl_rf <- summary(rf_out)
@@ -101,7 +115,7 @@ smdi_diagnose <- function(data = NULL,
     data = data,
     model = "cox",
     form_lhs = "Surv(eventtime, status)",
-    ...
+    exponentiated = exponentiated
     )
 
   # combine -----------------------------------------------------------------

@@ -2954,9 +2954,9 @@ missingness weights</li>
 <span></span>
 <span><span class="co"># determine missingness pattern template</span></span>
 <span><span class="va">miss_pattern</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="missing-complete-at-random">Missing complete at random<a class="anchor" aria-label="anchor" href="#missing-complete-at-random"></a>
-</h4>
+<div class="section level3">
+<h3 id="missing-complete-at-random">Missing complete at random<a class="anchor" aria-label="anchor" href="#missing-complete-at-random"></a>
+</h3>
 <p><code>ecog_cat</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;The Eastern Cooperative Oncology Group (ECOG)
 performance score is a clinical measure for how the cancer disease
 affects the daily living abilities of the patient and is often used as a
@@ -3441,9 +3441,9 @@ dependent on any other observed or unobserved covariates</li>
 </table>
 </div>
 </div>
-<div class="section level4">
-<h4 id="missing-at-random">Missing at random<a class="anchor" aria-label="anchor" href="#missing-at-random"></a>
-</h4>
+<div class="section level3">
+<h3 id="missing-at-random">Missing at random<a class="anchor" aria-label="anchor" href="#missing-at-random"></a>
+</h3>
 <p><code>egfr_cat</code> will be set to missing according to the
 following specification:</p>
 <ul>
@@ -3455,7 +3455,7 @@ predictors for the probability of observations becoming missing</li>
 <li>Type: higher weighted sum scores (i.e. higher odds of having an
 <code>egfr_cat</code> mutation) will have a larger probability of
 becoming incomplete</li>
-<li>Define an overall missingness proportion of ~20%</li>
+<li>Define an overall missingness proportion of ~40%</li>
 </ul>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specify missingness pattern</span></span>
@@ -3941,7 +3941,7 @@ becoming missing</li>
 missingness weights, so that cases with low weighted sum scores
 (i.e. lower <code>pdl1_num</code> expression) will have a larger
 probability of becoming incomplete</li>
-<li>Define an overall missingness proportion of ~40%</li>
+<li>Define an overall missingness proportion of ~20%</li>
 </ul>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># determine missingness pattern</span></span>

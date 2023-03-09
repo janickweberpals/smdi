@@ -1,13 +1,13 @@
-#' Computes random forest-based AUC
+#' Computes association between missingness and outcome
 #'
 #' @description
-#' This function fits outcome models with the covariate missingness indicator.
+#' This function fits outcome models with a covariate missingness indicator(s) of the covariates specified with *covar*.
 #' The estimates are computed by crude and adjusted models on all other prognostic covariates
 #' in the dataset. Based on the underlying missingness mechanism, the estimate for the covariate missingness indicator
 #' may indicate a meaningful difference in the outcome between patients with vs w/o
 #' the observed confounder conditional on other covariates that could explain that difference.
 #'
-#'#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
+#' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
 #' The function automatically fits a crude and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).

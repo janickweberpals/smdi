@@ -23,14 +23,12 @@ Please note that compared to smdi_hotelling, this function tests for MCAR global
 Wrapper of mcar_test (naniar package)
 }
 \examples{
-\dontrun{
 library(smdi)
 library(dplyr)
 
 smdi_data \%>\%
  smdi_little()
 
-}
 }
 \references{
 Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.

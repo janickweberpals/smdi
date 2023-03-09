@@ -70,10 +70,12 @@
 <p><strong><code>S</code>tructural <code>M</code>issing <code>D</code>ata <code>I</code>nvestigations</strong></p>
 <p><a href="https://cran.rstudio.com/web/packages/smdi/index.html" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/smdi"></a></p>
 <p>This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.</p>
+<blockquote>
+<p>Please keep in mind this package is still in beta</p>
+</blockquote>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><em>package still in progress, come back later</em></p>
 <p>You can install the latest version of <code>smdi</code> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://gitlab-scm.partners.org/janickweberpals/smdi"</span><span class="op">)</span></span></code></pre></div>
@@ -85,11 +87,30 @@
 <p><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link uri">https://janickweberpals.gitlab-pages.partners.org/smdi</a></p>
 </div>
 <div class="section level2">
+<h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
+</h2>
+<p>The core of this package aims to conveniently implement routine missing covariate data diagnostics in epidemiological studies.</p>
+<p>The diagnostics performed have a theoretical backbone based on a plasmode simulation performed by the Sentinel Innovation Center <a href="(https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)" class="external-link">workgroup</a> on <em>Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes</em>.</p>
+<p>In brief, the simulation found that the combination of three group diagnostics may give researchers some idea about the potential underlying missing data mechanisms of covariates in the dataset at hand. Aiming to differentiate between missingness mechanisms, these group diagnostics check the following:</p>
+<ul>
+<li><p>Group diagnostic 1: Comparison of distributions between patients with or without an observed value of the partially observed covariate</p></li>
+<li><p>Group diagnostic 2: Assessing the ability to predict missingness based on observed covariates</p></li>
+<li><p>Grouo diagnostic 3: Estimating if the missingness of a covariate is associated with the outcome (differential missingness)</p></li>
+</ul>
+<div class="figure">
+<img src="./articles/smdi_diagnose_table.png" alt=""><p class="caption">Overview three group diagnostics</p>
+</div>
+</div>
+<div class="section level2">
 <h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h2>
 <p>To learn how to use the <code>smdi</code> R package, refer to the package vignettes:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"smdi"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="more-references">More References<a class="anchor" aria-label="anchor" href="#more-references"></a>
+</h2>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
