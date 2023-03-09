@@ -9,49 +9,44 @@
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
-#' @param top_n_covar integer, display top n missing covariates
 #' @param strata character name of variable/column by which results should be stratified
 #'
 #' @return returns ggplot2 graph displaying selected or chosen variables by percent missing
 #'
 #' @importFrom magrittr '%>%'
-#' @importFrom dplyr summarize_all
 #' @importFrom dplyr arrange
-#' @importFrom dplyr slice_max
-#' @importFrom dplyr pull
-#' @importFrom dplyr select
+#' @importFrom dplyr desc
 #' @importFrom dplyr group_by
 #' @importFrom dplyr mutate
+#' @importFrom dplyr pull
+#' @importFrom dplyr select
+#' @importFrom dplyr slice_max
+#' @importFrom dplyr summarize_all
+#' @importFrom forcats fct_reorder
 #' @importFrom tidyr pivot_longer
 #' @importFrom tidyselect all_of
 #' @importFrom tidyselect everything
-#' @importFrom forcats fct_reorder
-#' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_bar
 #' @importFrom ggplot2 coord_flip
-#' @importFrom ggplot2 scale_y_continuous
-#' @importFrom ggplot2 geom_text
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 theme_bw
 #' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 geom_text
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_y_continuous
+#' @importFrom ggplot2 theme_bw
 #' @importFrom glue glue
 #'
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' library(smdi)
-#' library(dplyr)
 #'
-#'smdi_data %>%
-#' smdi_vis()
+#' smdi_vis(data = smdi_data)
 #'
-#' }
 
 smdi_vis <- function(data = NULL,
                      covar = NULL,
-                     top_n_covar = NULL,
                      strata = NULL
                      ){
 
@@ -59,67 +54,32 @@ smdi_vis <- function(data = NULL,
   # tip: https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
   n_miss <- covariate <- perc_miss <- perc_miss_label <- NULL
 
-  # define covariate vector and implement basic checks
-  if(!is.null(covar)){
+  # check for missing covariates
+  # if they are not specified, all NAs are returned
+  covar_miss <- smdi::smdi_check_covar(
+    data = data,
+    covar = covar
+    )
 
-    if(length(covar) > 20){message("consider less covariates for better visualization results.")}
+  # additional checks
+  if(length(covar_miss) > 20){message(">20 covariates with NA. Consider less covariates for better visualization results.")}
 
-    if(!is.null(top_n_covar)){message("both <covar> nor <top_n_covar> were specified; displaying results for <covar>")}
-
-    covar_vec <- covar
-
-  }else if(!is.null(top_n_covar)){
-
-    if(top_n_covar > 20){message("consider less covariates for better visualization results.")}
-
-    covar_vec <- data %>%
-      dplyr::summarize_all(function(x) n_miss = sum(is.na(x))) %>%
-      tidyr::pivot_longer(cols = tidyselect::everything(), names_to = "covariate", values_to = "n_miss") %>%
-      dplyr::arrange(dplyr::desc(n_miss)) %>%
-      dplyr::slice_max(n_miss, n = top_n_covar) %>%
-      dplyr::pull(covariate)
-
-    if(!is.null(strata)){
-
-      if(strata %in% covar_vec){
-
-        warning(glue::glue("strata variable <{strata}> amongst {top_n_covar} missing covariates!"))
-        covar_vec <- covar_vec[!covar_vec %in% strata]
-
-      }
-    }
-
-  }else{
-
-    stop("neither <covar> nor <top_n_covar> specified! You must specify one of the two.")
-
-  }
-
-
-  # in case results are stratified, group it by stratifying variable => select covars
   if(!is.null(strata)){
 
-    # strata variable (helper variable easier to operate with)
-    data["strata"] <- data[strata]
+    if(!strata %in% names(data)){stop("Strata variable not present in data.")}
 
-    # group df by stratifying variable
+    if(sum(is.na(data[[strata]])) > 0){warning("Strata variable has NA.")}
+
+    # group data
     data <- data %>%
-      dplyr::select(tidyselect::all_of(covar_vec), strata) %>%
-      dplyr::group_by(strata)
+      dplyr::group_by(.data[[strata]])
 
-  }else{
-
-    # in case results are not stratified
-    data <- data %>%
-      dplyr::select(tidyselect::all_of(covar_vec))
-
-  }
+    }
 
   # now compute exact percentage missing
   data_summary <- data %>%
-    dplyr::select(tidyselect::all_of(covar_vec)) %>%
-    dplyr::summarize_all(function(x) n_miss = sum(is.na(x))) %>%
-    tidyr::pivot_longer(cols = tidyselect::all_of(covar_vec), names_to = "covariate", values_to = "n_miss") %>%
+    dplyr::summarize(dplyr::across(tidyselect::all_of(covar_miss), ~ sum(is.na(.x))), .drop = "groups") %>%
+    tidyr::pivot_longer(cols = tidyselect::all_of(covar_miss), names_to = "covariate", values_to = "n_miss") %>%
     dplyr::mutate(perc_miss = n_miss/nrow(data)*100) %>%
     dplyr::mutate(perc_miss_label = paste0(formatC(perc_miss, format = 'f', digits = 2), "%")) %>%
     dplyr::arrange(dplyr::desc(perc_miss), covariate)
@@ -141,7 +101,10 @@ smdi_vis <- function(data = NULL,
   if(!is.null(strata)){
 
     plot_summary <- plot_summary +
-      ggplot2::facet_wrap(~strata)
+      ggplot2::facet_wrap(~.data[[strata]]) +
+      ggplot2::labs(
+        subtitle = glue::glue("Results stratified by {strata}")
+      )
 
   }
 

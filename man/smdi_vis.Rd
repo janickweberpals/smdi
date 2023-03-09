@@ -4,14 +4,12 @@
 \alias{smdi_vis}
 \title{Quick and elegant visualization of partially observed/missing variables}
 \usage{
-smdi_vis(data = NULL, covar = NULL, top_n_covar = NULL, strata = NULL)
+smdi_vis(data = NULL, covar = NULL, strata = NULL)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
-
-\item{top_n_covar}{integer, display top n missing covariates}
 
 \item{strata}{character name of variable/column by which results should be stratified}
 }
@@ -26,12 +24,8 @@ variables. Results can also be stratified by another variable.
 The function assumes a one-row-per-patient dataframe.
 }
 \examples{
-\dontrun{
 library(smdi)
-library(dplyr)
 
-smdi_data \%>\%
-smdi_vis()
+smdi_vis(data = smdi_data)
 
-}
 }
