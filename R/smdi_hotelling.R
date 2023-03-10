@@ -54,18 +54,18 @@ smdi_hotelling <- function(data = NULL,
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
 
-  # pick missing indicator columns/partially observed covariates
-  # check for missing covariates
+  # check for missing covariate of interest
   covar_miss <- smdi::smdi_check_covar(
     data = data,
     covar = covar
     )
 
   # apply smdi_na_indicator for datset to create missing
-  # indicator variables
+  # indicator variables;
+  # needs to be done for all variables with at least one NA
   data_encoded <- smdi::smdi_na_indicator(
     data = data,
-    covar = covar,
+    covar = smdi::smdi_check_covar(data = data),
     drop_NA_col = TRUE
     )
 
