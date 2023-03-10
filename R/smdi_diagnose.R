@@ -113,8 +113,8 @@ smdi_diagnose <- function(data = NULL,
   # outcome regression ------------------------------------------------------
   tbl_outcome <- smdi::smdi_outcome(
     data = data,
-    model = "cox",
-    form_lhs = "Surv(eventtime, status)",
+    model = model,
+    form_lhs = form_lhs,
     exponentiated = exponentiated
     )
 
