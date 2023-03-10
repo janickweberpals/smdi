@@ -173,7 +173,7 @@ sim_df <- sim_covar %>% dplyr::bind_cols(
     lambdas = 0.05,
     betas = betas_os,
     x = sim_covar,
-    maxt = 5 # in months
+    maxt = 5 
     )
   ) %>% 
   dplyr::select(-id)
