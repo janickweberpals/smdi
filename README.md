@@ -13,14 +13,14 @@ This package aims to be a helpful addition to routine healthcare database analyt
 You can install the latest version of `smdi` with:
 
 ```r
-remotes::install_github("https://gitlab-scm.partners.org/janickweberpals/smdi")
+devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git")
 ```
 
 ## About
 
 The core of this package aims to conveniently implement routine missing covariate data diagnostics in epidemiological studies.
 
-The theoretical backbone of this package is based on a plasmode simulation performed by the Sentinel Innovation Center [workgroup]((https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)) on 
+The theoretical backbone of this package is based on a plasmode simulation performed by the Sentinel Innovation Center [workgroup](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health) on 
 
 *Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes*.
 
@@ -38,17 +38,9 @@ In brief, the simulation found that the combination of three group diagnostics m
 
 Check out the `smdi` pkgdown website:
 
-<https://janickweberpals.gitlab-pages.partners.org/smdi>
+[janickweberpals.gitlab-pages.partners.org/smdi](https://janickweberpals.gitlab-pages.partners.org/smdi)
 
-## Vignettes
-
-To learn how to use the `smdi` R package, refer to the package vignettes:
-
-```r
-utils::browseVignettes("smdi")
-```
-
-## More References
+## References
 
 Lee KJ, Tilling KM, Cornish RP, Little RJA, Bell ML, Goetghebeur E, Hogan JW, Carpenter JR; STRATOS initiative. Framework for the treatment and reporting of missing data in observational studies: The Treatment And Reporting of Missing data in Observational Studies framework. J Clin Epidemiol. 2021 Jun;134:79-88. doi: 10.1016/j.jclinepi.2021.01.008. Epub 2021 Feb 2. PMID: 33539930; PMCID: PMC8168830.
 

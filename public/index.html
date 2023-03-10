@@ -78,13 +78,13 @@
 </h2>
 <p>You can install the latest version of <code>smdi</code> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://gitlab-scm.partners.org/janickweberpals/smdi"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">install_git</a></span><span class="op">(</span><span class="st">"https://gitlab-scm.partners.org/janickweberpals/smdi.git"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
 </h2>
 <p>The core of this package aims to conveniently implement routine missing covariate data diagnostics in epidemiological studies.</p>
-<p>The theoretical backbone of this package is based on a plasmode simulation performed by the Sentinel Innovation Center <a href="(https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)" class="external-link">workgroup</a> on</p>
+<p>The theoretical backbone of this package is based on a plasmode simulation performed by the Sentinel Innovation Center <a href="https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health" class="external-link">workgroup</a> on</p>
 <p><em>Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes</em>.</p>
 <p>In brief, the simulation found that the combination of three group diagnostics may give researchers some idea about the potential underlying missing data mechanisms of covariates in the dataset at hand. Aiming to differentiate between missingness mechanisms, these group diagnostics check the following:</p>
 <ul>
@@ -100,17 +100,10 @@
 <h2 id="package-website">Package website<a class="anchor" aria-label="anchor" href="#package-website"></a>
 </h2>
 <p>Check out the <code>smdi</code> pkgdown website:</p>
-<p><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link uri">https://janickweberpals.gitlab-pages.partners.org/smdi</a></p>
+<p><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">janickweberpals.gitlab-pages.partners.org/smdi</a></p>
 </div>
 <div class="section level2">
-<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
-</h2>
-<p>To learn how to use the <code>smdi</code> R package, refer to the package vignettes:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"smdi"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="more-references">More References<a class="anchor" aria-label="anchor" href="#more-references"></a>
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <p>Lee KJ, Tilling KM, Cornish RP, Little RJA, Bell ML, Goetghebeur E, Hogan JW, Carpenter JR; STRATOS initiative. Framework for the treatment and reporting of missing data in observational studies: The Treatment And Reporting of Missing data in Observational Studies framework. J Clin Epidemiol. 2021 Jun;134:79-88. doi: 10.1016/j.jclinepi.2021.01.008. Epub 2021 Feb 2. PMID: 33539930; PMCID: PMC8168830.</p>
 <p>Weberpals J, Sondhi A, Jiang C, Yerram P, Taylor MD, Samant M, Cherng ST. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. 37th International Conference on Pharmacoepidemiology &amp; Therapeutic Risk Management 2021. Pharmacoepidemiol Drug Saf 2021; 30:36-36.</p>
