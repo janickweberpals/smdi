@@ -398,19 +398,6 @@ variables using the <code><a href="../reference/smdi_summarize.html">smdi_summar
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat    <span style="text-decoration: underline;">1</span>015 40.60%   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat     899 35.96%   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num     517 20.68%</span></span></code></pre></div>
-<p>Alternatively, we can use <code><a href="../reference/smdi_vis.html">smdi_vis()</a></code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>top_n_covar <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;"></p>
-<div class="section level3">
-<h3 id="smdi_diagnose-analysis">
-<code>smdi_diagnose</code> analysis<a class="anchor" aria-label="anchor" href="#smdi_diagnose-analysis"></a>
-</h3>
-<blockquote>
-<p>TO DO</p>
-</blockquote>
-</div>
 <div class="section level3">
 <h3 id="narfcs-imputation-1">NARFCS imputation<a class="anchor" aria-label="anchor" href="#narfcs-imputation-1"></a>
 </h3>
@@ -436,7 +423,7 @@ decide to run a tipping point sensitivity analysis by imputing
 <code>pdl1_num</code> over a range of <strong>𝛅</strong> sensitivity
 parameters while imputing <code>ecog_cat</code> and
 <code>egfr_cat</code> under a “normal” imputation model.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we one hot encode the `ses_cat` variable again </span></span>
 <span><span class="co"># in the smdi_data dataset</span></span>
 <span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -510,7 +497,7 @@ parameters while imputing <code>ecog_cat</code> and
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-10-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>As in the example above, <code>pdl1_num</code> is sensitive to
 departures but results would only change under unrealistically strong
 differences. In fact, the point estimates perfectly align with the true
