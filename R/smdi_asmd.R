@@ -199,6 +199,7 @@ smdi_asmd <- function(data = NULL,
 
 # generic print -----------------------------------------------------------
 
+#' @export
 print.asmd <- function(x, ...){
 
   tbl <- do.call(rbind, lapply(x,'[[',4)) %>%

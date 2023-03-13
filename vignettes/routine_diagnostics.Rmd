@@ -102,7 +102,6 @@ To get an idea about the asmd for our partially observed covariates we can run t
 
 ```{r}
 asmd <- smdi_asmd(data = smdi_data)
-asmd
 ```
 
 The output returns an *asmd* object that contains a lot of information in the following structure that can be accessed using the "\$" operator:
@@ -114,7 +113,21 @@ The output returns an *asmd* object that contains a lot of information in the fo
         -   asmd plot
         -   aggregate median/average asmd
 
-To limit the output, we can use the generic `summary` output of the object which returns a summary table of the aggregate median/average asmd per covariate.
+Here is an example of `egfr_cat`:
+        
+```{r}
+asmd$egfr_cat$asmd_table1
+```
+
+```{r}
+asmd$egfr_cat$asmd_plot
+```
+
+```{r}
+asmd$egfr_cat$asmd_aggregate
+```
+
+To limit the output, we can use the generic `print` or `summary` output of the object which returns a summary table of the aggregate median/average asmd per covariate.
 
 ```{r}
 summary(asmd)
@@ -136,6 +149,13 @@ The `smdi_hotelling` function follows the same logic, but is a formal hypothesis
 h0 <- smdi_hotelling(data = smdi_data)
 h0
 ```
+
+More details can be accessed for each covariate.
+
+```{r}
+h0$ecog_cat
+```
+
 
 #### Little
 

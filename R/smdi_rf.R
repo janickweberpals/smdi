@@ -147,6 +147,7 @@ smdi_rf <- function(data = NULL,
 
 # generic print -----------------------------------------------------------
 
+#' @export
 print.rf <- function(x, ...){
 
   tbl <- do.call(rbind, lapply(x,'[[',1))

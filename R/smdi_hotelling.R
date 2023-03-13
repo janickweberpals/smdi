@@ -118,6 +118,7 @@ smdi_hotelling <- function(data = NULL,
 
 # generic print -----------------------------------------------------------
 
+#' @export
 print.hotelling <- function(x, ...){
 
   # initialize
