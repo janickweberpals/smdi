@@ -200,9 +200,465 @@ datasets.</p>
 <h3 id="smdi-diagnostics">
 <code>smdi</code> diagnostics<a class="anchor" aria-label="anchor" href="#smdi-diagnostics"></a>
 </h3>
-<blockquote>
-<p>TO DO</p>
-</blockquote>
+<p>Now let’s use <code>smdi_diagnose</code> to investigate the three
+group diagnostics fro <code>age_num</code>. This may characterize the
+underlying missingness mechanism.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">age_diagnostics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_diagnose.html">smdi_diagnose</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">smdi_data_mnar_v</span>,</span>
+<span>  covar <span class="op">=</span> <span class="st">"age_num"</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"cox"</span>,</span>
+<span>  form_lhs <span class="op">=</span> <span class="st">"Surv(eventtime, status)"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="va">age_diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span><span class="op">)</span></span></code></pre></div>
+<div id="pxiwvpqqxy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#pxiwvpqqxy .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#pxiwvpqqxy .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#pxiwvpqqxy .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#pxiwvpqqxy .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#pxiwvpqqxy .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#pxiwvpqqxy .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#pxiwvpqqxy .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#pxiwvpqqxy .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#pxiwvpqqxy .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#pxiwvpqqxy .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pxiwvpqqxy .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#pxiwvpqqxy .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#pxiwvpqqxy .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#pxiwvpqqxy .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pxiwvpqqxy .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#pxiwvpqqxy .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#pxiwvpqqxy .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pxiwvpqqxy .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#pxiwvpqqxy .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pxiwvpqqxy .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#pxiwvpqqxy .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pxiwvpqqxy .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pxiwvpqqxy .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pxiwvpqqxy .gt_left {
+  text-align: left;
+}
+
+#pxiwvpqqxy .gt_center {
+  text-align: center;
+}
+
+#pxiwvpqqxy .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#pxiwvpqqxy .gt_font_normal {
+  font-weight: normal;
+}
+
+#pxiwvpqqxy .gt_font_bold {
+  font-weight: bold;
+}
+
+#pxiwvpqqxy .gt_font_italic {
+  font-style: italic;
+}
+
+#pxiwvpqqxy .gt_super {
+  font-size: 65%;
+}
+
+#pxiwvpqqxy .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#pxiwvpqqxy .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#pxiwvpqqxy .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#pxiwvpqqxy .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#pxiwvpqqxy .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#pxiwvpqqxy .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#pxiwvpqqxy .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="table gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="asmd_median">asmd_median</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">hotteling_p</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="rf_auc">rf_auc</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_crude">estimate_crude</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">estimate_adjusted</th>
+    </tr></thead>
+<tbody class="gt_table_body"><tr>
+<td headers="covariate" class="gt_row gt_left">age_num</td>
+<td headers="asmd_median" class="gt_row gt_right">0.056</td>
+<td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
+<td headers="rf_auc" class="gt_row gt_right">0.543</td>
+<td headers="estimate_crude" class="gt_row gt_center">-0.41 (95% CI -0.50, -0.32)</td>
+<td headers="estimate_adjusted" class="gt_row gt_center">-0.40 (95% CI -0.49, -0.32)</td>
+</tr></tbody>
+</table>
+</div>
+age_diagnostics$p_little
+#&gt; p_little: <.001>We observe from this diagnostics that with a median absolute
+standardized mean difference (asmd) of 0.056 there don’t seem to be
+major differences between patients with and without an observed
+<code>age_num</code> value, although Hotelling’s test picks up some
+differences here which may be driven by the larger sample size, though.
+Also group 2 and group 3 diagnostics tend to show characteristics that
+one would expect in case of a missing completely at random missingness
+mechanims or -as we have observed in simulations- an <strong>MNAR(value)
+mechanism</strong>. That is, both MCAR and MNAR(value) are extremely
+difficult to distinguish because the missingness in MNAR(value) solely
+depends on <code>age_num</code> itself and no other observed or
+unobserved factors which makes it really hard to see any differences
+when comparing patient characteristics (group 1 diagnostics), trying to
+predict missingness (group 2 diagnostics) or investigate if missingness
+is associated with the outcome (group 3 diagnostics).
+</.001>
 </div>
 <div class="section level3">
 <h3 id="comparing-treatment-effect-estimates">Comparing treatment effect estimates<a class="anchor" aria-label="anchor" href="#comparing-treatment-effect-estimates"></a>
@@ -210,7 +666,7 @@ datasets.</p>
 <p>We can now compare and estimate the bias caused by the 40% of
 MNAR(value) missing values.</p>
 <p>First, we specify a general outcome model.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># outcome model (see data generation script)</span></span>
 <span><span class="va">cox_lhs</span> <span class="op">&lt;-</span> <span class="st">"survival::Surv(eventtime, status)"</span></span>
 <span><span class="va">covariates</span> <span class="op">&lt;-</span> <span class="va">smdi_data_complete</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -226,7 +682,7 @@ MNAR(value) missing values.</p>
 <span><span class="co">#&gt;     pdl1_num + histology_cat + copd_cat + ses_cat_1_low + ses_cat_2_middle</span></span></code></pre></div>
 <p>Next, we compute the true Hazard Ratio (HR), the complete case HR and
 the standard <em>mice</em> multiple imputation HR.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># true outcome model</span></span>
 <span><span class="va">cox_fit_true</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="va">cox_form</span>, data <span class="op">=</span> <span class="va">smdi_data_complete</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -271,7 +727,7 @@ the standard <em>mice</em> multiple imputation HR.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">tableGrob</a></span><span class="op">(</span><span class="va">table</span>, rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>, <span class="va">forest</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-5-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-6-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>The deviation of the complete case and multiple imputation estimates
 aren’t too off which has to do with <code>age_num</code> being a rather
 moderate confounder in this simulation. Nevertheless, in reality we
@@ -311,7 +767,7 @@ models over a range of realistic <strong>𝛅</strong> sensitivity
 parameters and evaluate if at any pre-specified <strong>𝛅</strong>, our
 confidence interval would cross a certain estimate threshold which would
 discard the global conclusion of our primary analysis.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># initialize method vector</span></span>
 <span><span class="va">method_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">smdi_data_mnar_v</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -370,7 +826,7 @@ discard the global conclusion of our primary analysis.</p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="900" style="display: block; margin: auto;">
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-8-1.png" width="900" style="display: block; margin: auto;">
 Based on this tipping point analysis, the systematic difference between
 observed and unobserved <code>age_num</code> values would have needed to
 be so drastic that a significant departure of our primary analysis is
@@ -389,7 +845,7 @@ factor.</p>
 we have multiple missing covariates, each of which follow different
 missingness mechanisms. Here is again a quick overview of the missing
 variables using the <code><a href="../reference/smdi_summarize.html">smdi_summarize()</a></code> function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -423,7 +879,7 @@ decide to run a tipping point sensitivity analysis by imputing
 <code>pdl1_num</code> over a range of <strong>𝛅</strong> sensitivity
 parameters while imputing <code>ecog_cat</code> and
 <code>egfr_cat</code> under a “normal” imputation model.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we one hot encode the `ses_cat` variable again </span></span>
 <span><span class="co"># in the smdi_data dataset</span></span>
 <span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -497,7 +953,7 @@ parameters while imputing <code>ecog_cat</code> and
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-10-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>As in the example above, <code>pdl1_num</code> is sensitive to
 departures but results would only change under unrealistically strong
 differences. In fact, the point estimates perfectly align with the true

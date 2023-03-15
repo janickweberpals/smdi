@@ -1,5 +1,7 @@
 # smdi 0.1.0
 
+* Internal release of version 0.1.0 for beta testing
+
 * First draft of all `smdi_xxx()` functions.
 
 * Initial build of website using `pkgdown`.
