@@ -138,16 +138,7 @@ smdi_rf <- function(data = NULL,
   n_cores <- parallel::detectCores()-1
 
   # run the function for each covariate
-  start.time<-proc.time()
-  rf_out <- lapply(covar_miss, FUN = rf_loop)
-  stop.time<-proc.time()
-  run.time_lapply<-stop.time - start.time
-
-  start.time<-proc.time()
   rf_out <- parallel::mclapply(covar_miss, FUN = rf_loop, mc.cores = n_cores)
-  stop.time<-proc.time()
-  run.time_mclapply<-stop.time - start.time
-
   names(rf_out) <- covar_miss
 
   # assign class
