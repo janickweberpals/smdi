@@ -116,7 +116,7 @@ smdi_rf <- function(data = NULL,
       as.data.frame() %>%
       tibble::rownames_to_column(var = "covariate") %>%
       ggplot2::ggplot(ggplot2::aes(x = forcats::fct_reorder(as.factor(covariate), MeanDecreaseAccuracy), y = MeanDecreaseAccuracy)) +
-      ggplot2::geom_point(size = 5, color = "darkblue") +
+      ggplot2::geom_point(size = 3, color = "darkblue") +
       ggplot2::labs(
         x = "Covariate",
         y = "Mean decrease in accuracy",
