@@ -26,6 +26,7 @@
 #' @param ntree integer, number of trees for random forest missingness prediction model (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio for random forest missingness prediction model, e.g. c(.7, .3) is the default
 #' @param set_seed seed for reproducibility of random forest missingness prediction model, defaults to 42
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores
 #' @param model character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox (see smdi_outcome)
 #' @param form_lhs string specifying the left-hand side of the outcome formula (see smdi_outcome)
 #' @param exponentiated logical, should results of outcome regression to assess association between missingness and outcome be exponentiated (default is FALSE)
@@ -56,6 +57,7 @@ smdi_diagnose <- function(data = NULL,
                           train_test_ratio = c(.7, .3),
                           set_seed = 42,
                           ntree = 1000,
+                          n_cores = 1,
 
                           model = c("logistic", "linear", "cox"),
                           form_lhs = NULL,

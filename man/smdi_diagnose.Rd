@@ -12,6 +12,7 @@ smdi_diagnose(
   train_test_ratio = c(0.7, 0.3),
   set_seed = 42,
   ntree = 1000,
+  n_cores = 1,
   model = c("logistic", "linear", "cox"),
   form_lhs = NULL,
   exponentiated = FALSE
@@ -31,6 +32,8 @@ smdi_diagnose(
 \item{set_seed}{seed for reproducibility of random forest missingness prediction model, defaults to 42}
 
 \item{ntree}{integer, number of trees for random forest missingness prediction model (defaults to 1000 trees)}
+
+\item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores}
 
 \item{model}{character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox (see smdi_outcome)}
 

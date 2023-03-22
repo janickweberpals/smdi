@@ -22,6 +22,7 @@
 #' @param ntree integer, number of trees (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default
 #' @param set_seed seed for reproducibility, defaults to 42
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores
 #'
 #' @return rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
 #'
@@ -50,15 +51,18 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(smdi)
 #'
 #' smdi_rf(data = smdi_data)
+#' }
 
 smdi_rf <- function(data = NULL,
                     covar = NULL,
                     train_test_ratio = c(.7, .3),
                     set_seed = 42,
-                    ntree = 1000
+                    ntree = 1000,
+                    n_cores = 1
                     ){
 
   # initialize
@@ -72,6 +76,11 @@ smdi_rf <- function(data = NULL,
     data = data,
     covar = covar
     )
+
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+  }
 
   # apply smdi_na_indicator for datset to create missing
   # indicator variables;
@@ -135,9 +144,6 @@ smdi_rf <- function(data = NULL,
     return(rf_out)
 
   }
-
-  # parallelize to be faster
-  n_cores <- parallel::detectCores()-1
 
   # run the function for each covariate
   rf_out <- parallel::mclapply(covar_miss, FUN = rf_loop, mc.cores = n_cores)
