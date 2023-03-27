@@ -107,15 +107,17 @@ bind_rows(
 
 ## `smdi` diagnostics
 
+Now let's use `smdi_diagnose` to investigate the three group diagnostics from `age_num`. This may help characterize the underlying missingness mechanism.
+
 ```{r}
-diagnostics <- smdi_diagnose(
+age_diagnostics <- smdi_diagnose(
   data = smdi_data_mnar_v,
-  covar = NULL, 
+  covar = "age_num",
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt(diagnostics$smdi_tbl) %>% 
+gt(age_diagnostics$smdi_tbl) %>% 
   tab_footnote(
     footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
     locations = cells_column_labels(
@@ -134,8 +136,11 @@ gt(diagnostics$smdi_tbl) %>%
       columns = c(estimate_crude, estimate_adjusted)
       )
     )
+
+age_diagnostics$p_little
 ```
 
+We observe from this diagnostics that with a median absolute standardized mean difference (asmd) of 0.056 there don't seem to be major differences between patients with and without an observed `age_num` value, although Hotelling's test picks up some differences here which may be driven by the larger sample size, though. Also group 2 and group 3 diagnostics tend to show characteristics that one would expect in case of a missing completely at random missingness mechanims or -as we have observed in simulations- an **MNAR(value) mechanism**. That is, both MCAR and MNAR(value) are extremely difficult to distinguish because the missingness in MNAR(value) solely depends on `age_num` itself and no other observed or unobserved factors which makes it really hard to see any differences when comparing patient characteristics (group 1 diagnostics), trying to predict missingness (group 2 diagnostics) or investigate if missingness is associated with the outcome (group 3 diagnostics).
 
 ## Comparing treatment effect estimates
 
