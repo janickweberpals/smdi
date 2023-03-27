@@ -210,7 +210,7 @@ smdi_outcome(
   )
 ```
 
-# `smdi_diagnose` - one function to rule them all
+# `smdi_diagnose()` - one function to rule them all
 
 Finally, all of the functions above funnel into `smdi_diagnose()` which outputs an smdi object including a summary table of all three smdi group diagnostics and little's global p-value statistic. If details of the individual functions above are needed, this method may not be preferable but is a convenient way to implement routine structural missing covariate diagnostics by calling a single function.
 
