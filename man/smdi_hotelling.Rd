@@ -12,7 +12,9 @@ smdi_hotelling(data = NULL, covar = NULL)
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 }
 \value{
-returns a hotelling object with statistics on hotellings test by covariate. S3 generic summary returns a summarized dataframe with hypothesis test p-values.
+returns a hotelling object with statistics on hotellings test by covariate. That is, for each <covar>, the following outputs are provided:
+
+- stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
 }
 \description{
 Hotelling's multivariate t-test, which examines variable

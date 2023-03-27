@@ -32,6 +32,10 @@
 #'
 #' @return smdi object including a summary table of all three smdi group diagnostics.
 #'
+#'**Group 1 diagnostic:**
+#'
+#' - asmd_{mean/median}: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
+#'
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join
 #'

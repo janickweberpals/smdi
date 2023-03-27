@@ -47,7 +47,15 @@
 #' @param median logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed
 #' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)
 #'
-#' @return returns an asmd object with mean/median absolute standardized mean differences
+#' @return returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided
+#'
+#' - asmd_covar: name of covariate investigated
+#'
+#' - asmd_table1: detailed "table 1" illustrating distributions and differences of patient characteristics between those without (1) and with (0) observed covariate
+#'
+#' - asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)
+#'
+#' - asmd_aggregate asmd_{mean/median}: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across
