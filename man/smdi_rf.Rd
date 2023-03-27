@@ -9,7 +9,8 @@ smdi_rf(
   covar = NULL,
   train_test_ratio = c(0.7, 0.3),
   set_seed = 42,
-  ntree = 1000
+  ntree = 1000,
+  n_cores = 1
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ smdi_rf(
 \item{set_seed}{seed for reproducibility, defaults to 42}
 
 \item{ntree}{integer, number of trees (defaults to 1000 trees)}
+
+\item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores}
 }
 \value{
 rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
@@ -37,9 +40,11 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc.
 The random forest utilizes the randomForest engine.
 }
 \examples{
+\dontrun{
 library(smdi)
 
 smdi_rf(data = smdi_data)
+}
 }
 \references{
 Weberpals J,  Sondhi A, Jiang C, Yerram P, Taylor MD,  Samant M, Cherng ST. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. 37th International Conference on Pharmacoepidemiology & Therapeutic Risk Management 2021. Pharmacoepidemiol Drug Saf 2021; 30:36-36.
