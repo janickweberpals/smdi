@@ -4,7 +4,13 @@
 \alias{smdi_asmd}
 \title{Computes mean/median absolute standardized mean differences between observed and missing observations}
 \usage{
-smdi_asmd(data = NULL, covar = NULL, median = TRUE, includeNA = FALSE)
+smdi_asmd(
+  data = NULL,
+  covar = NULL,
+  median = TRUE,
+  includeNA = FALSE,
+  n_cores = 1
+)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
@@ -14,6 +20,8 @@ smdi_asmd(data = NULL, covar = NULL, median = TRUE, includeNA = FALSE)
 \item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed}
 
 \item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)}
+
+\item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
 returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided

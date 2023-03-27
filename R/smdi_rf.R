@@ -22,6 +22,7 @@
 #' @param ntree integer, number of trees (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default
 #' @param set_seed seed for reproducibility, defaults to 42
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
 #' @return rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
 #'
@@ -37,6 +38,8 @@
 #' @importFrom ggplot2 theme_bw
 #' @importFrom glue glue
 #' @importFrom naniar mcar_test
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
 #' @importFrom pROC roc
 #' @importFrom randomForest randomForest
 #' @importFrom stats predict
@@ -51,12 +54,14 @@
 #' library(smdi)
 #'
 #' smdi_rf(data = smdi_data)
+#'
 
 smdi_rf <- function(data = NULL,
                     covar = NULL,
                     train_test_ratio = c(.7, .3),
                     set_seed = 42,
-                    ntree = 1000
+                    ntree = 1000,
+                    n_cores = 1
                     ){
 
   # initialize
@@ -64,6 +69,11 @@ smdi_rf <- function(data = NULL,
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
+
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+  }
 
   # check for missing covariate of interest
   covar_miss <- smdi::smdi_check_covar(
@@ -116,7 +126,7 @@ smdi_rf <- function(data = NULL,
       as.data.frame() %>%
       tibble::rownames_to_column(var = "covariate") %>%
       ggplot2::ggplot(ggplot2::aes(x = forcats::fct_reorder(as.factor(covariate), MeanDecreaseAccuracy), y = MeanDecreaseAccuracy)) +
-      ggplot2::geom_point(size = 5, color = "darkblue") +
+      ggplot2::geom_point(size = 3, color = "darkblue") +
       ggplot2::labs(
         x = "Covariate",
         y = "Mean decrease in accuracy",
@@ -135,7 +145,7 @@ smdi_rf <- function(data = NULL,
   }
 
   # run the function for each covariate
-  rf_out <- lapply(covar_miss, FUN = rf_loop)
+  rf_out <- parallel::mclapply(covar_miss, FUN = rf_loop, mc.cores = n_cores)
   names(rf_out) <- covar_miss
 
   # assign class
