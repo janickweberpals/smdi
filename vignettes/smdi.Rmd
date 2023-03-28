@@ -40,7 +40,9 @@ diagnostics <- smdi_diagnose(
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
+```
 
+```{r, echo=FALSE}
 gt(diagnostics$smdi_tbl) %>% 
   tab_footnote(
     footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
@@ -60,9 +62,7 @@ gt(diagnostics$smdi_tbl) %>%
       columns = c(estimate_crude, estimate_adjusted)
       )
     )
-```
 
-```{r}
 diagnostics$p_little
 ```
 

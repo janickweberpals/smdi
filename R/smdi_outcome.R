@@ -32,7 +32,11 @@
 #' @param exponentiated logical, should results be exponentiated (default is FALSE)
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return tibble with crude and adjusted estimates per <covar>
+#' @return returns a tibble with crude and adjusted estimates for each partially observed <covar>:
+#'
+#' - estimate_crude: univariate association between missingness indicator of <covar> and outcome
+#'
+#' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
 #' @importFrom broom tidy
 #' @importFrom dplyr across

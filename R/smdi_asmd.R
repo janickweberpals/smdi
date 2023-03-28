@@ -48,7 +48,7 @@
 #' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided
+#' @return returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided:
 #'
 #' - asmd_covar: name of covariate investigated
 #'
@@ -56,7 +56,7 @@
 #'
 #' - asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)
 #'
-#' - asmd_aggregate asmd_{mean/median}: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
+#' - asmd_aggregate: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across

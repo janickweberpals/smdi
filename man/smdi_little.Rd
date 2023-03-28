@@ -20,7 +20,7 @@ Please note that compared to smdi_hotelling, this function tests for MCAR global
 #' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-...
+CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 }
 \examples{
 library(smdi)

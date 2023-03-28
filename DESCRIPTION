@@ -20,6 +20,7 @@ Imports:
     Hotelling,
     magrittr,
     naniar,
+    parallel,
     pROC,
     randomForest,
     stringr,

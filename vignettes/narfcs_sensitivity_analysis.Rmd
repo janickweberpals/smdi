@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
 library(smdi)
 library(ggplot2)
 library(survival)
+library(gt)
 suppressPackageStartupMessages(library(mice))
 suppressPackageStartupMessages(library(dplyr))
 ```

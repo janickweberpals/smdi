@@ -31,11 +31,24 @@
 #' @param form_lhs string specifying the left-hand side of the outcome formula (see smdi_outcome)
 #' @param exponentiated logical, should results of outcome regression to assess association between missingness and outcome be exponentiated (default is FALSE)
 #'
-#' @return smdi object including a summary table of all three smdi group diagnostics.
+#' @return smdi object including a summary table of all three smdi group diagnostics:
 #'
-#'**Group 1 diagnostic:**
+#' **Group 1 diagnostic:**
 #'
 #' - asmd_{mean/median}: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
+#'
+#' - hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate
+#'
+#' **Group 2 diagnostic:**
+#'
+#' - rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
+#'
+#'
+#' **Group 3 diagnostic:**
+#'
+#' - estimate_crude: univariate association between missingness indicator of <covar> and outcome
+#'
+#' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join

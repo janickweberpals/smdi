@@ -17,7 +17,8 @@ smdi_hotelling(data = NULL, covar = NULL, n_cores = 1)
 returns a hotelling object with statistics on hotellings test by covariate. That is, for each <covar>, the following outputs are provided:
 
 - stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
-- stats: p-value of hotelling test
+
+- pval: p-value of hotelling test
 }
 \description{
 Hotelling's multivariate t-test, which examines variable
@@ -28,7 +29,7 @@ sample size, the combined investigation along with smdi_asmd() is highly recomme
 Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-...
+CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 }
 \examples{
 \dontrun{

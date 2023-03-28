@@ -27,7 +27,11 @@ smdi_rf(
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
+returns an rf object which comes as a list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object). That is, for each <covar>, the following outputs are provided:
+
+- rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
+
+- rf_plot: ggplot object illustrating the variable importance for the predication made expressed by the mean decrease in accuracy per predictor (i.e. how much would the accuracy of the prediction decrease, had we left out this specific predictor)
 }
 \description{
 The function trains and fits a random forest model to assess the ability to predict missingness for
@@ -38,6 +42,9 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
 The random forest utilizes the randomForest engine.
+
+CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
+this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
 }
 \examples{
 library(smdi)
