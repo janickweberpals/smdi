@@ -33,13 +33,15 @@ The `smdi` main function is `smdi_diagnose()` which calls all three group diagno
 
 A most minimal example could look like this (if you want to accept all of the default parameters).
 
-```{r}
+```{r, results='hide'}
 diagnostics <- smdi_diagnose(
   data = smdi_data,
   covar = NULL, # NULL includes all covariates with at least one NA
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
+
+gt(diagnostics$smdi_tbl)
 ```
 
 ```{r, echo=FALSE}
@@ -62,7 +64,9 @@ gt(diagnostics$smdi_tbl) %>%
       columns = c(estimate_crude, estimate_adjusted)
       )
     )
+```
 
+```{r}
 diagnostics$p_little
 ```
 
