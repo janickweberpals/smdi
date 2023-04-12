@@ -1,0 +1,41 @@
+---
+title: "Multivariate missingness"
+author: "Janick Weberpals"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Multivariate missingness}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 150,
+  fig.width = 6,
+  fig.height = 4.5
+  )
+```
+
+```{r setup}
+library(smdi)
+library(gt)
+suppressPackageStartupMessages(library(dplyr))
+```
+
+# Multivariate missing data in `smdi`
+
+In this article, we want to briefly highlight two aspect regarding **multivariate missingness**: 
+
+1. How does `smdi` handle multivariate missingness 
+
+2. What is the link between missing data patterns and missing data mechanisms and how this may affect the behavior and performance of the `smdi` functionality.
+
+## Established taxonomies
+
+In general, there are two classic established missing data taxonomies:
+
+* Mechanisms: Missing completely at random (MCAR), at random (MAR) and not at random (MNAR)
+
+* Patterns: Monotone versus Non-monotone missingness
