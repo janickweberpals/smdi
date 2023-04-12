@@ -2,10 +2,6 @@
 
 **`S`tructural `M`issing `D`ata `I`nvestigations**
 
-[![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)
-
-![](https://gitlab.partners.org/janickweberpals/smdi/badges/master/pipeline.svg)
-
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
 
 ::: {style="color:red"}
