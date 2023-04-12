@@ -56,7 +56,7 @@
 #'
 #' - asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)
 #'
-#' - asmd_aggregate: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
+#' - asmd_aggregate: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across
@@ -164,7 +164,7 @@ smdi_asmd <- function(data = NULL,
         ggplot2::aes(
           y = forcats::fct_reorder(covariate, smd),
           x = smd,
-          color = ifelse(smd < 0.1, "darkgreen", "firebrick")
+          color = ifelse(smd < 0.1, "blue", "orange")
           )
         ) +
       ggplot2::geom_point(size = 3) +
@@ -182,17 +182,30 @@ smdi_asmd <- function(data = NULL,
 
       asmd_aggregate <- tibble::tibble(
         covariate = paste(i),
-        asmd_median = stats::median(smd$smd)
+        asmd_median = stats::median(smd$smd),
+        asmd_min = min(smd$smd),
+        asmd_max = max(smd$smd)
         )
 
     }else{
 
       asmd_aggregate <- tibble::tibble(
         covariate = paste(i),
-        asmd_mean = mean(smd$smd)
+        asmd_mean = mean(smd$smd),
+        asmd_min = min(smd$smd),
+        asmd_max = max(smd$smd)
         )
 
     }
+
+    # finally, round asmd_aggregate to three decimals
+    asmd_aggregate <- asmd_aggregate %>%
+      dplyr::mutate(
+        dplyr::across(
+          tidyselect::where(is.numeric),
+          ~formatC(.x, format = "f", digits = 3)
+          )
+        )
 
     # assemble lapply output object
     return(
@@ -222,8 +235,7 @@ smdi_asmd <- function(data = NULL,
 #' @export
 print.asmd <- function(x, ...){
 
-  tbl <- do.call(rbind, lapply(x,'[[',4)) %>%
-    dplyr::mutate(dplyr::across(tidyselect::where(is.numeric), ~ formatC(.x, format = "f", digits = 3)))
+  tbl <- do.call(rbind, lapply(x,'[[',4))
 
   return(print(tbl))
 
@@ -234,8 +246,7 @@ print.asmd <- function(x, ...){
 #' @export
 summary.asmd <- function(object, ...){
 
-  tbl <- do.call(rbind, lapply(object,'[[',4)) %>%
-    dplyr::mutate(dplyr::across(tidyselect::where(is.numeric), ~ formatC(.x, format = "f", digits = 3)))
+  tbl <- do.call(rbind, lapply(object,'[[',4))
 
   return(tbl)
 
