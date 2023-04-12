@@ -8,7 +8,7 @@
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' The random forest utilizes the randomForest engine.
+#' The random forest utilizes the \link{randomForest} engine.
 #'
 #' CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
 #' this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
@@ -31,7 +31,8 @@
 #'
 #' - rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
 #'
-#' - rf_plot: ggplot object illustrating the variable importance for the predication made expressed by the mean decrease in accuracy per predictor (i.e. how much would the accuracy of the prediction decrease, had we left out this specific predictor)
+#' - rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
+#' That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.
 #'
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
@@ -72,7 +73,7 @@ smdi_rf <- function(data = NULL,
                     ){
 
   # initialize
-  .data <- MeanDecreaseAccuracy <- V1 <- covariate <- rf_auc <- NULL
+  .data <- MeanDecreaseAccuracy <- V1 <- covariate <- rf_auc <- imp_tmp <- . <- NULL
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
@@ -132,6 +133,7 @@ smdi_rf <- function(data = NULL,
     rf_plot_out <- rf$importance %>%
       as.data.frame() %>%
       tibble::rownames_to_column(var = "covariate") %>%
+      {{. ->> imp_tmp}} %>%
       ggplot2::ggplot(ggplot2::aes(x = forcats::fct_reorder(as.factor(covariate), MeanDecreaseAccuracy), y = MeanDecreaseAccuracy)) +
       ggplot2::geom_point(size = 3, color = "darkblue") +
       ggplot2::labs(
@@ -142,6 +144,21 @@ smdi_rf <- function(data = NULL,
       ggplot2::coord_flip() +
       ggplot2::theme_bw()
 
+      # we add a message for very high AUC values
+      # to make analyst aware to check for monotonicity
+      # we choose AUC of .9 as cut-off
+      if(auc > 0.9){
+        message(glue::glue("AUC for predicting covariate {rf_tbl_out$covariate} is very high (>0.9)."))
+
+        # determine most important predictor
+        imp_var_message <- imp_tmp %>%
+          dplyr::filter(MeanDecreaseAccuracy == max(MeanDecreaseAccuracy, na.rm=T)) %>%
+          dplyr::pull(covariate)
+
+        message(glue::glue("Predictor with highest importance: {imp_var_message}."))
+        message(glue::glue("Check for potentially underlying monotone missing data pattern."))
+        }
+
     rf_out <- list(
       rf_table = rf_tbl_out,
       rf_plot = rf_plot_out
@@ -149,7 +166,7 @@ smdi_rf <- function(data = NULL,
 
     return(rf_out)
 
-  }
+    }
 
   # run the function for each covariate
   rf_out <- parallel::mclapply(covar_miss, FUN = rf_loop, mc.cores = n_cores)
