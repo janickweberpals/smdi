@@ -156,7 +156,8 @@ smdi_rf <- function(data = NULL,
           dplyr::pull(covariate)
 
         message(glue::glue("Predictor with highest importance: {imp_var_message}."))
-        message(glue::glue("Check for potentially underlying monotone missing data pattern."))
+        message("Check for potentially underlying monotone missing data pattern. \n")
+        cat("\n")
         }
 
     rf_out <- list(
