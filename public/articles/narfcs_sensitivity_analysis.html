@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
     <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
     <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
@@ -218,7 +219,7 @@ the underlying missingness mechanism.</p>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span></span>
 <span>    footnote <span class="op">=</span> <span class="st">"Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate"</span>,</span>
 <span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_column_labels.html" class="external-link">cells_column_labels</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">asmd_median</span>, <span class="va">hotteling_p</span><span class="op">)</span></span>
+<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">asmd_median_min_max</span>, <span class="va">hotteling_p</span><span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span></span>
@@ -647,7 +648,7 @@ the underlying missingness mechanism.</p>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='asmd_median&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>asmd_median<sup class="gt_footnote_marks">1</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='asmd_median_min_max&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>asmd_median_min_max<sup class="gt_footnote_marks">1</sup>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='hotteling_p&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>hotteling_p<sup class="gt_footnote_marks">1</sup>
 </th>
@@ -660,7 +661,7 @@ the underlying missingness mechanism.</p>
     </tr></thead>
 <tbody class="gt_table_body"><tr>
 <td headers="covariate" class="gt_row gt_left">age_num</td>
-<td headers="asmd_median" class="gt_row gt_right">0.056</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.056 (0.004, 0.360)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_right">0.543</td>
 <td headers="estimate_crude" class="gt_row gt_center">-0.41 (95% CI -0.50, -0.32)</td>

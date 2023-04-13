@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,6 +29,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
     <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
     <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
@@ -50,6 +51,14 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="smdi-020">smdi 0.2.0<a class="anchor" aria-label="anchor" href="#smdi-020"></a></h2>
+<ul><li><p><code><a href="../reference/smdi_asmd.html">smdi_asmd()</a></code>, and consequently also <code><a href="../reference/smdi_diagnose.html">smdi_diagnose()</a></code>, now also outputs the minimum (min) and maximum (max) absolute standardized mean difference (asmd) in addition to the mean/median to provide more comprehensive information about the asmd range without having to look at each asmd plot individually.</p></li>
+<li><p>In case of monotone missing data patterns, we observed unreasonably very high AUC values for the Group 2 diagnostic which was caused by other partially observed covariates being almost perfect linear predictors of missingness. The new version has an in-built mechanism to prompt a message if AUCs are very high (&gt; 0.9). The prompt also gives additional details about the covariate for which this behavior was observed and the strongest predictor based on the mean decrease in accuracy. In case of monotonicity this typically another partially observed covariate which would then be flagged with a “_NA” suffix. Based on the prompt, the analyst can then decide if this variable should be better dropped for the smdi diagnostics.</p></li>
+<li><p>To address issues and learning around multivariate missing data and handling of monotone missing data patterns in <code>smdi</code>, an additional vignette on <code>Multivariate missingness and monotonicity</code> was added.</p></li>
+<li><p>Change of colors in plots produced by <code><a href="../reference/smdi_rf.html">smdi_rf()</a></code> to address color-blindness</p></li>
+<li><p>Some improved documentation for smdi_diagnose, smdi_asmd and smdi_rf</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="smdi-010">smdi 0.1.0<a class="anchor" aria-label="anchor" href="#smdi-010"></a></h2>
 <ul><li><p>Internal release of version 0.1.0 for beta testing</p></li>
 <li><p>First draft of all <code>smdi_xxx()</code> functions.</p></li>
@@ -58,7 +67,8 @@
 <li><p>Added a <code>NEWS.md</code> file to track changes to the package.</p></li>
 <li><p>Created three vignettes to learn more about the <code>smdi</code> package</p></li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

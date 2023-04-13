@@ -31,7 +31,8 @@ returns an rf object which comes as a list that contains the ROC AUC value and c
 
 - rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
 
-- rf_plot: ggplot object illustrating the variable importance for the predication made expressed by the mean decrease in accuracy per predictor (i.e. how much would the accuracy of the prediction decrease, had we left out this specific predictor)
+- rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
+That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.
 }
 \description{
 The function trains and fits a random forest model to assess the ability to predict missingness for
@@ -41,7 +42,7 @@ MAR may be a likely scenario and would imply that imputation may be feasible.
 Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-The random forest utilizes the randomForest engine.
+The random forest utilizes the \link{randomForest} engine.
 
 CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
 this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.

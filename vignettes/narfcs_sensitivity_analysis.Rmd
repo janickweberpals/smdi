@@ -122,7 +122,7 @@ gt(age_diagnostics$smdi_tbl) %>%
   tab_footnote(
     footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
     locations = cells_column_labels(
-      columns = c(asmd_median, hotteling_p)
+      columns = c(asmd_median_min_max, hotteling_p)
       )
     ) %>% 
   tab_footnote(
