@@ -30,7 +30,7 @@ In this article, we want to briefly highlight two aspect regarding **multivariat
 
 1. How does `smdi` handle multivariate missingness?
 
-2. What is the link between missing data patterns and missing data mechanisms and how this may affect the behavior and performance of the `smdi` functionality?
+2. What is the link between missing data patterns and missing data mechanisms and how does this affect the behavior and performance of the `smdi` functionality?
 
 ## Established taxonomies
 
@@ -58,23 +58,25 @@ smdi_data %>%
   gt()
 ```
 
-Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
+Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, if *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
 
->It is important to notice that if this strategy to deal with multivariate missingness within the `smdi` workflow, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stack the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
+>It is important to notice that this strategy is the default to deal with multivariate missingness in the `smdi` package, however, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stacking the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
 
 # `smdi` in case of monotone missing data patterns
 
-While with the `smdi` package we mainly focus on missing data mechanisms, missing data patterns always need to be considered, too. Please refer to the [routine structural missing data diagnostics article](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/routine_diagnostics.html#descriptives), where we highlight the importance of describing missingness proportions and patterns before running any of the `smdi` diagnostics.
+While in the `smdi` package we mainly focus on missing data mechanisms, missing data patterns always need to be considered, too. Please refer to the [routine structural missing data diagnostics article](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/routine_diagnostics.html#descriptives), where we highlight the importance of describing missingness proportions and patterns before running any of the `smdi` diagnostics.
 
 As mentioned in the section before, in case of monotone missing data patterns, the `smdi` functionality may be misleading.
 
-> A missing data pattern is said to be monotone if the variables can be ordered such that if is missing then all variables with are also missing [^1].
+> A missing data pattern is said to be monotone if the variables Yj can be ordered such that if Yj is missing then all variables Yk with k > jare also missing (taken from Stef van Buuren [^1]).
 
 [^1]: For more information on missing data patterns see <https://stefvanbuuren.name/fimd/missing-data-pattern.html>
 
-A good example for monotone missing data could be clinical blood laboratory tests ("labs") which are usually tested together in a lab panel. If one lab is missing, typically the other labs of this panel are also missing.
+A good example for monotone missing data could be clinical blood laboratory tests ("labs") which are often tested together in a lab panel. If one lab is missing, typically the other labs of this panel are also missing.
 
 ```{r}
+# we simulatea monotone missingness pattern
+# following an MCAR mechanism
 data_monotone <- smdi_data_complete %>% 
   mutate(
     lab1 = rnorm(nrow(smdi_data_complete), mean = 5, sd = 0.5),
@@ -102,8 +104,12 @@ diagnostics_jointly <- smdi_diagnose(
 
 ```{r, fig.cap="Diagnostics of lab 1 if analyzed separately."}
 gt(diagnostics_jointly$smdi_tbl)
+```
+
+```{r}
 diagnostics_jointly$p_little
 ```
+
 
 In such cases, it may be advisable to *not* consider including *lab2* in the missingness diagnostics of *lab1* and vice versa and stack the diagnostics focusing on one partially observed variable at a time.
 
@@ -118,8 +124,12 @@ lab1_diagnostics <- smdi_diagnose(
   )
 
 gt(lab1_diagnostics$smdi_tbl)
+```
+
+```{r}
 lab1_diagnostics$p_little
 ```
+
 
 ## Lab 2 analyzed without Lab 1
 
@@ -132,8 +142,11 @@ lab2_diagnostics <- smdi_diagnose(
   )
 
 gt(lab2_diagnostics$smdi_tbl)
+```
+
+```{r}
 lab2_diagnostics$p_little
 ```
 
-Since the missingness follows an MCAR mechanism (we simply set all values in the first 500 rows to NA), `smdi_diagnose()` now again reliably shows the common missingness diagnostics patterns as expected.
+Since the missingness follows an MCAR mechanism, `smdi_diagnose()` now shows the expected missingness diagnostics patterns based on an MCAR mechanism.
 

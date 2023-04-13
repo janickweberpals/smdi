@@ -14,7 +14,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
     <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
     <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
@@ -133,14 +134,16 @@ For more information and details, please refer to the individual functions.</p>
 <p>**Group 1 diagnostic:**</p>
 
 
-<p>- asmd_mean/median: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate</p>
+<p>- asmd_mean/median: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate</p>
 
 
-<p>_ hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate</p>
+<p>- hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate</p>
 
 
-<p>**Group 2 diagnostic:**
-- rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate</p>
+<p>**Group 2 diagnostic:**</p>
+
+
+<p>- rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate</p>
 
 
 
@@ -180,11 +183,11 @@ For more information and details, please refer to the individual functions.</p>
 <span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> smdi summary table:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   covariate asmd_median hotteling_p rf_auc estimate_crude             estimate…¹</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> egfr_cat  0.243       &lt;.001       0.629  0.06 (95% CI -0.03, 0.15)  -0.01 (95…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ecog_cat  0.029       0.783       0.510  -0.06 (95% CI -0.16, 0.03) -0.06 (95…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pdl1_num  0.062       &lt;.001       0.516  0.12 (95% CI 0.01, 0.23)   0.11 (95%…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   covariate asmd_median_min_max  hotteling_p rf_auc estimate_crude       estim…¹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> egfr_cat  0.243 (0.010, 0.485) &lt;.001       0.629  0.06 (95% CI -0.03,… -0.01 …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ecog_cat  0.029 (0.003, 0.071) 0.783       0.510  -0.06 (95% CI -0.16… -0.06 …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pdl1_num  0.062 (0.019, 0.338) &lt;.001       0.516  0.12 (95% CI 0.01, … 0.11 (…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​estimate_adjusted</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> p_little: &lt;.001</span>
