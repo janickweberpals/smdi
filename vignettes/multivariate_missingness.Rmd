@@ -1,9 +1,9 @@
 ---
-title: "Multivariate missingness"
+title: "Multivariate missingness and monotonicity"
 author: "Janick Weberpals"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Multivariate missingness}
+  %\VignetteIndexEntry{Multivariate missingness and monotonicity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,9 +28,9 @@ suppressPackageStartupMessages(library(dplyr))
 
 In this article, we want to briefly highlight two aspect regarding **multivariate missingness**: 
 
-1. How does `smdi` handle multivariate missingness 
+1. How does `smdi` handle multivariate missingness?
 
-2. What is the link between missing data patterns and missing data mechanisms and how this may affect the behavior and performance of the `smdi` functionality.
+2. What is the link between missing data patterns and missing data mechanisms and how this may affect the behavior and performance of the `smdi` functionality?
 
 ## Established taxonomies
 
@@ -39,3 +39,101 @@ In general, there are two classic established missing data taxonomies:
 * Mechanisms: Missing completely at random (MCAR), at random (MAR) and not at random (MNAR)
 
 * Patterns: Monotone versus Non-monotone missingness
+
+# How does `smdi` handle multivariate missingness?
+
+In all `smdi` functions, except `smdi_little()`, binary missing indicator variables are created for each partially observed variable (either specified by the analyst using the `covar` parameter or automatically identified via `smdi_check_covar()` if `covar` = NULL) and the columns with the actual variable values are dropped. For the variable importance visualization in `smdi_rf()`, these variables are indicated with "_NA" suffix. Missing values are accordingly indicated with a *1* and complete observations with a *0*. This functionality is controlled via the `smdi_na_indicator()` utility function. 
+
+```{r, fig.cap="Illustrating missing indicator variable generation within `smdi` functions"}
+smdi_data %>% 
+  smdi_na_indicator(
+    drop_NA_col = FALSE # usually TRUE, but for demonstration purposes set to FALSE
+    ) %>% 
+  select(
+    ecog_cat, ecog_cat_NA, 
+    egfr_cat, egfr_cat_NA, 
+    pdl1_num, pdl1_num_NA
+    ) %>% 
+  head() %>% 
+  gt()
+```
+
+Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
+
+>It is important to notice that if this strategy to deal with multivariate missingness within the `smdi` workflow, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stack the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
+
+# `smdi` in case of monotone missing data patterns
+
+While with the `smdi` package we mainly focus on missing data mechanisms, missing data patterns always need to be considered, too. Please refer to the [routine structural missing data diagnostics article](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/routine_diagnostics.html#descriptives), where we highlight the importance of describing missingness proportions and patterns before running any of the `smdi` diagnostics.
+
+As mentioned in the section before, in case of monotone missing data patterns, the `smdi` functionality may be misleading.
+
+> A missing data pattern is said to be monotone if the variables can be ordered such that if is missing then all variables with are also missing [^1].
+
+[^1]: For more information on missing data patterns see <https://stefvanbuuren.name/fimd/missing-data-pattern.html>
+
+A good example for monotone missing data could be clinical blood laboratory tests ("labs") which are usually tested together in a lab panel. If one lab is missing, typically the other labs of this panel are also missing.
+
+```{r}
+data_monotone <- smdi_data_complete %>% 
+  mutate(
+    lab1 = rnorm(nrow(smdi_data_complete), mean = 5, sd = 0.5),
+    lab2 = rnorm(nrow(smdi_data_complete), mean = 10, sd = 2.25)
+    )
+
+data_monotone[3:503, "lab1"] <- NA
+data_monotone[1:500, "lab2"] <- NA
+
+mice::md.pattern(data_monotone[, c("lab1", "lab2")], rotate.names = TRUE)
+```
+
+In extreme cases of perfect linearity, this can lead to multiple warnings and errors such as `system is exactly singular` or `-InfWarning: Variable has only NA's in at least one stratum`.
+
+In cases in which monotonicity is still clearly present but not as extreme (like in the example above), `smdi` will prompt a message to the analyst to raise awareness of this issue as the `smdi` output can be **highly misleading** in such instances.
+
+```{r}
+diagnostics_jointly <- smdi_diagnose(
+  data = data_monotone,
+  covar = NULL, # NULL includes all covariates with at least one NA
+  model = "cox",
+  form_lhs = "Surv(eventtime, status)"
+  )
+```
+
+```{r, fig.cap="Diagnostics of lab 1 if analyzed separately."}
+gt(diagnostics_jointly$smdi_tbl)
+diagnostics_jointly$p_little
+```
+
+In such cases, it may be advisable to *not* consider including *lab2* in the missingness diagnostics of *lab1* and vice versa and stack the diagnostics focusing on one partially observed variable at a time.
+
+## Lab 1 analyzed without Lab 2
+
+```{r, fig.cap="Diagnostics of lab 1 if analyzed separately."}
+# lab 1
+lab1_diagnostics <- smdi_diagnose(
+  data = data_monotone %>% select(-lab2),
+  model = "cox",
+  form_lhs = "Surv(eventtime, status)"
+  )
+
+gt(lab1_diagnostics$smdi_tbl)
+lab1_diagnostics$p_little
+```
+
+## Lab 2 analyzed without Lab 1
+
+```{r, fig.cap="Diagnostics of lab 2 if analyzed separately."}
+# lab 2
+lab2_diagnostics <- smdi_diagnose(
+  data = data_monotone %>% select(-lab1),
+  model = "cox",
+  form_lhs = "Surv(eventtime, status)"
+  )
+
+gt(lab2_diagnostics$smdi_tbl)
+lab2_diagnostics$p_little
+```
+
+Since the missingness follows an MCAR mechanism (we simply set all values in the first 500 rows to NA), `smdi_diagnose()` now again reliably shows the common missingness diagnostics patterns as expected.
+
