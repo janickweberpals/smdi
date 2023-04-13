@@ -1,3 +1,5 @@
+# smdi 0.2.0
+
 # smdi 0.1.0
 
 * Internal release of version 0.1.0 for beta testing
