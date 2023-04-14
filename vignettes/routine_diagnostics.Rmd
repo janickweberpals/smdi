@@ -57,6 +57,8 @@ The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",
 
 ## Descriptives
 
+### Missingness proportions
+
 As with basically any first step into exploring (new) datasets, it's a good idea to get an overview of partially observed covariates and the magnitude of missingness. For this `smdi` comes with two convenient functions to screen the data for missingness.
 
 This can be either as a table ...
@@ -83,7 +85,11 @@ smdi_data %>%
   smdi_vis(covar = covars_missing, strata = "exposure")
 ```
 
-Another great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package.
+### Missingness patterns
+
+A great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package. 
+
+>We recommend checking the missing data patterns as part of the routine missing data workflow using the `smdi` package. It may provide important information about potential monotone missing data patterns. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html)
 
 ```{r, fig.width = 8, fig.height=6, fig.width = 10}
 mice::md.pattern(smdi_data, rotate.names = TRUE)
@@ -231,7 +237,7 @@ gt(diagnostics$smdi_tbl) %>%
   tab_footnote(
     footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
     locations = cells_column_labels(
-      columns = c(asmd_median, hotteling_p)
+      columns = c(asmd_median_min_max, hotteling_p)
       )
     ) %>% 
   tab_footnote(

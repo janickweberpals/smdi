@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
     <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
     <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
@@ -520,7 +521,7 @@ all of the default parameters).</p>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='asmd_median&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>asmd_median<sup class="gt_footnote_marks">1</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='asmd_median_min_max&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>asmd_median_min_max<sup class="gt_footnote_marks">1</sup>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='hotteling_p&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>hotteling_p<sup class="gt_footnote_marks">1</sup>
 </th>
@@ -534,7 +535,7 @@ all of the default parameters).</p>
 <tbody class="gt_table_body">
 <tr>
 <td headers="covariate" class="gt_row gt_left">egfr_cat</td>
-<td headers="asmd_median" class="gt_row gt_right">0.243</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.243 (0.010, 0.485)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_right">0.629</td>
 <td headers="estimate_crude" class="gt_row gt_center">0.06 (95% CI -0.03, 0.15)</td>
@@ -542,7 +543,7 @@ all of the default parameters).</p>
 </tr>
 <tr>
 <td headers="covariate" class="gt_row gt_left">ecog_cat</td>
-<td headers="asmd_median" class="gt_row gt_right">0.029</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.029 (0.003, 0.071)</td>
 <td headers="hotteling_p" class="gt_row gt_left">0.783</td>
 <td headers="rf_auc" class="gt_row gt_right">0.510</td>
 <td headers="estimate_crude" class="gt_row gt_center">-0.06 (95% CI -0.16, 0.03)</td>
@@ -550,7 +551,7 @@ all of the default parameters).</p>
 </tr>
 <tr>
 <td headers="covariate" class="gt_row gt_left">pdl1_num</td>
-<td headers="asmd_median" class="gt_row gt_right">0.062</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.062 (0.019, 0.338)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_right">0.516</td>
 <td headers="estimate_crude" class="gt_row gt_center">0.12 (95% CI 0.01, 0.23)</td>

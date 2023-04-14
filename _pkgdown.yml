@@ -11,4 +11,5 @@ articles:
   contents:
   - data_generation
   - routine_diagnostics
+  - multivariate_missingness
   - narfcs_sensitivity_analysis

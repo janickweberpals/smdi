@@ -35,7 +35,7 @@
 #'
 #' **Group 1 diagnostic:**
 #'
-#' - asmd_{mean/median}: average/median absolute standardized mean difference of patient characteristics between those without (1) and with (0) observed covariate
+#' - asmd_{mean/median}: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
 #'
 #' - hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate
 #'
@@ -104,6 +104,8 @@ smdi_diagnose <- function(data = NULL,
     )
 
   tbl_asmd <- summary(asmd_out)
+  tbl_asmd[[paste0(colnames(tbl_asmd)[[2]], "_min_max")]] <- paste0(tbl_asmd[[2]], " (", tbl_asmd[[3]], ", ", tbl_asmd[[4]], ")")
+  tbl_asmd <- tbl_asmd[, c(1,5)]
 
 
   # hotelling ---------------------------------------------------------------
