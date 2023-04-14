@@ -137,7 +137,10 @@ gt(age_diagnostics$smdi_tbl) %>%
       columns = c(estimate_crude, estimate_adjusted)
       )
     )
+```
 
+```{r}
+# little's
 age_diagnostics$p_little
 ```
 
