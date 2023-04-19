@@ -9,7 +9,7 @@
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
 
 ::: {style="color:red"}
-Please note that this version (smdi 0.1.0) is currently in beta testing phase and no major decisions should be based on this package. If you encounter any unforeseen errors or have any suggestions, comments or recommendations, please feel free to reach out to [jweberpals\@bwh.harvard.edu](mailto:jweberpals@bwh.harvard.edu) or [open an issue](https://gitlab.partners.org/janickweberpals/smdi/-/issues).
+Please note that this version is currently in beta testing phase and no major decisions should be based on this package. If you encounter any unforeseen errors or have any suggestions, comments or recommendations, please feel free to reach out to [jweberpals\@bwh.harvard.edu](mailto:jweberpals@bwh.harvard.edu) or [open an issue](https://gitlab.partners.org/janickweberpals/smdi/-/issues).
 :::
 
 ## Installation
