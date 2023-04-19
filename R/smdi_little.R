@@ -8,7 +8,7 @@
 #'#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' ...
+#' CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 #'
 #' @seealso
 #' \code{\link{mcar_test}}

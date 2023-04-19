@@ -9,7 +9,7 @@
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' ...
+#' CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 #'
 #' @seealso
 #' \code{\link{hotelling.test}}
@@ -20,8 +20,13 @@
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns a hotelling object with statistics on hotellings test by covariate. S3 generic summary returns a summarized dataframe with hypothesis test p-values.
+#' @return returns a hotelling object with statistics on hotellings test by covariate. That is, for each <covar>, the following outputs are provided:
+#'
+#' - stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
+#'
+#' - pval: p-value of hotelling test
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr arrange
@@ -30,6 +35,8 @@
 #' @importFrom dplyr select
 #' @importFrom fastDummies dummy_cols
 #' @importFrom Hotelling hotelling.test
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
 #' @importFrom tibble rownames_to_column
 #' @importFrom tidyselect all_of
 #'
@@ -44,7 +51,8 @@
 #' }
 
 smdi_hotelling <- function(data = NULL,
-                           covar = NULL
+                           covar = NULL,
+                           n_cores = 1
                            ){
 
 
@@ -53,6 +61,11 @@ smdi_hotelling <- function(data = NULL,
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
+
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+    }
 
   # check for missing covariate of interest
   covar_miss <- smdi::smdi_check_covar(
@@ -105,7 +118,7 @@ smdi_hotelling <- function(data = NULL,
 
     }
 
-  hotelling_out <- lapply(covar_miss, FUN = hotelling_loop)
+  hotelling_out <- parallel::mclapply(covar_miss, FUN = hotelling_loop, mc.cores = n_cores)
   names(hotelling_out) <- covar_miss
 
   class(hotelling_out) <- "hotelling"

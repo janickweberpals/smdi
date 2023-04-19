@@ -20,17 +20,20 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
+library(gt)
 ```
 
 # `smdi_diagnose()` - the flagship function
 
 The `smdi` main function is `smdi_diagnose()` which calls all three group diagnostics, all of which are also accessible individually. 
 
-`smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study based on the [workstream]((https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)) *Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes*.
+`smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study based on the [workstream:]((https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)) 
+
+*Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes*.
 
 A most minimal example could look like this (if you want to accept all of the default parameters).
 
-```{r}
+```{r, results='hide'}
 diagnostics <- smdi_diagnose(
   data = smdi_data,
   covar = NULL, # NULL includes all covariates with at least one NA
@@ -38,7 +41,29 @@ diagnostics <- smdi_diagnose(
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt::gt(diagnostics$smdi_tbl)
+gt(diagnostics$smdi_tbl)
+```
+
+```{r, echo=FALSE}
+gt(diagnostics$smdi_tbl) %>% 
+  tab_footnote(
+    footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
+    locations = cells_column_labels(
+      columns = c(asmd_median_min_max, hotteling_p)
+      )
+    ) %>% 
+  tab_footnote(
+    footnote = "Group 2 diagnostic: Ability to predict missingness",
+    locations = cells_column_labels(
+      columns = rf_auc
+      )
+    ) %>% 
+  tab_footnote(
+    footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)",
+    locations = cells_column_labels(
+      columns = c(estimate_crude, estimate_adjusted)
+      )
+    )
 ```
 
 ```{r}

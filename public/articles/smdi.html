@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
     <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
     <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
@@ -81,7 +82,8 @@ Weberpals</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="smdi_diagnose---the-flagship-function">
 <code>smdi_diagnose()</code> - the flagship function<a class="anchor" aria-label="anchor" href="#smdi_diagnose---the-flagship-function"></a>
@@ -90,8 +92,8 @@ Weberpals</h4>
 which calls all three group diagnostics, all of which are also
 accessible individually.</p>
 <p><code><a href="../reference/smdi_diagnose.html">smdi_diagnose()</a></code> builds on theoretical concepts developed
-and validated in a comprehensive simulation study based on the <a href="(https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)" class="external-link">workstream</a>
-<em>Approaches to Handling Partially Observed Confounder Data From
+and validated in a comprehensive simulation study based on the <a href="(https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)" class="external-link">workstream:</a></p>
+<p><em>Approaches to Handling Partially Observed Confounder Data From
 Electronic Health Records (EHR) In Non-randomized Studies of Medication
 Outcomes</em>.</p>
 <p>A most minimal example could look like this (if you want to accept
@@ -104,13 +106,13 @@ all of the default parameters).</p>
 <span>  form_lhs <span class="op">=</span> <span class="st">"Surv(eventtime, status)"</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="fu">gt</span><span class="fu">::</span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="va">diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span><span class="op">)</span></span></code></pre></div>
-<div id="biincouvzz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="va">diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span><span class="op">)</span></span></code></pre></div>
+<div id="qjyfcyznoe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#biincouvzz .gt_table {
+#qjyfcyznoe .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -135,7 +137,7 @@ all of the default parameters).</p>
   border-left-color: #D3D3D3;
 }
 
-#biincouvzz .gt_heading {
+#qjyfcyznoe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -147,12 +149,12 @@ all of the default parameters).</p>
   border-right-color: #D3D3D3;
 }
 
-#biincouvzz .gt_caption {
+#qjyfcyznoe .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#biincouvzz .gt_title {
+#qjyfcyznoe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -164,7 +166,7 @@ all of the default parameters).</p>
   border-bottom-width: 0;
 }
 
-#biincouvzz .gt_subtitle {
+#qjyfcyznoe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -176,13 +178,13 @@ all of the default parameters).</p>
   border-top-width: 0;
 }
 
-#biincouvzz .gt_bottom_border {
+#qjyfcyznoe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#biincouvzz .gt_col_headings {
+#qjyfcyznoe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -197,7 +199,7 @@ all of the default parameters).</p>
   border-right-color: #D3D3D3;
 }
 
-#biincouvzz .gt_col_heading {
+#qjyfcyznoe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -217,7 +219,7 @@ all of the default parameters).</p>
   overflow-x: hidden;
 }
 
-#biincouvzz .gt_column_spanner_outer {
+#qjyfcyznoe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -229,15 +231,15 @@ all of the default parameters).</p>
   padding-right: 4px;
 }
 
-#biincouvzz .gt_column_spanner_outer:first-child {
+#qjyfcyznoe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#biincouvzz .gt_column_spanner_outer:last-child {
+#qjyfcyznoe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#biincouvzz .gt_column_spanner {
+#qjyfcyznoe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -249,7 +251,7 @@ all of the default parameters).</p>
   width: 100%;
 }
 
-#biincouvzz .gt_group_heading {
+#qjyfcyznoe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -275,7 +277,7 @@ all of the default parameters).</p>
   text-align: left;
 }
 
-#biincouvzz .gt_empty_group_heading {
+#qjyfcyznoe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -290,15 +292,15 @@ all of the default parameters).</p>
   vertical-align: middle;
 }
 
-#biincouvzz .gt_from_md > :first-child {
+#qjyfcyznoe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#biincouvzz .gt_from_md > :last-child {
+#qjyfcyznoe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#biincouvzz .gt_row {
+#qjyfcyznoe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -317,7 +319,7 @@ all of the default parameters).</p>
   overflow-x: hidden;
 }
 
-#biincouvzz .gt_stub {
+#qjyfcyznoe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -330,7 +332,7 @@ all of the default parameters).</p>
   padding-right: 5px;
 }
 
-#biincouvzz .gt_stub_row_group {
+#qjyfcyznoe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -344,11 +346,11 @@ all of the default parameters).</p>
   vertical-align: top;
 }
 
-#biincouvzz .gt_row_group_first td {
+#qjyfcyznoe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#biincouvzz .gt_summary_row {
+#qjyfcyznoe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -358,16 +360,16 @@ all of the default parameters).</p>
   padding-right: 5px;
 }
 
-#biincouvzz .gt_first_summary_row {
+#qjyfcyznoe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#biincouvzz .gt_first_summary_row.thick {
+#qjyfcyznoe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#biincouvzz .gt_last_summary_row {
+#qjyfcyznoe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -377,7 +379,7 @@ all of the default parameters).</p>
   border-bottom-color: #D3D3D3;
 }
 
-#biincouvzz .gt_grand_summary_row {
+#qjyfcyznoe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -387,7 +389,7 @@ all of the default parameters).</p>
   padding-right: 5px;
 }
 
-#biincouvzz .gt_first_grand_summary_row {
+#qjyfcyznoe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -397,11 +399,11 @@ all of the default parameters).</p>
   border-top-color: #D3D3D3;
 }
 
-#biincouvzz .gt_striped {
+#qjyfcyznoe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#biincouvzz .gt_table_body {
+#qjyfcyznoe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -410,7 +412,7 @@ all of the default parameters).</p>
   border-bottom-color: #D3D3D3;
 }
 
-#biincouvzz .gt_footnotes {
+#qjyfcyznoe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -424,7 +426,7 @@ all of the default parameters).</p>
   border-right-color: #D3D3D3;
 }
 
-#biincouvzz .gt_footnote {
+#qjyfcyznoe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -433,7 +435,7 @@ all of the default parameters).</p>
   padding-right: 5px;
 }
 
-#biincouvzz .gt_sourcenotes {
+#qjyfcyznoe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -447,7 +449,7 @@ all of the default parameters).</p>
   border-right-color: #D3D3D3;
 }
 
-#biincouvzz .gt_sourcenote {
+#qjyfcyznoe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -455,80 +457,85 @@ all of the default parameters).</p>
   padding-right: 5px;
 }
 
-#biincouvzz .gt_left {
+#qjyfcyznoe .gt_left {
   text-align: left;
 }
 
-#biincouvzz .gt_center {
+#qjyfcyznoe .gt_center {
   text-align: center;
 }
 
-#biincouvzz .gt_right {
+#qjyfcyznoe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#biincouvzz .gt_font_normal {
+#qjyfcyznoe .gt_font_normal {
   font-weight: normal;
 }
 
-#biincouvzz .gt_font_bold {
+#qjyfcyznoe .gt_font_bold {
   font-weight: bold;
 }
 
-#biincouvzz .gt_font_italic {
+#qjyfcyznoe .gt_font_italic {
   font-style: italic;
 }
 
-#biincouvzz .gt_super {
+#qjyfcyznoe .gt_super {
   font-size: 65%;
 }
 
-#biincouvzz .gt_footnote_marks {
+#qjyfcyznoe .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#biincouvzz .gt_asterisk {
+#qjyfcyznoe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#biincouvzz .gt_indent_1 {
+#qjyfcyznoe .gt_indent_1 {
   text-indent: 5px;
 }
 
-#biincouvzz .gt_indent_2 {
+#qjyfcyznoe .gt_indent_2 {
   text-indent: 10px;
 }
 
-#biincouvzz .gt_indent_3 {
+#qjyfcyznoe .gt_indent_3 {
   text-indent: 15px;
 }
 
-#biincouvzz .gt_indent_4 {
+#qjyfcyznoe .gt_indent_4 {
   text-indent: 20px;
 }
 
-#biincouvzz .gt_indent_5 {
+#qjyfcyznoe .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="asmd_median">asmd_median</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">hotteling_p</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="rf_auc">rf_auc</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_crude">estimate_crude</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">estimate_adjusted</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='asmd_median_min_max&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>asmd_median_min_max<sup class="gt_footnote_marks">1</sup>
+</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='hotteling_p&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>hotteling_p<sup class="gt_footnote_marks">1</sup>
+</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='rf_auc&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>rf_auc<sup class="gt_footnote_marks">2</sup>
+</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id='estimate_crude&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>estimate_crude<sup class="gt_footnote_marks">3</sup>
+</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id='estimate_adjusted&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>estimate_adjusted<sup class="gt_footnote_marks">3</sup>
+</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
 <td headers="covariate" class="gt_row gt_left">egfr_cat</td>
-<td headers="asmd_median" class="gt_row gt_right">0.243</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.243 (0.010, 0.485)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_right">0.629</td>
 <td headers="estimate_crude" class="gt_row gt_center">0.06 (95% CI -0.03, 0.15)</td>
@@ -536,7 +543,7 @@ all of the default parameters).</p>
 </tr>
 <tr>
 <td headers="covariate" class="gt_row gt_left">ecog_cat</td>
-<td headers="asmd_median" class="gt_row gt_right">0.029</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.029 (0.003, 0.071)</td>
 <td headers="hotteling_p" class="gt_row gt_left">0.783</td>
 <td headers="rf_auc" class="gt_row gt_right">0.510</td>
 <td headers="estimate_crude" class="gt_row gt_center">-0.06 (95% CI -0.16, 0.03)</td>
@@ -544,13 +551,27 @@ all of the default parameters).</p>
 </tr>
 <tr>
 <td headers="covariate" class="gt_row gt_left">pdl1_num</td>
-<td headers="asmd_median" class="gt_row gt_right">0.062</td>
+<td headers="asmd_median_min_max" class="gt_row gt_right">0.062 (0.019, 0.338)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_right">0.516</td>
 <td headers="estimate_crude" class="gt_row gt_center">0.12 (95% CI 0.01, 0.23)</td>
 <td headers="estimate_adjusted" class="gt_row gt_center">0.11 (95% CI -0.00, 0.22)</td>
 </tr>
 </tbody>
+<tfoot class="gt_footnotes">
+<tr>
+<td class="gt_footnote" colspan="6">
+<sup class="gt_footnote_marks">1</sup> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
+    </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<sup class="gt_footnote_marks">2</sup> Group 2 diagnostic: Ability to predict missingness</td>
+    </tr>
+<tr>
+<td class="gt_footnote" colspan="6">
+<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)</td>
+    </tr>
+</tfoot>
 </table>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">

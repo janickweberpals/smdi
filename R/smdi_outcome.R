@@ -30,8 +30,13 @@
 #' @param model character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox
 #' @param form_lhs string specifying the left-hand side of the outcome formula (see details)
 #' @param exponentiated logical, should results be exponentiated (default is FALSE)
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return tibble with crude and adjusted estimates per <covar>
+#' @return returns a tibble with crude and adjusted estimates for each partially observed <covar>:
+#'
+#' - estimate_crude: univariate association between missingness indicator of <covar> and outcome
+#'
+#' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
 #' @importFrom broom tidy
 #' @importFrom dplyr across
@@ -40,6 +45,8 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom glue glue
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
 #' @importFrom stats as.formula
 #' @importFrom stats glm
 #' @importFrom stats lm
@@ -63,7 +70,9 @@ smdi_outcome <- function(data = NULL,
                          covar = NULL,
                          model = c("logistic", "linear", "cox"),
                          form_lhs = NULL,
-                         exponentiated = FALSE){
+                         exponentiated = FALSE,
+                         n_cores = 1
+                         ){
 
   # initialize
   term <- covariate <- estimate <- conf.low <- conf.high <- estimate_crude <- estimate_adjusted <- V1 <- NULL
@@ -128,7 +137,7 @@ smdi_outcome <- function(data = NULL,
   }
 
   # collect results over all covar_miss
-  crude_out <- do.call(rbind, lapply(covar_miss, FUN = crude_loop))
+  crude_out <- do.call(rbind, parallel::mclapply(covar_miss, FUN = crude_loop, mc.cores = n_cores))
 
 
   # adjusted outcome results ------------------------------------------------

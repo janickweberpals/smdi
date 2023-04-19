@@ -26,12 +26,29 @@
 #' @param ntree integer, number of trees for random forest missingness prediction model (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio for random forest missingness prediction model, e.g. c(.7, .3) is the default
 #' @param set_seed seed for reproducibility of random forest missingness prediction model, defaults to 42
-#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #' @param model character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox (see smdi_outcome)
 #' @param form_lhs string specifying the left-hand side of the outcome formula (see smdi_outcome)
 #' @param exponentiated logical, should results of outcome regression to assess association between missingness and outcome be exponentiated (default is FALSE)
 #'
-#' @return smdi object including a summary table of all three smdi group diagnostics.
+#' @return smdi object including a summary table of all three smdi group diagnostics:
+#'
+#' **Group 1 diagnostic:**
+#'
+#' - asmd_{mean/median}: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
+#'
+#' - hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate
+#'
+#' **Group 2 diagnostic:**
+#'
+#' - rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
+#'
+#'
+#' **Group 3 diagnostic:**
+#'
+#' - estimate_crude: univariate association between missingness indicator of <covar> and outcome
+#'
+#' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join
@@ -67,6 +84,11 @@ smdi_diagnose <- function(data = NULL,
   # initialize
   #covariate <- `1 vs 2` <- term <- estimate <- conf.low <- conf.high <- NULL
 
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+  }
+
   # check for missing covariates
   covar_miss <- smdi::smdi_check_covar(
     data = data,
@@ -82,6 +104,8 @@ smdi_diagnose <- function(data = NULL,
     )
 
   tbl_asmd <- summary(asmd_out)
+  tbl_asmd[[paste0(colnames(tbl_asmd)[[2]], "_min_max")]] <- paste0(tbl_asmd[[2]], " (", tbl_asmd[[3]], ", ", tbl_asmd[[4]], ")")
+  tbl_asmd <- tbl_asmd[, c(1,5)]
 
 
   # hotelling ---------------------------------------------------------------

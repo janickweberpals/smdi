@@ -46,8 +46,17 @@
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
 #' @param median logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed
 #' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns an asmd object with mean/median absolute standardized mean differences
+#' @return returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided:
+#'
+#' - asmd_covar: name of covariate investigated
+#'
+#' - asmd_table1: detailed "table 1" illustrating distributions and differences of patient characteristics between those without (1) and with (0) observed covariate
+#'
+#' - asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)
+#'
+#' - asmd_aggregate: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across
@@ -65,6 +74,8 @@
 #' @importFrom ggplot2 scale_color_identity
 #' @importFrom ggplot2 theme_bw
 #' @importFrom glue glue
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
 #' @importFrom stats median
 #' @importFrom tableone CreateTableOne
 #' @importFrom tableone ExtractSmd
@@ -92,11 +103,20 @@
 smdi_asmd <- function(data = NULL,
                       covar = NULL,
                       median = TRUE,
-                      includeNA = FALSE
+                      includeNA = FALSE,
+                      n_cores = 1
                       ){
 
 
   covariate <- `1 vs 2` <- NULL
+
+  # pre-checks
+  if(is.null(data)){stop("No dataframe provided.")}
+
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+    }
 
   # pick missing indicator columns/partially observed covariates
   # check for missing covariates
@@ -144,7 +164,7 @@ smdi_asmd <- function(data = NULL,
         ggplot2::aes(
           y = forcats::fct_reorder(covariate, smd),
           x = smd,
-          color = ifelse(smd < 0.1, "darkgreen", "firebrick")
+          color = ifelse(smd < 0.1, "blue", "orange")
           )
         ) +
       ggplot2::geom_point(size = 3) +
@@ -162,17 +182,30 @@ smdi_asmd <- function(data = NULL,
 
       asmd_aggregate <- tibble::tibble(
         covariate = paste(i),
-        asmd_median = stats::median(smd$smd)
+        asmd_median = stats::median(smd$smd),
+        asmd_min = min(smd$smd),
+        asmd_max = max(smd$smd)
         )
 
     }else{
 
       asmd_aggregate <- tibble::tibble(
         covariate = paste(i),
-        asmd_mean = mean(smd$smd)
+        asmd_mean = mean(smd$smd),
+        asmd_min = min(smd$smd),
+        asmd_max = max(smd$smd)
         )
 
     }
+
+    # finally, round asmd_aggregate to three decimals
+    asmd_aggregate <- asmd_aggregate %>%
+      dplyr::mutate(
+        dplyr::across(
+          tidyselect::where(is.numeric),
+          ~formatC(.x, format = "f", digits = 3)
+          )
+        )
 
     # assemble lapply output object
     return(
@@ -188,7 +221,7 @@ smdi_asmd <- function(data = NULL,
 
   # iterate above analyses overall specified
   # partially observed covariates
-  asmd_out <- lapply(covar_miss, FUN = smd_loop)
+  asmd_out <- parallel::mclapply(covar_miss, FUN = smd_loop, mc.cores = n_cores)
   names(asmd_out) <- covar_miss
 
   class(asmd_out) <- "asmd"
@@ -202,8 +235,7 @@ smdi_asmd <- function(data = NULL,
 #' @export
 print.asmd <- function(x, ...){
 
-  tbl <- do.call(rbind, lapply(x,'[[',4)) %>%
-    dplyr::mutate(dplyr::across(tidyselect::where(is.numeric), ~ formatC(.x, format = "f", digits = 3)))
+  tbl <- do.call(rbind, lapply(x,'[[',4))
 
   return(print(tbl))
 
@@ -214,8 +246,7 @@ print.asmd <- function(x, ...){
 #' @export
 summary.asmd <- function(object, ...){
 
-  tbl <- do.call(rbind, lapply(object,'[[',4)) %>%
-    dplyr::mutate(dplyr::across(tidyselect::where(is.numeric), ~ formatC(.x, format = "f", digits = 3)))
+  tbl <- do.call(rbind, lapply(object,'[[',4))
 
   return(tbl)
 

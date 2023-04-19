@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(smdi)
+library(gt)
 suppressPackageStartupMessages(library(dplyr))
 ```
 
@@ -56,6 +57,8 @@ The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",
 
 ## Descriptives
 
+### Missingness proportions
+
 As with basically any first step into exploring (new) datasets, it's a good idea to get an overview of partially observed covariates and the magnitude of missingness. For this `smdi` comes with two convenient functions to screen the data for missingness.
 
 This can be either as a table ...
@@ -82,7 +85,11 @@ smdi_data %>%
   smdi_vis(covar = covars_missing, strata = "exposure")
 ```
 
-Another great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package.
+### Missingness patterns
+
+A great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package. 
+
+>We recommend checking the missing data patterns as part of the routine missing data workflow using the `smdi` package. It may provide important information about potential monotone missing data patterns. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html)
 
 ```{r, fig.width = 8, fig.height=6, fig.width = 10}
 mice::md.pattern(smdi_data, rotate.names = TRUE)
@@ -156,7 +163,6 @@ More details can be accessed for each covariate.
 h0$ecog_cat
 ```
 
-
 #### Little
 
 Little proposes a single global test statistic for MCAR that uses all of the available data.[^2] Hence, the `smdi_little` does not return one test statistic per partially observed covariate but one globally for the entire dataset. 
@@ -167,6 +173,8 @@ Little proposes a single global test statistic for MCAR that uses all of the ava
 h0_global <- smdi_little(data = smdi_data)
 h0_global
 ```
+
+> CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 
 ## Group 2 diagnostics: ability to predict missingness
 
@@ -188,6 +196,8 @@ auc <- smdi_rf(data = smdi_data)
 auc$ecog_cat$rf_table
 auc$ecog_cat$rf_plot
 ```
+
+> CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC), this might be an indicator of a monotone missing data pattern. That is, the missingness in one covariate is highly predictive of the missingness of another partially observed covariate. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately. This can be checked, e.g. with the `mice::md.pattern()` function (`mice` package).
 
 ## Group 3 diagnostics: association between missingness and outcome
 
@@ -223,7 +233,25 @@ diagnostics <- smdi_diagnose(
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt::gt(diagnostics$smdi_tbl)
+gt(diagnostics$smdi_tbl) %>% 
+  tab_footnote(
+    footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
+    locations = cells_column_labels(
+      columns = c(asmd_median_min_max, hotteling_p)
+      )
+    ) %>% 
+  tab_footnote(
+    footnote = "Group 2 diagnostic: Ability to predict missingness",
+    locations = cells_column_labels(
+      columns = rf_auc
+      )
+    ) %>% 
+  tab_footnote(
+    footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)",
+    locations = cells_column_labels(
+      columns = c(estimate_crude, estimate_adjusted)
+      )
+    )
 ```
 
 ```{r}

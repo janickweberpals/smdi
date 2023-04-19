@@ -9,7 +9,8 @@ smdi_outcome(
   covar = NULL,
   model = c("logistic", "linear", "cox"),
   form_lhs = NULL,
-  exponentiated = FALSE
+  exponentiated = FALSE,
+  n_cores = 1
 )
 }
 \arguments{
@@ -22,9 +23,15 @@ smdi_outcome(
 \item{form_lhs}{string specifying the left-hand side of the outcome formula (see details)}
 
 \item{exponentiated}{logical, should results be exponentiated (default is FALSE)}
+
+\item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-tibble with crude and adjusted estimates per <covar>
+returns a tibble with crude and adjusted estimates for each partially observed <covar>:
+
+- estimate_crude: univariate association between missingness indicator of <covar> and outcome
+
+- estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 }
 \description{
 This function fits outcome models with a covariate missingness indicator(s) of the covariates specified with *covar*.

@@ -8,7 +8,10 @@
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' The random forest utilizes the randomForest engine.
+#' The random forest utilizes the \link{randomForest} engine.
+#'
+#' CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
+#' this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
 #'
 #' @seealso
 #' \code{\link{randomForest}}
@@ -22,9 +25,14 @@
 #' @param ntree integer, number of trees (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default
 #' @param set_seed seed for reproducibility, defaults to 42
-#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores
+#' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return rf object: list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object)
+#' @return returns an rf object which comes as a list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object). That is, for each <covar>, the following outputs are provided:
+#'
+#' - rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
+#'
+#' - rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
+#' That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.
 #'
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
@@ -51,11 +59,10 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' library(smdi)
 #'
 #' smdi_rf(data = smdi_data)
-#' }
+#'
 
 smdi_rf <- function(data = NULL,
                     covar = NULL,
@@ -66,21 +73,21 @@ smdi_rf <- function(data = NULL,
                     ){
 
   # initialize
-  .data <- MeanDecreaseAccuracy <- V1 <- covariate <- rf_auc <- NULL
+  .data <- MeanDecreaseAccuracy <- V1 <- covariate <- rf_auc <- imp_tmp <- . <- NULL
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
+
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+  }
 
   # check for missing covariate of interest
   covar_miss <- smdi::smdi_check_covar(
     data = data,
     covar = covar
     )
-
-  # more cores than available
-  if(n_cores > parallel::detectCores()){
-    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
-  }
 
   # apply smdi_na_indicator for datset to create missing
   # indicator variables;
@@ -126,6 +133,7 @@ smdi_rf <- function(data = NULL,
     rf_plot_out <- rf$importance %>%
       as.data.frame() %>%
       tibble::rownames_to_column(var = "covariate") %>%
+      {{. ->> imp_tmp}} %>%
       ggplot2::ggplot(ggplot2::aes(x = forcats::fct_reorder(as.factor(covariate), MeanDecreaseAccuracy), y = MeanDecreaseAccuracy)) +
       ggplot2::geom_point(size = 3, color = "darkblue") +
       ggplot2::labs(
@@ -136,6 +144,22 @@ smdi_rf <- function(data = NULL,
       ggplot2::coord_flip() +
       ggplot2::theme_bw()
 
+      # we add a message for very high AUC values
+      # to make analyst aware to check for monotonicity
+      # we choose AUC of .9 as cut-off
+      if(auc > 0.9){
+        message(glue::glue("AUC for predicting covariate {rf_tbl_out$covariate} is very high (>0.9)."))
+
+        # determine most important predictor
+        imp_var_message <- imp_tmp %>%
+          dplyr::filter(MeanDecreaseAccuracy == max(MeanDecreaseAccuracy, na.rm=T)) %>%
+          dplyr::pull(covariate)
+
+        message(glue::glue("Predictor with highest importance: {imp_var_message}."))
+        message("Check for potentially underlying monotone missing data pattern. \n")
+        cat("\n")
+        }
+
     rf_out <- list(
       rf_table = rf_tbl_out,
       rf_plot = rf_plot_out
@@ -143,7 +167,7 @@ smdi_rf <- function(data = NULL,
 
     return(rf_out)
 
-  }
+    }
 
   # run the function for each covariate
   rf_out <- parallel::mclapply(covar_miss, FUN = rf_loop, mc.cores = n_cores)
