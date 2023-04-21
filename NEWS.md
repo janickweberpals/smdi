@@ -1,3 +1,7 @@
+# smdi 0.2.1
+
+* Included re-exports of naniar's `gg_miss_upset` and mice's `md.pattern` functions to explore missing data patterns.
+
 # smdi 0.2.0
 
 * `smdi_asmd()`, and consequently also `smdi_diagnose()`, now also outputs the minimum (min) and maximum (max) absolute standardized mean difference (asmd) in addition to the mean/median to provide more comprehensive information about the asmd range without having to look at each asmd plot individually.

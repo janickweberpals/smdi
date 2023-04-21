@@ -85,8 +85,14 @@ data_monotone <- smdi_data_complete %>%
 
 data_monotone[3:503, "lab1"] <- NA
 data_monotone[1:500, "lab2"] <- NA
+```
 
-mice::md.pattern(data_monotone[, c("lab1", "lab2")], rotate.names = TRUE)
+```{r}
+smdi::gg_miss_upset(data = data_monotone)
+```
+
+```{r}
+smdi::md.pattern(data_monotone[, c("lab1", "lab2")], plot = FALSE)
 ```
 
 In extreme cases of perfect linearity, this can lead to multiple warnings and errors such as `system is exactly singular` or `-InfWarning: Variable has only NA's in at least one stratum`.

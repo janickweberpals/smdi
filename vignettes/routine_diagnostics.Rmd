@@ -85,14 +85,26 @@ smdi_data %>%
   smdi_vis(covar = covars_missing, strata = "exposure")
 ```
 
-### Missingness patterns
+### Missingness patterns {.tabset}
 
-A great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package. 
+Besides describing the proportion missingness by covariate (and potentially stratified by another variable), it is also of great importance to check the missingness patterns. This can give important hints if the missingness in two or more partially observed covariates may follow a monotone or non-monotone missingness pattern. If former is the case, one should be careful and potentially run the below-described `smdi` diagnostics variable-by-variable instead of jointly. 
 
->We recommend checking the missing data patterns as part of the routine missing data workflow using the `smdi` package. It may provide important information about potential monotone missing data patterns. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html)
+>We recommend checking both missingness proportions and patterns as a first step. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html).
+
+To check missingness patterns, the `smdi` comes with re-exports of the `naniar::gg_miss_upset` and `mice::md.pattern` functions.
+
+#### Upset plot
+
+```{r}
+smdi::gg_miss_upset(data = smdi_data)
+```
+
+The upset plot and the pattern matrix show that only a small fraction of observations (N = 97) is missing in all the partially observed covariates at the same. A non-monotone missingness pattern is consequently more likely than a monotone one.
+
+#### Pattern matrix 
 
 ```{r, fig.width = 8, fig.height=6, fig.width = 10}
-mice::md.pattern(smdi_data, rotate.names = TRUE)
+smdi::md.pattern(smdi_data[, c(covars_missing)], plot = FALSE)
 ```
 
 ## Before we are getting started: data format

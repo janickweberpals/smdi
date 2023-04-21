@@ -1,7 +1,7 @@
 Package: smdi
 Type: Package
 Title: Perform structural missing data investigations (smdi)
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: person("Janick", "Weberpals", email = "jweberpals@bwh.harvard.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0404-7394"))
 Author: Janick Weberpals
 Maintainer: Janick Weberpals <jweberpals@bwh.harvard.edu>
