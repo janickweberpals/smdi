@@ -155,6 +155,8 @@ smdi_rf <- function(data = NULL,
           dplyr::filter(MeanDecreaseAccuracy == max(MeanDecreaseAccuracy, na.rm=T)) %>%
           dplyr::pull(covariate)
 
+        cat("\n")
+        message("Important note: \n")
         message(glue::glue("Predictor with highest importance: {imp_var_message}."))
         message("Check for potentially underlying monotone missing data pattern. \n")
         cat("\n")
