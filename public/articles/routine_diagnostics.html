@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -179,42 +179,52 @@ convenient functions to screen the data for missingness.</p>
 <p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="900"></p>
 </div>
 <div class="section level4">
-<h4 id="missingness-patterns">Missingness patterns<a class="anchor" aria-label="anchor" href="#missingness-patterns"></a>
+<h4 class="tabset" id="missingness-patterns">Missingness patterns<a class="anchor" aria-label="anchor" href="#missingness-patterns"></a>
 </h4>
-<p>A great way to explore the patterns of missingness is the
-<code>md.pattern</code> function which is part of the <code>mice</code>
-package.</p>
+<p>Besides describing the proportion missingness by covariate (and
+potentially stratified by another variable), it is also of great
+importance to check the missingness patterns. This can give important
+hints if the missingness in two or more partially observed covariates
+may follow a monotone or non-monotone missingness pattern. If former is
+the case, one should be careful and potentially run the below-described
+<code>smdi</code> diagnostics variable-by-variable instead of
+jointly.</p>
 <blockquote>
-<p>We recommend checking the missing data patterns as part of the
-routine missing data workflow using the <code>smdi</code> package. It
-may provide important information about potential monotone missing data
-patterns. In case of monotonocity, the <code>smdi</code> package may
+<p>We recommend checking both missingness proportions and patterns as a
+first step. In case of monotonocity, the <code>smdi</code> package may
 likely culminate in misleading results. Please check the <a href="https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html" class="external-link">article
-on multivariate missingness and monotonicity</a></p>
+on multivariate missingness and monotonicity</a>.</p>
 </blockquote>
+<p>To check missingness patterns, the <code>smdi</code> comes with
+re-exports of the <code><a href="https://rdrr.io/pkg/naniar/man/gg_miss_upset.html" class="external-link">naniar::gg_miss_upset</a></code> and
+<code><a href="https://amices.org/mice/reference/md.pattern.html" class="external-link">mice::md.pattern</a></code> functions.</p>
+<div class="section level5">
+<h5 id="upset-plot">Upset plot<a class="anchor" aria-label="anchor" href="#upset-plot"></a>
+</h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html" class="external-link">md.pattern</a></span><span class="op">(</span><span class="va">smdi_data</span>, rotate.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-8-1.png" width="1500"></p>
-<pre><code><span><span class="co">#&gt;     exposure age_num female_cat smoking_cat physical_cat alk_cat histology_cat</span></span>
-<span><span class="co">#&gt; 795        1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 479        1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 446        1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 263        1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 151        1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 176        1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 93         1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt; 97         1       1          1           1            1       1             1</span></span>
-<span><span class="co">#&gt;            0       0          0           0            0       0             0</span></span>
-<span><span class="co">#&gt;     ses_cat copd_cat eventtime status pdl1_num ecog_cat egfr_cat     </span></span>
-<span><span class="co">#&gt; 795       1        1         1      1        1        1        1    0</span></span>
-<span><span class="co">#&gt; 479       1        1         1      1        1        1        0    1</span></span>
-<span><span class="co">#&gt; 446       1        1         1      1        1        0        1    1</span></span>
-<span><span class="co">#&gt; 263       1        1         1      1        1        0        0    2</span></span>
-<span><span class="co">#&gt; 151       1        1         1      1        0        1        1    1</span></span>
-<span><span class="co">#&gt; 176       1        1         1      1        0        1        0    2</span></span>
-<span><span class="co">#&gt; 93        1        1         1      1        0        0        1    2</span></span>
-<span><span class="co">#&gt; 97        1        1         1      1        0        0        0    3</span></span>
-<span><span class="co">#&gt;           0        0         0      0      517      899     1015 2431</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span></code></pre></div>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-8-1.png" width="900"></p>
+<p>The upset plot and the pattern matrix show that only a small fraction
+of observations (N = 97) is missing in all the partially observed
+covariates at the same. A non-monotone missingness pattern is
+consequently more likely than a monotone one.</p>
+</div>
+<div class="section level5">
+<h5 id="pattern-matrix">Pattern matrix<a class="anchor" aria-label="anchor" href="#pattern-matrix"></a>
+</h5>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html" class="external-link">md.pattern</a></span><span class="op">(</span><span class="va">smdi_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">covars_missing</span><span class="op">)</span><span class="op">]</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     pdl1_num ecog_cat egfr_cat     </span></span>
+<span><span class="co">#&gt; 795        1        1        1    0</span></span>
+<span><span class="co">#&gt; 479        1        1        0    1</span></span>
+<span><span class="co">#&gt; 446        1        0        1    1</span></span>
+<span><span class="co">#&gt; 263        1        0        0    2</span></span>
+<span><span class="co">#&gt; 151        0        1        1    1</span></span>
+<span><span class="co">#&gt; 176        0        1        0    2</span></span>
+<span><span class="co">#&gt; 93         0        0        1    2</span></span>
+<span><span class="co">#&gt; 97         0        0        0    3</span></span>
+<span><span class="co">#&gt;          517      899     1015 2431</span></span></code></pre></div>
+</div>
 </div>
 </div>
 <div class="section level3">
@@ -297,7 +307,7 @@ information in the following structure that can be accessed using the
 <span><span class="co">#&gt;   pdl1_num (mean (SD))  "44.07 (10.37)" "49.33 (11.31)" "&lt;0.001" ""   " 0.485"</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-12-1.png" width="900"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_aggregate</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -428,7 +438,7 @@ computation of the function can take some minutes.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.510</span></span>
 <span><span class="va">auc</span><span class="op">$</span><span class="va">ecog_cat</span><span class="op">$</span><span class="va">rf_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-17-1.png" width="900"></p>
+<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-18-1.png" width="900"></p>
 <blockquote>
 <p>CAVE: If the missingness indicator variables of other partially
 observed covariates (indicated by suffix _NA) have an extremely high

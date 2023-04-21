@@ -10,11 +10,19 @@ Please note that this version is currently in beta testing phase and no major de
 
 ## Installation
 
-You can install the latest version of `smdi` with:
+You can install the latest release version of `smdi` using the `devtools` package via:
 
 ``` r
 devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git")
 ```
+
+To install the development version, please use the `dev` branch:
+
+``` r
+devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git", ref = "dev")
+```
+
+Once beta testing has completed, we plan to submit the package to CRAN. Stay tuned!
 
 ## About
 
@@ -33,6 +41,10 @@ In brief, the simulation found that the combination of three group diagnostics m
 -   **Group diagnostic 3:** Estimating if the missingness of a covariate is associated with the outcome (differential missingness)
 
 ![Table. Overview three group diagnostics](./vignettes/smdi_diagnose_table.png)
+
+If you want to learn more, check out the presentation at the 2023 Innovation Day
+
+<iframe width="750" height="421.875" src="https://www.youtube.com/embed/Dml_AP0ohTY?start=7376" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Package website
 
