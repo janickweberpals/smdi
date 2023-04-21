@@ -112,3 +112,12 @@ smdi_vis <- function(data = NULL,
 
 }
 
+# Other visualizations as re-exports for missing data patterns #1: upsetR plot
+#' @export
+#' @importFrom naniar gg_miss_upset
+naniar::gg_miss_upset
+
+# Other visualizations as re-exports for missing data patterns #1: mice md.pattern matrix
+#' @export
+#' @importFrom mice md.pattern
+mice::md.pattern
