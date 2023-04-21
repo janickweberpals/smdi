@@ -683,9 +683,11 @@ the underlying missingness mechanism.</p>
 </tfoot>
 </table>
 </div>
-
-age_diagnostics$p_little
-#&gt; p_little: <.001>We observe from this diagnostics that with a median absolute
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># little's</span></span>
+<span><span class="va">age_diagnostics</span><span class="op">$</span><span class="va">p_little</span></span>
+<span><span class="co">#&gt; p_little: &lt;.001</span></span></code></pre></div>
+<p>We observe from this diagnostics that with a median absolute
 standardized mean difference (asmd) of 0.056 there don’t seem to be
 major differences between patients with and without an observed
 <code>age_num</code> value, although Hotelling’s test picks up some
@@ -699,8 +701,7 @@ depends on <code>age_num</code> itself and no other observed or
 unobserved factors which makes it really hard to see any differences
 when comparing patient characteristics (group 1 diagnostics), trying to
 predict missingness (group 2 diagnostics) or investigate if missingness
-is associated with the outcome (group 3 diagnostics).
-</.001>
+is associated with the outcome (group 3 diagnostics).</p>
 </div>
 <div class="section level3">
 <h3 id="comparing-treatment-effect-estimates">Comparing treatment effect estimates<a class="anchor" aria-label="anchor" href="#comparing-treatment-effect-estimates"></a>
@@ -708,7 +709,7 @@ is associated with the outcome (group 3 diagnostics).
 <p>We can now compare and estimate the bias caused by the 40% of
 MNAR(value) missing values.</p>
 <p>First, we specify a general outcome model.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># outcome model (see data generation script)</span></span>
 <span><span class="va">cox_lhs</span> <span class="op">&lt;-</span> <span class="st">"survival::Surv(eventtime, status)"</span></span>
 <span><span class="va">covariates</span> <span class="op">&lt;-</span> <span class="va">smdi_data_complete</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -724,7 +725,7 @@ MNAR(value) missing values.</p>
 <span><span class="co">#&gt;     pdl1_num + histology_cat + copd_cat + ses_cat_1_low + ses_cat_2_middle</span></span></code></pre></div>
 <p>Next, we compute the true Hazard Ratio (HR), the complete case HR and
 the standard <em>mice</em> multiple imputation HR.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># true outcome model</span></span>
 <span><span class="va">cox_fit_true</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="va">cox_form</span>, data <span class="op">=</span> <span class="va">smdi_data_complete</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -769,7 +770,7 @@ the standard <em>mice</em> multiple imputation HR.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">tableGrob</a></span><span class="op">(</span><span class="va">table</span>, rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>, <span class="va">forest</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-6-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>The deviation of the complete case and multiple imputation estimates
 aren’t too off which has to do with <code>age_num</code> being a rather
 moderate confounder in this simulation. Nevertheless, in reality we
@@ -809,7 +810,7 @@ models over a range of realistic <strong>𝛅</strong> sensitivity
 parameters and evaluate if at any pre-specified <strong>𝛅</strong>, our
 confidence interval would cross a certain estimate threshold which would
 discard the global conclusion of our primary analysis.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># initialize method vector</span></span>
 <span><span class="va">method_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">smdi_data_mnar_v</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -868,7 +869,7 @@ discard the global conclusion of our primary analysis.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-8-1.png" width="900" style="display: block; margin: auto;">
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;">
 Based on this tipping point analysis, the systematic difference between
 observed and unobserved <code>age_num</code> values would have needed to
 be so drastic that a significant departure of our primary analysis is
@@ -887,7 +888,7 @@ factor.</p>
 we have multiple missing covariates, each of which follow different
 missingness mechanisms. Here is again a quick overview of the missing
 variables using the <code><a href="../reference/smdi_summarize.html">smdi_summarize()</a></code> function.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -921,7 +922,7 @@ decide to run a tipping point sensitivity analysis by imputing
 <code>pdl1_num</code> over a range of <strong>𝛅</strong> sensitivity
 parameters while imputing <code>ecog_cat</code> and
 <code>egfr_cat</code> under a “normal” imputation model.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we one hot encode the `ses_cat` variable again </span></span>
 <span><span class="co"># in the smdi_data dataset</span></span>
 <span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -995,7 +996,7 @@ parameters while imputing <code>ecog_cat</code> and
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-10-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-11-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>As in the example above, <code>pdl1_num</code> is sensitive to
 departures but results would only change under unrealistically strong
 differences. In fact, the point estimates perfectly align with the true
