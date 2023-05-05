@@ -4,28 +4,30 @@
 \alias{smdi_summarize}
 \title{Util helper to automatically extract all covariates with partially observed covariates}
 \usage{
-smdi_summarize(data = NULL)
+smdi_summarize(data = NULL, covar = NULL, strata = NULL)
 }
 \arguments{
-\item{data}{dataframe or tibble object with partially observed/missing variables}
+\item{data}{dataframe or tibble object with partially observed/missing variables. Assumes a a one-row-per-patient format}
+
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
+
+\item{strata}{character name of variable/column by which results should be stratified}
 }
 \value{
-returns a table with covariate name, amount missing observations and proportion missing.
+returns count and proportion of missing values. If <strata> is specified, the returned proportion refers to the amount of
+patients in the respective stratum.
 }
 \description{
-This function takes a dataframe and automatically returns all columns which are partially observed with
-the amount of observations missing and corresponding proportion assuming a one-row-per-patient
-dataframe. This is an important utility function for many other functions in this package
-
-Important: avoid to include variables like ID variables, ZIP codes, dates, etc.
+This function takes a dataframe and automatically returns the amount and proportion of
+missing for partially observed covariates assuming a one-row-per-patient
+dataframe. This is an important utility function for other functions in this package.
+Results can also be stratified by another variable
+in which case the proportion missing refers to the amount of
+patients in the respective stratum.
 }
 \examples{
-\dontrun{
 library(smdi)
-library(dplyr)
 
-smdi_data \%>\%
- smdi_summarize()
+smdi_vis(data = smdi_data)
 
-}
 }
