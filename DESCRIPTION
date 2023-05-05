@@ -38,6 +38,8 @@ Suggests:
     gtsummary,
     here,
     knitr,
+    reactR,
+    reactable,
     rmarkdown,
     simsurv,
     survminer,
