@@ -17,6 +17,7 @@ Imports:
     forcats,
     ggplot2,
     glue,
+    gt,
     Hotelling,
     magrittr,
     mice,
@@ -34,7 +35,6 @@ Depends:
     R (>= 2.10)
 Suggests: 
     gridExtra,
-    gt,
     gtsummary,
     here,
     knitr,

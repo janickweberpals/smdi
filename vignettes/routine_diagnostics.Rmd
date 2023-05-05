@@ -244,28 +244,39 @@ diagnostics <- smdi_diagnose(
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
-
-gt(diagnostics$smdi_tbl) %>% 
-  tab_footnote(
-    footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
-    locations = cells_column_labels(
-      columns = c(asmd_median_min_max, hotteling_p)
-      )
-    ) %>% 
-  tab_footnote(
-    footnote = "Group 2 diagnostic: Ability to predict missingness",
-    locations = cells_column_labels(
-      columns = rf_auc
-      )
-    ) %>% 
-  tab_footnote(
-    footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)",
-    locations = cells_column_labels(
-      columns = c(estimate_crude, estimate_adjusted)
-      )
-    )
 ```
+
+The output returns two parts: the `smdi_tbl` which can be called using the `$` operator and looks like this
 
 ```{r}
 diagnostics$p_little
 ```
+
+... and the p-value of the global Little's test statistic:
+
+```{r}
+diagnostics$p_little
+```
+
+## Publication-ready `gt`-style table
+
+For a nicely formatted and publication-ready output we can subsequently use the `smdi_diagnose` output and feed it into the `smdi_gt_style()` function:
+
+```{r}
+library(gt)
+
+smdi_style_gt(diagnostics)
+```
+
+### *.docx* export
+
+To make this even more convenient, `gt` offers a functionality to export the table as a MS Word/.docx document:
+
+```{r, eval = FALSE}
+gtsave(
+  data = smdi_style_gt(diagnostics),
+  filename = "smdi_table.docx", # name of the final .docx file
+  path = "." # path where the .docx file should be stored
+)
+```
+
