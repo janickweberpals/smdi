@@ -2,6 +2,12 @@
 
 * Included re-exports of naniar's `gg_miss_upset` and mice's `md.pattern` functions to explore missing data patterns.
 
+* New function `smdi_style_gt()` to make publication-ready tables based on objects of class smdi in combination with the `gt()` package.
+
+* Added more details to *Routine structural missing data diagnostics* vignette.
+
+* Updated `README` with more details and guidance on how to interpret the three group diagnostics and apply those to a real-world study.
+
 # smdi 0.2.0
 
 * `smdi_asmd()`, and consequently also `smdi_diagnose()`, now also outputs the minimum (min) and maximum (max) absolute standardized mean difference (asmd) in addition to the mean/median to provide more comprehensive information about the asmd range without having to look at each asmd plot individually.
