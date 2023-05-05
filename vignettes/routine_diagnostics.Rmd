@@ -8,6 +8,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -28,10 +39,21 @@ suppressPackageStartupMessages(library(dplyr))
 
 The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. This article aims to give an introduction to missing covariate data diagnostics using the individual `smdi` diagnostics function that all funnel into the main function `smdi_diagnose()`.
 
-In brief, `smdi_diagnose()` computes three group diagnostics.
+<div class="alert alert-info">
+  <strong>What is smdi about??</strong> Large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
+</div>
 
-```{r, echo = FALSE}
+	
+```{r, fig-group_diagnostics, fig.cap = "Overview three group diagnostics", echo = FALSE}
 knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
+```
+
+<div class="alert alert-info">
+  <strong>How can this be applied to inform a real-world database study?</strong> The observed diagnostic pattern of a specific study will give insights into the likelihood of underlying missingness structures. This package enables researchers to create these three group diagnostics for their own healthcare database analytics with little effort. This is how an **example** could look like in a real-world database study:
+</div>
+
+```{r, fig-guidance, fig.cap = "Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.", echo = FALSE}
+knitr::include_graphics(here::here("vignettes", "smdi_examples.png"))
 ```
 
 ## Illustrative dataset
@@ -268,3 +290,14 @@ library(gt)
 smdi_style_gt(diagnostics)
 ```
 
+### *.docx* export
+
+To make this even more convenient, `gt` offers a functionality to export the table as a MS Word/.docx document:
+
+```{r, eval = FALSE}
+gtsave(
+  data = smdi_style_gt(diagnostics),
+  filename = "smdi_table.docx", # name of the final .docx file
+  path = "." # path where the .docx file should be stored
+  )
+```
