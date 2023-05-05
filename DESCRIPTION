@@ -20,6 +20,7 @@ Imports:
     gt,
     Hotelling,
     magrittr,
+    methods,
     mice,
     naniar,
     parallel,

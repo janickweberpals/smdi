@@ -17,6 +17,7 @@
 #' @importFrom magrittr '%>%'
 #' @importFrom gt gt tab_footnote html cells_column_labels cols_label tab_options px
 #' @importFrom glue glue
+#' @importFrom methods is
 #'
 #' @seealso
 #' \code{\link{gt}}
@@ -45,7 +46,7 @@ smdi_style_gt <- function(smdi_object = NULL,
   asmd_median_min_max <- hotteling_p <- rf_auc <- estimate_crude <- estimate_adjusted <- NULL
 
   # check if smdi object or table
-  if(is(smdi_object, "smdi")){
+  if(methods::is(smdi_object, "smdi")){
 
     smdi_table <- smdi_object$smdi_tbl
 
@@ -64,7 +65,7 @@ smdi_style_gt <- function(smdi_object = NULL,
 
     little_foot <- glue::glue("{stringr::str_replace(smdi_object$p_little, '_', ' ')} <br>")
 
-    }else if(is(include_little, "little")){
+    }else if(methods::is(include_little, "little")){
 
     little_foot <- glue::glue("p little: {ifelse(include_little$p.value < .001, '<.001', include_little$p.value)}  <br>")
 
