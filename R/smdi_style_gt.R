@@ -42,6 +42,8 @@ smdi_style_gt <- function(smdi_object = NULL,
                            ){
 
 
+  asmd_median_min_max <- hotteling_p <- rf_auc <- estimate_crude <- estimate_adjusted <- NULL
+
   # check if smdi object or table
   if(class(smdi_object) == "smdi"){
 
@@ -73,7 +75,7 @@ smdi_style_gt <- function(smdi_object = NULL,
     }
 
   # general abbrevations
-  foot_abbr <- "ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, β = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum"
+  foot_abbr <- "ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, \U03B2 = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum"
 
   smdi_gt <- smdi_object$smdi_tbl %>%
 
@@ -92,8 +94,8 @@ smdi_style_gt <- function(smdi_object = NULL,
       asmd_median_min_max= "ASMD (min/max)",
       hotteling_p = gt::md("p<sub>Hotelling</sub>"),
       rf_auc = "AUC",
-      estimate_crude = gt::md("β<sub>crude</sub> (95% CI)"),
-      estimate_adjusted = "β (95% CI)"
+      estimate_crude = gt::md("\U03B2<sub>crude</sub> (95% CI)"),
+      estimate_adjusted = "\U03B2 (95% CI)"
 
     ) %>%
 
