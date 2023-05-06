@@ -891,12 +891,12 @@ variables using the <code><a href="../reference/smdi_summarize.html">smdi_summar
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   covariate n_miss perc_miss</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat    <span style="text-decoration: underline;">1</span>015 40.60%   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat     899 35.96%   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num     517 20.68%</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
+<span><span class="co">#&gt;   covariate n_miss prop_miss prop_miss_label</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> egfr_cat    <span style="text-decoration: underline;">1</span>015      40.6 40.60%         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ecog_cat     899      36.0 35.96%         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num     517      20.7 20.68%</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="narfcs-imputation-1">NARFCS imputation<a class="anchor" aria-label="anchor" href="#narfcs-imputation-1"></a>
 </h3>

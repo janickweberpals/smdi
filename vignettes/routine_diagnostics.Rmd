@@ -40,7 +40,7 @@ suppressPackageStartupMessages(library(dplyr))
 The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. This article aims to give an introduction to missing covariate data diagnostics using the individual `smdi` diagnostics function that all funnel into the main function `smdi_diagnose()`.
 
 <div class="alert alert-info">
-  <strong>What is smdi about??</strong> Large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
+  <strong>What is smdi about?</strong> Large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
 </div>
 
 	
@@ -49,7 +49,7 @@ knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
 ```
 
 <div class="alert alert-info">
-  <strong>How can this be applied to inform a real-world database study?</strong> The observed diagnostic pattern of a specific study will give insights into the likelihood of underlying missingness structures. This package enables researchers to create these three group diagnostics for their own healthcare database analytics with little effort. This is how an **example** could look like in a real-world database study:
+  <strong>How can this be applied to inform a real-world database study?</strong> The observed diagnostic patterns of a specific study will give insights into the likelihood of underlying missingness structures. This package enables researchers to create these three group diagnostics for their own healthcare database analytics with little effort. This is how an **example** could look like in a real-world database study:
 </div>
 
 ```{r, fig-guidance, fig.cap = "Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.", echo = FALSE}
@@ -271,7 +271,7 @@ diagnostics <- smdi_diagnose(
 The output returns two parts: the `smdi_tbl` which can be called using the `$` operator and looks like this
 
 ```{r}
-diagnostics$p_little
+diagnostics$smdi_tbl
 ```
 
 ... and the p-value of the global Little's test statistic:

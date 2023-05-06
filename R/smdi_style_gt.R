@@ -37,10 +37,10 @@
 #'   smdi_style_gt()
 #'
 smdi_style_gt <- function(smdi_object = NULL,
-                           include_little = TRUE,
-                           font_size = 12,
-                           tbl_width = 700
-                           ){
+                          include_little = TRUE,
+                          font_size = 13,
+                          tbl_width = 800
+                          ){
 
 
   asmd_median_min_max <- hotteling_p <- rf_auc <- estimate_crude <- estimate_adjusted <- NULL
@@ -63,11 +63,11 @@ smdi_style_gt <- function(smdi_object = NULL,
   # little (if specified)
   if(isTRUE(include_little)){
 
-    little_foot <- glue::glue("{stringr::str_replace(smdi_object$p_little, '_', ' ')} <br>")
+    little_foot <- glue::glue("{stringr::str_replace(smdi_object$p_little, '_', ' ')}, ")
 
     }else if(methods::is(include_little, "little")){
 
-    little_foot <- glue::glue("p little: {ifelse(include_little$p.value < .001, '<.001', include_little$p.value)}  <br>")
+    little_foot <- glue::glue("p little: {ifelse(include_little$p.value < .001, '<.001', include_little$p.value)}, ")
 
     }else{
 
@@ -85,10 +85,8 @@ smdi_style_gt <- function(smdi_object = NULL,
 
     # Abbrevations
     gt::tab_footnote(
-      footnote = gt::html(
-        glue::glue("{little_foot} Abbreviations: {foot_abbr}"
-        )
-      )) %>%
+      footnote = glue::glue("{little_foot} Abbreviations: {foot_abbr}")
+      ) %>%
 
     gt::cols_label(
       covariate = "Covariate",

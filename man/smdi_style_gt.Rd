@@ -7,8 +7,8 @@
 smdi_style_gt(
   smdi_object = NULL,
   include_little = TRUE,
-  font_size = 12,
-  tbl_width = 700
+  font_size = 13,
+  tbl_width = 800
 )
 }
 \arguments{

@@ -45,7 +45,6 @@ Once beta testing has completed, we plan to submit the package to CRAN. Stay tun
 
 <div class="alert alert-info">
 <strong>Objectives:</strong> The objectives of this project were to develop a framework and tools to assess the structure of missing data processes in studies utilizing electronic health record (EHR) data.
-<br>
 </div>
 
 Missing data in important prognostic factors in EHR are frequent. So far, the most frequent data taxonomies are:
@@ -57,7 +56,6 @@ However, in an empirical study, it is usually unclear which of the missing data 
 
 <div class="alert alert-info">
   <strong>What did the study find?</strong> In brief, these large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
-<br>
 </div>
 
 -   **Group diagnostic 1:** Comparison of distributions between patients with or without an observed value of the partially observed covariate
@@ -70,7 +68,6 @@ However, in an empirical study, it is usually unclear which of the missing data 
 
 <div class="alert alert-info">
   <strong>How can this be applied to inform a real-world database study?</strong> The observed diagnostic pattern of a specific study will give insights into the likelihood of underlying missingness structures. This is how an **example** could look like in a real-world database study:
-<br>
 </div>
 
 ![**Table 2.** Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.](./vignettes/smdi_examples.png)

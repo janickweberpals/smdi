@@ -27,9 +27,9 @@ library(gt)
 
 The `smdi` main function is `smdi_diagnose()` which calls all three group diagnostics, all of which are also accessible individually. 
 
-`smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study based on the [workstream:]((https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)) 
+`smdi_diagnose()` builds on theoretical concepts developed and validated in a comprehensive simulation study based on the [workstream:](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health)
 
-*Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes*.
+**Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes**.
 
 A most minimal example could look like this (if you want to accept all of the default parameters).
 

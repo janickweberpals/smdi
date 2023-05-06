@@ -8,6 +8,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -60,7 +71,9 @@ smdi_data %>%
 
 Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, if *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
 
->It is important to notice that this strategy is the default to deal with multivariate missingness in the `smdi` package, however, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stacking the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
+<div class="alert alert-info">
+  <strong>Important!</strong> It is important to notice that this strategy is the default to deal with multivariate missingness in the `smdi` package, however, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stacking the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
+</div>
 
 # `smdi` in case of monotone missing data patterns
 
@@ -109,13 +122,9 @@ diagnostics_jointly <- smdi_diagnose(
 ```
 
 ```{r, fig.cap="Diagnostics of lab 1 if analyzed separately."}
-gt(diagnostics_jointly$smdi_tbl)
+diagnostics_jointly %>% 
+  smdi_style_gt()
 ```
-
-```{r}
-diagnostics_jointly$p_little
-```
-
 
 In such cases, it may be advisable to *not* consider including *lab2* in the missingness diagnostics of *lab1* and vice versa and stack the diagnostics focusing on one partially observed variable at a time.
 
@@ -129,13 +138,9 @@ lab1_diagnostics <- smdi_diagnose(
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt(lab1_diagnostics$smdi_tbl)
+lab1_diagnostics %>% 
+  smdi_style_gt()
 ```
-
-```{r}
-lab1_diagnostics$p_little
-```
-
 
 ## Lab 2 analyzed without Lab 1
 
@@ -147,11 +152,8 @@ lab2_diagnostics <- smdi_diagnose(
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt(lab2_diagnostics$smdi_tbl)
-```
-
-```{r}
-lab2_diagnostics$p_little
+lab2_diagnostics %>% 
+  smdi_style_gt()
 ```
 
 Since the missingness follows an MCAR mechanism, `smdi_diagnose()` now shows the expected missingness diagnostics patterns based on an MCAR mechanism.
