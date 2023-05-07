@@ -78,7 +78,7 @@ smdi_style_gt <- function(smdi_object = NULL,
   # general abbrevations
   foot_abbr <- "ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, \U03B2 = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum"
 
-  smdi_gt <- smdi_object$smdi_tbl %>%
+  smdi_gt <- smdi_table %>%
 
     # make into a gt table
     gt::gt() %>%
@@ -95,8 +95,7 @@ smdi_style_gt <- function(smdi_object = NULL,
       rf_auc = "AUC",
       estimate_crude = gt::md("\U03B2<sub>crude</sub> (95% CI)"),
       estimate_adjusted = "\U03B2 (95% CI)"
-
-    ) %>%
+      ) %>%
 
     # add footnotes describing three group diagnostics
     gt::tab_footnote(
@@ -105,12 +104,14 @@ smdi_style_gt <- function(smdi_object = NULL,
         columns = c(asmd_median_min_max, hotteling_p)
         )
       ) %>%
+
     gt::tab_footnote(
       footnote = "Group 2 diagnostic: Ability to predict missingness",
       locations = gt::cells_column_labels(
         columns = rf_auc
         )
       ) %>%
+
     gt::tab_footnote(
       footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)",
       locations = gt::cells_column_labels(
@@ -122,7 +123,7 @@ smdi_style_gt <- function(smdi_object = NULL,
       table.width = gt::px(tbl_width),
       data_row.padding = gt::px(3),
       table.font.size = font_size
-    ) %>%
+      ) %>%
 
     gt::cols_align(align = "left")
 
