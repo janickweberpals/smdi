@@ -6,8 +6,8 @@
 #' The output is of class gt and can take further gt-based arguments for
 #' customization.
 #'
-#' @param smdi_object object of class smdi or data.frame or tibble
-#' @param include_little can be logical (TRUE/FALSE) or an object of class 'little'
+#' @param smdi_object object of class "smdi" or data.frame/tibble
+#' @param include_little can be logical (TRUE/FALSE) for displaying Little's p-value that is part of an "smdi" object or a separate object of class "little"
 #' @param font_size integer to determine table font size
 #' @param tbl_width integer to determine table width
 #'
@@ -50,7 +50,7 @@ smdi_style_gt <- function(smdi_object = NULL,
 
     smdi_table <- smdi_object$smdi_tbl
 
-  }else if(any(class(smdi_object) %in% c("data.frame", "tibble"))){
+  }else if(any(class(smdi_object) %in% c("data.frame", "tibble", "tbl_df", "tbl"))){
 
     smdi_table <- smdi_object
 
@@ -60,14 +60,24 @@ smdi_style_gt <- function(smdi_object = NULL,
 
   }
 
-  # little (if specified)
-  if(isTRUE(include_little)){
+  # little checks
+  if(isTRUE(include_little) & !methods::is(smdi_object, "smdi")){
 
+    warning("If include_little = TRUE, <smdi_object> needs to be of class 'smdi' (not dataframe or tibble). No p-value for Little displayed.")
+
+  }
+
+  # little (if specified)
+  if(isTRUE(include_little) & methods::is(smdi_object, "smdi")){
+
+    # in smdi object, the p-value if already nicely formatted
     little_foot <- glue::glue("{stringr::str_replace(smdi_object$p_little, '_', ' ')}, ")
 
     }else if(methods::is(include_little, "little")){
 
-    little_foot <- glue::glue("p little: {ifelse(include_little$p.value < .001, '<.001', include_little$p.value)}, ")
+    # same formatting as in smdi_diagnose():
+    p_little_value <- ifelse(include_little$p.value < 0.001, '<.001', formatC(include_little$p.value, format = 'f', digits = 3))
+    little_foot <- glue::glue("p little: {p_little_value}, ")
 
     }else{
 

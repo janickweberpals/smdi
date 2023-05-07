@@ -12,9 +12,9 @@ smdi_style_gt(
 )
 }
 \arguments{
-\item{smdi_object}{object of class smdi or data.frame or tibble}
+\item{smdi_object}{object of class "smdi" or data.frame/tibble}
 
-\item{include_little}{can be logical (TRUE/FALSE) or an object of class 'little'}
+\item{include_little}{can be logical (TRUE/FALSE) for displaying Little's p-value that is part of an "smdi" object or a separate object of class "little"}
 
 \item{font_size}{integer to determine table font size}
 

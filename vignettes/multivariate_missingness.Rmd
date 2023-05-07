@@ -156,5 +156,21 @@ lab2_diagnostics %>%
   smdi_style_gt()
 ```
 
+## Presented in one table using `smdi_style_gt()`
+
+We can also combine
+
+```{r}
+# computing a gloabl p-value for Little's test including both lab1 and lab2
+little_global <- smdi_little(data = data_monotone)
+
+# combining two individual lab smdi tables and global Little's test
+smdi_style_gt(
+  smdi_object = rbind(lab1_diagnostics$smdi_tbl, lab2_diagnostics$smdi_tbl), 
+  include_little = little_global
+  )
+```
+
+
 Since the missingness follows an MCAR mechanism, `smdi_diagnose()` now shows the expected missingness diagnostics patterns based on an MCAR mechanism.
 
