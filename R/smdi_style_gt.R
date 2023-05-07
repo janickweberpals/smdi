@@ -50,7 +50,7 @@ smdi_style_gt <- function(smdi_object = NULL,
 
     smdi_table <- smdi_object$smdi_tbl
 
-  }else if(class(smdi_object) %in% c("data.frame", "tibble")){
+  }else if(any(class(smdi_object) %in% c("data.frame", "tibble"))){
 
     smdi_table <- smdi_object
 
