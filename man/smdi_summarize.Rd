@@ -14,7 +14,7 @@ smdi_summarize(data = NULL, covar = NULL, strata = NULL)
 \item{strata}{character name of variable/column by which results should be stratified}
 }
 \value{
-returns count and proportion of missing values. If <strata> is specified, the returned proportion refers to the amount of
+returns count and proportion of missing values. If \if{html}{\out{<strata>}} is specified, the returned proportion refers to the amount of
 patients in the respective stratum.
 }
 \description{

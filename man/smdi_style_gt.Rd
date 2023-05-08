@@ -29,6 +29,9 @@ input and styles it to a publication-ready table based on the gt package.
 The output is of class gt and can take further gt-based arguments for
 customization.
 }
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+}
 \examples{
 library(smdi)
 library(dplyr)
