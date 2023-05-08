@@ -81,7 +81,9 @@ While in the `smdi` package we mainly focus on missing data mechanisms, missing 
 
 As mentioned in the section before, in case of monotone missing data patterns, the `smdi` functionality may be misleading.
 
-> A missing data pattern is said to be monotone if the variables Yj can be ordered such that if Yj is missing then all variables Yk with k > jare also missing (taken from Stef van Buuren [^1]).
+<div class="alert alert-info">
+  <strong>Monotonicity</strong> A missing data pattern is said to be monotone if the variables Yj can be ordered such that if Yj is missing then all variables Yk with k > j are also missing (taken from Stef van Buuren [^1]).
+</div>
 
 [^1]: For more information on missing data patterns see <https://stefvanbuuren.name/fimd/missing-data-pattern.html>
 
@@ -158,7 +160,7 @@ lab2_diagnostics %>%
 
 ## Presented in one table using `smdi_style_gt()`
 
-We can also combine
+We can also combine the output of individually stacked `smdi_diagnose` tables and enhance it with a global Little's test that takes into account the multivariate missingness of the entire dataset.
 
 ```{r}
 # computing a gloabl p-value for Little's test including both lab1 and lab2
