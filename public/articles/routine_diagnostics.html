@@ -1035,16 +1035,16 @@ the <code>smdi_gt_style()</code> function:</p>
 </table>
 </div>
 <div class="section level4">
-<h4 id="docx-export">
-<em>.docx</em> export<a class="anchor" aria-label="anchor" href="#docx-export"></a>
+<h4 id="smdi-table-export">smdi table export<a class="anchor" aria-label="anchor" href="#smdi-table-export"></a>
 </h4>
 <p>To make this even more convenient, <code>gt</code> offers a
-functionality to export the table as a MS Word/.docx document:</p>
+functionality to export the table in different formats,
+e.g. <code>.png</code>, <code>.pdf</code> or <code>.rtf</code>:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://gt.rstudio.com/reference/gtsave.html" class="external-link">gtsave</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="../reference/smdi_style_gt.html">smdi_style_gt</a></span><span class="op">(</span><span class="va">diagnostics</span><span class="op">)</span>,</span>
-<span>  filename <span class="op">=</span> <span class="st">"smdi_table.docx"</span>, <span class="co"># name of the final .docx file</span></span>
-<span>  path <span class="op">=</span> <span class="st">"."</span> <span class="co"># path where the .docx file should be stored</span></span>
+<span>  filename <span class="op">=</span> <span class="st">"smdi_table.rtf"</span>, <span class="co"># name of the final .docx file</span></span>
+<span>  path <span class="op">=</span> <span class="st">"."</span> <span class="co"># path where the file should be stored</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 </div>

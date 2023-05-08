@@ -290,14 +290,14 @@ library(gt)
 smdi_style_gt(diagnostics)
 ```
 
-### *.docx* export
+### smdi table export
 
-To make this even more convenient, `gt` offers a functionality to export the table as a MS Word/.docx document:
+To make this even more convenient, `gt` offers a functionality to export the table in different formats, e.g. `.png`, `.pdf` or `.rtf`:
 
 ```{r, eval = FALSE}
 gtsave(
   data = smdi_style_gt(diagnostics),
-  filename = "smdi_table.docx", # name of the final .docx file
-  path = "." # path where the .docx file should be stored
+  filename = "smdi_table.rtf", # name of the final .docx file
+  path = "." # path where the file should be stored
   )
 ```
