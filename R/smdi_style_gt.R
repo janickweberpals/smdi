@@ -1,5 +1,6 @@
 #' Takes an object of class smdi and styles it to a publication-ready gt table
 #'
+#' `r lifecycle::badge("experimental")`
 #' @description
 #' This function takes either an object of class smdi or data.frame or tibble as
 #' input and styles it to a publication-ready table based on the gt package.
@@ -70,13 +71,14 @@ smdi_style_gt <- function(smdi_object = NULL,
   # little (if specified)
   if(isTRUE(include_little) & methods::is(smdi_object, "smdi")){
 
-    # in smdi object, the p-value if already nicely formatted
+    # in smdi object, the p-value if already formatted
     little_foot <- glue::glue("{stringr::str_replace(smdi_object$p_little, '_', ' ')}, ")
+    little_foot <- glue::glue("{stringr::str_replace(little_foot, '<', '&lt;')}")
 
     }else if(methods::is(include_little, "little")){
 
     # same formatting as in smdi_diagnose():
-    p_little_value <- ifelse(include_little$p.value < 0.001, '<.001', formatC(include_little$p.value, format = 'f', digits = 3))
+    p_little_value <- ifelse(include_little$p.value < 0.001, '&lt;.001', formatC(include_little$p.value, format = 'f', digits = 3))
     little_foot <- glue::glue("p little: {p_little_value}, ")
 
     }else{
@@ -93,18 +95,17 @@ smdi_style_gt <- function(smdi_object = NULL,
     # make into a gt table
     gt::gt() %>%
 
-    # Abbrevations
     gt::tab_footnote(
-      footnote = glue::glue("{little_foot} Abbreviations: {foot_abbr}")
+      footnote = gt::md(glue::glue("{little_foot} Abbreviations: {foot_abbr}"))
       ) %>%
 
     gt::cols_label(
       covariate = "Covariate",
       asmd_median_min_max= "ASMD (min/max)",
-      hotteling_p = gt::md("p<sub>Hotelling</sub>"),
+      hotteling_p = gt::md("p Hotelling"),
       rf_auc = "AUC",
-      estimate_crude = gt::md("\U03B2<sub>crude</sub> (95% CI)"),
-      estimate_adjusted = "\U03B2 (95% CI)"
+      estimate_crude = gt::md("\U03B2 crude (95% CI)"),
+      estimate_adjusted = gt::md("\U03B2 (95% CI)")
       ) %>%
 
     # add footnotes describing three group diagnostics
