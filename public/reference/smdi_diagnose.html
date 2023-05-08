@@ -131,30 +131,21 @@ For more information and details, please refer to the individual functions.</p>
 <p>smdi object including a summary table of all three smdi group diagnostics:</p>
 
 
-<p>**Group 1 diagnostic:**</p>
+<p><strong>Group 1 diagnostic:</strong></p>
 
 
-<p>- asmd_mean/median: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate</p>
+<ul><li><p>asmd_mean/median: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate</p></li>
+<li><p>hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate</p></li>
+</ul><p><strong>Group 2 diagnostic:</strong></p>
 
 
-<p>- hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate</p>
+<ul><li><p>rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate</p></li>
+</ul><p><strong>Group 3 diagnostic:</strong></p>
 
 
-<p>**Group 2 diagnostic:**</p>
-
-
-<p>- rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate</p>
-
-
-
-<p>**Group 3 diagnostic:**</p>
-
-
-<p>- estimate_crude: univariate association between missingness indicator of &lt;covar&gt; and outcome</p>
-
-
-<p>- estimate_adjusted: association between missingness indicator of &lt;covar&gt; and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates</p>
-    </div>
+<ul><li><p>estimate_crude: univariate association between missingness indicator of <covar> and outcome</covar></p></li>
+<li><p>estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates</covar></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Wrapper for individual diagnostics function.</p>

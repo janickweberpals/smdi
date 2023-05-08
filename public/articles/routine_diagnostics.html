@@ -980,11 +980,11 @@ the <code>smdi_gt_style()</code> function:</p>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>ASMD (min/max)<sup class="gt_footnote_marks">1</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='p&lt;sub&gt;Hotelling&lt;/sub&gt;&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>p<sub>Hotelling</sub><sup class="gt_footnote_marks">1</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='p Hotelling&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>p Hotelling<sup class="gt_footnote_marks">1</sup>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>AUC<sup class="gt_footnote_marks">2</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='β&lt;sub&gt;crude&lt;/sub&gt; (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>β<sub>crude</sub> (95% CI)<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='β crude (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>β crude (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='β (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>β (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
@@ -1039,11 +1039,12 @@ the <code>smdi_gt_style()</code> function:</p>
 </h4>
 <p>To make this even more convenient, <code>gt</code> offers a
 functionality to export the table in different formats,
-e.g. <code>.png</code>, <code>.pdf</code> or <code>.rtf</code>:</p>
+e.g. <code>.docx</code>, <code>.png</code>, <code>.pdf</code> or
+<code>.rtf</code>:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://gt.rstudio.com/reference/gtsave.html" class="external-link">gtsave</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="../reference/smdi_style_gt.html">smdi_style_gt</a></span><span class="op">(</span><span class="va">diagnostics</span><span class="op">)</span>,</span>
-<span>  filename <span class="op">=</span> <span class="st">"smdi_table.rtf"</span>, <span class="co"># name of the final .docx file</span></span>
+<span>  filename <span class="op">=</span> <span class="st">"smdi_table.docx"</span>, <span class="co"># name of the final .docx file</span></span>
 <span>  path <span class="op">=</span> <span class="st">"."</span> <span class="co"># path where the file should be stored</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
