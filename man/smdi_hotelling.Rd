@@ -14,11 +14,11 @@ smdi_hotelling(data = NULL, covar = NULL, n_cores = 1)
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-returns a hotelling object with statistics on hotellings test by covariate. That is, for each <covar>, the following outputs are provided:
-
-- stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
-
-- pval: p-value of hotelling test
+returns a hotelling object with statistics on hotellings test by covariate. That is, for each \if{html}{\out{<covar>}}, the following outputs are provided:
+\itemize{
+\item stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
+\item pval: p-value of hotelling test
+}
 }
 \description{
 Hotelling's multivariate t-test, which examines variable

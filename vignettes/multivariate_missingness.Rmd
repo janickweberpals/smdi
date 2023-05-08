@@ -8,6 +8,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -60,7 +71,9 @@ smdi_data %>%
 
 Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, if *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
 
->It is important to notice that this strategy is the default to deal with multivariate missingness in the `smdi` package, however, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stacking the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
+<div class="alert alert-info">
+  <strong>Important!</strong> It is important to notice that this strategy is the default to deal with multivariate missingness in the `smdi` package, however, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stacking the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
+</div>
 
 # `smdi` in case of monotone missing data patterns
 
@@ -68,7 +81,9 @@ While in the `smdi` package we mainly focus on missing data mechanisms, missing 
 
 As mentioned in the section before, in case of monotone missing data patterns, the `smdi` functionality may be misleading.
 
-> A missing data pattern is said to be monotone if the variables Yj can be ordered such that if Yj is missing then all variables Yk with k > jare also missing (taken from Stef van Buuren [^1]).
+<div class="alert alert-info">
+  <strong>Monotonicity</strong> A missing data pattern is said to be monotone if the variables Yj can be ordered such that if Yj is missing then all variables Yk with k > j are also missing (taken from Stef van Buuren [^1]).
+</div>
 
 [^1]: For more information on missing data patterns see <https://stefvanbuuren.name/fimd/missing-data-pattern.html>
 
@@ -85,8 +100,14 @@ data_monotone <- smdi_data_complete %>%
 
 data_monotone[3:503, "lab1"] <- NA
 data_monotone[1:500, "lab2"] <- NA
+```
 
-mice::md.pattern(data_monotone[, c("lab1", "lab2")], rotate.names = TRUE)
+```{r}
+smdi::gg_miss_upset(data = data_monotone)
+```
+
+```{r}
+smdi::md.pattern(data_monotone[, c("lab1", "lab2")], plot = FALSE)
 ```
 
 In extreme cases of perfect linearity, this can lead to multiple warnings and errors such as `system is exactly singular` or `-InfWarning: Variable has only NA's in at least one stratum`.
@@ -103,13 +124,9 @@ diagnostics_jointly <- smdi_diagnose(
 ```
 
 ```{r, fig.cap="Diagnostics of lab 1 if analyzed separately."}
-gt(diagnostics_jointly$smdi_tbl)
+diagnostics_jointly %>% 
+  smdi_style_gt()
 ```
-
-```{r}
-diagnostics_jointly$p_little
-```
-
 
 In such cases, it may be advisable to *not* consider including *lab2* in the missingness diagnostics of *lab1* and vice versa and stack the diagnostics focusing on one partially observed variable at a time.
 
@@ -123,13 +140,9 @@ lab1_diagnostics <- smdi_diagnose(
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt(lab1_diagnostics$smdi_tbl)
+lab1_diagnostics %>% 
+  smdi_style_gt()
 ```
-
-```{r}
-lab1_diagnostics$p_little
-```
-
 
 ## Lab 2 analyzed without Lab 1
 
@@ -141,12 +154,25 @@ lab2_diagnostics <- smdi_diagnose(
   form_lhs = "Surv(eventtime, status)"
   )
 
-gt(lab2_diagnostics$smdi_tbl)
+lab2_diagnostics %>% 
+  smdi_style_gt()
 ```
 
+## Presented in one table using `smdi_style_gt()`
+
+We can also combine the output of individually stacked `smdi_diagnose` tables and enhance it with a global Little's test that takes into account the multivariate missingness of the entire dataset.
+
 ```{r}
-lab2_diagnostics$p_little
+# computing a gloabl p-value for Little's test including both lab1 and lab2
+little_global <- smdi_little(data = data_monotone)
+
+# combining two individual lab smdi tables and global Little's test
+smdi_style_gt(
+  smdi_object = rbind(lab1_diagnostics$smdi_tbl, lab2_diagnostics$smdi_tbl), 
+  include_little = little_global
+  )
 ```
+
 
 Since the missingness follows an MCAR mechanism, `smdi_diagnose()` now shows the expected missingness diagnostics patterns based on an MCAR mechanism.
 

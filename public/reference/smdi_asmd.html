@@ -16,7 +16,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,20 +101,11 @@ median/average absolute standardized mean difference (asmd) and more details for
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>returns an asmd object with average/median absolute standardized mean differences. That is, for each &lt;covar&gt;, the following outputs are provided:</p>
-
-
-<p>- asmd_covar: name of covariate investigated</p>
-
-
-<p>- asmd_table1: detailed "table 1" illustrating distributions and differences of patient characteristics between those without (1) and with (0) observed covariate</p>
-
-
-<p>- asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)</p>
-
-
-<p>- asmd_aggregate: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate</p>
-    </div>
+<p>returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided:</covar></p><ul><li><p>asmd_covar: name of covariate investigated</p></li>
+<li><p>asmd_table1: detailed "table 1" illustrating distributions and differences of patient characteristics between those without (1) and with (0) observed covariate</p></li>
+<li><p>asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)</p></li>
+<li><p>asmd_aggregate: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The asmd may be one indicator as to how much patient characteristics differ between patients with and without an observed
@@ -129,9 +120,9 @@ some researchers have proposed that a standardized difference of 0.1 (10 per cen
 denotes meaningful imbalance in the baseline covariate.</p>
 <p>The asmd is computed for every covariate one-by-one and not jointly. If there is multivariate
 missingness, i.e. more than just one missing covariate exists, you can decide what should
-happen with the other partially observed 'predictor' covariates using the &lt;includeNA&gt; parameter.
-That is, if &lt;includeNA&gt; is set to FALSE (default), only the asmd between observed cases will be computed,
-and if &lt;includeNA&gt; is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).</p>
+happen with the other partially observed 'predictor' covariates using the <includena> parameter.
+That is, if <includena> is set to FALSE (default), only the asmd between observed cases will be computed,
+and if <includena> is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).</includena></includena></includena></p>
 <p>If any other behavior is desired, data transformations for example with the <code><a href="smdi_na_indicator.html">smdi_na_indicator</a></code> function, may make sense
 before calling the function.</p>
 <p>The dataframe should generally consist of the exposure variable, the outcome variable(s), the partially observed covariates
@@ -168,8 +159,8 @@ the function automatically looks for all variables/columns with NA (powered by t
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   covariate asmd_median asmd_min asmd_max</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> egfr_cat  0.243       0.010    0.485   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ecog_cat  0.029       0.003    0.071   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ecog_cat  0.029       0.003    0.071   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> egfr_cat  0.243       0.010    0.485   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pdl1_num  0.062       0.019    0.338   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># let's look at the first variable</span></span></span>

@@ -8,6 +8,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -28,10 +39,21 @@ suppressPackageStartupMessages(library(dplyr))
 
 The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. This article aims to give an introduction to missing covariate data diagnostics using the individual `smdi` diagnostics function that all funnel into the main function `smdi_diagnose()`.
 
-In brief, `smdi_diagnose()` computes three group diagnostics.
+<div class="alert alert-info">
+  <strong>What is smdi about?</strong> Large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
+</div>
 
-```{r, echo = FALSE}
+	
+```{r, fig-group_diagnostics, fig.cap = "Overview three group diagnostics", echo = FALSE}
 knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
+```
+
+<div class="alert alert-info">
+  <strong>How can this be applied to inform a real-world database study?</strong> The observed diagnostic patterns of a specific study will give insights into the likelihood of underlying missingness structures. This package enables researchers to create these three group diagnostics for their own healthcare database analytics with little effort. This is how an **example** could look like in a real-world database study:
+</div>
+
+```{r, fig-guidance, fig.cap = "Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.", echo = FALSE}
+knitr::include_graphics(here::here("vignettes", "smdi_examples.png"))
 ```
 
 ## Illustrative dataset
@@ -85,14 +107,26 @@ smdi_data %>%
   smdi_vis(covar = covars_missing, strata = "exposure")
 ```
 
-### Missingness patterns
+### Missingness patterns {.tabset}
 
-A great way to explore the patterns of missingness is the `md.pattern` function which is part of the `mice` package. 
+Besides describing the proportion missingness by covariate (and potentially stratified by another variable), it is also of great importance to check the missingness patterns. This can give important hints if the missingness in two or more partially observed covariates may follow a monotone or non-monotone missingness pattern. If former is the case, one should be careful and potentially run the below-described `smdi` diagnostics variable-by-variable instead of jointly. 
 
->We recommend checking the missing data patterns as part of the routine missing data workflow using the `smdi` package. It may provide important information about potential monotone missing data patterns. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html)
+>We recommend checking both missingness proportions and patterns as a first step. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html).
+
+To check missingness patterns, the `smdi` comes with re-exports of the `naniar::gg_miss_upset` and `mice::md.pattern` functions.
+
+#### Upset plot
+
+```{r}
+smdi::gg_miss_upset(data = smdi_data)
+```
+
+The upset plot and the pattern matrix show that only a small fraction of observations (N = 97) is missing in all the partially observed covariates at the same. A non-monotone missingness pattern is consequently more likely than a monotone one.
+
+#### Pattern matrix 
 
 ```{r, fig.width = 8, fig.height=6, fig.width = 10}
-mice::md.pattern(smdi_data, rotate.names = TRUE)
+smdi::md.pattern(smdi_data[, c(covars_missing)], plot = FALSE)
 ```
 
 ## Before we are getting started: data format
@@ -232,28 +266,38 @@ diagnostics <- smdi_diagnose(
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   )
-
-gt(diagnostics$smdi_tbl) %>% 
-  tab_footnote(
-    footnote = "Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate",
-    locations = cells_column_labels(
-      columns = c(asmd_median_min_max, hotteling_p)
-      )
-    ) %>% 
-  tab_footnote(
-    footnote = "Group 2 diagnostic: Ability to predict missingness",
-    locations = cells_column_labels(
-      columns = rf_auc
-      )
-    ) %>% 
-  tab_footnote(
-    footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)",
-    locations = cells_column_labels(
-      columns = c(estimate_crude, estimate_adjusted)
-      )
-    )
 ```
+
+The output returns two parts: the `smdi_tbl` which can be called using the `$` operator and looks like this
+
+```{r}
+diagnostics$smdi_tbl
+```
+
+... and the p-value of the global Little's test statistic:
 
 ```{r}
 diagnostics$p_little
+```
+
+## Publication-ready `gt`-style table
+
+For a nicely formatted and publication-ready output we can subsequently use the `smdi_diagnose` output and feed it into the `smdi_gt_style()` function:
+
+```{r}
+library(gt)
+
+smdi_style_gt(diagnostics)
+```
+
+### smdi table export
+
+To make this even more convenient, `gt` offers a functionality to export the table in different formats, e.g. `.docx`, `.png`, `.pdf` or `.rtf`:
+
+```{r, eval = FALSE}
+gtsave(
+  data = smdi_style_gt(diagnostics),
+  filename = "smdi_table.docx", # name of the final .docx file
+  path = "." # path where the file should be stored
+  )
 ```

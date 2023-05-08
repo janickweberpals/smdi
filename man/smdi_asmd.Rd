@@ -24,15 +24,13 @@ smdi_asmd(
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided:
-
-- asmd_covar: name of covariate investigated
-
-- asmd_table1: detailed "table 1" illustrating distributions and differences of patient characteristics between those without (1) and with (0) observed covariate
-
-- asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)
-
-- asmd_aggregate: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
+returns an asmd object with average/median absolute standardized mean differences. That is, for each \if{html}{\out{<covar>}}, the following outputs are provided:
+\itemize{
+\item asmd_covar: name of covariate investigated
+\item asmd_table1: detailed "table 1" illustrating distributions and differences of patient characteristics between those without (1) and with (0) observed covariate
+\item asmd_plot: plot of absolute standardized mean differences (asmd) between patients without (1) and with (0) observed covariate (sorted by asmd)
+\item asmd_aggregate: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
+}
 }
 \description{
 This function takes a dataframe with covariates which are partially observed/missing and returns the
@@ -56,9 +54,9 @@ denotes meaningful imbalance in the baseline covariate.
 
 The asmd is computed for every covariate one-by-one and not jointly. If there is multivariate
 missingness, i.e. more than just one missing covariate exists, you can decide what should
-happen with the other partially observed 'predictor' covariates using the <includeNA> parameter.
-That is, if <includeNA> is set to FALSE (default), only the asmd between observed cases will be computed,
-and if <includeNA> is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
+happen with the other partially observed 'predictor' covariates using the \if{html}{\out{<includeNA>}} parameter.
+That is, if \if{html}{\out{<includeNA>}} is set to FALSE (default), only the asmd between observed cases will be computed,
+and if \if{html}{\out{<includeNA>}} is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
 
 If any other behavior is desired, data transformations for example with the \code{\link{smdi_na_indicator}} function, may make sense
 before calling the function.

@@ -13,7 +13,7 @@
 #'   \item{physical_cat}{Physical activity at baseline (not active versus active)}
 #'   \item{egfr_cat}{EGFR mutation status (0 = wild-type, 1 = alteration)}
 #'   \item{alk_cat}{ALK transolcation mutation status (0 = wild-type, 1 = alteration)}
-#'   \item{pdl1_num}{PD-L1 cell staining biomarker in \%}
+#'   \item{pdl1_num}{PD-L1 cell staining biomarker in %}
 #'   \item{histology_cat}{Tumor histology (0 = nonsquamous, 1 = squamous)}
 #'   \item{ses_cat}{Socio-economic status (multi-categorical: 1-low, 2-middle, 3-high)}
 #'   \item{copd_cat}{COPD comorbidity at baseline}

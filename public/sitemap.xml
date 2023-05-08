@@ -37,6 +37,12 @@
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi-package.html</loc>
+  </url>
+  <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_asmd.html</loc>
   </url>
   <url>
@@ -68,6 +74,9 @@
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_rf.html</loc>
+  </url>
+  <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_style_gt.html</loc>
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_summarize.html</loc>

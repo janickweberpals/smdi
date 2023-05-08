@@ -148,6 +148,8 @@ smdi_rf <- function(data = NULL,
       # to make analyst aware to check for monotonicity
       # we choose AUC of .9 as cut-off
       if(auc > 0.9){
+        cat("\n")
+        message("Important note: \n")
         message(glue::glue("AUC for predicting covariate {rf_tbl_out$covariate} is very high (>0.9)."))
 
         # determine most important predictor
