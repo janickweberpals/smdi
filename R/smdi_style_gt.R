@@ -88,7 +88,7 @@ smdi_style_gt <- function(smdi_object = NULL,
     }
 
   # general abbrevations
-  foot_abbr <- "ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, \U03B2 = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum"
+  foot_abbr <- "ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum"
 
   smdi_gt <- smdi_table %>%
 
@@ -104,8 +104,8 @@ smdi_style_gt <- function(smdi_object = NULL,
       asmd_median_min_max= "ASMD (min/max)",
       hotteling_p = gt::md("p Hotelling"),
       rf_auc = "AUC",
-      estimate_crude = gt::md("\U03B2 crude (95% CI)"),
-      estimate_adjusted = gt::md("\U03B2 (95% CI)")
+      estimate_crude = gt::md("beta crude (95% CI)"),
+      estimate_adjusted = gt::md("beta (95% CI)")
       ) %>%
 
     # add footnotes describing three group diagnostics
