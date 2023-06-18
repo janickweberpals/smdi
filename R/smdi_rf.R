@@ -17,8 +17,7 @@
 #' \code{\link{randomForest}}
 #'
 #' @references
-#' Weberpals J,  Sondhi A, Jiang C, Yerram P, Taylor MD,  Samant M, Cherng ST. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. 37th International Conference on Pharmacoepidemiology & Therapeutic Risk Management 2021. Pharmacoepidemiol Drug Saf 2021; 30:36-36.
-#' https://onlinelibrary.wiley.com/doi/10.1002/pds.5305
+#' Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. doi: 10.1002/psp4.12998. Epub ahead of print. PMID: 37322818.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors

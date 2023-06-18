@@ -54,8 +54,7 @@ smdi_rf(data = smdi_data)
 
 }
 \references{
-Weberpals J,  Sondhi A, Jiang C, Yerram P, Taylor MD,  Samant M, Cherng ST. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. 37th International Conference on Pharmacoepidemiology & Therapeutic Risk Management 2021. Pharmacoepidemiol Drug Saf 2021; 30:36-36.
-https://onlinelibrary.wiley.com/doi/10.1002/pds.5305
+Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. doi: 10.1002/psp4.12998. Epub ahead of print. PMID: 37322818.
 }
 \seealso{
 \code{\link{randomForest}}
