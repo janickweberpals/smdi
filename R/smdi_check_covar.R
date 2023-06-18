@@ -7,6 +7,10 @@
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr pull
+#' @importFrom dplyr pull
+#' @importFrom glue glue
+#' @importFrom tidyselect where
+#' @importFrom tidyselect all_of
 #'
 #' @export
 #'
@@ -19,7 +23,7 @@ smdi_check_covar <- function(data = NULL,
   if(is.null(data)){stop("No dataframe provided.")}
 
 
-  # if <covar> is specified -> select variables, if not find all with at least one NA (latter if default) --------
+  # if <covar> is specified -> select specified NA variables (and make sure all are NA), if not automatically find all that have at least one NA value ---
 
   # if <covar> is specified:
   if(!is.null(covar)){
@@ -31,18 +35,40 @@ smdi_check_covar <- function(data = NULL,
 
     }else{ # if all covariates in <covar> are present
 
-      # return covariates specified in <covar> for subsequent operations
-      covar_miss <- covar
+      # give warning if not all of the specified <covar> variables have a missing => select only the ones with missing and return message
+      if(any(!colSums(is.na(data[, covar]) > 0))){
 
-    }
+        # find the one(s) with no missing values
+        covar_fully_obs <- data %>%
+          dplyr::select(tidyselect::all_of(covar)) %>%
+          dplyr::select(tidyselect::where(~sum(is.na(.x)) == 0)) %>%
+          names()
 
-  # if covar is not specified, i.e. is null
-  }else{
+        covar_fully_obs_collapse <- paste(covar_fully_obs, collapse = ", ")
 
-    # select all covariates that have at least one NA value
-    covar_miss <- data %>%
-      dplyr::select(tidyselect::where(~sum(is.na(.x)) > 0)) %>%
-      names()
+        warning(glue::glue("<{covar_fully_obs_collapse}> specified as part of <covar> but does/do not contain any missing value. Please check that missing values are coded as <NA>. <{covar_fully_obs_collapse}> will not be considered as missing <covar>."))
+
+        # drop fully observed covariates
+        covar_miss <- data %>%
+          dplyr::select(tidyselect::all_of(covar)) %>%
+          dplyr::select(-tidyselect::all_of(covar_fully_obs)) %>%
+          names()
+
+        }else{ # if all <covar> are present and all have at least one NA
+
+          # return covariates specified in <covar> for subsequent operations
+          covar_miss <- covar
+        }
+
+      }
+
+    # if covar is not specified, i.e. is null
+    }else{
+
+      # select all covariates that have at least one NA value
+      covar_miss <- data %>%
+        dplyr::select(tidyselect::where(~sum(is.na(.x)) > 0)) %>%
+        names()
 
     # give error if there are no covariates with at least one NA value
     if(length(covar_miss)==0){
