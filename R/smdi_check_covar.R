@@ -35,23 +35,22 @@ smdi_check_covar <- function(data = NULL,
 
     }else{ # if all covariates in <covar> are present
 
+      # check if there are variables specified in <covar> which are NOT missing
+      covar_fully_obs <- data %>%
+        dplyr::select(tidyselect::all_of(covar)) %>%
+        dplyr::select(tidyselect::where(~sum(is.na(.x)) == 0))
+
       # give warning if not all of the specified <covar> variables have a missing => select only the ones with missing and return message
-      if(any(!colSums(is.na(data[, covar]) > 0))){
+      if(ncol(covar_fully_obs) > 0){
 
-        # find the one(s) with no missing values
-        covar_fully_obs <- data %>%
-          dplyr::select(tidyselect::all_of(covar)) %>%
-          dplyr::select(tidyselect::where(~sum(is.na(.x)) == 0)) %>%
-          names()
-
-        covar_fully_obs_collapse <- paste(covar_fully_obs, collapse = ", ")
+        covar_fully_obs_collapse <- paste(names(covar_fully_obs), collapse = ", ")
 
         warning(glue::glue("<{covar_fully_obs_collapse}> specified as part of <covar> but does/do not contain any missing value. Please check that missing values are coded as <NA>. <{covar_fully_obs_collapse}> will not be considered as missing <covar>."))
 
         # drop fully observed covariates
         covar_miss <- data %>%
           dplyr::select(tidyselect::all_of(covar)) %>%
-          dplyr::select(-tidyselect::all_of(covar_fully_obs)) %>%
+          dplyr::select(-tidyselect::all_of(names(covar_fully_obs))) %>%
           names()
 
         }else{ # if all <covar> are present and all have at least one NA
