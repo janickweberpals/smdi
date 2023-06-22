@@ -58,9 +58,11 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(smdi)
 #'
 #' smdi_rf(data = smdi_data)
+#' }
 #'
 
 smdi_rf <- function(data = NULL,

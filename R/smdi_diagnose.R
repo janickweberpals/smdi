@@ -56,6 +56,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(smdi)
 #'
 #' smdi_diagnose(
@@ -63,7 +64,7 @@
 #'  model = "cox",
 #'  form_lhs = "Surv(eventtime, status)"
 #'  )
-#'
+#'}
 #'
 smdi_diagnose <- function(data = NULL,
                           covar = NULL,

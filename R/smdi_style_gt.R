@@ -26,6 +26,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #'library(smdi)
 #'library(dplyr)
 #'
@@ -36,6 +37,7 @@
 #'   form_lhs = "Surv(eventtime, status)"
 #'   ) %>%
 #'   smdi_style_gt()
+#'   }
 #'
 smdi_style_gt <- function(smdi_object = NULL,
                           include_little = TRUE,
