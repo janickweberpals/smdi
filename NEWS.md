@@ -1,3 +1,5 @@
+# smdi 0.2.2
+
 # smdi 0.2.1
 
 * Included re-exports of naniar's `gg_miss_upset` and mice's `md.pattern` functions to explore missing data patterns.
