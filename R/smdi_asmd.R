@@ -217,9 +217,9 @@ smdi_asmd <- function(data = NULL,
         )
       )
 
-    }
+    } # loop ends
 
-  # iterate above analyses overall specified
+  # iterate above analyses over all specified
   # partially observed covariates
   asmd_out <- parallel::mclapply(covar_miss, FUN = smd_loop, mc.cores = n_cores)
   names(asmd_out) <- covar_miss
