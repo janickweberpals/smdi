@@ -2,18 +2,18 @@
 % Please edit documentation in R/smdi_check_covar.R
 \name{smdi_check_covar}
 \alias{smdi_check_covar}
-\title{This is a util function to help check input data and covariates provided}
+\title{This is a utility function to help check input data and covariates provided}
 \usage{
 smdi_check_covar(data = NULL, covar = NULL)
 }
 \arguments{
 \item{data}{dataframe or tibble object with partially observed/missing variables}
 
-\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically looks for and includes all columns with at least one missing observation}
 }
 \value{
 returns the covariate vector for subsequent tasks or warnings/errors
 }
 \description{
-This is a util function to help check input data and covariates provided
+This is a utility function to help check input data and covariates provided
 }
