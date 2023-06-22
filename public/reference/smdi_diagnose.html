@@ -31,14 +31,20 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -51,7 +57,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Computes three group missing data summary diagnostics</h1>
-      
+      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/R/smdi_diagnose.R" class="external-link"><code>R/smdi_diagnose.R</code></a></small>
       <div class="d-none name"><code>smdi_diagnose.Rd</code></div>
     </div>
 
@@ -165,24 +171,15 @@ For more information and details, please refer to the individual functions.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">smdi</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">smdi_diagnose</span><span class="op">(</span></span></span>
 <span class="r-in"><span> data <span class="op">=</span> <span class="va">smdi_data</span>,</span></span>
 <span class="r-in"><span> model <span class="op">=</span> <span class="st">"cox"</span>,</span></span>
 <span class="r-in"><span> form_lhs <span class="op">=</span> <span class="st">"Surv(eventtime, status)"</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> smdi summary table:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   covariate asmd_median_min_max  hotteling_p rf_auc estimate_crude       estim…¹</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ecog_cat  0.029 (0.003, 0.071) 0.783       0.510  -0.06 (95% CI -0.16… -0.06 …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> egfr_cat  0.243 (0.010, 0.485) &lt;.001       0.629  0.06 (95% CI -0.03,… -0.01 …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pdl1_num  0.062 (0.019, 0.338) &lt;.001       0.516  0.12 (95% CI 0.01, … 0.11 (…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​estimate_adjusted</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p_little: &lt;.001</span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

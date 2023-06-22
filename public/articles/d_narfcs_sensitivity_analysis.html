@@ -44,14 +44,20 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -75,15 +81,15 @@
 Weberpals</h4>
             
       
-      
-      <div class="d-none name"><code>narfcs_sensitivity_analysis.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/d_narfcs_sensitivity_analysis.Rmd" class="external-link"><code>vignettes/d_narfcs_sensitivity_analysis.Rmd</code></a></small>
+      <div class="d-none name"><code>d_narfcs_sensitivity_analysis.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># basic setup</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></span>
@@ -198,7 +204,7 @@ datasets.</p>
 <span>    x <span class="op">=</span> <span class="st">"Cohort"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-3-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-3-1.png" width="900" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="smdi-diagnostics">
@@ -770,7 +776,7 @@ the standard <em>mice</em> multiple imputation HR.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">tableGrob</a></span><span class="op">(</span><span class="va">table</span>, rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>, <span class="va">forest</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>The deviation of the complete case and multiple imputation estimates
 aren’t too off which has to do with <code>age_num</code> being a rather
 moderate confounder in this simulation. Nevertheless, in reality we
@@ -869,7 +875,7 @@ discard the global conclusion of our primary analysis.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;">
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;">
 Based on this tipping point analysis, the systematic difference between
 observed and unobserved <code>age_num</code> values would have needed to
 be so drastic that a significant departure of our primary analysis is
@@ -996,7 +1002,7 @@ parameters while imputing <code>ecog_cat</code> and
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-11-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-11-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>As in the example above, <code>pdl1_num</code> is sensitive to
 departures but results would only change under unrealistically strong
 differences. In fact, the point estimates perfectly align with the true

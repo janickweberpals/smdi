@@ -44,14 +44,20 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -77,14 +83,14 @@ package functionality demonstration</h3>
 Weberpals</h4>
             
       
-      
-      <div class="d-none name"><code>data_generation.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/a_data_generation.Rmd" class="external-link"><code>vignettes/a_data_generation.Rmd</code></a></small>
+      <div class="d-none name"><code>a_data_generation.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># some global simulation parameters</span></span>
@@ -1361,7 +1367,7 @@ initiation (aka propensity scores).</p>
 <span>    fill <span class="op">=</span> <span class="st">"Exposed"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="data_generation_files/figure-html/pr_treatment_assignment-1.png" alt="Treatment assignment probabilities." width="900"><p class="caption">
+<img src="a_data_generation_files/figure-html/pr_treatment_assignment-1.png" alt="Treatment assignment probabilities." width="900"><p class="caption">
 Treatment assignment probabilities.
 </p>
 </div>
@@ -2354,7 +2360,7 @@ Kaplan-Meier curve.</p>
 <span>  xlab <span class="op">=</span> <span class="st">"Time [Years]"</span>,</span>
 <span>  legend.labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Comparator"</span>, <span class="st">"Exposure of interest"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="data_generation_files/figure-html/unnamed-chunk-2-1.png" width="900"></p>
+<p><img src="a_data_generation_files/figure-html/unnamed-chunk-2-1.png" width="900"></p>
 </div>
 <div class="section level4">
 <h4 id="cox-proportional-hazards">Cox proportional hazards<a class="anchor" aria-label="anchor" href="#cox-proportional-hazards"></a>

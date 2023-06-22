@@ -7,25 +7,28 @@
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/data_generation.html</loc>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/a_data_generation.html</loc>
+  </url>
+  <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/b_routine_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/c_multivariate_missingness.html</loc>
+  </url>
+  <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/d_narfcs_sensitivity_analysis.html</loc>
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/multivariate_missingness.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/narfcs_sensitivity_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/routine_diagnostics.html</loc>
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/smdi.html</loc>
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/coverage.html</loc>
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/index.html</loc>
@@ -65,9 +68,6 @@
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_na_indicator.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_narfcs.html</loc>
   </url>
   <url>
     <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_outcome.html</loc>

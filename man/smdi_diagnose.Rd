@@ -71,6 +71,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc.
 Wrapper for individual diagnostics function.
 }
 \examples{
+\dontrun{
 library(smdi)
 
 smdi_diagnose(
@@ -78,7 +79,7 @@ smdi_diagnose(
  model = "cox",
  form_lhs = "Surv(eventtime, status)"
  )
-
+}
 
 }
 \references{

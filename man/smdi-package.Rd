@@ -8,8 +8,16 @@
 \description{
 This package aims to help implementing routine structural missing data diagnostics. It provides functions to: visualize proportions missingness, perform group 1-3 missing data diagnostics and run sensitivity analyses and get estimates for chosen sensitivity parameters.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://janickweberpals.gitlab-pages.partners.org/smdi}
+  \item Report bugs at \url{https://gitlab.partners.org/janickweberpals/smdi/issues}
+}
+
+}
 \author{
-\strong{Maintainer}: Janick Weberpals \email{jweberpals@bwh.harvard.edu} (\href{https://orcid.org/0000-0003-0404-7394}{ORCID})
+\strong{Maintainer}: Janick Weberpals \email{jweberpals@bwh.harvard.edu} (\href{https://orcid.org/0000-0003-0404-7394}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}

@@ -48,9 +48,11 @@ CAVE: If the missingness indicator variables of other partially observed covaria
 this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
 }
 \examples{
+\dontrun{
 library(smdi)
 
 smdi_rf(data = smdi_data)
+}
 
 }
 \references{

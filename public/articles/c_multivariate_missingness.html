@@ -44,14 +44,20 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -75,8 +81,8 @@
 Weberpals</h4>
             
       
-      
-      <div class="d-none name"><code>multivariate_missingness.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/c_multivariate_missingness.Rmd" class="external-link"><code>vignettes/c_multivariate_missingness.Rmd</code></a></small>
+      <div class="d-none name"><code>c_multivariate_missingness.Rmd</code></div>
     </div>
 
     
@@ -92,7 +98,7 @@ font-style: italic;
 }
 </style>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -145,12 +151,12 @@ accordingly indicated with a <em>1</em> and complete observations with a
 <span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="ffhtidhdoo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="nlcplzgxnj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ffhtidhdoo .gt_table {
+#nlcplzgxnj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -175,7 +181,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-left-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_heading {
+#nlcplzgxnj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -187,12 +193,12 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-right-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_caption {
+#nlcplzgxnj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ffhtidhdoo .gt_title {
+#nlcplzgxnj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -204,7 +210,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-bottom-width: 0;
 }
 
-#ffhtidhdoo .gt_subtitle {
+#nlcplzgxnj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -216,13 +222,13 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-top-width: 0;
 }
 
-#ffhtidhdoo .gt_bottom_border {
+#nlcplzgxnj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_col_headings {
+#nlcplzgxnj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -237,7 +243,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-right-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_col_heading {
+#nlcplzgxnj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -257,7 +263,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   overflow-x: hidden;
 }
 
-#ffhtidhdoo .gt_column_spanner_outer {
+#nlcplzgxnj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -269,15 +275,15 @@ accordingly indicated with a <em>1</em> and complete observations with a
   padding-right: 4px;
 }
 
-#ffhtidhdoo .gt_column_spanner_outer:first-child {
+#nlcplzgxnj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ffhtidhdoo .gt_column_spanner_outer:last-child {
+#nlcplzgxnj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ffhtidhdoo .gt_column_spanner {
+#nlcplzgxnj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -289,7 +295,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   width: 100%;
 }
 
-#ffhtidhdoo .gt_group_heading {
+#nlcplzgxnj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -315,7 +321,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   text-align: left;
 }
 
-#ffhtidhdoo .gt_empty_group_heading {
+#nlcplzgxnj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -330,15 +336,15 @@ accordingly indicated with a <em>1</em> and complete observations with a
   vertical-align: middle;
 }
 
-#ffhtidhdoo .gt_from_md > :first-child {
+#nlcplzgxnj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ffhtidhdoo .gt_from_md > :last-child {
+#nlcplzgxnj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ffhtidhdoo .gt_row {
+#nlcplzgxnj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -357,7 +363,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   overflow-x: hidden;
 }
 
-#ffhtidhdoo .gt_stub {
+#nlcplzgxnj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -370,7 +376,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   padding-right: 5px;
 }
 
-#ffhtidhdoo .gt_stub_row_group {
+#nlcplzgxnj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -384,11 +390,11 @@ accordingly indicated with a <em>1</em> and complete observations with a
   vertical-align: top;
 }
 
-#ffhtidhdoo .gt_row_group_first td {
+#nlcplzgxnj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ffhtidhdoo .gt_summary_row {
+#nlcplzgxnj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -398,16 +404,16 @@ accordingly indicated with a <em>1</em> and complete observations with a
   padding-right: 5px;
 }
 
-#ffhtidhdoo .gt_first_summary_row {
+#nlcplzgxnj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_first_summary_row.thick {
+#nlcplzgxnj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ffhtidhdoo .gt_last_summary_row {
+#nlcplzgxnj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -417,7 +423,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-bottom-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_grand_summary_row {
+#nlcplzgxnj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -427,7 +433,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   padding-right: 5px;
 }
 
-#ffhtidhdoo .gt_first_grand_summary_row {
+#nlcplzgxnj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -437,11 +443,11 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-top-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_striped {
+#nlcplzgxnj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ffhtidhdoo .gt_table_body {
+#nlcplzgxnj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -450,7 +456,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-bottom-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_footnotes {
+#nlcplzgxnj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -464,7 +470,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-right-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_footnote {
+#nlcplzgxnj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -473,7 +479,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   padding-right: 5px;
 }
 
-#ffhtidhdoo .gt_sourcenotes {
+#nlcplzgxnj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -487,7 +493,7 @@ accordingly indicated with a <em>1</em> and complete observations with a
   border-right-color: #D3D3D3;
 }
 
-#ffhtidhdoo .gt_sourcenote {
+#nlcplzgxnj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -495,64 +501,64 @@ accordingly indicated with a <em>1</em> and complete observations with a
   padding-right: 5px;
 }
 
-#ffhtidhdoo .gt_left {
+#nlcplzgxnj .gt_left {
   text-align: left;
 }
 
-#ffhtidhdoo .gt_center {
+#nlcplzgxnj .gt_center {
   text-align: center;
 }
 
-#ffhtidhdoo .gt_right {
+#nlcplzgxnj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ffhtidhdoo .gt_font_normal {
+#nlcplzgxnj .gt_font_normal {
   font-weight: normal;
 }
 
-#ffhtidhdoo .gt_font_bold {
+#nlcplzgxnj .gt_font_bold {
   font-weight: bold;
 }
 
-#ffhtidhdoo .gt_font_italic {
+#nlcplzgxnj .gt_font_italic {
   font-style: italic;
 }
 
-#ffhtidhdoo .gt_super {
+#nlcplzgxnj .gt_super {
   font-size: 65%;
 }
 
-#ffhtidhdoo .gt_footnote_marks {
+#nlcplzgxnj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ffhtidhdoo .gt_asterisk {
+#nlcplzgxnj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ffhtidhdoo .gt_indent_1 {
+#nlcplzgxnj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ffhtidhdoo .gt_indent_2 {
+#nlcplzgxnj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ffhtidhdoo .gt_indent_3 {
+#nlcplzgxnj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ffhtidhdoo .gt_indent_4 {
+#nlcplzgxnj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ffhtidhdoo .gt_indent_5 {
+#nlcplzgxnj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -675,7 +681,7 @@ also missing.</p>
 <span><span class="va">data_monotone</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span>, <span class="st">"lab2"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_monotone</span><span class="op">)</span></span></code></pre></div>
-<p><img src="multivariate_missingness_files/figure-html/unnamed-chunk-4-1.png" width="900"></p>
+<p><img src="c_multivariate_missingness_files/figure-html/unnamed-chunk-4-1.png" width="900"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html" class="external-link">md.pattern</a></span><span class="op">(</span><span class="va">data_monotone</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lab1"</span>, <span class="st">"lab2"</span><span class="op">)</span><span class="op">]</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      lab2 lab1     </span></span>
@@ -1138,7 +1144,7 @@ such instances.</p>
 <tbody class="gt_table_body">
 <tr>
 <td headers="covariate" class="gt_row gt_left">lab1</td>
-<td headers="asmd_median_min_max" class="gt_row gt_left">0.060 (0.008, 0.549)</td>
+<td headers="asmd_median_min_max" class="gt_row gt_left">0.060 (0.008, 0.368)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_left">0.998</td>
 <td headers="estimate_crude" class="gt_row gt_left">-0.01 (95% CI -0.12, 0.09)</td>
@@ -1146,7 +1152,7 @@ such instances.</p>
 </tr>
 <tr>
 <td headers="covariate" class="gt_row gt_left">lab2</td>
-<td headers="asmd_median_min_max" class="gt_row gt_left">0.054 (0.003, 0.804)</td>
+<td headers="asmd_median_min_max" class="gt_row gt_left">0.054 (0.003, 0.414)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_left">0.993</td>
 <td headers="estimate_crude" class="gt_row gt_left">-0.03 (95% CI -0.14, 0.08)</td>
@@ -1155,7 +1161,7 @@ such instances.</p>
 </tbody>
 <tfoot class="gt_footnotes">
 <tr>
-<td class="gt_footnote" colspan="6"> p little: 0.161,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
+<td class="gt_footnote" colspan="6"> p little: 0.191,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
@@ -2569,7 +2575,7 @@ dataset.</p>
 </tbody>
 <tfoot class="gt_footnotes">
 <tr>
-<td class="gt_footnote" colspan="6"> p little: 0.161,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
+<td class="gt_footnote" colspan="6"> p little: 0.191,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">

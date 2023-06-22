@@ -44,14 +44,20 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -75,8 +81,8 @@
 Weberpals</h4>
             
       
-      
-      <div class="d-none name"><code>routine_diagnostics.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/b_routine_diagnostics.Rmd" class="external-link"><code>vignettes/b_routine_diagnostics.Rmd</code></a></small>
+      <div class="d-none name"><code>b_routine_diagnostics.Rmd</code></div>
     </div>
 
     
@@ -92,7 +98,7 @@ font-style: italic;
 }
 </style>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -203,13 +209,16 @@ convenient functions to screen the data for missingness.</p>
 <span></span>
 <span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span><span class="op">)</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-5-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-5-1.png" width="900"></p>
 <p>The plot also provides flexibility to stratify, e.g. by
 <code>exposure</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span>, strata <span class="op">=</span> <span class="st">"exposure"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="900"></p>
+<span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span>, strata <span class="op">=</span> <span class="st">"exposure"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in smdi_summarize(data = data, covar = covar, strata = strata):</span></span>
+<span><span class="co">#&gt; Strata variable is not a character/factor or has &gt; 10 unique levels. Consider</span></span>
+<span><span class="co">#&gt; re-categorizing.</span></span></code></pre></div>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="900"></p>
 </div>
 <div class="section level4">
 <h4 class="tabset" id="missingness-patterns">Missingness patterns<a class="anchor" aria-label="anchor" href="#missingness-patterns"></a>
@@ -236,7 +245,7 @@ re-exports of the <code><a href="https://rdrr.io/pkg/naniar/man/gg_miss_upset.ht
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="900"></p>
 <p>The upset plot and the pattern matrix show that only a small fraction
 of observations (N = 97) is missing in all the partially observed
 covariates at the same. A non-monotone missingness pattern is
@@ -340,7 +349,7 @@ information in the following structure that can be accessed using the
 <span><span class="co">#&gt;   pdl1_num (mean (SD))  "44.07 (10.37)" "49.33 (11.31)" "&lt;0.001" ""   " 0.485"</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" width="900"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_aggregate</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -471,7 +480,7 @@ computation of the function can take some minutes.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.510</span></span>
 <span><span class="va">auc</span><span class="op">$</span><span class="va">ecog_cat</span><span class="op">$</span><span class="va">rf_plot</span></span></code></pre></div>
-<p><img src="routine_diagnostics_files/figure-html/unnamed-chunk-17-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-17-1.png" width="900"></p>
 <blockquote>
 <p>CAVE: If the missingness indicator variables of other partially
 observed covariates (indicated by suffix _NA) have an extremely high

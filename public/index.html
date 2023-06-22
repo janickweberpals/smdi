@@ -44,14 +44,20 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -119,14 +125,16 @@ font-style: italic;
 <li><p><strong>Group diagnostic 2:</strong> Assessing the ability to predict missingness based on observed covariates</p></li>
 <li><p><strong>Group diagnostic 3:</strong> Estimating if the missingness of a covariate is associated with the outcome (differential missingness)</p></li>
 </ul>
-<div class="figure">
-<img src="./articles/smdi_diagnose_table.png" alt=""><p class="caption"><strong>Table 1.</strong> Overview three group diagnostics</p>
+<div class="float">
+<img src="./articles/smdi_diagnose_table.png" alt="Table 1. Overview three group diagnostics"><div class="figcaption">
+<strong>Table 1.</strong> Overview three group diagnostics</div>
 </div>
 <div class="alert alert-info">
 <p><strong>How can this be applied to inform a real-world database study?</strong> The observed diagnostic pattern of a specific study will give insights into the likelihood of underlying missingness structures. This is how an <strong>example</strong> could look like in a real-world database study:</p>
 </div>
-<div class="figure">
-<img src="./articles/smdi_examples.png" alt=""><p class="caption"><strong>Table 2.</strong> Example of how <code>smdi</code> diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.</p>
+<div class="float">
+<img src="./articles/smdi_examples.png" alt="Table 2. Example of how smdi diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study."><div class="figcaption">
+<strong>Table 2.</strong> Example of how <code>smdi</code> diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.</div>
 </div>
 <p>While the manuscript is underway, in the meantime please refer to the <a href="https://www.youtube.com/embed/Dml_AP0ohTY?start=7376" class="external-link">presentation at the 2023 Innovation Day</a> to learn more</p>
 <iframe width="750" height="421.875" src="https://www.youtube.com/embed/Dml_AP0ohTY?start=7376" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
@@ -142,12 +150,20 @@ font-style: italic;
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <p><em>This project builds up on pivotal work done by several groups and recently published frameworks and guidance papers</em></p>
+<p>Sondhi A<span class="math inline"><sup>1</sup></span>, Weberpals J<span class="math inline"><sup>1</sup></span>, Yerram P, Jiang C, Taylor MD, Samant M, Cherng S. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. doi: 10.1002/psp4.12998. Epub ahead of print. PMID: 37322818.</p>
 <p>Lee KJ, Tilling KM, Cornish RP, Little RJA, Bell ML, Goetghebeur E, Hogan JW, Carpenter JR; STRATOS initiative. Framework for the treatment and reporting of missing data in observational studies: The Treatment And Reporting of Missing data in Observational Studies framework. J Clin Epidemiol. 2021 Jun;134:79-88. doi: 10.1016/j.jclinepi.2021.01.008. Epub 2021 Feb 2. PMID: 33539930; PMCID: PMC8168830.</p>
 <p>Carpenter JR, Smuk M. Missing data: A statistical framework for practice. Biom J. 2021 Jun;63(5):915-947. doi: 10.1002/bimj.202000196. Epub 2021 Feb 24. PMID: 33624862.</p>
-<p>Sondhi A<span class="math inline"><sup>1</sup></span>, Weberpals J<span class="math inline"><sup>1</sup></span>, Yerram P, Jiang C, Taylor MD, Samant M, Cherng S. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 (accepted)</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://gitlab.partners.org/janickweberpals/smdi/" class="external-link">Browse source code</a></li>
+<li><a href="https://gitlab.partners.org/janickweberpals/smdi/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -166,7 +182,7 @@ font-style: italic;
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Janick Weberpals <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-0404-7394" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Janick Weberpals <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0003-0404-7394" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 

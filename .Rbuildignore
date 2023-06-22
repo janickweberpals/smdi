@@ -22,7 +22,6 @@ datmis.csv
 .gitlab-ci.yml
 ^.gitlab-ci.yml$
 
-coverage
 coverage.html
 ^coverage.html$
 

@@ -14,4 +14,4 @@ navbar:
     text: Reports
     menu:
     - text: Coverage report
-      href: coverage/coverage.html # covr::gitlab(file = "coverage/coverage.html")
+      href: coverage.html # covr::gitlab()
