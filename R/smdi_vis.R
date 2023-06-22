@@ -1,4 +1,4 @@
-#' Quick and elegant visualization of partially observed/missing variables
+#' Quick ggplot2 barchart visualization of partially observed/missing variables
 #'
 #' @description
 #' This function takes a dataframe and outputs a nicely formatted
@@ -77,7 +77,7 @@ smdi_vis <- function(data = NULL,
   if(!is.null(strata)){
 
     plot_summary <- plot_summary +
-      ggplot2::facet_wrap(~.data[[strata]]) +
+      ggplot2::facet_wrap({{strata}}) +
       ggplot2::labs(
         subtitle = glue::glue("Results stratified by {strata}"),
         caption = glue::glue("% refer to the number of observations in each stratum of {strata}.")
