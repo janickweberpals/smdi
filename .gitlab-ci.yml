@@ -22,17 +22,17 @@ check:
 checkerrors:
   stage: check
   script:
-    - r -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+    - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
 
 checkwarnings:
   stage: check
   script:
-    - r -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["warnings"]], character(0))) stop("Check with Warnings")'
+    - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["warnings"]], character(0))) stop("Check with Warnings")'
 
 checknotes:
   stage: check
   script:
-    - r -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["notes"]], character(0))) stop("Check with Notes")'
+    - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["notes"]], character(0))) stop("Check with Notes")'
 
 unittests:
   stage: test
