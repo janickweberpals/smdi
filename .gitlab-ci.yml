@@ -50,10 +50,10 @@ install:
   script:
     - r -e 'devtools::install()'
 
-buildbinary:
-  stage: build
-  script:
-    - r -e 'devtools::build(binary = TRUE)'
+# buildbinary:
+#   stage: build
+#   script:
+#     - r -e 'devtools::build(binary = TRUE)'
 
 # buildsite:
 #   stage: deploy
