@@ -1,5 +1,14 @@
 # smdi 0.2.2
 
+* Formally implemented unit tests
+
+* Added unit test coverage report to pkgdown website
+
+* Implemented automated GitLab CI/CD pipeline to run checks and tests
+
+* Minor fixes and improvements in documentation of functions
+
+
 # smdi 0.2.1
 
 * Included re-exports of naniar's `gg_miss_upset` and mice's `md.pattern` functions to explore missing data patterns.
