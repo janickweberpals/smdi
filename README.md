@@ -15,6 +15,10 @@ font-style: italic;
 
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
 
+[![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)
+
+![](https://gitlab.partners.org/janickweberpals/smdi/badges/dev/pipeline.svg)
+
 The theoretical backbone of this package is based on a large-scale plasmode simulation performed by the [Sentinel Innovation Center workgroup](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health) on
 
 **Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes.**
