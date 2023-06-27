@@ -62,6 +62,12 @@ smdi_hotelling <- function(data = NULL,
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
 
+  # n_cores on windows
+  if(Sys.info()[["sysname"]]=="Windows"){
+    warning("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
+    n_cores = 1
+  }
+
   # more cores than available
   if(n_cores > parallel::detectCores()){
     warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")

@@ -85,11 +85,6 @@ smdi_diagnose <- function(data = NULL,
   # initialize
   #covariate <- `1 vs 2` <- term <- estimate <- conf.low <- conf.high <- NULL
 
-  # more cores than available
-  if(n_cores > parallel::detectCores()){
-    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
-  }
-
   # check for missing covariates
   covar_miss <- smdi::smdi_check_covar(
     data = data,

@@ -82,6 +82,17 @@ smdi_outcome <- function(data = NULL,
   if(is.null(form_lhs)){stop("No <form_lhs> provided.")}
   if(is.null(model) || !model %in% c("logistic", "linear", "cox")){stop("<model> either not specified or not of type logistic, linear or cox")}
 
+  # n_cores on windows
+  if(Sys.info()[["sysname"]]=="Windows"){
+    warning("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
+    n_cores = 1
+  }
+
+  # more cores than available
+  if(n_cores > parallel::detectCores()){
+    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+  }
+
   # check for missing covariate of interest
   covar_miss <- smdi::smdi_check_covar(
     data = data,
