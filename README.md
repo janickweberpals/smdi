@@ -17,7 +17,8 @@ This package aims to be a helpful addition to routine healthcare database analyt
 
 [![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)
 
-![](https://gitlab.partners.org/janickweberpals/smdi/badges/dev/pipeline.svg)
+![](https://gitlab-scm.partners.org/janickweberpals/smdi/badges/dev/pipeline.svg)
+
 
 The theoretical backbone of this package is based on a large-scale plasmode simulation performed by the [Sentinel Innovation Center workgroup](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health) on
 
