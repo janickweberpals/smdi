@@ -4,7 +4,7 @@
 
 * Added unit test coverage report to pkgdown website
 
-* Implemented automated GitLab CI/CD pipeline to run checks and tests
+* Implemented automated GitLab CI/CD pipeline to run checks on daily basis
 
 * Minor fixes and improvements in documentation of functions
 
