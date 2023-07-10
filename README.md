@@ -15,7 +15,7 @@ font-style: italic;
 
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
 
-[![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)
+<!-- [![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)  -->
 
 ![](https://gitlab-scm.partners.org/janickweberpals/smdi/badges/dev/pipeline.svg)
 
@@ -44,8 +44,6 @@ To install the development version, please use the `dev` branch:
 devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git", ref = "dev")
 ```
 
-Once beta testing has completed, we plan to submit the package to CRAN. Stay tuned!
-
 ## About
 
 <div class="alert alert-info">
@@ -60,7 +58,7 @@ Missing data in important prognostic factors in EHR are frequent. So far, the mo
 However, in an empirical study, it is usually unclear which of the missing data mechanisms and patterns are dominating.
 
 <div class="alert alert-info">
-  <strong>What did the study find?</strong> In brief, these large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
+  <strong>What did the study find?</strong> In brief, large-scale simulations revealed that characteristic patterns of diagnostic parameters matched to common missing data structure based on three group diagnostics:
 </div>
 
 -   **Group diagnostic 1:** Comparison of distributions between patients with or without an observed value of the partially observed covariate
