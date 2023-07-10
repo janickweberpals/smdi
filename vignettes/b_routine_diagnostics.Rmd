@@ -40,7 +40,7 @@ suppressPackageStartupMessages(library(dplyr))
 The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-functions which are also accessible separately. This article aims to give an introduction to missing covariate data diagnostics using the individual `smdi` diagnostics function that all funnel into the main function `smdi_diagnose()`.
 
 <div class="alert alert-info">
-  <strong>What is smdi about?</strong> Large-scale simulations revealed characteristic patterns of the diagnostic parameters matched to missing data structure based on three group diagnostics:
+  <strong>What is smdi about?</strong> Large-scale simulations revealed characteristic patterns of diagnostic parameters matched to common missing data structures based on three group diagnostics:
 </div>
 
 	
@@ -81,7 +81,7 @@ The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",
 
 ### Missingness proportions
 
-As with basically any first step into exploring (new) datasets, it's a good idea to get an overview of partially observed covariates and the magnitude of missingness. For this `smdi` comes with two convenient functions to screen the data for missingness.
+As with basically any first step into exploring (new) datasets, it's a good idea to get an overview of partially observed covariates and the magnitude of missingness. For this, `smdi` comes with two convenient functions to screen the data for missingness.
 
 This can be either as a table ...
 
@@ -137,9 +137,9 @@ Generally, the dataframe(s) used for `smdi` (defined as the `data` parameter in 
 
 ### Median/average absolute standardized mean differences
 
-As discussed in the documentation of the `smdi_asmd` and `smdi_hotelling`, the median/average standardized mean difference (asmd) may be one indicator as to how much patient characteristics differ between patients with and without an observed value for a partially observed covariate. If the median/average asmd is above a certain threshold this may indicate imbalance in patient covariate distributions which may be indicative of the partially observed covariate following a missing at random (MAR) mechanims, i.e. the missingness is explainable by other observed covariates. Similarly, no imbalance between observed covariates may be indicative that missingness cannot be explained with observed covariates and the underlying missingness mechanism may be completely at random (MCAR) or not at random (e.g. missingness is only associated with unobserved factors or through the partially observed covariate itself).
+As discussed in the documentation of the `smdi_asmd` and `smdi_hotelling`, the median/average standardized mean difference (asmd) may be one indicator as to how much patient characteristics differ between patients with and without an observed value for a partially observed covariate. If the median/average asmd is above a certain threshold this may indicate imbalance in patient covariate distributions which may be indicative of the partially observed covariate following a missing at random (MAR) mechanims, i.e., the missingness is explainable by other observed covariates. Similarly, no imbalance between observed covariates may be indicative that missingness cannot be explained with observed covariates and the underlying missingness mechanism may be completely at random (MCAR) or not at random (e.g., missingness is only associated with unobserved factors or through the partially observed covariate itself).
 
-To get an idea about the asmd for our partially observed covariates we can run the `smdi_asmd` function. We are ok with the default parameters (i.e. we let the function investigate all covariates with at least one NA [covar = NULL], compute the median asmd [median = TRUE] and don't explicitly model the missingness of other partially observed covariates [includeNA = FALSE]).
+To get an idea about the asmd for our partially observed covariates we can run the `smdi_asmd` function. We are ok with the default parameters (i.e., we let the function investigate all covariates with at least one NA [covar = NULL], compute the median asmd [median = TRUE] and don't explicitly model the missingness of other partially observed covariates [includeNA = FALSE]).
 
 ```{r}
 asmd <- smdi_asmd(data = smdi_data)
@@ -212,9 +212,9 @@ h0_global
 
 ## Group 2 diagnostics: ability to predict missingness
 
-Since MAR mechanisms are defined as the missingness being a function of observed covariates, MAR may be predictable and evaluable by fitting a classification model e.g. random forest, which would yield moderate to high area under the curve (AUC) values in the case of MAR.
+Since MAR mechanisms are defined as the missingness being a function of observed covariates, MAR may be predictable and evaluable by fitting a classification model, e.g., a random forest model, which would yield moderate to high area under the curve (AUC) values in the case of MAR.
 
-The `smdi_rf` function trains and fits a random forest model to assess the ability to predict missingness for the specified covariate(s). If missing indicator can be predicted as a function of observed covariates.
+The `smdi_rf` function trains and fits a random forest model to assess the ability to predict missingness for the specified covariate(s). If the missing indicator for this covariate can be predicted as a function of observed covariates, a MAR missingness mechanism may be likely.
 
 CAVE: Depending on the amount of data (sample size x covariates), the computation of the function can take some minutes.
 
@@ -235,15 +235,15 @@ auc$ecog_cat$rf_plot
 
 ## Group 3 diagnostics: association between missingness and outcome
 
-The group 3 diagnostic focuses on assessing the association between the missing indicator of the partially observed covar and the outcome under study. This may reveal important covariate relationships with the outcome and could give additional pieces of information.
+The group 3 diagnostic focuses on assessing the association between the missing indicator of the partially observed `covar` and the outcome under study. This may reveal important covariate relationships with the outcome and could give additional pieces of information.
 
-Currently, the main types of outcome regressions are supported, namely logistic (*glm*), linear (*lm*) and Cox proportional hazards (*survival*) models are supported and need to be specified using the model and form_lhs. For more details, see the `smdi_outcome` function documentation via
+Currently, the main types of outcome regressions are supported, namely logistic (*glm*), linear (*lm*) and Cox proportional hazards (*survival*) models are supported and need to be specified using the *model* and *form_lhs* parameters. For more details, see the `smdi_outcome` function documentation via
 
 ```{r, eval=FALSE}
 ?smdi::smdi_outcome()
 ```
 
-The output of `smdi_outcome` returns a table of the crude and adjusted beta coefficients and 95% confidence intervals for all covar.
+The output of `smdi_outcome` returns a table of the univariate and adjusted beta coefficients and 95% confidence intervals for all `covar`.
 
 ```{r}
 smdi_outcome(
@@ -257,7 +257,7 @@ smdi_outcome(
 
 Finally, all of the functions above funnel into `smdi_diagnose()` which outputs an smdi object including a summary table of all three smdi group diagnostics and little's global p-value statistic. If details of the individual functions above are needed, this method may not be preferable but is a convenient way to implement routine structural missing covariate diagnostics by calling a single function.
 
-Note that all parameters of the individual functions that make up `smdi_diagnose()` can be specified and will be passed on but only the required parameter must be specified. A most minimal example could look like this.
+Note that all parameters of the individual functions that make up `smdi_diagnose()` can be specified and will be passed on, but only the required parameter must be specified. A most minimal example could look like this.
 
 ```{r}
 diagnostics <- smdi_diagnose(

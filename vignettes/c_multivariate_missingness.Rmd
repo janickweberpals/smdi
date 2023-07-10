@@ -53,7 +53,7 @@ In general, there are two classic established missing data taxonomies:
 
 # How does `smdi` handle multivariate missingness?
 
-In all `smdi` functions, except `smdi_little()`, binary missing indicator variables are created for each partially observed variable (either specified by the analyst using the `covar` parameter or automatically identified via `smdi_check_covar()` if `covar` = NULL) and the columns with the actual variable values are dropped. For the variable importance visualization in `smdi_rf()`, these variables are indicated with "_NA" suffix. Missing values are accordingly indicated with a *1* and complete observations with a *0*. This functionality is controlled via the `smdi_na_indicator()` utility function. 
+In all `smdi` functions, except `smdi_little()`, binary missing indicator variables are created for each partially observed variable (either specified by the analyst using the `covar` parameter or automatically identified via `smdi_check_covar()` if `covar` = NULL) and the columns with the actual variable values are dropped. For the variable importance visualization in `smdi_rf()`, these variables are indicated with a *"_NA"* suffix. Missing values are accordingly indicated with a *1* and complete observations with a *0*. This functionality is controlled via the `smdi_na_indicator()` utility function. 
 
 ```{r, fig.cap="Illustrating missing indicator variable generation within `smdi` functions"}
 smdi_data %>% 
@@ -69,7 +69,7 @@ smdi_data %>%
   gt()
 ```
 
-Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, if *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
+Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, which we would like to include in our missingness diagnostics. All `smdi_diagnose()` functions, except `smdi_little()`, create *X_NA*, *Y_NA* and *Z_NA* and *X*, *Y* and *Z* are discarded from the dataset. The functions will then iterate the diagnostics through all *X_NA*, *Y_NA* and *Z_NA* one-by-one. That is, if, for example, *X_NA* is assessed, *Y_NA* and *Z_NA* serve as predictor variables along with all other covariates in the dataset. If *Y_NA* is assessed, *X_NA* and *Z_NA* are included as predictor variables, and so forth.
 
 <div class="alert alert-info">
   <strong>Important!</strong> It is important to notice that this strategy is the default to deal with multivariate missingness in the `smdi` package, however, another possible approach could be to *not* consider the other partially observed variables in the first place (e.g. by dropping them before applying any `smdi` function) and stacking the diagnostics focusing on one partially observed variable at a time. Such a strategy would be advisable in scenarios of monotone missing data patterns (see next section).
@@ -173,6 +173,5 @@ smdi_style_gt(
   )
 ```
 
-
-Since the missingness follows an MCAR mechanism, `smdi_diagnose()` now shows the expected missingness diagnostics patterns based on an MCAR mechanism.
+Since the missingness follows an MCAR mechanism, `smdi_diagnose()` now shows the expected missingness diagnostics patterns one would expect from an MCAR mechanism.
 

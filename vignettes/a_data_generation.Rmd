@@ -36,17 +36,17 @@ To get acquainted with the functionality and usage of the `smdi` package, the pa
 
 Let's assume that we are interested in studying the comparative effectiveness of two antineoplastic systemic drug treatment regimens (`exposure (0/1)`) on the time to death due to any reason as the outcome (`overall survival`). The anticipated time of follow-up is truncated to 5 years.
 
-The desired strength of effectiveness of the **exposure of interest** is defined with a hazard ratio of 1.0, i.e. there is no difference in overall survival among patients who are treated with the exposure of interest as compared to the comparator regimen. The proportional hazards assumption is fulfilled for this dataset.
+The desired strength of effectiveness of the **exposure of interest** is defined with a hazard ratio (HR) of 1.0, i.e. there is no difference in overall survival among patients who are treated with the exposure of interest as compared to the comparator regimen. The proportional hazards assumption is fulfilled for this dataset.
 
 ## Confounders
 
-We further assume that there are a some confounders which we need to specify to estimate our outcome model. Most of the covariates are associated with both the probability of treatmente initation and the outcome but there are also some that are not predictive of the exposure and just the outcome or not associated with any of the exposure or outcome, whatsoever.
+We further assume that there are a some confounders which we need to specify to estimate our outcome model. Most of the covariates are associated with both the probability of treatment initiation and the outcome but there are also some that are not predictive of the exposure and just the outcome or not associated with any of the exposure or outcome, whatsoever.
 
 Despite the low dimensionality, the dataset is simulated as realistically as possible with varying strengths of associations between covariates and treatment initiation and the outcome.
 
 ## Missingness
 
-Most importantly for testing the functionality of this package, some of the above mentioned confounders are just partially observed according to the missingness mechanisms and proportions specified below in the table \@ref(overview)) below.
+Most importantly for testing the functionality of this package, some of the above mentioned confounders are just partially observed according to the missingness mechanisms and proportions specified below in the table below.
 
 ## Overview covariates/confounder structure {#overview}
 
@@ -114,7 +114,7 @@ exposure_fit %>%
   gtsummary::tbl_regression(exponentiate = T)
 ```
 
-Fitting a generalized linear model and assessing the probablity of treatment assignment, the above constellation of odds results in the following simulated distributions depicting propensities of treatment initiation (aka propensity scores).
+Fitting a generalized linear model and assessing the probability of treatment assignment, the above constellation of odds results in the following simulated distributions depicting propensities of treatment initiation (aka propensity scores).
 
 ```{r, pr_treatment_assignment, fig.cap="Treatment assignment probabilities."}
 # compute propensity score
@@ -137,7 +137,7 @@ exposure_plot %>%
 
 Next, we simulate a time-to-event outcome for `overall survival`. For this, the `simsurv` package is used with the following assumptions:
 
--   Parametric event times follow an exponential distribution
+-   Parametric event times, following an exponential distribution
 -   Max event times: 5 years of follow-up
 -   Event times depend on some (time-fixed/baseline) covariate effects as listed in the table above
 -   beta coefficients for the outcome model as defined in the following
@@ -181,7 +181,7 @@ sim_df <- sim_covar %>% dplyr::bind_cols(
 
 ### Kaplan-Meier estimates
 
-The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 5-yr survival. Unadjusted estimates belown are shown for overall and by exposure for overall survival.
+The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 5-yr survival. Unadjusted estimates belown are shown overall and by exposure for overall survival.
 
 ```{r, km_estimates}
 km_overall <- survival::survfit(survival::Surv(eventtime, status) ~ 1, data = sim_df)
@@ -212,7 +212,7 @@ survminer::ggsurvplot(
 
 ### Cox proportional hazards
 
-After adjusting, the simulated data results in the following hazard ratio (HR) estimates
+After adjusting, the simulated data results in the following hazard ratio (HR) estimates.
 
 ```{r, Cox_estimates}
 cox_lhs <- "survival::Surv(eventtime, status)"
@@ -245,7 +245,7 @@ In many different quantitative disciplines from classic epidemiology to machine 
 -   Certain measurements are just collected for particularly sick patients
 -   Information is 'hiding' in unstructured records, e.g. clinical notes
 
-To illustrate `smdi's` main functionalities using this dataset, we introduce some missingness into relevant covariates (see table in \@ref(overview)) which are critical confounders of the causal exposure-outcome relationship in the `smdi_data` dataset.
+To illustrate `smdi's` main functions using this dataset, we introduce some missingness to relevant covariates, which are critical confounders of the causal exposure-outcome relationship in the `smdi_data` dataset.
 
 In order to introduce missingness following different missingness mechanisms, we use the `ampute` function of the [mice](https://amices.org/mice/index.html) package. An excellent tutorial on this very flexible and elegant function can be found [here](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html).
 
@@ -253,7 +253,7 @@ In brief, we introduce missingness by...
 
 -   Determining a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns)
 -   Creating a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), using fitted linear models for the probability of observations becoming missing
--   Specifying a type of logistic probabillity distribution for the missingness weights
+-   Specifying a type of logistic probability distribution for the missingness weights
 -   Defining an overall missingness proportion
 
 ```{r}
@@ -275,8 +275,6 @@ miss_pattern <- rep(1, ncol(tmp))
 -   Missingness pattern: Only `ecog_cat` will be set to missing
 -   Weight vector: There are no weights, since the missingness is not dependent on any other observed or unobserved covariates
 -   Type: Not applicable
-
-> TO DO: insert DAG for missingness-confounder relationship
 
 ```{r, mcar}
 # specify missingness pattern
@@ -345,7 +343,7 @@ smdi_data_mar %>%
 
 -   Missingness pattern: Only `pdl1_num` will be set to missing
 -   Weight vector: Only `pdl1_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
--   Type: Specify a type of logistic probabillity distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete
+-   Type: Specify a type of logistic probability distribution for the missingness weights, so that cases with low weighted sum scores (i.e. lower `pdl1_num` expression) will have a larger probability of becoming incomplete
 -   Define an overall missingness proportion of \~20%
 
 ```{r, create_mnar_v}
