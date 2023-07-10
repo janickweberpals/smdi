@@ -11,10 +11,10 @@
 #'
 #' @details
 #' The function automatically fits a univariate and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
-#' For adjusted models, the function uses all available covariates found in the dataset specified with the <data> parameter. If covariates should not
+#' For adjusted models, the function uses all available covariates found in the dataset specified with the data parameter. If covariates should not
 #' be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
 #'
-#' The left-hand side of the formula (<form_lhs>) needs to specify the outcome in one of the following ways:
+#' The left-hand side of the formula (form_lhs) needs to specify the outcome in one of the following ways:
 #'
 #' - glm (binary): character of column name with binary outcome, e.g. "MACE"
 #'
@@ -32,11 +32,11 @@
 #' @param exponentiated logical, should results be exponentiated (default is FALSE)
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns a tibble with univariate and adjusted estimates for each partially observed <covar>:
+#' @return returns a tibble with univariate and adjusted estimates for each partially observed covar:
 #'
-#' - estimate_univariate: univariate association between missingness indicator of <covar> and outcome
+#' - estimate_univariate: univariate association between missingness indicator of covar and outcome
 #'
-#' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
+#' - estimate_adjusted: association between missingness indicator of covar and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
 #' @importFrom broom tidy
 #' @importFrom dplyr across

@@ -15,14 +15,14 @@
 #' \code{\link{hotelling.test}}
 #'
 #' @references
-#' Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. doi:10.1214/aoms/1177732979
+#' Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. <doi:10.1214/aoms/1177732979>
 #'
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns a hotelling object with statistics on hotellings test by covariate. That is, for each <covar>, the following outputs are provided:
+#' @return returns a hotelling object with statistics on hotellings test by covariate. That is, for each covar, the following outputs are provided:
 #'
 #' - stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
 #'

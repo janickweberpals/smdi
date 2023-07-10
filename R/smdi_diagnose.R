@@ -21,8 +21,8 @@
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
-#' @param median logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd)
-#' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled for computation of absoulate standardized mean differences (default is FALSE)
+#' @param median logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd())
+#' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled for computation of absolute standardized mean differences (default is FALSE)
 #' @param ntree integer, number of trees for random forest missingness prediction model (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio for random forest missingness prediction model, e.g. c(.7, .3) is the default
 #' @param set_seed seed for reproducibility of random forest missingness prediction model, defaults to 42
@@ -46,9 +46,9 @@
 #'
 #' **Group 3 diagnostic:**
 #'
-#' - estimate_univariate: univariate association between missingness indicator of <covar> and outcome
+#' - estimate_univariate: univariate association between missingness indicator of covar and outcome
 #'
-#' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
+#' - estimate_adjusted: association between missingness indicator of covar and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join

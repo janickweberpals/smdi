@@ -13,14 +13,13 @@ font-style: italic;
 
 **`S`tructural `M`issing `D`ata `I`nvestigations**
 
-This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
-
 <!-- [![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)  -->
 
 ![](https://gitlab-scm.partners.org/janickweberpals/smdi/badges/dev/pipeline.svg)
 
+This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
 
-The theoretical backbone of this package is based on a large-scale plasmode simulation performed by the [Sentinel Innovation Center workgroup](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health) on
+The theoretical backbone of this package is based on a large-scale plasmode simulation performed by the [Sentinel Innovation Center workgroup](https://www.sentinelinitiative.org/methods-data-tools/methods/approaches-handling-partially-observed-confounder-data-electronic-health):
 
 **Approaches to Handling Partially Observed Confounder Data From Electronic Health Records (EHR) In Non-randomized Studies of Medication Outcomes.**
 
@@ -75,7 +74,8 @@ However, in an empirical study, it is usually unclear which of the missing data 
 
 ![**Table 2.** Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.](./vignettes/smdi_examples.png)
 
-While the manuscript is underway, in the meantime please refer to the [presentation at the 2023 Innovation Day](https://www.youtube.com/embed/Dml_AP0ohTY?start=7376) to learn more
+
+While the manuscript is underway, in the meantime please refer to the [presentation at the 2023 Innovation Day](https://www.youtube.com/embed/Dml_AP0ohTY?start=7376) to learn more.
 
 <iframe width="750" height="421.875" src="https://www.youtube.com/embed/Dml_AP0ohTY?start=7376" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

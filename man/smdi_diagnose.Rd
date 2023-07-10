@@ -23,7 +23,7 @@ smdi_diagnose(
 
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
-\item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd)}
+\item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd())}
 
 \item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled for computation of absoulate standardized mean differences (default is FALSE)}
 
@@ -57,8 +57,8 @@ smdi object including a summary table of all three smdi group diagnostics:
 
 \strong{Group 3 diagnostic:}
 \itemize{
-\item estimate_univariate: univariate association between missingness indicator of \if{html}{\out{<covar>}} and outcome
-\item estimate_adjusted: association between missingness indicator of \if{html}{\out{<covar>}} and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
+\item estimate_univariate: univariate association between missingness indicator of covar and outcome
+\item estimate_adjusted: association between missingness indicator of covar and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 }
 }
 \description{

@@ -59,7 +59,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Computes random forest-based AUC</h1>
-      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/R/smdi_rf.R" class="external-link"><code>R/smdi_rf.R</code></a></small>
+      
       <div class="d-none name"><code>smdi_rf.Rd</code></div>
     </div>
 
@@ -112,7 +112,7 @@ MAR may be a likely scenario and would imply that imputation may be feasible.</p
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>returns an rf object which comes as a list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object). That is, for each <covar>, the following outputs are provided:</covar></p><ul><li><p>rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate</p></li>
+<p>returns an rf object which comes as a list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object). That is, for each covar, the following outputs are provided:</p><ul><li><p>rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate</p></li>
 <li><p>rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
 That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.</p></li>
 </ul></div>
@@ -124,7 +124,7 @@ this might be an indicator of a monotone missing data pattern. In this case it i
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. doi: 10.1002/psp4.12998. Epub ahead of print. PMID: 37322818.</p>
+    <p>Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. &lt;doi: 10.1002/psp4.12998.&gt; Epub ahead of print. PMID: 37322818.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

@@ -83,7 +83,7 @@ package functionality demonstration</h3>
 Weberpals</h4>
             
       
-      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/a_data_generation.Rmd" class="external-link"><code>vignettes/a_data_generation.Rmd</code></a></small>
+      
       <div class="d-none name"><code>a_data_generation.Rmd</code></div>
     </div>
 
@@ -116,8 +116,8 @@ effectiveness of two antineoplastic systemic drug treatment regimens
 the outcome (<code>overall survival</code>). The anticipated time of
 follow-up is truncated to 5 years.</p>
 <p>The desired strength of effectiveness of the <strong>exposure of
-interest</strong> is defined with a hazard ratio of 1.0, i.e. there is
-no difference in overall survival among patients who are treated with
+interest</strong> is defined with a hazard ratio (HR) of 1.0, i.e. there
+is no difference in overall survival among patients who are treated with
 the exposure of interest as compared to the comparator regimen. The
 proportional hazards assumption is fulfilled for this dataset.</p>
 </div>
@@ -126,7 +126,7 @@ proportional hazards assumption is fulfilled for this dataset.</p>
 </h3>
 <p>We further assume that there are a some confounders which we need to
 specify to estimate our outcome model. Most of the covariates are
-associated with both the probability of treatmente initation and the
+associated with both the probability of treatment initiation and the
 outcome but there are also some that are not predictive of the exposure
 and just the outcome or not associated with any of the exposure or
 outcome, whatsoever.</p>
@@ -140,7 +140,7 @@ covariates and treatment initiation and the outcome.</p>
 <p>Most importantly for testing the functionality of this package, some
 of the above mentioned confounders are just partially observed according
 to the missingness mechanisms and proportions specified below in the
-table @ref(overview)) below.</p>
+table below.</p>
 </div>
 <div class="section level3">
 <h3 id="overview">Overview covariates/confounder structure<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -1347,7 +1347,7 @@ variables with the following distributions.</p>
     </tr></tfoot>
 </table>
 </div>
-<p>Fitting a generalized linear model and assessing the probablity of
+<p>Fitting a generalized linear model and assessing the probability of
 treatment assignment, the above constellation of odds results in the
 following simulated distributions depicting propensities of treatment
 initiation (aka propensity scores).</p>
@@ -1378,7 +1378,7 @@ Treatment assignment probabilities.
 <code>overall survival</code>. For this, the <code>simsurv</code>
 package is used with the following assumptions:</p>
 <ul>
-<li>Parametric event times follow an exponential distribution</li>
+<li>Parametric event times, following an exponential distribution</li>
 <li>Max event times: 5 years of follow-up</li>
 <li>Event times depend on some (time-fixed/baseline) covariate effects
 as listed in the table above</li>
@@ -1893,7 +1893,7 @@ following</li>
 <h4 id="kaplan-meier-estimates">Kaplan-Meier estimates<a class="anchor" aria-label="anchor" href="#kaplan-meier-estimates"></a>
 </h4>
 <p>The simulation resulted in the following crude Kaplan-Meier estimates
-for 1-yr and 5-yr survival. Unadjusted estimates belown are shown for
+for 1-yr and 5-yr survival. Unadjusted estimates belown are shown
 overall and by exposure for overall survival.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">km_overall</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html" class="external-link">survfit</a></span><span class="op">(</span><span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">eventtime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">sim_df</span><span class="op">)</span></span>
@@ -2366,7 +2366,7 @@ Kaplan-Meier curve.</p>
 <h4 id="cox-proportional-hazards">Cox proportional hazards<a class="anchor" aria-label="anchor" href="#cox-proportional-hazards"></a>
 </h4>
 <p>After adjusting, the simulated data results in the following hazard
-ratio (HR) estimates</p>
+ratio (HR) estimates.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cox_lhs</span> <span class="op">&lt;-</span> <span class="st">"survival::Surv(eventtime, status)"</span></span>
 <span><span class="va">cox_rhs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sim_covar</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span></span>
@@ -2934,10 +2934,10 @@ patients</li>
 <li>Information is ‘hiding’ in unstructured records, e.g. clinical
 notes</li>
 </ul>
-<p>To illustrate <code>smdi's</code> main functionalities using this
-dataset, we introduce some missingness into relevant covariates (see
-table in @ref(overview)) which are critical confounders of the causal
-exposure-outcome relationship in the <code>smdi_data</code> dataset.</p>
+<p>To illustrate <code>smdi's</code> main functions using this dataset,
+we introduce some missingness to relevant covariates, which are critical
+confounders of the causal exposure-outcome relationship in the
+<code>smdi_data</code> dataset.</p>
 <p>In order to introduce missingness following different missingness
 mechanisms, we use the <code>ampute</code> function of the <a href="https://amices.org/mice/index.html" class="external-link">mice</a> package. An excellent
 tutorial on this very flexible and elegant function can be found <a href="https://rianneschouten.github.io/mice_ampute/vignette/ampute.html" class="external-link">here</a>.</p>
@@ -2949,7 +2949,7 @@ pattern</a>
 <li>Creating a <a href="https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights" class="external-link">weight
 vector</a>, using fitted linear models for the probability of
 observations becoming missing</li>
-<li>Specifying a type of logistic probabillity distribution for the
+<li>Specifying a type of logistic probability distribution for the
 missingness weights</li>
 <li>Defining an overall missingness proportion</li>
 </ul>
@@ -2980,9 +2980,6 @@ missing</li>
 dependent on any other observed or unobserved covariates</li>
 <li>Type: Not applicable</li>
 </ul>
-<blockquote>
-<p>TO DO: insert DAG for missingness-confounder relationship</p>
-</blockquote>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specify missingness pattern</span></span>
 <span><span class="co"># (0 = set to missing, 1 = remains complete)</span></span>
@@ -3944,7 +3941,7 @@ missing</li>
 <li>Weight vector: Only <code>pdl1_num</code> itself (by a non-zero
 value) is the linear predictor for the probability of observations
 becoming missing</li>
-<li>Type: Specify a type of logistic probabillity distribution for the
+<li>Type: Specify a type of logistic probability distribution for the
 missingness weights, so that cases with low weighted sum scores
 (i.e. lower <code>pdl1_num</code> expression) will have a larger
 probability of becoming incomplete</li>

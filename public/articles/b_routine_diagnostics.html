@@ -81,7 +81,7 @@
 Weberpals</h4>
             
       
-      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/b_routine_diagnostics.Rmd" class="external-link"><code>vignettes/b_routine_diagnostics.Rmd</code></a></small>
+      
       <div class="d-none name"><code>b_routine_diagnostics.Rmd</code></div>
     </div>
 
@@ -113,11 +113,11 @@ introduction to missing covariate data diagnostics using the individual
 function <code><a href="../reference/smdi_diagnose.html">smdi_diagnose()</a></code>.</p>
 <div class="alert alert-info">
 <p><strong>What is smdi about?</strong> Large-scale simulations revealed
-characteristic patterns of the diagnostic parameters matched to missing
-data structure based on three group diagnostics:</p>
+characteristic patterns of diagnostic parameters matched to common
+missing data structures based on three group diagnostics:</p>
 </div>
 <div class="figure">
-<img src="smdi_diagnose_table.png" alt="Overview three group diagnostics" width="1615"><p class="caption">
+<img src="smdi_diagnose_table.png" alt="Overview three group diagnostics" width="935"><p class="caption">
 Overview three group diagnostics
 </p>
 </div>
@@ -131,7 +131,7 @@ effort. This is how an <strong>example</strong> could look like in a
 real-world database study:</p>
 </div>
 <div class="figure">
-<img src="smdi_examples.png" alt="Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study." width="1498"><p class="caption">
+<img src="smdi_examples.png" alt="Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study." width="853"><p class="caption">
 Example of how <code>smdi</code> diagnostics can be applied to give
 insights into the likelihood of underlying missingness structures in a
 real-world database study.
@@ -190,7 +190,7 @@ checkout:</p>
 </h4>
 <p>As with basically any first step into exploring (new) datasets, it’s
 a good idea to get an overview of partially observed covariates and the
-magnitude of missingness. For this <code>smdi</code> comes with two
+magnitude of missingness. For this, <code>smdi</code> comes with two
 convenient functions to screen the data for missingness.</p>
 <p>This can be either as a table …</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -293,16 +293,16 @@ characteristics differ between patients with and without an observed
 value for a partially observed covariate. If the median/average asmd is
 above a certain threshold this may indicate imbalance in patient
 covariate distributions which may be indicative of the partially
-observed covariate following a missing at random (MAR) mechanims,
-i.e. the missingness is explainable by other observed covariates.
-Similarly, no imbalance between observed covariates may be indicative
-that missingness cannot be explained with observed covariates and the
+observed covariate following a missing at random (MAR) mechanims, i.e.,
+the missingness is explainable by other observed covariates. Similarly,
+no imbalance between observed covariates may be indicative that
+missingness cannot be explained with observed covariates and the
 underlying missingness mechanism may be completely at random (MCAR) or
-not at random (e.g. missingness is only associated with unobserved
+not at random (e.g., missingness is only associated with unobserved
 factors or through the partially observed covariate itself).</p>
 <p>To get an idea about the asmd for our partially observed covariates
 we can run the <code>smdi_asmd</code> function. We are ok with the
-default parameters (i.e. we let the function investigate all covariates
+default parameters (i.e., we let the function investigate all covariates
 with at least one NA [covar = NULL], compute the median asmd [median =
 TRUE] and don’t explicitly model the missingness of other partially
 observed covariates [includeNA = FALSE]).</p>
@@ -451,12 +451,14 @@ with the other diagnostics.</p>
 </h3>
 <p>Since MAR mechanisms are defined as the missingness being a function
 of observed covariates, MAR may be predictable and evaluable by fitting
-a classification model e.g. random forest, which would yield moderate to
-high area under the curve (AUC) values in the case of MAR.</p>
+a classification model, e.g., a random forest model, which would yield
+moderate to high area under the curve (AUC) values in the case of
+MAR.</p>
 <p>The <code>smdi_rf</code> function trains and fits a random forest
 model to assess the ability to predict missingness for the specified
-covariate(s). If missing indicator can be predicted as a function of
-observed covariates.</p>
+covariate(s). If the missing indicator for this covariate can be
+predicted as a function of observed covariates, a MAR missingness
+mechanism may be likely.</p>
 <p>CAVE: Depending on the amount of data (sample size x covariates), the
 computation of the function can take some minutes.</p>
 <p>The structure of the output again follows the general schema.</p>
@@ -499,19 +501,21 @@ package).</p>
 outcome<a class="anchor" aria-label="anchor" href="#group-3-diagnostics-association-between-missingness-and-outcome"></a>
 </h3>
 <p>The group 3 diagnostic focuses on assessing the association between
-the missing indicator of the partially observed covar and the outcome
-under study. This may reveal important covariate relationships with the
-outcome and could give additional pieces of information.</p>
+the missing indicator of the partially observed <code>covar</code> and
+the outcome under study. This may reveal important covariate
+relationships with the outcome and could give additional pieces of
+information.</p>
 <p>Currently, the main types of outcome regressions are supported,
 namely logistic (<em>glm</em>), linear (<em>lm</em>) and Cox
 proportional hazards (<em>survival</em>) models are supported and need
-to be specified using the model and form_lhs. For more details, see the
-<code>smdi_outcome</code> function documentation via</p>
+to be specified using the <em>model</em> and <em>form_lhs</em>
+parameters. For more details, see the <code>smdi_outcome</code> function
+documentation via</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_outcome.html">smdi_outcome</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The output of <code>smdi_outcome</code> returns a table of the crude
-and adjusted beta coefficients and 95% confidence intervals for all
-covar.</p>
+<p>The output of <code>smdi_outcome</code> returns a table of the
+univariate and adjusted beta coefficients and 95% confidence intervals
+for all <code>covar</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/smdi_outcome.html">smdi_outcome</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data</span>, </span>
@@ -519,7 +523,7 @@ covar.</p>
 <span>  form_lhs <span class="op">=</span> <span class="st">"Surv(eventtime, status)"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   covariate estimate_crude             estimate_adjusted         </span></span>
+<span><span class="co">#&gt;   covariate estimate_univariate        estimate_adjusted         </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>                    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  -0.06 (95% CI -0.16, 0.03) -0.06 (95% CI -0.16, 0.03)</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> egfr_cat  0.06 (95% CI -0.03, 0.15)  -0.01 (95% CI -0.10, 0.09)</span></span>
@@ -538,7 +542,7 @@ needed, this method may not be preferable but is a convenient way to
 implement routine structural missing covariate diagnostics by calling a
 single function.</p>
 <p>Note that all parameters of the individual functions that make up
-<code><a href="../reference/smdi_diagnose.html">smdi_diagnose()</a></code> can be specified and will be passed on but
+<code><a href="../reference/smdi_diagnose.html">smdi_diagnose()</a></code> can be specified and will be passed on, but
 only the required parameter must be specified. A most minimal example
 could look like this.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -553,7 +557,7 @@ called using the <code>$</code> operator and looks like this</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
-<span><span class="co">#&gt;   covariate asmd_median_min_max  hotteling_p rf_auc estimate_crude       estim…¹</span></span>
+<span><span class="co">#&gt;   covariate asmd_median_min_max  hotteling_p rf_auc estimate_univariate  estim…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.029 (0.003, 0.071) 0.783       0.510  -0.06 (95% CI -0.16… -0.06 …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> egfr_cat  0.243 (0.010, 0.485) &lt;.001       0.629  0.06 (95% CI -0.03,… -0.01 …</span></span>
@@ -993,7 +997,7 @@ the <code>smdi_gt_style()</code> function:</p>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>AUC<sup class="gt_footnote_marks">2</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta crude (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta crude (95% CI)<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta univariate (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta univariate (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
@@ -1004,7 +1008,7 @@ the <code>smdi_gt_style()</code> function:</p>
 <td headers="asmd_median_min_max" class="gt_row gt_left">0.029 (0.003, 0.071)</td>
 <td headers="hotteling_p" class="gt_row gt_left">0.783</td>
 <td headers="rf_auc" class="gt_row gt_left">0.510</td>
-<td headers="estimate_crude" class="gt_row gt_left">-0.06 (95% CI -0.16, 0.03)</td>
+<td headers="estimate_univariate" class="gt_row gt_left">-0.06 (95% CI -0.16, 0.03)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.06 (95% CI -0.16, 0.03)</td>
 </tr>
 <tr>
@@ -1012,7 +1016,7 @@ the <code>smdi_gt_style()</code> function:</p>
 <td headers="asmd_median_min_max" class="gt_row gt_left">0.243 (0.010, 0.485)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_left">0.629</td>
-<td headers="estimate_crude" class="gt_row gt_left">0.06 (95% CI -0.03, 0.15)</td>
+<td headers="estimate_univariate" class="gt_row gt_left">0.06 (95% CI -0.03, 0.15)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.01 (95% CI -0.10, 0.09)</td>
 </tr>
 <tr>
@@ -1020,7 +1024,7 @@ the <code>smdi_gt_style()</code> function:</p>
 <td headers="asmd_median_min_max" class="gt_row gt_left">0.062 (0.019, 0.338)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_left">0.516</td>
-<td headers="estimate_crude" class="gt_row gt_left">0.12 (95% CI 0.01, 0.23)</td>
+<td headers="estimate_univariate" class="gt_row gt_left">0.12 (95% CI 0.01, 0.23)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">0.11 (95% CI -0.00, 0.22)</td>
 </tr>
 </tbody>
@@ -1038,7 +1042,7 @@ the <code>smdi_gt_style()</code> function:</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
-<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)</td>
+<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>

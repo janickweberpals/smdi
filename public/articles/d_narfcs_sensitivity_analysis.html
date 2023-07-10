@@ -81,7 +81,7 @@
 Weberpals</h4>
             
       
-      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/vignettes/d_narfcs_sensitivity_analysis.Rmd" class="external-link"><code>vignettes/d_narfcs_sensitivity_analysis.Rmd</code></a></small>
+      
       <div class="d-none name"><code>d_narfcs_sensitivity_analysis.Rmd</code></div>
     </div>
 
@@ -101,10 +101,12 @@ Weberpals</h4>
 <p>As we have seen earlier, if the missingness mechanism of an important
 covariate, such as a strong partially observed confounder, truly follows
 either a missing completely at random (MCAR) or a missing not at random
-<em>value</em> (MNAR[value]) scenario, the distinction between the two
-can turn out very difficult. This can have serious consequences since
-covariates that follow a true MNAR(value) mechanism may severely bias
-the effect estimation of an exposure of interest.</p>
+<em>value</em> (MNAR[value]) scenario, it may be possible to
+differentiate these two mechanisms using <code><a href="../reference/smdi_diagnose.html">smdi_diagnose()</a></code>,
+but the distinction between the two can also turn out difficult in
+practice. This can have serious consequences since covariates that
+follow a true MNAR(value) mechanism may severely bias the effect
+estimation of an exposure of interest.</p>
 <p>In reality, we will not be able to know 100% what the true
 missingness mechanism is and there may always be some residual
 uncertainty in case of MNAR(value). On the positive side, however, Leacy
@@ -139,9 +141,9 @@ missing</li>
 vector</a>, in which only <code>age_num</code> itself (by a non-zero
 value) is the linear predictor for the probability of observations
 becoming missing</li>
-<li>Specify a type of logistic probabillity distribution for the
-missingness weights, so that cases with low weighted sum scores
-(i.e. younger <code>age_num</code>) will have a larger probability of
+<li>Specify a type of logistic probability distribution for the
+missingness weights, so that patients with low weighted sum scores
+(i.e., younger <code>age_num</code>) will have a larger probability of
 becoming incomplete</li>
 <li>Define an overall missingness proportion of ~40%</li>
 </ul>
@@ -214,32 +216,13 @@ datasets.</p>
 group diagnostics from <code>age_num</code>. This may help characterize
 the underlying missingness mechanism.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">age_diagnostics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_diagnose.html">smdi_diagnose</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/smdi_diagnose.html">smdi_diagnose</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">smdi_data_mnar_v</span>,</span>
 <span>  covar <span class="op">=</span> <span class="st">"age_num"</span>,</span>
 <span>  model <span class="op">=</span> <span class="st">"cox"</span>,</span>
 <span>  form_lhs <span class="op">=</span> <span class="st">"Surv(eventtime, status)"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="va">age_diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span></span>
-<span>    footnote <span class="op">=</span> <span class="st">"Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate"</span>,</span>
-<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_column_labels.html" class="external-link">cells_column_labels</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">asmd_median_min_max</span>, <span class="va">hotteling_p</span><span class="op">)</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span></span>
-<span>    footnote <span class="op">=</span> <span class="st">"Group 2 diagnostic: Ability to predict missingness"</span>,</span>
-<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_column_labels.html" class="external-link">cells_column_labels</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="va">rf_auc</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/tab_footnote.html" class="external-link">tab_footnote</a></span><span class="op">(</span></span>
-<span>    footnote <span class="op">=</span> <span class="st">"Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)"</span>,</span>
-<span>    locations <span class="op">=</span> <span class="fu"><a href="https://gt.rstudio.com/reference/cells_column_labels.html" class="external-link">cells_column_labels</a></span><span class="op">(</span></span>
-<span>      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">estimate_crude</span>, <span class="va">estimate_adjusted</span><span class="op">)</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/smdi_style_gt.html">smdi_style_gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="pxiwvpqqxy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -251,11 +234,11 @@ the underlying missingness mechanism.</p>
   margin-left: auto;
   margin-right: auto;
   color: #333333;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
-  width: auto;
+  width: 800px;
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
@@ -434,8 +417,8 @@ the underlying missingness mechanism.</p>
 }
 
 #pxiwvpqqxy .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -653,27 +636,30 @@ the underlying missingness mechanism.</p>
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='asmd_median_min_max&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>asmd_median_min_max<sup class="gt_footnote_marks">1</sup>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>ASMD (min/max)<sup class="gt_footnote_marks">1</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='hotteling_p&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>hotteling_p<sup class="gt_footnote_marks">1</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='p Hotelling&lt;sup class="gt_footnote_marks"&gt;1&lt;/sup&gt;'>p Hotelling<sup class="gt_footnote_marks">1</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id='rf_auc&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>rf_auc<sup class="gt_footnote_marks">2</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>AUC<sup class="gt_footnote_marks">2</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id='estimate_crude&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>estimate_crude<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta univariate (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta univariate (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id='estimate_adjusted&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>estimate_adjusted<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
     </tr></thead>
 <tbody class="gt_table_body"><tr>
 <td headers="covariate" class="gt_row gt_left">age_num</td>
-<td headers="asmd_median_min_max" class="gt_row gt_right">0.056 (0.004, 0.360)</td>
+<td headers="asmd_median_min_max" class="gt_row gt_left">0.056 (0.004, 0.360)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
-<td headers="rf_auc" class="gt_row gt_right">0.543</td>
-<td headers="estimate_crude" class="gt_row gt_center">-0.41 (95% CI -0.50, -0.32)</td>
-<td headers="estimate_adjusted" class="gt_row gt_center">-0.40 (95% CI -0.49, -0.32)</td>
+<td headers="rf_auc" class="gt_row gt_left">0.543</td>
+<td headers="estimate_univariate" class="gt_row gt_left">-0.41 (95% CI -0.50, -0.32)</td>
+<td headers="estimate_adjusted" class="gt_row gt_left">-0.40 (95% CI -0.49, -0.32)</td>
 </tr></tbody>
 <tfoot class="gt_footnotes">
+<tr>
+<td class="gt_footnote" colspan="6"> p little: &lt;.001,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
+    </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
 <sup class="gt_footnote_marks">1</sup> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
@@ -684,38 +670,35 @@ the underlying missingness mechanism.</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
-<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)</td>
+<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># little's</span></span>
-<span><span class="va">age_diagnostics</span><span class="op">$</span><span class="va">p_little</span></span>
-<span><span class="co">#&gt; p_little: &lt;.001</span></span></code></pre></div>
-<p>We observe from this diagnostics that with a median absolute
-standardized mean difference (asmd) of 0.056 there don’t seem to be
-major differences between patients with and without an observed
-<code>age_num</code> value, although Hotelling’s test picks up some
-differences here which may be driven by the larger sample size, though.
-Also group 2 and group 3 diagnostics tend to show characteristics that
-one would expect in case of a missing completely at random missingness
-mechanims or -as we have observed in simulations- an <strong>MNAR(value)
-mechanism</strong>. That is, both MCAR and MNAR(value) are extremely
-difficult to distinguish because the missingness in MNAR(value) solely
-depends on <code>age_num</code> itself and no other observed or
-unobserved factors which makes it really hard to see any differences
-when comparing patient characteristics (group 1 diagnostics), trying to
-predict missingness (group 2 diagnostics) or investigate if missingness
-is associated with the outcome (group 3 diagnostics).</p>
+<p>We observe from this diagnostics a median absolute standardized mean
+difference (ASMD) of 0.056 with a meaningful spread between the minimum
+ASMD (0.004) and the maximum ASMD (0.360), indicating some differences
+in patient with and without an observed <code>age</code> value which is
+in line with the p-value derived by Hotelling’s test. While the ability
+to predict missingness is rather low, group 3 diagnostic tends to show
+that even after adjustment, there is a significant difference in the
+survival of patients with and without an observed <code>age</code>
+measurement. In total, these characteristics are reminiscent of the
+diagnostic patterns observed in simulations in case of an <strong>MNAR
+mechanism</strong>. Hence, we could suspect that
+<strong>MNAR(value)</strong> could be the underlying missingness
+mechanism, in which case we would want to run some sensitivity analyses
+to investigate how much an MNAR(value) mechanism could bias our
+results.</p>
 </div>
 <div class="section level3">
 <h3 id="comparing-treatment-effect-estimates">Comparing treatment effect estimates<a class="anchor" aria-label="anchor" href="#comparing-treatment-effect-estimates"></a>
 </h3>
-<p>We can now compare and estimate the bias caused by the 40% of
-MNAR(value) missing values.</p>
+<p>Since we know the true treatment effect estimate, we can quickly
+compare and estimate the bias caused by the 40% of MNAR(value) missing
+values.</p>
 <p>First, we specify a general outcome model.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># outcome model (see data generation script)</span></span>
 <span><span class="va">cox_lhs</span> <span class="op">&lt;-</span> <span class="st">"survival::Surv(eventtime, status)"</span></span>
 <span><span class="va">covariates</span> <span class="op">&lt;-</span> <span class="va">smdi_data_complete</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -731,7 +714,7 @@ MNAR(value) missing values.</p>
 <span><span class="co">#&gt;     pdl1_num + histology_cat + copd_cat + ses_cat_1_low + ses_cat_2_middle</span></span></code></pre></div>
 <p>Next, we compute the true Hazard Ratio (HR), the complete case HR and
 the standard <em>mice</em> multiple imputation HR.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># true outcome model</span></span>
 <span><span class="va">cox_fit_true</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="va">cox_form</span>, data <span class="op">=</span> <span class="va">smdi_data_complete</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -776,7 +759,7 @@ the standard <em>mice</em> multiple imputation HR.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">tableGrob</a></span><span class="op">(</span><span class="va">table</span>, rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>, <span class="va">forest</span><span class="op">)</span></span></code></pre></div>
-<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-7-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-6-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>The deviation of the complete case and multiple imputation estimates
 aren’t too off which has to do with <code>age_num</code> being a rather
 moderate confounder in this simulation. Nevertheless, in reality we
@@ -786,9 +769,9 @@ sense to test the robustness of our primary analysis.</p>
 <div class="section level3">
 <h3 id="narfcs-imputation">NARFCS imputation<a class="anchor" aria-label="anchor" href="#narfcs-imputation"></a>
 </h3>
-<p>As mentioned above, under MNAR(value) the true (but unobserved)
-values of a variable systematically differ from the observed values and
-this difference is reflected in the sensitivity parameter
+<p>As mentioned above, under an MNAR(value) mechanism, the true (but
+unobserved) values of a variable systematically differ from the observed
+values and this difference is reflected in the sensitivity parameter
 <strong>𝛅</strong>. More specifically, the interpretation of
 <strong>𝛅</strong> would be the difference in the distribution of
 missing and observed <code>age_num</code> values conditional on other
@@ -805,18 +788,18 @@ easily plug it into our NARFCS.</p>
 <p>But unfortunately, in reality we usually don’t know the value of
 <strong>𝛅</strong> and relying on a single <strong>𝛅</strong> may be not
 too reassuring. Nevertheless, we want to make sure that whatever
-analytical decision we chose for our primary analysis (be it a complete
+analytic decision we chose for our primary analysis (be it a complete
 case approach or an imputation approach), our results would not
 drastically change if the true underlying missingness mechanism was
 MNAR(value).</p>
 <p>This is where the NARFCS sensitivity analysis comes in handy as its
 strengths as it is also often used as a <strong>tipping point
-analysis</strong>, i.e. we model multiple NARFCS-specified imputation
+analysis</strong>, i.e., we model multiple NARFCS-specified imputation
 models over a range of realistic <strong>𝛅</strong> sensitivity
 parameters and evaluate if at any pre-specified <strong>𝛅</strong>, our
 confidence interval would cross a certain estimate threshold which would
 discard the global conclusion of our primary analysis.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># initialize method vector</span></span>
 <span><span class="va">method_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">smdi_data_mnar_v</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -875,11 +858,11 @@ discard the global conclusion of our primary analysis.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-9-1.png" width="900" style="display: block; margin: auto;">
-Based on this tipping point analysis, the systematic difference between
-observed and unobserved <code>age_num</code> values would have needed to
-be so drastic that a significant departure of our primary analysis is
-rather implausible. This is also supported by the fact that
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-8-1.png" width="900" style="display: block; margin: auto;"></p>
+<p>Based on this tipping point analysis, the systematic difference
+between observed and unobserved <code>age_num</code> values would have
+needed to be so drastic that a significant departure of our primary
+analysis is rather implausible. This is also supported by the fact that
 <code>age_num</code> is a rather weak to moderate confounder and
 complete case and non-NARFCS multiple imputation results may have been
 different, had <code>age_num</code> been a stronger prognostic
@@ -894,7 +877,7 @@ factor.</p>
 we have multiple missing covariates, each of which follow different
 missingness mechanisms. Here is again a quick overview of the missing
 variables using the <code><a href="../reference/smdi_summarize.html">smdi_summarize()</a></code> function.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="../reference/smdi_summarize.html">smdi_summarize</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
@@ -928,7 +911,7 @@ decide to run a tipping point sensitivity analysis by imputing
 <code>pdl1_num</code> over a range of <strong>𝛅</strong> sensitivity
 parameters while imputing <code>ecog_cat</code> and
 <code>egfr_cat</code> under a “normal” imputation model.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we one hot encode the `ses_cat` variable again </span></span>
 <span><span class="co"># in the smdi_data dataset</span></span>
 <span><span class="va">smdi_data</span> <span class="op">&lt;-</span> <span class="fu">smdi</span><span class="fu">::</span><span class="va"><a href="../reference/smdi_data.html">smdi_data</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -1002,12 +985,12 @@ parameters while imputing <code>ecog_cat</code> and
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">reference_lines</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-11-1.png" width="900" style="display: block; margin: auto;"></p>
+<p><img src="d_narfcs_sensitivity_analysis_files/figure-html/unnamed-chunk-10-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>As in the example above, <code>pdl1_num</code> is sensitive to
-departures but results would only change under unrealistically strong
-differences. In fact, the point estimates perfectly align with the true
-estimate by sliding <strong>𝛅</strong> a bit to the left of the range
-scale. The interpretation would be that patients with lower
+departures from MAR, but results would only change under unrealistically
+strong differences. In fact, the point estimates perfectly align with
+the true estimate by sliding <strong>𝛅</strong> a bit to the left of the
+range scale. The interpretation would be that patients with lower
 <code>pdl1_num</code> values are systematically less likely to be
 observed conditional on all other covariates - which is exactly what we
 simulated.</p>

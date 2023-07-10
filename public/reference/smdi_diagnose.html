@@ -57,7 +57,7 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc."><!
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Computes three group missing data summary diagnostics</h1>
-      <small class="dont-index">Source: <a href="https://gitlab.partners.org/janickweberpals/smdi/blob/HEAD/R/smdi_diagnose.R" class="external-link"><code>R/smdi_diagnose.R</code></a></small>
+      
       <div class="d-none name"><code>smdi_diagnose.Rd</code></div>
     </div>
 
@@ -95,7 +95,7 @@ For more information and details, please refer to the individual functions.</p>
 
 
 <dt>median</dt>
-<dd><p>logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd)</p></dd>
+<dd><p>logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd())</p></dd>
 
 
 <dt>includeNA</dt>
@@ -149,8 +149,8 @@ For more information and details, please refer to the individual functions.</p>
 </ul><p><strong>Group 3 diagnostic:</strong></p>
 
 
-<ul><li><p>estimate_crude: univariate association between missingness indicator of <covar> and outcome</covar></p></li>
-<li><p>estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates</covar></p></li>
+<ul><li><p>estimate_univariate: univariate association between missingness indicator of covar and outcome</p></li>
+<li><p>estimate_adjusted: association between missingness indicator of covar and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

@@ -14,7 +14,7 @@ smdi_hotelling(data = NULL, covar = NULL, n_cores = 1)
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-returns a hotelling object with statistics on hotellings test by covariate. That is, for each \if{html}{\out{<covar>}}, the following outputs are provided:
+returns a hotelling object with statistics on hotellings test by covariate. That is, for each covar, the following outputs are provided:
 \itemize{
 \item stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
 \item pval: p-value of hotelling test
@@ -40,7 +40,7 @@ smdi_hotteling(data = smdi_data)
 }
 }
 \references{
-Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. doi:10.1214/aoms/1177732979
+Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. \url{doi:10.1214/aoms/1177732979}
 }
 \seealso{
 \code{\link{hotelling.test}}
