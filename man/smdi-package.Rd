@@ -6,13 +6,13 @@
 \alias{smdi-package}
 \title{smdi: Perform structural missing data investigations (smdi)}
 \description{
-This package aims to help implementing routine structural missing data diagnostics. It provides functions to: visualize proportions missingness, perform group 1-3 missing data diagnostics and run sensitivity analyses and get estimates for chosen sensitivity parameters.
+This package aims to help implementing routine structural missing data diagnostics. It provides functions to: visualize proportions missingness, investigate missing data patterns and perform various empirical missing data diagnostics.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://janickweberpals.gitlab-pages.partners.org/smdi}
-  \item Report bugs at \url{https://gitlab.partners.org/janickweberpals/smdi/issues}
+  \item Report bugs at \url{https://gitlab-scm.partners.org/janickweberpals/smdi/issues}
 }
 
 }

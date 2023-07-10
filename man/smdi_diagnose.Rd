@@ -57,7 +57,7 @@ smdi object including a summary table of all three smdi group diagnostics:
 
 \strong{Group 3 diagnostic:}
 \itemize{
-\item estimate_crude: univariate association between missingness indicator of \if{html}{\out{<covar>}} and outcome
+\item estimate_univariate: univariate association between missingness indicator of \if{html}{\out{<covar>}} and outcome
 \item estimate_adjusted: association between missingness indicator of \if{html}{\out{<covar>}} and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 }
 }

@@ -27,15 +27,15 @@ smdi_outcome(
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-returns a tibble with crude and adjusted estimates for each partially observed \if{html}{\out{<covar>}}:
+returns a tibble with univariate and adjusted estimates for each partially observed \if{html}{\out{<covar>}}:
 \itemize{
-\item estimate_crude: univariate association between missingness indicator of \if{html}{\out{<covar>}} and outcome
+\item estimate_univariate: univariate association between missingness indicator of \if{html}{\out{<covar>}} and outcome
 \item estimate_adjusted: association between missingness indicator of \if{html}{\out{<covar>}} and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 }
 }
 \description{
 This function fits outcome models with a covariate missingness indicator(s) of the covariates specified with \emph{covar}.
-The estimates are computed by crude and adjusted models on all other prognostic covariates
+The estimates are computed by univariate and adjusted models on all other prognostic covariates
 in the dataset. Based on the underlying missingness mechanism, the estimate for the covariate missingness indicator
 may indicate a meaningful difference in the outcome between patients with vs w/o
 the observed confounder conditional on other covariates that could explain that difference.
@@ -43,7 +43,7 @@ the observed confounder conditional on other covariates that could explain that 
 Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-The function automatically fits a crude and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
+The function automatically fits a univariate and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
 For adjusted models, the function uses all available covariates found in the dataset specified with the \if{html}{\out{<data>}} parameter. If covariates should not
 be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
 
