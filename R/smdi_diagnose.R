@@ -46,7 +46,7 @@
 #'
 #' **Group 3 diagnostic:**
 #'
-#' - estimate_crude: univariate association between missingness indicator of <covar> and outcome
+#' - estimate_univariate: univariate association between missingness indicator of <covar> and outcome
 #'
 #' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'

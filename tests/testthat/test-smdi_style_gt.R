@@ -7,7 +7,7 @@ test_that("smdi_style_gt formats eligible input objects", {
       asmd_median_min_max = c(0.1, 0.2, 0.3),
       hotteling_p = c(0.01, 0.02, 0.03),
       rf_auc = c(0.8, 0.9, 0.7),
-      estimate_crude = c(0.5, 0.6, 0.4),
+      estimate_univariate = c(0.5, 0.6, 0.4),
       estimate_adjusted = c(0.4, 0.3, 0.2)
     ),
     p_little = "p_little: 0.001"
@@ -35,7 +35,7 @@ test_that("smdi_style_gt formats smdi object correctly with include_little = TRU
       asmd_median_min_max = c(0.1, 0.2, 0.3),
       hotteling_p = c(0.01, 0.02, 0.03),
       rf_auc = c(0.8, 0.9, 0.7),
-      estimate_crude = c(0.5, 0.6, 0.4),
+      estimate_univariate = c(0.5, 0.6, 0.4),
       estimate_adjusted = c(0.4, 0.3, 0.2)
     ),
     p_little = "p_little: 0.001"
@@ -54,14 +54,14 @@ test_that("smdi_style_gt formats smdi object correctly with include_little = TRU
   expect_equal(nrow(gt_table$`_data`), 3)
 
   # Test column labels
-  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_crude", "estimate_adjusted"))
+  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_univariate", "estimate_adjusted"))
 
   # Test table content
   expect_equal(gt_table$`_data`$covariate, c("A", "B", "C"))
   expect_equal(gt_table$`_data`$asmd_median_min_max, c(0.1, 0.2, 0.3))
   expect_equal(gt_table$`_data`$hotteling_p,  c(0.01, 0.02, 0.03))
   expect_equal(gt_table$`_data`$rf_auc, c(0.8, 0.9, 0.7))
-  expect_equal(gt_table$`_data`$estimate_crude, c(0.5, 0.6, 0.4))
+  expect_equal(gt_table$`_data`$estimate_univariate, c(0.5, 0.6, 0.4))
   expect_equal(gt_table$`_data`$estimate_adjusted, c(0.4, 0.3, 0.2))
 
   # Little's test in footnote
@@ -75,9 +75,9 @@ test_that("smdi_style_gt formats smdi object correctly with include_little = TRU
   ## AUC (Group 2 diagnostic)
   expect_equal(gt_table$`_footnotes`$footnotes[[4]], "Group 2 diagnostic: Ability to predict missingness")
 
-  ## crude and adjusted beta coefficient (Group 3 diagnostic)
-  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
-  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
+  ## univariate and adjusted beta coefficient (Group 3 diagnostic)
+  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
+  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
 })
 
 # Test cases for smdi_style_gt function when little is FALSE
@@ -90,7 +90,7 @@ test_that("smdi_style_gt handles include_little = FALSE", {
       asmd_median_min_max = c(0.1, 0.2, 0.3),
       hotteling_p = c(0.01, 0.02, 0.03),
       rf_auc = c(0.8, 0.9, 0.7),
-      estimate_crude = c(0.5, 0.6, 0.4),
+      estimate_univariate = c(0.5, 0.6, 0.4),
       estimate_adjusted = c(0.4, 0.3, 0.2)
     ),
     p_little = "p_little: 0.001"
@@ -109,14 +109,14 @@ test_that("smdi_style_gt handles include_little = FALSE", {
   expect_equal(nrow(gt_table$`_data`), 3)
 
   # Test column labels
-  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_crude", "estimate_adjusted"))
+  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_univariate", "estimate_adjusted"))
 
   # Test table content
   expect_equal(gt_table$`_data`$covariate, c("A", "B", "C"))
   expect_equal(gt_table$`_data`$asmd_median_min_max, c(0.1, 0.2, 0.3))
   expect_equal(gt_table$`_data`$hotteling_p,  c(0.01, 0.02, 0.03))
   expect_equal(gt_table$`_data`$rf_auc, c(0.8, 0.9, 0.7))
-  expect_equal(gt_table$`_data`$estimate_crude, c(0.5, 0.6, 0.4))
+  expect_equal(gt_table$`_data`$estimate_univariate, c(0.5, 0.6, 0.4))
   expect_equal(gt_table$`_data`$estimate_adjusted, c(0.4, 0.3, 0.2))
 
   # NO Little's test in footnote, just abbreviations
@@ -130,9 +130,9 @@ test_that("smdi_style_gt handles include_little = FALSE", {
   ## AUC (Group 2 diagnostic)
   expect_equal(gt_table$`_footnotes`$footnotes[[4]], "Group 2 diagnostic: Ability to predict missingness")
 
-  ## crude and adjusted beta coefficient (Group 3 diagnostic)
-  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
-  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
+  ## univariate and adjusted beta coefficient (Group 3 diagnostic)
+  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
+  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
 })
 
 # Throw warning if include_little = TRUE and smdi_object is not an object of class smdi
@@ -144,7 +144,7 @@ test_that("smdi_style_gt throws error if include_little = TRUE and smdi_object i
       asmd_median_min_max = c(0.1, 0.2, 0.3),
       hotteling_p = c(0.01, 0.02, 0.03),
       rf_auc = c(0.8, 0.9, 0.7),
-      estimate_crude = c(0.5, 0.6, 0.4),
+      estimate_univariate = c(0.5, 0.6, 0.4),
       estimate_adjusted = c(0.4, 0.3, 0.2)
       )
 
@@ -158,14 +158,14 @@ test_that("smdi_style_gt throws error if include_little = TRUE and smdi_object i
   expect_equal(nrow(gt_table$`_data`), 3)
 
   # Test column labels
-  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_crude", "estimate_adjusted"))
+  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_univariate", "estimate_adjusted"))
 
   # Test table content
   expect_equal(gt_table$`_data`$covariate, c("A", "B", "C"))
   expect_equal(gt_table$`_data`$asmd_median_min_max, c(0.1, 0.2, 0.3))
   expect_equal(gt_table$`_data`$hotteling_p,  c(0.01, 0.02, 0.03))
   expect_equal(gt_table$`_data`$rf_auc, c(0.8, 0.9, 0.7))
-  expect_equal(gt_table$`_data`$estimate_crude, c(0.5, 0.6, 0.4))
+  expect_equal(gt_table$`_data`$estimate_univariate, c(0.5, 0.6, 0.4))
   expect_equal(gt_table$`_data`$estimate_adjusted, c(0.4, 0.3, 0.2))
 
   # NO Little's test in footnote, just abbreviations
@@ -179,9 +179,9 @@ test_that("smdi_style_gt throws error if include_little = TRUE and smdi_object i
   ## AUC (Group 2 diagnostic)
   expect_equal(gt_table$`_footnotes`$footnotes[[4]], "Group 2 diagnostic: Ability to predict missingness")
 
-  ## crude and adjusted beta coefficient (Group 3 diagnostic)
-  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
-  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
+  ## univariate and adjusted beta coefficient (Group 3 diagnostic)
+  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
+  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
 
 })
 
@@ -193,7 +193,7 @@ test_that("smdi_style_gt handles non-smdi object with little's object", {
     asmd_median_min_max = c(0.1, 0.2, 0.3),
     hotteling_p = c(0.01, 0.02, 0.03),
     rf_auc = c(0.8, 0.9, 0.7),
-    estimate_crude = c(0.5, 0.6, 0.4),
+    estimate_univariate = c(0.5, 0.6, 0.4),
     estimate_adjusted = c(0.4, 0.3, 0.2)
   )
 
@@ -215,14 +215,14 @@ test_that("smdi_style_gt handles non-smdi object with little's object", {
   expect_equal(nrow(gt_table$`_data`), 3)
 
   # Test column labels
-  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_crude", "estimate_adjusted"))
+  expect_equal(gt_table$`_boxhead`$var, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_univariate", "estimate_adjusted"))
 
   # Test table content
   expect_equal(gt_table$`_data`$covariate, c("A", "B", "C"))
   expect_equal(gt_table$`_data`$asmd_median_min_max, c(0.1, 0.2, 0.3))
   expect_equal(gt_table$`_data`$hotteling_p,  c(0.01, 0.02, 0.03))
   expect_equal(gt_table$`_data`$rf_auc, c(0.8, 0.9, 0.7))
-  expect_equal(gt_table$`_data`$estimate_crude, c(0.5, 0.6, 0.4))
+  expect_equal(gt_table$`_data`$estimate_univariate, c(0.5, 0.6, 0.4))
   expect_equal(gt_table$`_data`$estimate_adjusted, c(0.4, 0.3, 0.2))
 
   # NO Little's test in footnote, just abbreviations
@@ -236,8 +236,8 @@ test_that("smdi_style_gt handles non-smdi object with little's object", {
   ## AUC (Group 2 diagnostic)
   expect_equal(gt_table$`_footnotes`$footnotes[[4]], "Group 2 diagnostic: Ability to predict missingness")
 
-  ## crude and adjusted beta coefficient (Group 3 diagnostic)
-  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
-  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)")
+  ## univariate and adjusted beta coefficient (Group 3 diagnostic)
+  expect_equal(gt_table$`_footnotes`$footnotes[[5]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
+  expect_equal(gt_table$`_footnotes`$footnotes[[6]], "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)")
 
 })

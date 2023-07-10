@@ -2,7 +2,7 @@
 #'
 #' @description
 #' This function fits outcome models with a covariate missingness indicator(s) of the covariates specified with *covar*.
-#' The estimates are computed by crude and adjusted models on all other prognostic covariates
+#' The estimates are computed by univariate and adjusted models on all other prognostic covariates
 #' in the dataset. Based on the underlying missingness mechanism, the estimate for the covariate missingness indicator
 #' may indicate a meaningful difference in the outcome between patients with vs w/o
 #' the observed confounder conditional on other covariates that could explain that difference.
@@ -10,7 +10,7 @@
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' The function automatically fits a crude and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
+#' The function automatically fits a univariate and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
 #' For adjusted models, the function uses all available covariates found in the dataset specified with the <data> parameter. If covariates should not
 #' be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
 #'
@@ -32,9 +32,9 @@
 #' @param exponentiated logical, should results be exponentiated (default is FALSE)
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns a tibble with crude and adjusted estimates for each partially observed <covar>:
+#' @return returns a tibble with univariate and adjusted estimates for each partially observed <covar>:
 #'
-#' - estimate_crude: univariate association between missingness indicator of <covar> and outcome
+#' - estimate_univariate: univariate association between missingness indicator of <covar> and outcome
 #'
 #' - estimate_adjusted: association between missingness indicator of <covar> and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 #'
@@ -75,7 +75,7 @@ smdi_outcome <- function(data = NULL,
                          ){
 
   # initialize
-  term <- covariate <- estimate <- conf.low <- conf.high <- estimate_crude <- estimate_adjusted <- V1 <- NULL
+  term <- covariate <- estimate <- conf.low <- conf.high <- estimate_univariate <- estimate_adjusted <- V1 <- NULL
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
@@ -108,31 +108,31 @@ smdi_outcome <- function(data = NULL,
     drop_NA_col = TRUE
     )
 
-  # crude outcome results ---------------------------------------------------
-  crude_loop <- function(i){
+  # univariate outcome results ---------------------------------------------------
+  univariate_loop <- function(i){
 
     # create strata variable
     target_var <- paste0(i, "_NA")
 
-    form_crude <- stats::as.formula(paste(form_lhs, "~", target_var))
+    form_univariate <- stats::as.formula(paste(form_lhs, "~", target_var))
 
     # fit model
     if(model == "logistic"){
 
-      crude_fit <- stats::glm(form_crude, family = "binomial", data = data_encoded)
+      univariate_fit <- stats::glm(form_univariate, family = "binomial", data = data_encoded)
 
     }else if(model == "linear"){
 
-      crude_fit <- stats::lm(form_crude, data = data_encoded)
+      univariate_fit <- stats::lm(form_univariate, data = data_encoded)
 
     }else if(model == "cox"){
 
-      form_crude <- stats::as.formula(paste("survival::", form_lhs, "~", target_var))
-      crude_fit <- survival::coxph(form_crude, data = data_encoded)
+      form_univariate <- stats::as.formula(paste("survival::", form_lhs, "~", target_var))
+      univariate_fit <- survival::coxph(form_univariate, data = data_encoded)
 
     }
 
-    crude_result <- crude_fit %>%
+    univariate_result <- univariate_fit %>%
       broom::tidy(exponentiate = exponentiated, conf.int = TRUE) %>%
       # filter out intercept term
       dplyr::filter(term != "(Intercept)") %>%
@@ -140,15 +140,15 @@ smdi_outcome <- function(data = NULL,
       dplyr::mutate(covariate = stringr::str_remove(term, "_NA")) %>%
       # summarize estimate
       dplyr::mutate(dplyr::across(c(estimate, conf.low, conf.high), ~ formatC(.x, format = "f", digits = 2))) %>%
-      dplyr::mutate(estimate_crude = glue::glue("{estimate} (95% CI {conf.low}, {conf.high})")) %>%
-      dplyr::select(covariate, estimate_crude)
+      dplyr::mutate(estimate_univariate = glue::glue("{estimate} (95% CI {conf.low}, {conf.high})")) %>%
+      dplyr::select(covariate, estimate_univariate)
 
-    return(crude_result)
+    return(univariate_result)
 
   }
 
   # collect results over all covar_miss
-  crude_out <- do.call(rbind, parallel::mclapply(covar_miss, FUN = crude_loop, mc.cores = n_cores))
+  univariate_out <- do.call(rbind, parallel::mclapply(covar_miss, FUN = univariate_loop, mc.cores = n_cores))
 
 
   # adjusted outcome results ------------------------------------------------
@@ -180,8 +180,8 @@ smdi_outcome <- function(data = NULL,
     dplyr::select(covariate, estimate_adjusted)
 
 
-  # combine crude and adjusted results
-  results_out <- crude_out %>%
+  # combine univariate and adjusted results
+  results_out <- univariate_out %>%
     dplyr::left_join(adjusted_out, by = "covariate")
 
   return(results_out)

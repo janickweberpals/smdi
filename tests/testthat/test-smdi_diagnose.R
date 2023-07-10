@@ -15,7 +15,7 @@ test_that("smdi_diagnose computes three group missing data summary diagnostics",
   expect_s3_class(result, "smdi")
 
   # Check if the summary table contains the expected columns
-  expect_named(result$smdi_tbl, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_crude", "estimate_adjusted"))
+  expect_named(result$smdi_tbl, c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_univariate", "estimate_adjusted"))
 
   # Check if the p_little value is computed
   expect_true(grepl("p_little:", result$p_little))
@@ -30,7 +30,7 @@ test_that("print.smdi function prints smdi summary table", {
     asmd_median_min_max = c(0.1, 0.2, 0.3),
     hotteling_p = c(0.01, 0.02, 0.03),
     rf_auc = c(0.8, 0.9, 0.7),
-    estimate_crude = c(0.5, 0.6, 0.4),
+    estimate_univariate = c(0.5, 0.6, 0.4),
     estimate_adjusted = c(0.4, 0.3, 0.2)
   )
   p_little <- "p_little: <.001"
@@ -41,7 +41,7 @@ test_that("print.smdi function prints smdi summary table", {
   output <- capture_output(print(smdi_obj))
 
   # Check if the output contains the smdi summary table
-  expect_match(output, "smdi summary table:\n  covariate asmd_median_min_max hotteling_p rf_auc estimate_crude\n1         A                 0.1        0.01    0.8            0.5\n2         B                 0.2        0.02    0.9            0.6\n3         C                 0.3        0.03    0.7            0.4\n  estimate_adjusted\n1               0.4\n2               0.3\n3               0.2\n\np_little: <.001")
+  expect_match(output, "smdi summary table:\n  covariate asmd_median_min_max hotteling_p rf_auc estimate_univariate\n1         A                 0.1        0.01    0.8                 0.5\n2         B                 0.2        0.02    0.9                 0.6\n3         C                 0.3        0.03    0.7                 0.4\n  estimate_adjusted\n1               0.4\n2               0.3\n3               0.2\n\np_little: <.001")
 
 })
 
@@ -53,7 +53,7 @@ test_that("summary.smdi function returns smdi summary table", {
     asmd_median_min_max = c(0.1, 0.2, 0.3),
     hotteling_p = c(0.01, 0.02, 0.03),
     rf_auc = c(0.8, 0.9, 0.7),
-    estimate_crude = c(0.5, 0.6, 0.4),
+    estimate_univariate = c(0.5, 0.6, 0.4),
     estimate_adjusted = c(0.4, 0.3, 0.2)
   )
   p_little <- "p_little: <.001"
@@ -67,7 +67,7 @@ test_that("summary.smdi function returns smdi summary table", {
   expect_s3_class(summary_tbl, "data.frame")
 
   # Check if the summary table has the correct column names
-  expect_equal(colnames(summary_tbl), c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_crude", "estimate_adjusted"))
+  expect_equal(colnames(summary_tbl), c("covariate", "asmd_median_min_max", "hotteling_p", "rf_auc", "estimate_univariate", "estimate_adjusted"))
 
   # Check if the summary table has the correct values
   expect_equal(summary_tbl[,1], c("A", "B", "C"))

@@ -46,7 +46,7 @@ smdi_style_gt <- function(smdi_object = NULL,
                           ){
 
 
-  asmd_median_min_max <- hotteling_p <- rf_auc <- estimate_crude <- estimate_adjusted <- NULL
+  asmd_median_min_max <- hotteling_p <- rf_auc <- estimate_univariate <- estimate_adjusted <- NULL
 
   # check if smdi object or table
   if(methods::is(smdi_object, "smdi")){
@@ -106,7 +106,7 @@ smdi_style_gt <- function(smdi_object = NULL,
       asmd_median_min_max= "ASMD (min/max)",
       hotteling_p = gt::md("p Hotelling"),
       rf_auc = "AUC",
-      estimate_crude = gt::md("beta crude (95% CI)"),
+      estimate_univariate = gt::md("beta univariate (95% CI)"),
       estimate_adjusted = gt::md("beta (95% CI)")
       ) %>%
 
@@ -126,9 +126,9 @@ smdi_style_gt <- function(smdi_object = NULL,
       ) %>%
 
     gt::tab_footnote(
-      footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)",
+      footnote = "Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)",
       locations = gt::cells_column_labels(
-        columns = c(estimate_crude, estimate_adjusted)
+        columns = c(estimate_univariate, estimate_adjusted)
         )
       ) %>%
 
