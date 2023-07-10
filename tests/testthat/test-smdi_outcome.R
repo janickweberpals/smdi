@@ -9,7 +9,7 @@ test_that("Test n_cores OS dependency", {
   set.seed(42)
   data <- data.frame(x = c(NA, NA, rbinom(97, 1, 0.5), NA), y = c(rbinom(97, 1, 0.5), NA, NA, NA), z = rnorm(100))
   if(isTRUE(Sys.info()[["sysname"]]=="Windows")){
-    expect_warning(smdi_outcome(data = data, n_cores = 2))
+    expect_warning(smdi_outcome(data = data, model = "linear", form_lhs = "z", n_cores = 2))
   }else{
     expect_no_warning(smdi_outcome(data = data, model = "linear", form_lhs = "z", n_cores = 2))
   }
