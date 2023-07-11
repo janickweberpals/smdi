@@ -3,6 +3,7 @@ Type: Package
 Title: Perform Structural Missing Data Investigations
 Version: 0.2.2
 Authors@R: person("Janick", "Weberpals", email = "jweberpals@bwh.harvard.edu", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-0404-7394"))
+Maintainer: Janick Weberpals <jweberpals@bwh.harvard.edu>
 Description: An easy to use implementation of routine structural missing data diagnostics with functions to visualize the proportions of missing observations, investigate missing data patterns and conduct various empirical missing data diagnostic tests.
 License: GPL (>= 3)
 URL: https://janickweberpals.gitlab-pages.partners.org/smdi
