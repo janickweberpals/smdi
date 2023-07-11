@@ -15,7 +15,7 @@
 #'
 #' @references
 #' Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.
-#' J Am Stat Assoc. 1988;83(404):1198-1202. <doi:10.1080/01621459.1988.10478722>
+#' J Am Stat Assoc. 1988;83(404):1198-1202.
 #'
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables

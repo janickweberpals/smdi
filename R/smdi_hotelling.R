@@ -15,7 +15,7 @@
 #' \code{\link{hotelling.test}}
 #'
 #' @references
-#' Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. <doi:10.1214/aoms/1177732979>
+#' Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378.
 #'
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables

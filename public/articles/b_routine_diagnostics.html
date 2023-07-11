@@ -376,9 +376,8 @@ of the aggregate median/average asmd per covariate.</p>
 </h5>
 <p>The <code>smdi_hotelling</code> function follows the same logic, but
 is a formal hypothesis test for the difference in covariate
-distributions based on a multivariate student t-test.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;&lt;a href=&quot;https://www.semanticscholar.org/paper/The-Generalization-of-Student%E2%80%99s-Ratio-Hotelling/23efca695ccca0924211f711adc862ea857449f2&quot; class=&quot;external-link&quot;&gt;Hotelling
-H. The Generalization of Student's Ratio. Ann Math Stat.
-1931;2(3):360-378. doi:10.1214/aoms/1177732979&lt;/a&gt;&lt;/p&gt;"><sup>1</sup></a> The output (a
+distributions based on a multivariate student t-test.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Hotelling H. The Generalization of Student's Ratio. Ann
+Math Stat. 1931;2(3):360-378. &lt;a href=&quot;doi:10.1007/978-1-4612-0919-5_4&quot; class=&quot;uri&quot;&gt;doi:10.1007/978-1-4612-0919-5_4&lt;/a&gt;&lt;/p&gt;"><sup>1</sup></a> The output (a
 hotteling object) follows the same structure as above. It’s important to
 remember that the power of statistical hypothesis tests can be
 influenced by sample size, so the combined investigation along with
@@ -413,10 +412,9 @@ influenced by sample size, so the combined investigation along with
 <h5 id="little">Little<a class="anchor" aria-label="anchor" href="#little"></a>
 </h5>
 <p>Little proposes a single global test statistic for MCAR that uses all
-of the available data.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.1988.10478722" class="external-link"&gt;Little
-RJA. A Test of Missing Completely at Random for Multivariate Data with
-Missing Values. J Am Stat Assoc. 1988;83(404):1198-1202.
-doi:10.1080/01621459.1988.10478722&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a> Hence, the <code>smdi_little</code> does
+of the available data.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Little RJA. A Test of Missing Completely at Random for
+Multivariate Data with Missing Values. J Am Stat Assoc.
+1988;83(404):1198-1202. &lt;a href="doi:10.1080/01621459.1988.10478722" class="uri"&gt;doi:10.1080/01621459.1988.10478722&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a> Hence, the <code>smdi_little</code> does
 not return one test statistic per partially observed covariate but one
 globally for the entire dataset.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">

@@ -40,7 +40,7 @@ smdi_hotteling(data = smdi_data)
 }
 }
 \references{
-Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. \url{doi:10.1214/aoms/1177732979}
+Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378.
 }
 \seealso{
 \code{\link{hotelling.test}}

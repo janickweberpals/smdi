@@ -6,6 +6,8 @@ vignette: >
   %\VignetteIndexEntry{NARFCS sensitivity analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+link-citations: true
 ---
 
 ```{r, include = FALSE}
@@ -33,9 +35,7 @@ suppressPackageStartupMessages(library(dplyr))
 
 As we have seen earlier, if the missingness mechanism of an important covariate, such as a strong partially observed confounder, truly follows either a missing completely at random (MCAR) or a missing not at random *value* (MNAR[value]) scenario, it may be possible to differentiate these two mechanisms using `smdi_diagnose()`, but the distinction between the two can also turn out difficult in practice. This can have serious consequences since covariates that follow a true MNAR(value) mechanism may severely bias the effect estimation of an exposure of interest.
 
-In reality, we will not be able to know 100% what the true missingness mechanism is and there may always be some residual uncertainty in case of MNAR(value). On the positive side, however, Leacy and Moreno-Betancur et al.[^1] have proposed a useful procedure to impute multivariable missing data under MNAR(value) conditions. By definition, under a MNAR(value) mechanism, the true (but unobserved) values of a variable systematically differ from the observed values. The idea of the not at random fully conditional specification (NARFCS) sensitivity analysis is to specify an imputation model containing a sensitivity parameter **𝛅** that reflects this systematic departure from a missing at random (MAR) mechanism.
-
-[^1]: Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., & White, I. R. (2018). On the use of the not-at-random fully conditional specification (NARFCS) procedure in practice. *Statistics in Medicine*, **37**(15), 2338-2353. [doi:10.1002/sim.7643](https://doi.org/10.1002/sim.7643).
+In reality, we will not be able to know 100% what the true missingness mechanism is and there may always be some residual uncertainty in case of MNAR(value). On the positive side, however, Leacy and Moreno-Betancur et al. have proposed a useful procedure to impute multivariable missing data under MNAR(value) conditions. By definition, under a MNAR(value) mechanism, the true (but unobserved) values of a variable systematically differ from the observed values. The idea of the not at random fully conditional specification (NARFCS) sensitivity analysis is to specify an imputation model containing a sensitivity parameter **𝛅** that reflects this systematic departure from a missing at random (MAR) mechanism.
 
 ## Illustrative example
 
@@ -43,10 +43,10 @@ For example, the `age_num` of patients below a certain age cut-off may be system
 
 For simplicity, we don't assume any other missing covariates for now. In order to introduce an MNAR(value) mechanism for the `age_num` covariate, we:
 
-* Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age_num` will be set to missing
-* Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age_num` itself  (by a non-zero value) is the linear predictor for the probability of observations becoming missing
-* Specify a type of logistic probability distribution for the missingness weights, so that patients with low weighted sum scores (i.e., younger `age_num`) will have a larger probability of becoming incomplete
-* Define an overall missingness proportion of ~40%
+-   Determine a [missingess pattern](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Patterns), in which only `age_num` will be set to missing
+-   Create a [weight vector](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#Weights), in which only `age_num` itself (by a non-zero value) is the linear predictor for the probability of observations becoming missing
+-   Specify a type of logistic probability distribution for the missingness weights, so that patients with low weighted sum scores (i.e., younger `age_num`) will have a larger probability of becoming incomplete
+-   Define an overall missingness proportion of \~40%
 
 ```{r}
 # load complete dataset
@@ -295,9 +295,9 @@ smdi::smdi_data %>%
 
 The [NARFCS procedure that comes with the `mice` package](https://amices.org/mice/reference/mice.impute.mnar.html) provides the flexibility to execute the NARFCS procedure in the presence of other partially observed covariates which may be assumed missing at random.
 
-Given the `smdi_diagnose` analysis, we hypothesize that `pdl1_num` may be MNAR(value). This is plausible in the context that the `pdl1_num` expression of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[^2] Hence, we decide to run a tipping point sensitivity analysis by imputing `pdl1_num` over a range of **𝛅** sensitivity parameters while imputing `ecog_cat` and `egfr_cat` under a "normal" imputation model.
+Given the `smdi_diagnose` analysis, we hypothesize that `pdl1_num` may be MNAR(value). This is plausible in the context that the `pdl1_num` expression of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[^1] Hence, we decide to run a tipping point sensitivity analysis by imputing `pdl1_num` over a range of **𝛅** sensitivity parameters while imputing `ecog_cat` and `egfr_cat` under a "normal" imputation model.
 
-[^2]: Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy AP. Real-world progression, treatment, and survival outcomes during rapid adoption of immunotherapy for advanced non-small cell lung cancer. Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub 2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.
+[^1]: Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy AP. Real-world progression, treatment, and survival outcomes during rapid adoption of immunotherapy for advanced non-small cell lung cancer. Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub 2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.
 
 ```{r}
 # we one hot encode the `ses_cat` variable again 
@@ -379,7 +379,7 @@ As in the example above, `pdl1_num` is sensitive to departures from MAR, but res
 
 # More on sensitivity analyses
 
-For more information and helpful resources regarding sensitivity analyses for missing data, we recommend checking out the following links and manuscripts:
+For more information and helpful resources regarding sensitivity analyses for missing data, we recommend checking out the following links and manuscripts[@tompsett2018; @van1999]:
 
 <https://stefvanbuuren.name/fimd/sec-sensitivity.html>
 
@@ -387,6 +387,4 @@ For more information and helpful resources regarding sensitivity analyses for mi
 
 <https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html>
 
-Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., & White, I. R. (2018). On the use of the not-at-random fully conditional specification (NARFCS) procedure in practice. Statistics in Medicine, 37(15), 2338-2353. <doi:10.1002/sim.7643> .
-
-Van Buuren, S., Boshuizen, H.C., Knook, D.L. (1999) Multiple imputation of missing blood pressure covariates in survival analysis. Statistics in Medicine, 18, 681--694.
+# References

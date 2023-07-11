@@ -6,7 +6,7 @@
 \alias{smdi-package}
 \title{smdi: Perform Structural Missing Data Investigations}
 \description{
-This package aims to help implementing routine structural missing data diagnostics. It provides functions to: visualize proportions of missing observations, investigate missing data patterns and perform various empirical missing data diagnostics.
+An easy to use implementation of routine structural missing data diagnostics with functions to visualize the proportions of missing observations, investigate missing data patterns and conduct various empirical missing data diagnostic tests.
 }
 \seealso{
 Useful links:
