@@ -26,12 +26,18 @@ The theoretical backbone of this package is based on a large-scale plasmode simu
 *The manuscript is underway and will be referenced here as soon as it becomes available. The cornerstones of this project are outlined below.*
 
 ::: {style="color:red"}
-Please note that this version is currently in beta testing phase and no major decisions should be based on this package. If you encounter any unforeseen errors or have any suggestions, comments or recommendations, please feel free to reach out to [jweberpals\@bwh.harvard.edu](mailto:jweberpals@bwh.harvard.edu) or [open an issue](https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues).
+Please note that this version is currently in testing phase and no major decisions should be based on this package. If you encounter any unforeseen errors or have any suggestions, comments or recommendations, please feel free to reach out to [jweberpals\@bwh.harvard.edu](mailto:jweberpals@bwh.harvard.edu) or [open an issue](https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues).
 :::
 
 ## Installation
 
-You can install the latest release version of `smdi` using the `devtools` package via:
+To install the CRAN version of the package, run the following command:
+
+``` r
+install.packages("smdi")
+```
+
+You can install the latest GitLab release version of `smdi` using the `devtools` package via:
 
 ``` r
 devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git")
