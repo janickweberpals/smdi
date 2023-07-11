@@ -13,9 +13,15 @@ font-style: italic;
 
 **`S`tructural `M`issing `D`ata `I`nvestigations**
 
-<!-- [![](https://cranlogs.r-pkg.org/badges/smdi)](https://cran.rstudio.com/web/packages/smdi/index.html)  -->
+ ⁠<!-- badges: start -->
 
-![](https://gitlab-scm.partners.org/janickweberpals/smdi/badges/dev/pipeline.svg)
+![](https://gitlab-scm.partners.org/janickweberpals/smdi/badges/main/pipeline.svg)
+
+![](https://www.r-pkg.org/badges/version/smdi)
+
+![](https://cranlogs.r-pkg.org/badges/smdi)
+
+<!-- badges: end -->
 
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
 
@@ -80,6 +86,7 @@ However, in an empirical study, it is usually unclear which of the missing data 
 
 ![**Table 2.** Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.](./vignettes/smdi_examples.png)
 
+<br>
 
 While the manuscript is underway, in the meantime please refer to the [presentation at the 2023 Innovation Day](https://www.youtube.com/embed/Dml_AP0ohTY?start=7376) to learn more.
 
