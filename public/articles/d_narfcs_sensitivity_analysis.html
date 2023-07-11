@@ -110,10 +110,7 @@ estimation of an exposure of interest.</p>
 <p>In reality, we will not be able to know 100% what the true
 missingness mechanism is and there may always be some residual
 uncertainty in case of MNAR(value). On the positive side, however, Leacy
-and Moreno-Betancur et al.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron,
-J., &amp;amp; White, I. R. (2018). On the use of the not-at-random fully
-conditional specification (NARFCS) procedure in practice. &lt;em&gt;Statistics
-in Medicine&lt;/em&gt;, &lt;strong&gt;37&lt;/strong&gt;(15), 2338-2353. &lt;a href="https://doi.org/10.1002/sim.7643" class="external-link"&gt;doi:10.1002/sim.7643&lt;/a&gt;.&lt;/p&gt;'><sup>1</sup></a> have proposed a useful procedure to impute
+and Moreno-Betancur et al. have proposed a useful procedure to impute
 multivariable missing data under MNAR(value) conditions. By definition,
 under a MNAR(value) mechanism, the true (but unobserved) values of a
 variable systematically differ from the observed values. The idea of the
@@ -901,16 +898,12 @@ been tested before and showed lower PD-L1 staining levels are less
 likely to be tested in the future. Despite this, <code>pdl1_num</code>
 is still an important predictor for the initiation of the treatment of
 interest and simultaneously an import prognostic variable for the
-outcome (time to death due to any reason [overall survival].<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai
-A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy
-AP. Real-world progression, treatment, and survival outcomes during
-rapid adoption of immunotherapy for advanced non-small cell lung cancer.
-Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub
-2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.&lt;/p&gt;"><sup>2</sup></a> Hence, we
-decide to run a tipping point sensitivity analysis by imputing
-<code>pdl1_num</code> over a range of <strong>𝛅</strong> sensitivity
-parameters while imputing <code>ecog_cat</code> and
-<code>egfr_cat</code> under a “normal” imputation model.</p>
+outcome (time to death due to any reason [overall survival].<span class="citation">(<a href="#ref-khozin2019">Khozin et al.
+2019</a>)</span> Hence, we decide to run a tipping point sensitivity
+analysis by imputing <code>pdl1_num</code> over a range of
+<strong>𝛅</strong> sensitivity parameters while imputing
+<code>ecog_cat</code> and <code>egfr_cat</code> under a “normal”
+imputation model.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we one hot encode the `ses_cat` variable again </span></span>
 <span><span class="co"># in the smdi_data dataset</span></span>
@@ -1001,19 +994,36 @@ simulated.</p>
 </h2>
 <p>For more information and helpful resources regarding sensitivity
 analyses for missing data, we recommend checking out the following links
-and manuscripts:</p>
+and manuscripts<span class="citation">(<a href="#ref-tompsett2018">Tompsett et al. 2018</a>; <a href="#ref-van1999">Buuren, Boshuizen, and Knook 1999</a>)</span>:</p>
 <p><a href="https://stefvanbuuren.name/fimd/sec-sensitivity.html" class="external-link uri">https://stefvanbuuren.name/fimd/sec-sensitivity.html</a></p>
 <p><a href="https://amices.org/mice/reference/mice.impute.mnar.html" class="external-link uri">https://amices.org/mice/reference/mice.impute.mnar.html</a></p>
 <p><a href="https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html" class="external-link uri">https://raw.githack.com/moreno-betancur/NARFCS/master/Vignette.html</a></p>
-<p>Tompsett, D. M., Leacy, F., Moreno-Betancur, M., Heron, J., &amp;
-White, I. R. (2018). On the use of the not-at-random fully conditional
-specification (NARFCS) procedure in practice. Statistics in Medicine,
-37(15), 2338-2353. <a href="doi:10.1002/sim.7643" class="uri">doi:10.1002/sim.7643</a> .</p>
-<p>Van Buuren, S., Boshuizen, H.C., Knook, D.L. (1999) Multiple
-imputation of missing blood pressure covariates in survival analysis.
-Statistics in Medicine, 18, 681–694.</p>
 </div>
-
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-van1999" class="csl-entry">
+Buuren, S. van, H. C. Boshuizen, and D. L. Knook. 1999. <span>“Multiple
+Imputation of Missing Blood Pressure Covariates in Survival
+Analysis.”</span> <em>Statistics in Medicine</em> 18 (6): 681–94. <a href="https://doi.org/10.1002/(sici)1097-0258(19990330)18:6&lt;681::aid-sim71&gt;3.0.co;2-r" class="external-link">https://doi.org/10.1002/(sici)1097-0258(19990330)18:6&lt;681::aid-sim71&gt;3.0.co;2-r</a>.
+</div>
+<div id="ref-khozin2019" class="csl-entry">
+Khozin, Sean, Rebecca A. Miksad, Johan Adami, Mariel Boyd, Nicholas R.
+Brown, Anala Gossai, Irene Kaganman, et al. 2019.
+<span>“Real<span>-</span>World Progression, Treatment, and Survival
+Outcomes During Rapid Adoption of Immunotherapy for Advanced
+Non<span></span>small Cell Lung Cancer.”</span> <em>Cancer</em> 125
+(22): 4019–32. <a href="https://doi.org/10.1002/cncr.32383" class="external-link">https://doi.org/10.1002/cncr.32383</a>.
+</div>
+<div id="ref-tompsett2018" class="csl-entry">
+Tompsett, Daniel Mark, Finbarr Leacy, Margarita Moreno-Betancur, Jon
+Heron, and Ian R. White. 2018. <span>“On the Use of the Not-at-Random
+Fully Conditional Specification (NARFCS) Procedure in Practice.”</span>
+<em>Statistics in Medicine</em> 37 (15): 2338–53. <a href="https://doi.org/10.1002/sim.7643" class="external-link">https://doi.org/10.1002/sim.7643</a>.
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>

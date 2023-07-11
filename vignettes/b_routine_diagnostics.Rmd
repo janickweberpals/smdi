@@ -299,3 +299,5 @@ gtsave(
   path = "." # path where the file should be stored
   )
 ```
+
+# References

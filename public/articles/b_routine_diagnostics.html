@@ -376,12 +376,12 @@ of the aggregate median/average asmd per covariate.</p>
 </h5>
 <p>The <code>smdi_hotelling</code> function follows the same logic, but
 is a formal hypothesis test for the difference in covariate
-distributions based on a multivariate student t-test.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Hotelling H. The Generalization of Student's Ratio. Ann
-Math Stat. 1931;2(3):360-378. &lt;a href=&quot;doi:10.1007/978-1-4612-0919-5_4&quot; class=&quot;uri&quot;&gt;doi:10.1007/978-1-4612-0919-5_4&lt;/a&gt;&lt;/p&gt;"><sup>1</sup></a> The output (a
-hotteling object) follows the same structure as above. It’s important to
-remember that the power of statistical hypothesis tests can be
-influenced by sample size, so the combined investigation along with
-<code><a href="../reference/smdi_asmd.html">smdi_asmd()</a></code> is highly recommended.</p>
+distributions based on a multivariate student t-test.<span class="citation">(<a href="#ref-hotelling1992">Hotelling
+1992</a>)</span> The output (a hotteling object) follows the same
+structure as above. It’s important to remember that the power of
+statistical hypothesis tests can be influenced by sample size, so the
+combined investigation along with <code><a href="../reference/smdi_asmd.html">smdi_asmd()</a></code> is highly
+recommended.</p>
 <ul>
 <li>hotelling
 <ul>
@@ -412,11 +412,10 @@ influenced by sample size, so the combined investigation along with
 <h5 id="little">Little<a class="anchor" aria-label="anchor" href="#little"></a>
 </h5>
 <p>Little proposes a single global test statistic for MCAR that uses all
-of the available data.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Little RJA. A Test of Missing Completely at Random for
-Multivariate Data with Missing Values. J Am Stat Assoc.
-1988;83(404):1198-1202. &lt;a href="doi:10.1080/01621459.1988.10478722" class="uri"&gt;doi:10.1080/01621459.1988.10478722&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a> Hence, the <code>smdi_little</code> does
-not return one test statistic per partially observed covariate but one
-globally for the entire dataset.</p>
+of the available data.<span class="citation">(<a href="#ref-little1988a">Little 1988</a>)</span> Hence, the
+<code>smdi_little</code> does not return one test statistic per
+partially observed covariate but one globally for the entire
+dataset.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h0_global</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smdi_little.html">smdi_little</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
 <span><span class="va">h0_global</span></span>
@@ -1061,7 +1060,21 @@ e.g. <code>.docx</code>, <code>.png</code>, <code>.pdf</code> or
 </div>
 </div>
 </div>
-
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hotelling1992" class="csl-entry">
+Hotelling, Harold. 1992. <span>“The Generalization of
+Student<span>’</span>s Ratio.”</span> In, 54–65. Springer New York. <a href="https://doi.org/10.1007/978-1-4612-0919-5_4" class="external-link">https://doi.org/10.1007/978-1-4612-0919-5_4</a>.
+</div>
+<div id="ref-little1988a" class="csl-entry">
+Little, Roderick J. A. 1988. <span>“A Test of Missing Completely at
+Random for Multivariate Data with Missing Values.”</span> <em>Journal of
+the American Statistical Association</em> 83 (404): 1198–1202. <a href="https://doi.org/10.1080/01621459.1988.10478722" class="external-link">https://doi.org/10.1080/01621459.1988.10478722</a>.
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
