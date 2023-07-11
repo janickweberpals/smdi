@@ -2,6 +2,6 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
+* This is a new initial release.
 
 * Vignettes can take a bit of time to build
