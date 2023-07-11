@@ -295,9 +295,7 @@ smdi::smdi_data %>%
 
 The [NARFCS procedure that comes with the `mice` package](https://amices.org/mice/reference/mice.impute.mnar.html) provides the flexibility to execute the NARFCS procedure in the presence of other partially observed covariates which may be assumed missing at random.
 
-Given the `smdi_diagnose` analysis, we hypothesize that `pdl1_num` may be MNAR(value). This is plausible in the context that the `pdl1_num` expression of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[^1] Hence, we decide to run a tipping point sensitivity analysis by imputing `pdl1_num` over a range of **𝛅** sensitivity parameters while imputing `ecog_cat` and `egfr_cat` under a "normal" imputation model.
-
-[^1]: Khozin S, Miksad RA, Adami J, Boyd M, Brown NR, Gossai A, Kaganman I, Kuk D, Rockland JM, Pazdur R, Torres AZ, Zhi J, Abernethy AP. Real-world progression, treatment, and survival outcomes during rapid adoption of immunotherapy for advanced non-small cell lung cancer. Cancer. 2019 Nov 15;125(22):4019-4032. doi: 10.1002/cncr.32383. Epub 2019 Aug 5. PMID: 31381142; PMCID: PMC6899461.
+Given the `smdi_diagnose` analysis, we hypothesize that `pdl1_num` may be MNAR(value). This is plausible in the context that the `pdl1_num` expression of patients who had been tested before and showed lower PD-L1 staining levels are less likely to be tested in the future. Despite this, `pdl1_num` is still an important predictor for the initiation of the treatment of interest and simultaneously an import prognostic variable for the outcome (time to death due to any reason [overall survival].[@khozin2019] Hence, we decide to run a tipping point sensitivity analysis by imputing `pdl1_num` over a range of **𝛅** sensitivity parameters while imputing `ecog_cat` and `egfr_cat` under a "normal" imputation model.
 
 ```{r}
 # we one hot encode the `ses_cat` variable again 
