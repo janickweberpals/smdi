@@ -25,7 +25,7 @@ smdi_diagnose(
 
 \item{median}{logical if the median (= TRUE; recommended default) or mean of all absolute standardized mean differences (asmd) should be computed (smdi_asmd())}
 
-\item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled for computation of absoulate standardized mean differences (default is FALSE)}
+\item{includeNA}{logical, should missingness of other partially observed covariates be explicitly modeled for computation of absolute standardized mean differences (default is FALSE)}
 
 \item{train_test_ratio}{numeric vector to indicate the test/train split ratio for random forest missingness prediction model, e.g. c(.7, .3) is the default}
 

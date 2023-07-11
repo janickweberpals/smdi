@@ -184,7 +184,7 @@ The `smdi_hotelling` function follows the same logic, but is a formal hypothesis
     -   covar
         -   Hotelling test statistics
 
-[^1]: [Hotelling H. The Generalization of Student\'s Ratio. Ann Math Stat. 1931;2(3):360-378. doi:10.1214/aoms/1177732979](https://www.semanticscholar.org/paper/The-Generalization-of-Student%E2%80%99s-Ratio-Hotelling/23efca695ccca0924211f711adc862ea857449f2)
+[^1]: Hotelling H. The Generalization of Student\'s Ratio. Ann Math Stat. 1931;2(3):360-378. <doi:10.1007/978-1-4612-0919-5_4>
 
 ```{r}
 h0 <- smdi_hotelling(data = smdi_data)
@@ -201,7 +201,7 @@ h0$ecog_cat
 
 Little proposes a single global test statistic for MCAR that uses all of the available data.[^2] Hence, the `smdi_little` does not return one test statistic per partially observed covariate but one globally for the entire dataset. 
 
-[^2]: [	Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values. J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722](https://www.tandfonline.com/doi/abs/10.1080/01621459.1988.10478722)
+[^2]: Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values. J Am Stat Assoc. 1988;83(404):1198-1202. <doi:10.1080/01621459.1988.10478722>
 
 ```{r}
 h0_global <- smdi_little(data = smdi_data)
