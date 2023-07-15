@@ -28,3 +28,4 @@ coverage.html
 lib
 ^lib$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
