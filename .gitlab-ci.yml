@@ -18,21 +18,29 @@ check:
   stage: check
   script:
     - r -e 'devtools::check(vignettes = FALSE)'
+  artifacts:
+    expire_in: 1 day
 
 checkerrors:
   stage: check
   script:
     - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+  artifacts:
+    expire_in: 1 day
 
 checkwarnings:
   stage: check
   script:
     - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["warnings"]], character(0))) stop("Check with Warnings")'
+  artifacts:
+    expire_in: 1 day
 
 checknotes:
   stage: check
   script:
     - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["notes"]], character(0))) stop("Check with Notes")'
+  artifacts:
+    expire_in: 1 day
 
 # unittests:
 #   stage: test
@@ -49,6 +57,8 @@ install:
   stage: install
   script:
     - r -e 'devtools::install()'
+  artifacts:
+    expire_in: 1 day
 
 # buildbinary:
 #   stage: build
@@ -69,6 +79,6 @@ pages:
   artifacts:
     paths:
       - public
-    expire_in: 1 week
+    expire_in: 1 day
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
