@@ -33,18 +33,16 @@ customization.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
-\dontrun{
 library(smdi)
 library(dplyr)
 
-diagnostics <- smdi_diagnose(
+smdi_diagnose(
   data = smdi_data,
-  covar = NULL, # NULL includes all covariates with at least one NA
+  covar = "egfr_cat",
   model = "cox",
   form_lhs = "Surv(eventtime, status)"
   ) \%>\%
-  smdi_style_gt()
-  }
+smdi_style_gt()
 
 }
 \seealso{

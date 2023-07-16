@@ -43,12 +43,10 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
 #' library(smdi)
 #'
-#' smdi_hotteling(data = smdi_data)
+#' smdi_hotelling(data = smdi_data)
 #'
-#' }
 
 smdi_hotelling <- function(data = NULL,
                            covar = NULL,
