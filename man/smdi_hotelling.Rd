@@ -32,12 +32,10 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc.
 CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 }
 \examples{
-\dontrun{
 library(smdi)
 
-smdi_hotteling(data = smdi_data)
+smdi_hotelling(data = smdi_data)
 
-}
 }
 \references{
 Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378.

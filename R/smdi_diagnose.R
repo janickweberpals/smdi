@@ -56,15 +56,14 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' library(smdi)
 #'
 #' smdi_diagnose(
 #'  data = smdi_data,
+#'  covar = "egfr_cat",
 #'  model = "cox",
 #'  form_lhs = "Surv(eventtime, status)"
 #'  )
-#'}
 #'
 smdi_diagnose <- function(data = NULL,
                           covar = NULL,

@@ -26,19 +26,18 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'library(smdi)
 #'library(dplyr)
 #'
-#' diagnostics <- smdi_diagnose(
+#' smdi_diagnose(
 #'   data = smdi_data,
-#'   covar = NULL, # NULL includes all covariates with at least one NA
+#'   covar = "egfr_cat",
 #'   model = "cox",
 #'   form_lhs = "Surv(eventtime, status)"
 #'   ) %>%
-#'   smdi_style_gt()
-#'   }
+#' smdi_style_gt()
 #'
+
 smdi_style_gt <- function(smdi_object = NULL,
                           include_little = TRUE,
                           font_size = 13,

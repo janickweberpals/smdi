@@ -58,11 +58,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' library(smdi)
 #'
-#' smdi_rf(data = smdi_data)
-#' }
+#' smdi_rf(data = smdi_data, covar = "ecog_cat")
 #'
 
 smdi_rf <- function(data = NULL,
