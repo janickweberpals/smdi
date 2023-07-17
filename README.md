@@ -19,9 +19,9 @@ font-style: italic;
 
 ![](https://www.r-pkg.org/badges/version/smdi)
 
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/smdi?color=orange)](https://r-pkg.org/pkg/smdi)
+![](https://cranlogs.r-pkg.org/badges/last-month/smdi)
 
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/smdi?color=blue)](https://r-pkg.org/pkg/smdi)
+![](https://cranlogs.r-pkg.org/badges/grand-total/smdi)
 
 <!-- badges: end -->
 

@@ -1,5 +1,7 @@
 # smdi 0.2.2
 
+* CRAN release 
+
 * Formally implemented unit tests
 
 * Added unit test coverage report to pkgdown website

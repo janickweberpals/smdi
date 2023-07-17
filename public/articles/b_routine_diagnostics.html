@@ -117,7 +117,7 @@ characteristic patterns of diagnostic parameters matched to common
 missing data structures based on three group diagnostics:</p>
 </div>
 <div class="figure">
-<img src="smdi_diagnose_table.png" alt="Overview three group diagnostics" width="935"><p class="caption">
+<img src="smdi_diagnose_table.png" alt="Overview three group diagnostics" width="1616"><p class="caption">
 Overview three group diagnostics
 </p>
 </div>
@@ -215,8 +215,8 @@ convenient functions to screen the data for missingness.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span>, strata <span class="op">=</span> <span class="st">"exposure"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in smdi_summarize(data = data, covar = covar, strata = strata):</span></span>
-<span><span class="co">#&gt; Strata variable is not a character/factor or has &gt; 10 unique levels. Consider</span></span>
+<span><span class="co">#&gt; Warning in smdi_summarize(data = data, covar = covar, strata = strata): Strata</span></span>
+<span><span class="co">#&gt; variable is not a character/factor or has &gt; 10 unique levels. Consider</span></span>
 <span><span class="co">#&gt; re-categorizing.</span></span></code></pre></div>
 <p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="900"></p>
 </div>
@@ -554,12 +554,12 @@ called using the <code>$</code> operator and looks like this</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
-<span><span class="co">#&gt;   covariate asmd_median_min_max  hotteling_p rf_auc estimate_univariate  estim…¹</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.029 (0.003, 0.071) 0.783       0.510  -0.06 (95% CI -0.16… -0.06 …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> egfr_cat  0.243 (0.010, 0.485) &lt;.001       0.629  0.06 (95% CI -0.03,… -0.01 …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num  0.062 (0.019, 0.338) &lt;.001       0.516  0.12 (95% CI 0.01, … 0.11 (…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​estimate_adjusted</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   covariate asmd_median_min_max  hotteling_p rf_auc estimate_univariate       </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.029 (0.003, 0.071) 0.783       0.510  -0.06 (95% CI -0.16, 0.03)</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> egfr_cat  0.243 (0.010, 0.485) &lt;.001       0.629  0.06 (95% CI -0.03, 0.15) </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> pdl1_num  0.062 (0.019, 0.338) &lt;.001       0.516  0.12 (95% CI 0.01, 0.23)  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: estimate_adjusted &lt;glue&gt;</span></span></span></code></pre></div>
 <p>… and the p-value of the global Little’s test statistic:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnostics</span><span class="op">$</span><span class="va">p_little</span></span>
