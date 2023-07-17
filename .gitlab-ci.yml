@@ -1,15 +1,76 @@
-# This file is a template, and might need editing before it works on your project.
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Pages/HTML.gitlab-ci.yml
-
-# Full project: https://gitlab.com/pages/plain-html
-image: busybox
+image: rocker/tidyverse:4.2.1
 
 default:
   tags:
   - pages
+
+stages:
+  - check
+  - test
+  - install
+  - build
+  - deploy
+
+before_script:
+  - apt-get update
+
+check:
+  stage: check
+  script:
+    - r -e 'devtools::check(vignettes = FALSE)'
+  artifacts:
+    expire_in: 1 day
+
+checkerrors:
+  stage: check
+  script:
+    - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+  artifacts:
+    expire_in: 1 day
+
+checkwarnings:
+  stage: check
+  script:
+    - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["warnings"]], character(0))) stop("Check with Warnings")'
+  artifacts:
+    expire_in: 1 day
+
+checknotes:
+  stage: check
+  script:
+    - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["notes"]], character(0))) stop("Check with Notes")'
+  artifacts:
+    expire_in: 1 day
+
+# unittests:
+#   stage: test
+#   script:
+#     - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+
+# testcov:
+#   stage: test
+#   script:
+#     - r -e "install.packages(c('covr', 'DT'))"
+#     - r -e 'devtools::test_coverage()'
+
+install:
+  stage: install
+  script:
+    - r -e 'devtools::install()'
+  artifacts:
+    expire_in: 1 day
+
+# buildbinary:
+#   stage: build
+#   script:
+#     - r -e 'devtools::build(binary = TRUE)'
+
+# buildsite:
+#   stage: deploy
+#   script:
+#     - Rscript -e 'install.packages(c("covr", "DT"))'
+#     - r -e 'covr::gitlab(file = "coverage.html")'
+#     - r -e 'build_site()'
 
 pages:
   stage: deploy
@@ -18,7 +79,6 @@ pages:
   artifacts:
     paths:
       - public
+    expire_in: 1 day
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-

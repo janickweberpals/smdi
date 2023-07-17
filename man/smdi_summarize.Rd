@@ -2,19 +2,19 @@
 % Please edit documentation in R/smdi_summarize.R
 \name{smdi_summarize}
 \alias{smdi_summarize}
-\title{Util helper to automatically extract all covariates with partially observed covariates}
+\title{Utility helper to give a light summary of partially observed covariates}
 \usage{
 smdi_summarize(data = NULL, covar = NULL, strata = NULL)
 }
 \arguments{
-\item{data}{dataframe or tibble object with partially observed/missing variables. Assumes a a one-row-per-patient format}
+\item{data}{dataframe or tibble object with partially observed/missing variables. Assumes a a one-row-per-patient format.}
 
-\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation}
+\item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation.}
 
 \item{strata}{character name of variable/column by which results should be stratified}
 }
 \value{
-returns count and proportion of missing values. If \if{html}{\out{<strata>}} is specified, the returned proportion refers to the amount of
+returns count and proportion of missing values. If strata is specified, the returned proportion refers to the amount of
 patients in the respective stratum.
 }
 \description{

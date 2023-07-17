@@ -1,12 +1,12 @@
 Package: smdi
 Type: Package
-Title: Perform structural missing data investigations (smdi)
-Version: 0.2.1
-Authors@R: person("Janick", "Weberpals", email = "jweberpals@bwh.harvard.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0404-7394"))
-Author: Janick Weberpals
-Maintainer: Janick Weberpals <jweberpals@bwh.harvard.edu>
-Description: This package aims to help implementing routine structural missing data diagnostics. It provides functions to: visualize proportions missingness, perform group 1-3 missing data diagnostics and run sensitivity analyses and get estimates for chosen sensitivity parameters.
+Title: Perform Structural Missing Data Investigations
+Version: 0.2.2
+Authors@R: person("Janick", "Weberpals", email = "jweberpals@bwh.harvard.edu", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-0404-7394"))
+Description: An easy to use implementation of routine structural missing data diagnostics with functions to visualize the proportions of missing observations, investigate missing data patterns and conduct various empirical missing data diagnostic tests. Reference: Weberpals J, Raman SR, Shaw PA, Lee H, Russo M, Hammil BG, Toh D, Connolly JG, Dandreo KJ, Tian F, Liu W, Li Jie, Hernandez-Munos JJ, Glynn RJ, Desai RJ (2023, in submission). "A Principled Approach to Characterize and Analyze Partially Observed Confounder Data From Electronic Health Records: A Plasmode Simulation Study."
 License: GPL (>= 3)
+URL: https://janickweberpals.gitlab-pages.partners.org/smdi
+BugReports: https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
@@ -45,6 +45,9 @@ Suggests:
     rmarkdown,
     simsurv,
     survminer,
-    usethis
+    usethis,
+    testthat (>= 3.0.0),
+    vdiffr
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

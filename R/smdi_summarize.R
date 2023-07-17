@@ -1,4 +1,4 @@
-#' Util helper to automatically extract all covariates with partially observed covariates
+#' Utility helper to give a light summary of partially observed covariates
 #'
 #' @description
 #' This function takes a dataframe and automatically returns the amount and proportion of
@@ -8,11 +8,11 @@
 #' in which case the proportion missing refers to the amount of
 #' patients in the respective stratum.
 #'
-#' @param data dataframe or tibble object with partially observed/missing variables. Assumes a a one-row-per-patient format
-#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
+#' @param data dataframe or tibble object with partially observed/missing variables. Assumes a a one-row-per-patient format.
+#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation.
 #' @param strata character name of variable/column by which results should be stratified
 #'
-#' @return returns count and proportion of missing values. If <strata> is specified, the returned proportion refers to the amount of
+#' @return returns count and proportion of missing values. If strata is specified, the returned proportion refers to the amount of
 #' patients in the respective stratum.
 #'
 #' @importFrom magrittr '%>%'
@@ -53,14 +53,31 @@ smdi_summarize <- function(data = NULL,
     covar = covar
     )
 
-  # checks and grouping in case <strata> is specified
+  # checks and grouping in case strata is specified
   if(!is.null(strata)){
 
-    # check if <strata> variable is present in <data>
+    # check if strata variable is present in <data>
     if(!strata %in% names(data)){stop("Strata variable not present in data.")}
 
-    # return a warning if <strata> variable itself has NA values
-    if(sum(is.na(data[[strata]])) > 0){warning("Strata variable has NA.")}
+    # raise warning to user if strata variable is not a character or factor or has more than 10 unique levels (in this case the variable likely has wrong encoding)
+    if(!class(data[[strata]]) %in% c("factor", "character") | nlevels(factor(data[[strata]])) > 10){
+
+      warning("Strata variable is not a character/factor or has > 10 unique levels. Consider re-categorizing.")
+
+      }
+
+    # return a warning if strata variable itself has NA values
+    if(sum(is.na(data[[strata]])) > 0){
+
+      # assign an 'unknown' strata level
+      data[[strata]] <- ifelse(is.na(data[[strata]]), "Unknown", data[[strata]])
+
+      # remove strata from covar_miss
+      covar_miss <- covar_miss[!covar_miss == strata]
+
+      warning("Strata variable has NA. Additional 'Unknown' stratum level was added.")
+
+      }
 
     # group data for summarizing NA by stratum
     data <- data %>%
@@ -88,13 +105,6 @@ smdi_summarize <- function(data = NULL,
     dplyr::mutate(prop_miss_label = paste0(formatC(prop_miss, format = 'f', digits = 2), "%")) %>%
     # sort by prop missing and covariate
     dplyr::arrange(dplyr::desc(prop_miss), covariate)
-
-  # if no missing covariates are found => return message
-  if(length(data_summary$covariate)==0){
-
-    message("Note: Found no covariates with missing values. Check that missing values are coded as <NA>.")
-
-    }
 
   return(data_summary)
 

@@ -14,7 +14,7 @@ smdi_hotelling(data = NULL, covar = NULL, n_cores = 1)
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
 }
 \value{
-returns a hotelling object with statistics on hotellings test by covariate. That is, for each \if{html}{\out{<covar>}}, the following outputs are provided:
+returns a hotelling object with statistics on hotellings test by covariate. That is, for each covar, the following outputs are provided:
 \itemize{
 \item stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
 \item pval: p-value of hotelling test
@@ -32,15 +32,13 @@ Important: don't include variables like ID variables, ZIP codes, dates, etc.
 CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 }
 \examples{
-\dontrun{
 library(smdi)
 
-smdi_hotteling(data = smdi_data)
+smdi_hotelling(data = smdi_data)
 
 }
-}
 \references{
-Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378. doi:10.1214/aoms/1177732979
+Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378.
 }
 \seealso{
 \code{\link{hotelling.test}}

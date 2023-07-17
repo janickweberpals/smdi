@@ -2,7 +2,7 @@
 % Please edit documentation in R/smdi_vis.R
 \name{smdi_vis}
 \alias{smdi_vis}
-\title{Quick and elegant visualization of partially observed/missing variables}
+\title{Quick ggplot2 barchart visualization of partially observed/missing variables}
 \usage{
 smdi_vis(data = NULL, covar = NULL, strata = NULL)
 }

@@ -3,7 +3,7 @@
 #' @description
 #' Little’s chi-squared test takes into account possible patterns of missingness across all variables in the dataset.
 #' Rejection of the null hypothesis of this test would provide sufficient evidence to indicate that the data are (globally) not MCAR.
-#' Please note that compared to smdi_hotelling, this function tests for MCAR globally across all missing covariates.
+#' Please note that compared to \link{smdi_hotelling}, this function tests for MCAR globally across all missing covariates.
 #'
 #'#' #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
@@ -15,7 +15,7 @@
 #'
 #' @references
 #' Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.
-#' J Am Stat Assoc. 1988;83(404):1198-1202. doi:10.1080/01621459.1988.10478722
+#' J Am Stat Assoc. 1988;83(404):1198-1202.
 #'
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables

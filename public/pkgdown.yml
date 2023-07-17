@@ -1,13 +1,13 @@
-pandoc: 2.19.2
+pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  data_generation: data_generation.html
-  multivariate_missingness: multivariate_missingness.html
-  narfcs_sensitivity_analysis: narfcs_sensitivity_analysis.html
-  routine_diagnostics: routine_diagnostics.html
+  a_data_generation: a_data_generation.html
+  b_routine_diagnostics: b_routine_diagnostics.html
+  c_multivariate_missingness: c_multivariate_missingness.html
+  d_narfcs_sensitivity_analysis: d_narfcs_sensitivity_analysis.html
   smdi: smdi.html
-last_built: 2023-05-08T18:32Z
+last_built: 2023-07-17T22:28Z
 urls:
   reference: https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference
   article: https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles

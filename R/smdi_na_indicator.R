@@ -4,17 +4,17 @@
 #'This function takes a dataframe and creates binary missing indicator variable. This can be realized with two
 #'different approaches:
 #'
-#'Approach 1 (drop_NA_col = FALSE): retains variables in the dataframe with missing observations
+#'Approach 1 (drop_NA_col = FALSE): creates a binary missing indicator variable for partially observed variables and retains both original and indicator variables.
 #'
-#'Approach 2 (drop_NA_col = TRUE): only creates a binary missing indicator variable for variables with missing observations and drops the original variables with missing observations.
+#'Approach 2 (drop_NA_col = TRUE): creates a binary missing indicator variable for partially observed variables and only retains indicator variables (and drops the original variables).
 #'
 #'Important: Make sure you have your variables format correct and avoid to include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
-#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation
+#' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation.
 #' @param drop_NA_col logical, drop specified columns with NA (default) or retain those columns
 #'
-#' @return returns the dataframe with missing indicator variables (ending on "_NA")
+#' @return returns the dataframe with missing indicator variables (column names are ending on "_NA")
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across

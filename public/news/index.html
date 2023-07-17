@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,14 +27,20 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -51,11 +57,20 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.2" id="smdi-022">smdi 0.2.2<a class="anchor" aria-label="anchor" href="#smdi-022"></a></h2><p class="text-muted">CRAN release: 2023-07-17</p>
+<ul><li><p>CRAN release</p></li>
+<li><p>Formally implemented unit tests</p></li>
+<li><p>Added unit test coverage report to pkgdown website</p></li>
+<li><p>Implemented automated GitLab CI/CD pipeline to run checks on daily basis</p></li>
+<li><p>Minor fixes and improvements in documentation of functions</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.1" id="smdi-021">smdi 0.2.1<a class="anchor" aria-label="anchor" href="#smdi-021"></a></h2>
 <ul><li><p>Included re-exports of naniar’s <code>gg_miss_upset</code> and mice’s <code>md.pattern</code> functions to explore missing data patterns.</p></li>
 <li><p>New function <code><a href="../reference/smdi_style_gt.html">smdi_style_gt()</a></code> to make publication-ready tables based on objects of class smdi in combination with the <code><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt()</a></code> package.</p></li>
 <li><p>Added more details to <em>Routine structural missing data diagnostics</em> vignette.</p></li>
 <li><p>Updated <code>README</code> with more details and guidance on how to interpret the three group diagnostics and apply those to a real-world study.</p></li>
+<li><p>Some improved documentation here and there.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="smdi-020">smdi 0.2.0<a class="anchor" aria-label="anchor" href="#smdi-020"></a></h2>

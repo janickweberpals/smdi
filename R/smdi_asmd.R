@@ -22,9 +22,9 @@
 #'
 #' The asmd is computed for every covariate one-by-one and not jointly. If there is multivariate
 #' missingness, i.e. more than just one missing covariate exists, you can decide what should
-#' happen with the other partially observed 'predictor' covariates using the <includeNA> parameter.
-#' That is, if <includeNA> is set to FALSE (default), only the asmd between observed cases will be computed,
-#' and if <includeNA> is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
+#' happen with the other partially observed 'predictor' covariates using the includeNA parameter.
+#' That is, if includeNA is set to FALSE (default), only the asmd between observed cases will be computed,
+#' and if includeNA is set to TRUE, missingness is modeled as an explicit category (categorical covariates only).
 #'
 #' If any other behavior is desired, data transformations for example with the \code{\link{smdi_na_indicator}} function, may make sense
 #' before calling the function.
@@ -48,7 +48,7 @@
 #' @param includeNA logical, should missingness of other partially observed covariates be explicitly modeled (default is FALSE)
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
-#' @return returns an asmd object with average/median absolute standardized mean differences. That is, for each <covar>, the following outputs are provided:
+#' @return returns an asmd object with average/median absolute standardized mean differences. That is, for each covar, the following outputs are provided:
 #'
 #' - asmd_covar: name of covariate investigated
 #'
@@ -112,6 +112,12 @@ smdi_asmd <- function(data = NULL,
 
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
+
+  # n_cores on windows
+  if(Sys.info()[["sysname"]]=="Windows"){
+    warning("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
+    n_cores = 1
+  }
 
   # more cores than available
   if(n_cores > parallel::detectCores()){
@@ -217,9 +223,9 @@ smdi_asmd <- function(data = NULL,
         )
       )
 
-    }
+    } # loop ends
 
-  # iterate above analyses overall specified
+  # iterate above analyses over all specified
   # partially observed covariates
   asmd_out <- parallel::mclapply(covar_miss, FUN = smd_loop, mc.cores = n_cores)
   names(asmd_out) <- covar_miss

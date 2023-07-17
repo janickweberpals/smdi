@@ -5,11 +5,13 @@ template:
 # Our GitLab runner can just deploy public/
 destination: public/
 
-articles:
-- title: Articles
-  navbar: ~
-  contents:
-  - data_generation
-  - routine_diagnostics
-  - multivariate_missingness
-  - narfcs_sensitivity_analysis
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials, news, reports]
+    right: [search]
+  components:
+   reports:
+    text: Reports
+    menu:
+    - text: Coverage report
+      href: coverage.html # covr::gitlab()

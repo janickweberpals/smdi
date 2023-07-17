@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,14 +44,20 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/data_generation.html">Data generation</a>
-    <a class="dropdown-item" href="../articles/routine_diagnostics.html">Routine structural missing data diagnostics</a>
-    <a class="dropdown-item" href="../articles/multivariate_missingness.html">Multivariate missingness and monotonicity</a>
-    <a class="dropdown-item" href="../articles/narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
+    <a class="dropdown-item" href="../articles/a_data_generation.html">Data generation</a>
+    <a class="dropdown-item" href="../articles/b_routine_diagnostics.html">Routine structural missing data diagnostics</a>
+    <a class="dropdown-item" href="../articles/c_multivariate_missingness.html">Multivariate missingness and monotonicity</a>
+    <a class="dropdown-item" href="../articles/d_narfcs_sensitivity_analysis.html">NARFCS sensitivity analysis</a>
   </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-reports">Reports</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-reports">
+    <a class="dropdown-item" href="../coverage.html">Coverage report</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -82,7 +88,7 @@ Weberpals</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smdi</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com/" class="external-link">gt</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="smdi_diagnose---the-flagship-function">
@@ -526,9 +532,9 @@ all of the default parameters).</p>
 </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;sup class="gt_footnote_marks"&gt;2&lt;/sup&gt;'>AUC<sup class="gt_footnote_marks">2</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='β crude (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>β crude (95% CI)<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta univariate (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta univariate (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='β (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>β (95% CI)<sup class="gt_footnote_marks">3</sup>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='beta (95% CI)&lt;sup class="gt_footnote_marks"&gt;3&lt;/sup&gt;'>beta (95% CI)<sup class="gt_footnote_marks">3</sup>
 </th>
     </tr></thead>
 <tbody class="gt_table_body">
@@ -537,7 +543,7 @@ all of the default parameters).</p>
 <td headers="asmd_median_min_max" class="gt_row gt_left">0.029 (0.003, 0.071)</td>
 <td headers="hotteling_p" class="gt_row gt_left">0.783</td>
 <td headers="rf_auc" class="gt_row gt_left">0.510</td>
-<td headers="estimate_crude" class="gt_row gt_left">-0.06 (95% CI -0.16, 0.03)</td>
+<td headers="estimate_univariate" class="gt_row gt_left">-0.06 (95% CI -0.16, 0.03)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.06 (95% CI -0.16, 0.03)</td>
 </tr>
 <tr>
@@ -545,7 +551,7 @@ all of the default parameters).</p>
 <td headers="asmd_median_min_max" class="gt_row gt_left">0.243 (0.010, 0.485)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_left">0.629</td>
-<td headers="estimate_crude" class="gt_row gt_left">0.06 (95% CI -0.03, 0.15)</td>
+<td headers="estimate_univariate" class="gt_row gt_left">0.06 (95% CI -0.03, 0.15)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.01 (95% CI -0.10, 0.09)</td>
 </tr>
 <tr>
@@ -553,13 +559,13 @@ all of the default parameters).</p>
 <td headers="asmd_median_min_max" class="gt_row gt_left">0.062 (0.019, 0.338)</td>
 <td headers="hotteling_p" class="gt_row gt_left">&lt;.001</td>
 <td headers="rf_auc" class="gt_row gt_left">0.516</td>
-<td headers="estimate_crude" class="gt_row gt_left">0.12 (95% CI 0.01, 0.23)</td>
+<td headers="estimate_univariate" class="gt_row gt_left">0.12 (95% CI 0.01, 0.23)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">0.11 (95% CI -0.00, 0.22)</td>
 </tr>
 </tbody>
 <tfoot class="gt_footnotes">
 <tr>
-<td class="gt_footnote" colspan="6"> p little: &lt;.001,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, β = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
+<td class="gt_footnote" colspan="6"> p little: &lt;.001,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</td>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
@@ -571,7 +577,7 @@ all of the default parameters).</p>
     </tr>
 <tr>
 <td class="gt_footnote" colspan="6">
-<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (crude, adjusted)</td>
+<sup class="gt_footnote_marks">3</sup> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>

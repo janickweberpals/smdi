@@ -4,12 +4,20 @@
 \name{smdi-package}
 \alias{smdi}
 \alias{smdi-package}
-\title{smdi: Perform structural missing data investigations (smdi)}
+\title{smdi: Perform Structural Missing Data Investigations}
 \description{
-This package aims to help implementing routine structural missing data diagnostics. It provides functions to: visualize proportions missingness, perform group 1-3 missing data diagnostics and run sensitivity analyses and get estimates for chosen sensitivity parameters.
+An easy to use implementation of routine structural missing data diagnostics with functions to visualize the proportions of missing observations, investigate missing data patterns and conduct various empirical missing data diagnostic tests. Reference: Weberpals J, Raman SR, Shaw PA, Lee H, Russo M, Hammil BG, Toh D, Connolly JG, Dandreo KJ, Tian F, Liu W, Li Jie, Hernandez-Munos JJ, Glynn RJ, Desai RJ (2023, in submission). "A Principled Approach to Characterize and Analyze Partially Observed Confounder Data From Electronic Health Records: A Plasmode Simulation Study."
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://janickweberpals.gitlab-pages.partners.org/smdi}
+  \item Report bugs at \url{https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues}
+}
+
 }
 \author{
-\strong{Maintainer}: Janick Weberpals \email{jweberpals@bwh.harvard.edu} (\href{https://orcid.org/0000-0003-0404-7394}{ORCID})
+\strong{Maintainer}: Janick Weberpals \email{jweberpals@bwh.harvard.edu} (\href{https://orcid.org/0000-0003-0404-7394}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
