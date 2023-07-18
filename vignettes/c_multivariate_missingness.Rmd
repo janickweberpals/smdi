@@ -92,6 +92,9 @@ A good example for monotone missing data could be clinical blood laboratory test
 ```{r}
 # we simulatea monotone missingness pattern
 # following an MCAR mechanism
+
+set.seed(42)
+
 data_monotone <- smdi_data_complete %>% 
   mutate(
     lab1 = rnorm(nrow(smdi_data_complete), mean = 5, sd = 0.5),
