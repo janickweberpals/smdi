@@ -1,4 +1,4 @@
-image: rocker/tidyverse:4.2.1
+image: rocker/r-ver:latest
 
 default:
   tags:
@@ -11,66 +11,86 @@ stages:
   - build
   - deploy
 
+variables:
+  RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
+  RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
+  RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
+
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+    - ${RENV_PATHS_CACHE}
+    - ${RENV_PATHS_LIBRARY}
+
 before_script:
-  - apt-get update
+  - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
+  - Rscript -e "renv::restore()"
 
 check:
   stage: check
   script:
-    - r -e 'devtools::check(vignettes = FALSE)'
+    - r -e 'devtools::check()'
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 min
 
 checkerrors:
   stage: check
   script:
     - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 min
 
 checkwarnings:
   stage: check
   script:
     - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["warnings"]], character(0))) stop("Check with Warnings")'
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 min
 
 checknotes:
   stage: check
   script:
     - r -e 'if (!identical(devtools::check(vignettes = FALSE, document = FALSE, args = "--no-tests")[["notes"]], character(0))) stop("Check with Notes")'
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 min
 
-# unittests:
-#   stage: test
-#   script:
-#     - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+CRANcheck:
+  stage: check
+  script:
+    - r -e 'devtools::check(remote = TRUE, manual = TRUE)'
+  artifacts:
+    expire_in: 1 min
 
-# testcov:
-#   stage: test
-#   script:
-#     - r -e "install.packages(c('covr', 'DT'))"
-#     - r -e 'devtools::test_coverage()'
+unittests:
+  stage: test
+  script:
+    - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+  artifacts:
+    expire_in: 1 min
 
 install:
   stage: install
   script:
     - r -e 'devtools::install()'
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 min
 
-# buildbinary:
-#   stage: build
-#   script:
-#     - r -e 'devtools::build(binary = TRUE)'
+buildbinary:
+  stage: build
+  script:
+    - r -e 'devtools::build()'
+  artifacts:
+    expire_in: 1 min
 
-# buildsite:
-#   stage: deploy
-#   script:
-#     - Rscript -e 'install.packages(c("covr", "DT"))'
-#     - r -e 'covr::gitlab(file = "coverage.html")'
-#     - r -e 'build_site()'
+buildsite:
+  stage: deploy
+  script:
+    - r -e 'covr::gitlab()'
+    - r -e 'pkgdown::build_site()'
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 min
 
 pages:
   stage: deploy
@@ -79,6 +99,6 @@ pages:
   artifacts:
     paths:
       - public
-    expire_in: 1 day
+    expire_in: 1 min
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
