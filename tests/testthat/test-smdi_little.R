@@ -25,3 +25,15 @@ test_that("function handles missing data correctly", {
 test_that("function raises an error for missing input data", {
   expect_error(smdi_little(), "No dataframe provided.")
 })
+
+# Test case 4: Check that there is missing data in at least one column
+test_that("function raises an error if there is no missing data in the one-hot encoded part (needed for mcar_test)", {
+  # create complete data frame
+  data <- data.frame(
+    var1 = c(1, 2, 1, 4),
+    var2 = c(1, 2, 3, 4),
+    var3 = c(1, 1, 3, 4)
+    )
+
+  expect_error(smdi_little(data = data), "<data> does not contain any column with missing values.")
+})
