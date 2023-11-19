@@ -62,7 +62,11 @@ smdi_little <- function(data = NULL
     }
 
   # expect at least one column with missing values
-  assertthat::assert_that(any(sapply(data, function(.x) is.na(.x))), msg = "<data> does not contain any column with missing values.")
+  if(!any(sapply(data, function(.x) is.na(.x)))){
+
+    stop("<data> does not contain any column with missing values.")
+
+    }
 
   little <- naniar::mcar_test(data = data_encoded)
 

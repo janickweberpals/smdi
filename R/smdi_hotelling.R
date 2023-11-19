@@ -101,7 +101,11 @@ smdi_hotelling <- function(data = NULL,
     }
 
   # expect no column with missing values (all columns should be complete and NA's should be dummy variables after pre-processing)
-  assertthat::assert_that(all(sapply(data_encoded, function(.x) !is.na(.x))), msg = "After pre-processing the data, there are columns with NA. Please write an issue if you see this error.")
+  if(any(sapply(data_encoded, function(.x) is.na(.x)))){
+
+    stop("After pre-processing the data, there are columns with NA. Please write an issue if you see this error.")
+
+    }
 
   # start applying smd computation over all partially observed covariates
   hotelling_loop <- function(i){

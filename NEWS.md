@@ -1,10 +1,10 @@
 # smdi 0.3.0
 
-* incorporated comments from peer-review in JAMIA Open
+* Incorporated comments from peer-review in JAMIA Open
 
-* added one-hot encoding to data pre-processing in `smdi_little`
+* Variables are now one-hot encoded before running *naniar::mcar_test()* in `smdi_little` to address potential issues with categorical variables and to be consistent with smdi_hotelling. Results may differ slightly from those form previous versions and we suggest re-running analyses.
 
-* changed n_cores from warning to message
+* Changed n_cores from warning to message
 
 # smdi 0.2.2
 
