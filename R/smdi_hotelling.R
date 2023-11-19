@@ -62,13 +62,13 @@ smdi_hotelling <- function(data = NULL,
 
   # n_cores on windows
   if(Sys.info()[["sysname"]]=="Windows"){
-    warning("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
+    message("Windows does not support parallelization based on forking. <n_cores> will be automatically set to 1.")
     n_cores = 1
   }
 
   # more cores than available
   if(n_cores > parallel::detectCores()){
-    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+    message("You specified more <n_cores> than you have available. The function will use all cores available to it.")
     }
 
   # check for missing covariate of interest
@@ -77,7 +77,7 @@ smdi_hotelling <- function(data = NULL,
     covar = covar
     )
 
-  # apply smdi_na_indicator for datset to create missing
+  # apply smdi_na_indicator for datqset to create missing
   # indicator variables;
   # needs to be done for all variables with at least one NA
   data_encoded <- smdi::smdi_na_indicator(
@@ -86,18 +86,22 @@ smdi_hotelling <- function(data = NULL,
     drop_NA_col = TRUE
     )
 
-  # for hottelling we need to one-hot-encode categorical variables
-  # multi-categorical variables if exist
+  # for hotelling we need to one-hot-encode categorical variables
+  # applicable to multi-categorical variables if exist
   if(any(sapply(data_encoded, function(.x) is.factor(.x) || is.character(.x)))){
 
     data_encoded <- data_encoded %>%
       fastDummies::dummy_columns(
         remove_most_frequent_dummy = TRUE,
+        # ignore_na = FALSE will make a dummy column for value_NA and
+        # give a 1 in any row which has a NA value.
         ignore_na = FALSE,
         remove_selected_columns = TRUE
         )
     }
 
+  # expect no column with missing values (all columns should be complete and NA's should be dummy variables after pre-processing)
+  assertthat::assert_that(all(sapply(data_encoded, function(.x) !is.na(.x))), msg = "After pre-processing the data, there are columns with NA. Please write an issue if you see this error.")
 
   # start applying smd computation over all partially observed covariates
   hotelling_loop <- function(i){
