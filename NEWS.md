@@ -1,5 +1,11 @@
 # smdi 0.3.0
 
+* incorporated comments from peer-review in JAMIA Open
+
+* added one-hot encoding to data pre-processing in `smdi_little`
+
+* changed n_cores from warning to message
+
 # smdi 0.2.2
 
 * CRAN release 
