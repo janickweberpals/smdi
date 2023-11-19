@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Janick Weberpals \email{jweberpals@bwh.harvard.edu} (\href{https://orcid.org/0000-0003-0404-7394}{ORCID}) [copyright holder]
+\strong{Maintainer}: Janick Weberpals \email{jweberpals@gmail.com} (\href{https://orcid.org/0000-0003-0404-7394}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
