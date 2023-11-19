@@ -1,3 +1,5 @@
+# smdi 0.3.0
+
 # smdi 0.2.2
 
 * CRAN release 
