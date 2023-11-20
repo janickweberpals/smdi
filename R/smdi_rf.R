@@ -23,6 +23,7 @@
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
 #' @param ntree integer, number of trees (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default
+#' @param tune logical,if TRUE, a 5-fold cross validation is performed combined with a random search for the optimal number of optimal number of variables randomly sampled as candidates at each split (mtry). FALSE is the default due to potentially extensive computation times.
 #' @param set_seed seed for reproducibility, defaults to 42
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
@@ -33,6 +34,9 @@
 #' - rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
 #' That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.
 #'
+#' - OOB: estimated OOB error for each investigated partially observed confounder (indicates the performance of the random forest model for data points that are not used in training a tree.)
+#'
+#' @importFrom caret trainControl train
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom forcats fct_reorder
@@ -54,7 +58,6 @@
 #' @importFrom tibble tibble
 #' @importFrom tibble rownames_to_column
 #' @importFrom tidyselect all_of
-#'
 #' @export
 #'
 #' @examples
@@ -68,8 +71,8 @@ smdi_rf <- function(data = NULL,
                     train_test_ratio = c(.7, .3),
                     set_seed = 42,
                     ntree = 1000,
-                    mtry_tune = FALSE,
-                    n_cores = 1
+                    n_cores = 1,
+                    tune = FALSE
                     ){
 
   # initialize
@@ -122,31 +125,48 @@ smdi_rf <- function(data = NULL,
     test   <- data_encoded[!sample, ]
 
     # tune mtry if desired
-    if(mtry_tune){
+    if(tune){
 
-      set.seed(set_seed)
-      mtry_tune <- randomForest::tuneRF(
-        x = train %>% dplyr::select(-target_var),
-        y = train$target_var,
-        stepFactor = 1.5,
-        improve = 1e-5,
-        ntree = ntree,
-        plot = FALSE,
-        trace = TRUE
+      # cv 5 folds repeat 1 time & random search for mtry
+      control <- caret::trainControl(
+        method = 'repeatedcv',
+        number = 5,
+        repeats = 1,
+        search = "random"
         )
 
-      # select the mtry with the lowest OOB
-      bestmtry <- mtry_tune %>%
-        as.data.frame() %>%
-        dplyr::filter(OOBError == min(OOBError)) %>%
-        dplyr::pull(mtry)
+      set.seed(set_seed)
+      rf_train <- caret::train(
+        as.factor(target_var) ~ . ,
+        data = train,
+        ntree = ntree,
+        method = "rf",
+        metric = 'Accuracy',
+        trControl = control
+        )
 
-      print(mtry_tune)
+      set.seed(set_seed)
+      rf <- randomForest::randomForest(
+        as.factor(target_var) ~ .,
+        data = train,
+        ntree = ntree,
+        mtry = rf_train$bestTune$mtry
+        )
 
-    }
+      # compute OOB for cross-validated rf model
+      conf <- rf$confusion[,-ncol(rf$confusion)]
+      oob <- glue::glue("Estimated OOB error for {i}: {formatC((1 - (sum(diag(conf))/sum(conf)))*100, 4)}%")
 
-    set.seed(set_seed)
-    rf <- randomForest::randomForest(as.factor(target_var) ~ ., data = train, ntree = ntree, importance = TRUE)
+      }else{
+
+        set.seed(set_seed)
+        rf <- randomForest::randomForest(as.factor(target_var) ~ ., data = train, ntree = ntree, importance = TRUE)
+
+        # compute OOB
+        conf <- rf$confusion[,-ncol(rf$confusion)]
+        oob <- glue::glue("Estimated OOB error for {i}: {formatC((1 - (sum(diag(conf))/sum(conf)))*100, 4)}%")
+
+        }
 
     # evaluate on test set
     rf_test <- stats::predict(rf, newdata = test, type = "response", importance = T)
@@ -194,7 +214,8 @@ smdi_rf <- function(data = NULL,
 
     rf_out <- list(
       rf_table = rf_tbl_out,
-      rf_plot = rf_plot_out
+      rf_plot = rf_plot_out,
+      OOB = oob
       )
 
     return(rf_out)
