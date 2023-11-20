@@ -68,6 +68,7 @@ smdi_rf <- function(data = NULL,
                     train_test_ratio = c(.7, .3),
                     set_seed = 42,
                     ntree = 1000,
+                    mtry_tune = FALSE,
                     n_cores = 1
                     ){
 
@@ -119,6 +120,30 @@ smdi_rf <- function(data = NULL,
     sample <- sample(c(TRUE, FALSE), nrow(data_encoded), replace = TRUE, prob = train_test_ratio)
     train  <- data_encoded[sample, ]
     test   <- data_encoded[!sample, ]
+
+    # tune mtry if desired
+    if(mtry_tune){
+
+      set.seed(set_seed)
+      mtry_tune <- randomForest::tuneRF(
+        x = train %>% dplyr::select(-target_var),
+        y = train$target_var,
+        stepFactor = 1.5,
+        improve = 1e-5,
+        ntree = ntree,
+        plot = FALSE,
+        trace = TRUE
+        )
+
+      # select the mtry with the lowest OOB
+      bestmtry <- mtry_tune %>%
+        as.data.frame() %>%
+        dplyr::filter(OOBError == min(OOBError)) %>%
+        dplyr::pull(mtry)
+
+      print(mtry_tune)
+
+    }
 
     set.seed(set_seed)
     rf <- randomForest::randomForest(as.factor(target_var) ~ ., data = train, ntree = ntree, importance = TRUE)
