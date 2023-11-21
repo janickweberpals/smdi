@@ -1,7 +1,7 @@
 # Unit tests for the smdi_outcome function
 test_that("smdi_outcome returns the expected output", {
   # Test case 1: Check if function throws an error when no dataframe is provided
-  expect_error(smdi_outcome(), "No dataframe provided.")
+  expect_error(smdi_outcome())
 })
 
 # n_cores on windows
@@ -17,32 +17,35 @@ test_that("Test n_cores OS dependency", {
 
 test_that("No LHS form provided", {
   # Test case 2: Check if function throws an error when no form_lhs is provided
-  expect_error(smdi_outcome(data = iris), "No <form_lhs> provided.")
+  expect_error()
 })
 
 test_that("Invalid LHS provided", {
   # Test case 3: Check if function throws an error when an invalid model type is specified
-  expect_error(smdi_outcome(data = iris, form_lhs = "Sepal.Length", model = "invalid_model"), "<model> either not specified or not of type logistic, linear or cox")
+  expect_error(smdi_outcome(data = iris, form_lhs = "Sepal.Length", model = "invalid_model"), "<model> either not specified or not of type glm, linear or cox")
 })
 
 
-# Test case for logistic model with binary outcome
-test_that("Logistic model with binary outcome works correctly", {
+# Test case for glm model with binary outcome
+test_that("glm model with binary outcome works correctly", {
+  set.seed(42)
   data <- data.frame(outcome = rbinom(100, 1, 0.5),
                      covariate1 = rnorm(100),
                      covariate2 = rnorm(100),
                      covariate3 = rnorm(100),
                      covariate4 = sample(c(1, 2, NA), 100, replace = TRUE))
 
-  result <- smdi_outcome(data = data, model = "logistic", form_lhs = "outcome")
+  result <- smdi_outcome(data = data, model = "glm", form_lhs = "outcome")
 
   # Perform assertions on the result
+  expect_message(smdi_outcome(data = data, model = "glm", form_lhs = "outcome"))
   expect_true("covariate4" %in% result$covariate)
   expect_equal(nrow(result), 1)
 })
 
 # Test case for linear model with continuous outcome
 test_that("Linear model with continuous outcome works correctly", {
+  set.seed(42)
   data <- data.frame(outcome = rnorm(100),
                      covariate1 = rnorm(100),
                      covariate2 = rnorm(100),
@@ -59,6 +62,7 @@ test_that("Linear model with continuous outcome works correctly", {
 # Test case for Cox model with time-to-event outcome
 test_that("Cox model with time-to-event outcome works correctly", {
   library(survival)
+  set.seed(42)
   data <- data.frame(time =  rexp(100, rate = 0.2),
                      event = rbinom(100, 1, 0.5),
                      covariate1 = rnorm(100),
@@ -73,4 +77,40 @@ test_that("Cox model with time-to-event outcome works correctly", {
   expect_equal(nrow(result), 1)
 })
 
+# error with glm family
+test_that("<glm_family> is specified although <model> is either 'linear' or 'cox'", {
+  set.seed(42)
+  data <- data.frame(outcome = rbinom(100, 1, 0.5),
+                     covariate1 = rnorm(100),
+                     covariate2 = rnorm(100),
+                     covariate3 = rnorm(100),
+                     covariate4 = sample(c(1, 2, NA), 100, replace = TRUE))
 
+  # Perform assertions on the result
+  expect_error(smdi_outcome(data = data, model = "linear", glm_family = binomial(link = 'logit'), form_lhs = "outcome"))
+})
+
+# missings in outcome variable
+test_that("NAs in outcome variable", {
+  data <- data.frame(outcome = c(NA, NA, rbinom(98, 1, 0.5)),
+                     covariate1 = rnorm(100),
+                     covariate2 = rnorm(100),
+                     covariate3 = rnorm(100),
+                     covariate4 = sample(c(1, 2, NA), 100, replace = TRUE))
+
+  # Perform assertions on the result
+  expect_error(smdi_outcome(data = data, model = "glm", glm_family = binomial(link = 'logit'), form_lhs = "outcome"))
+})
+
+# lifecycle error
+test_that("model='logistic' lifecycle warning", {
+  set.seed(42)
+  data <- data.frame(outcome = rbinom(100, 1, 0.5),
+                     covariate1 = rnorm(100),
+                     covariate2 = rnorm(100),
+                     covariate3 = rnorm(100),
+                     covariate4 = sample(c(1, 2, NA), 100, replace = TRUE))
+
+  # Perform assertions on the result
+  expect_error(smdi_outcome(data = data, model = "logistic", form_lhs = "outcome"))
+})

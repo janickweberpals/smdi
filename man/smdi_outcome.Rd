@@ -7,7 +7,8 @@
 smdi_outcome(
   data = NULL,
   covar = NULL,
-  model = c("logistic", "linear", "cox"),
+  model = c("glm", "linear", "cox"),
+  glm_family = NULL,
   form_lhs = NULL,
   exponentiated = FALSE,
   n_cores = 1
@@ -18,7 +19,9 @@ smdi_outcome(
 
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
-\item{model}{character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox}
+\item{model}{character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type glm, linear and cox}
+
+\item{glm_family}{glm family object to specify a certain family of generalized linear models (e.g., binomial, gaussian, Gamma, poisson, etc.). For all options see ?stats::family}
 
 \item{form_lhs}{string specifying the left-hand side of the outcome formula (see details)}
 
@@ -39,11 +42,9 @@ The estimates are computed by univariate and adjusted models on all other progno
 in the dataset. Based on the underlying missingness mechanism, the estimate for the covariate missingness indicator
 may indicate a meaningful difference in the outcome between patients with vs w/o
 the observed confounder conditional on other covariates that could explain that difference.
-
-Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-The function automatically fits a univariate and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
+The function automatically fits a univariate and adjusted outcome model. The currently supported models are glm (glm), linear (lm) and cox (survival).
 For adjusted models, the function uses all available covariates found in the dataset specified with the data parameter. If covariates should not
 be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
 
@@ -67,4 +68,8 @@ smdi_outcome(
 }
 \references{
 ...
+}
+\seealso{
+\code{\link{stats}}
+\code{\link{survival}}
 }

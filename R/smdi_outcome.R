@@ -7,10 +7,14 @@
 #' may indicate a meaningful difference in the outcome between patients with vs w/o
 #' the observed confounder conditional on other covariates that could explain that difference.
 #'
+#' @param model `r lifecycle::badge("deprecated")` `model = "logistic"` is no
+#'   longer supported in favor of model = "glm" and the new glm_family parameter
+#'   which can be used to specify any glm model.
+#'
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' The function automatically fits a univariate and adjusted outcome model. The currently supported models are logistic (glm), linear (lm) and cox (survival).
+#' The function automatically fits a univariate and adjusted outcome model. The currently supported models are glm (glm), linear (lm) and cox (survival).
 #' For adjusted models, the function uses all available covariates found in the dataset specified with the data parameter. If covariates should not
 #' be include in the outcome model, these covariates should be dropped beforehand (as with all other functions in the smdi package).
 #'
@@ -27,10 +31,15 @@
 #'
 #' @param data dataframe or tibble object with partially observed/missing variables
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
-#' @param model character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type logistic, linear and cox
+#' @param model character describing which outcome model to fit to assess the association between covar missingness indicator and outcome. Currently supported are models of type glm, linear and cox
+#' @param glm_family glm family object to specify a certain family of generalized linear models (e.g., binomial, gaussian, Gamma, poisson, etc.). For all options see ?stats::family
 #' @param form_lhs string specifying the left-hand side of the outcome formula (see details)
 #' @param exponentiated logical, should results be exponentiated (default is FALSE)
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
+#'
+#' @seealso
+#' \code{\link{stats}}
+#' \code{\link{survival}}
 #'
 #' @return returns a tibble with univariate and adjusted estimates for each partially observed covar:
 #'
@@ -48,8 +57,7 @@
 #' @importFrom parallel detectCores
 #' @importFrom parallel mclapply
 #' @importFrom stats as.formula
-#' @importFrom stats glm
-#' @importFrom stats lm
+#' @importFrom stats binomial gaussian glm lm Gamma inverse.gaussian poisson quasi quasibinomial quasipoisson
 #' @importFrom stringr str_remove
 #' @importFrom survival coxph
 #' @importFrom survival Surv
@@ -68,7 +76,8 @@
 #'
 smdi_outcome <- function(data = NULL,
                          covar = NULL,
-                         model = c("logistic", "linear", "cox"),
+                         model = c("glm", "linear", "cox"),
+                         glm_family = NULL,
                          form_lhs = NULL,
                          exponentiated = FALSE,
                          n_cores = 1
@@ -77,10 +86,30 @@ smdi_outcome <- function(data = NULL,
   # initialize
   term <- covariate <- estimate <- conf.low <- conf.high <- estimate_univariate <- estimate_adjusted <- V1 <- NULL
 
+  # superseded 'model' parameter
+  if (model == "logistic") {
+    lifecycle::deprecate_stop(
+      when = "0.3.0",
+      what = "smdi_outcome(model = 'logistic')",
+      details = "'logistic' is no longer supported and was superseded with 'glm' along with the <glm_family> parameter to specify any glm model supported by stats::glm family."
+    )
+  }
+
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
   if(is.null(form_lhs)){stop("No <form_lhs> provided.")}
-  if(is.null(model) || !model %in% c("logistic", "linear", "cox")){stop("<model> either not specified or not of type logistic, linear or cox")}
+  if(is.null(model) || !model %in% c("glm", "linear", "cox")){stop("<model> either not specified or not of type glm, linear or cox")}
+  if(model %in% c("linear", "cox") & !is.null(glm_family)){stop("<glm_family> is specified although <model> is either 'linear' or 'cox'")}
+  if(any(is.na(data[[form_lhs]]))){stop("Outcome variable <form_lhs> contains missing observations for which smdi_outcome is not suited.")}
+
+  # if model is glm but no family is specified
+  # logistic regression is default if nothing is specified
+  if(model == "glm" & is.null(glm_family)){
+
+    glm_family <- binomial(link = "logit")
+    message("<glm_family> not specified. Using 'binomial(link = 'logit')' as default.")
+
+    }
 
   # n_cores on windows
   if(Sys.info()[["sysname"]]=="Windows"){
@@ -117,9 +146,9 @@ smdi_outcome <- function(data = NULL,
     form_univariate <- stats::as.formula(paste(form_lhs, "~", target_var))
 
     # fit model
-    if(model == "logistic"){
+    if(model == "glm"){
 
-      univariate_fit <- stats::glm(form_univariate, family = "binomial", data = data_encoded)
+      univariate_fit <- stats::glm(form_univariate, family = glm_family, data = data_encoded)
 
     }else if(model == "linear"){
 
@@ -154,7 +183,7 @@ smdi_outcome <- function(data = NULL,
   # adjusted outcome results ------------------------------------------------
   form_adjusted <- as.formula(paste(form_lhs, "~ ."))
 
-  if(model == "logistic"){
+  if(model == "glm"){
 
     adjusted_fit <- stats::glm(form_adjusted, family = "binomial", data = data_encoded)
 
