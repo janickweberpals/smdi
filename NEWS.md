@@ -4,7 +4,7 @@
 
 * Added `tune` parameter to `smdi_rf` to allow users to perform 5-fold cross validation and optimized random search for `mtry` ()
 
-* Changes to `smdi_outcome`: the `model` parameter option does not accept `logistic` anymore for logistic regressions but `glm` along with a new corresponding parameter `glm_family` to allow users to take advantage of all possible glm families as an outcome regression model (CAVE: no backwards compatibility) 
+* Changes to `smdi_outcome`: the `model` parameter option does not accept `logistic` anymore for logistic regressions but `glm` along with a new corresponding parameter `glm_family` to allow users to take advantage of all possible glm families as an outcome regression model (CAVE: no backwards compatibility) `r lifecycle::badge("deprecated")`
 
 * Variables are now one-hot encoded before running *naniar::mcar_test()* in `smdi_little` to address potential issues with categorical variables and to be consistent with smdi_hotelling. Results may differ slightly from those form previous versions and we suggest re-running analyses.
 
