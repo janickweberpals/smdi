@@ -69,10 +69,10 @@
 smdi_rf <- function(data = NULL,
                     covar = NULL,
                     train_test_ratio = c(.7, .3),
+                    tune = FALSE,
                     set_seed = 42,
                     ntree = 1000,
-                    n_cores = 1,
-                    tune = FALSE
+                    n_cores = 1
                     ){
 
   # initialize

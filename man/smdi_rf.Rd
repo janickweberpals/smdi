@@ -8,10 +8,10 @@ smdi_rf(
   data = NULL,
   covar = NULL,
   train_test_ratio = c(0.7, 0.3),
+  tune = FALSE,
   set_seed = 42,
   ntree = 1000,
-  n_cores = 1,
-  tune = FALSE
+  n_cores = 1
 )
 }
 \arguments{
@@ -21,13 +21,13 @@ smdi_rf(
 
 \item{train_test_ratio}{numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default}
 
+\item{tune}{logical,if TRUE, a 5-fold cross validation is performed combined with a random search for the optimal number of optimal number of variables randomly sampled as candidates at each split (mtry). FALSE is the default due to potentially extensive computation times.}
+
 \item{set_seed}{seed for reproducibility, defaults to 42}
 
 \item{ntree}{integer, number of trees (defaults to 1000 trees)}
 
 \item{n_cores}{integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)}
-
-\item{tune}{logical,if TRUE, a 5-fold cross validation is performed combined with a random search for the optimal number of optimal number of variables randomly sampled as candidates at each split (mtry). FALSE is the default due to potentially extensive computation times.}
 }
 \value{
 returns an rf object which comes as a list that contains the ROC AUC value and corresponding variable importance in training dataset (latter as ggplot object). That is, for each covar, the following outputs are provided:
