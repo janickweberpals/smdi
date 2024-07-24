@@ -3,7 +3,7 @@ Type: Package
 Title: Perform Structural Missing Data Investigations
 Version: 0.3.0
 Authors@R: person("Janick", "Weberpals", email = "jweberpals@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-0404-7394"))
-Description: An easy to use implementation of routine structural missing data diagnostics with functions to visualize the proportions of missing observations, investigate missing data patterns and conduct various empirical missing data diagnostic tests. Reference: Weberpals J, Raman SR, Shaw PA, Lee H, Russo M, Hammil BG, Toh D, Connolly JG, Dandreo KJ, Tian F, Liu W, Li Jie, Hernandez-Munos JJ, Glynn RJ, Desai RJ (2023, in submission). "A Principled Approach to Characterize and Analyze Partially Observed Confounder Data From Electronic Health Records: A Plasmode Simulation Study."
+Description: An easy to use implementation of routine structural missing data diagnostics with functions to visualize the proportions of missing observations, investigate missing data patterns and conduct various empirical missing data diagnostic tests. Reference: Weberpals J, Raman SR, Shaw PA, Lee H, Hammill BG, Toh S, Connolly JG, Dandreo KJ, Tian F, Liu W, Li J, Hernández-Muñoz JJ, Glynn RJ, Desai RJ. smdi: an R package to perform structural missing data investigations on partially observed confounders in real-world evidence studies. JAMIA Open. 2024 Jan 31;7(1):ooae008. doi: 10.1093/jamiaopen/ooae008. PMID: 38304248; PMCID: PMC10833461.
 License: GPL (>= 3)
 URL: https://janickweberpals.gitlab-pages.partners.org/smdi
 BugReports: https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues
@@ -37,6 +37,7 @@ Imports:
 Depends: 
     R (>= 2.10)
 Suggests: 
+    broom.helpers,
     gridExtra,
     gtsummary,
     here,
