@@ -8,9 +8,9 @@ test_that("Test n_cores OS dependency", {
   set.seed(42)
   data <- data.frame(x = c(NA, NA, rbinom(97, 1, 0.5), NA), y = c(rbinom(97, 1, 0.5), NA, NA, NA), z = rnorm(100))
   if(isTRUE(Sys.info()[["sysname"]]=="Windows")){
-    expect_warning(smdi_rf(data = data, n_cores = 2))
+    expect_message(smdi_rf(data = data, n_cores = 2))
   }else{
-    expect_no_warning(smdi_rf(data = data, n_cores = 2))
+    expect_no_message(smdi_rf(data = data, n_cores = 2))
   }
 })
 
@@ -113,4 +113,19 @@ test_that("message to analyst in case of high AUCs as an indication for monotoni
   expect_message(result <- smdi_rf(data = data_monotone), "Important note:")
   expect_true(result$var1$rf_table$rf_auc > 0.9)
   expect_true(result$var2$rf_table$rf_auc > 0.9)
+})
+
+# Test hyperparameter tuning #1
+test_that("expect an OOB character string as part of rf object irrespective of tuning", {
+  set.seed(42)
+  data <- data.frame(
+    x = rbinom(100, 1, 0.3),
+    y = c(rbinom(80, 1, 0.5), rep(NA, 20)),
+    z = rnorm(100)
+    )
+
+  results_untuned <- smdi_rf(data = data, tune = FALSE)
+  results_tuned <- smdi_rf(data = data, tune = TRUE)
+  expect_true("character" %in% class(results_untuned$y$OOB))
+  expect_true("character" %in% class(results_tuned$y$OOB))
 })

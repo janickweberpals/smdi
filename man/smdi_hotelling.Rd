@@ -16,7 +16,7 @@ smdi_hotelling(data = NULL, covar = NULL, n_cores = 1)
 \value{
 returns a hotelling object with statistics on hotellings test by covariate. That is, for each covar, the following outputs are provided:
 \itemize{
-\item stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
+\item stats: hotelling test statistics (for more information see \code{\link[Hotelling]{hotelling.test}})
 \item pval: p-value of hotelling test
 }
 }
@@ -24,12 +24,13 @@ returns a hotelling object with statistics on hotellings test by covariate. That
 Hotelling's multivariate t-test, which examines variable
 differences conditional on having an observed covariate value or not.
 As the power of statistical hypothesis tests can be influenced by
-sample size, the combined investigation along with smdi_asmd() is highly recommended.
+sample size, the combined investigation along with \code{\link{smdi_asmd}} is highly recommended.
 
 Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
+CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and
+it is recommended to always interpret the results along with the other diagnostics.
 }
 \examples{
 library(smdi)
@@ -41,5 +42,5 @@ smdi_hotelling(data = smdi_data)
 Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378.
 }
 \seealso{
-\code{\link{hotelling.test}}
+\code{\link[Hotelling]{hotelling.test}}
 }

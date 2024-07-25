@@ -35,5 +35,5 @@ Little RJA. A Test of Missing Completely at Random for Multivariate Data with Mi
 J Am Stat Assoc. 1988;83(404):1198-1202.
 }
 \seealso{
-\code{\link{mcar_test}}
+\code{\link[naniar]{mcar_test}}
 }

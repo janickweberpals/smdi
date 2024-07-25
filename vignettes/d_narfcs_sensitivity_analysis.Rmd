@@ -21,14 +21,20 @@ knitr::opts_chunk$set(
   )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 # basic setup
 library(smdi)
 library(ggplot2)
 library(survival)
 library(gt)
-suppressPackageStartupMessages(library(mice))
-suppressPackageStartupMessages(library(dplyr))
+library(broom)
+library(fastDummies)
+library(survival)
+library(mice)
+library(dplyr)
+library(gridExtra)
+library(tibble)
+library(forcats)
 ```
 
 # Sensitivity analysis for `MNAR(value)`
@@ -51,7 +57,7 @@ For simplicity, we don't assume any other missing covariates for now. In order t
 ```{r}
 # load complete dataset
 smdi_data_complete <- smdi_data_complete %>% 
-  fastDummies::dummy_columns(
+  dummy_columns(
     select_columns = "ses_cat",
     remove_most_frequent_dummy = TRUE,
     remove_selected_columns = TRUE
@@ -145,15 +151,15 @@ Next, we compute the true Hazard Ratio (HR), the complete case HR and the standa
 
 ```{r}
 # true outcome model
-cox_fit_true <- survival::coxph(cox_form, data = smdi_data_complete) %>% 
-  broom::tidy(exponentiate = TRUE, conf.int = TRUE) %>% 
+cox_fit_true <- coxph(cox_form, data = smdi_data_complete) %>% 
+  tidy(exponentiate = TRUE, conf.int = TRUE) %>% 
   filter(term == "exposure") %>% 
   select(term, estimate, conf.low, conf.high, std.error) %>% 
   mutate(analysis = "True estimate")
  
 # complete case analysis
-cox_fit_cc <- survival::coxph(cox_form, data = smdi_data_mnar_v) %>% 
-  broom::tidy(exponentiate = TRUE, conf.int = TRUE) %>% 
+cox_fit_cc <- coxph(cox_form, data = smdi_data_mnar_v) %>% 
+  tidy(exponentiate = TRUE, conf.int = TRUE) %>% 
   filter(term == "exposure") %>% 
   select(term, estimate, conf.low, conf.high, std.error) %>% 
   mutate(analysis = "Complete case analysis")
@@ -165,7 +171,7 @@ cox_fit_imp <- mice(
   print = FALSE
   ) %>%
   with(
-    expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
+    expr = coxph(formula(paste(format(cox_form), collapse = "")))
     ) %>% 
   pool() %>% 
   summary(conf.int = TRUE, exponentiate = TRUE) %>% 
@@ -175,7 +181,7 @@ cox_fit_imp <- mice(
 
 forest <- bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>% 
   mutate(analysis = factor(analysis, levels = c("True estimate", "Complete case analysis", "Multiple imputation"))) %>% 
-  ggplot(aes(y = forcats::fct_rev(analysis))) +
+  ggplot(aes(y = fct_rev(analysis))) +
   geom_point(aes(x = estimate), shape = 15, size = 3) +
   geom_errorbar(aes(xmin = conf.low, xmax = conf.high)) +
   geom_vline(xintercept = cox_fit_true[["estimate"]], linetype = "dashed") +
@@ -185,9 +191,9 @@ forest <- bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>%
 table <- bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>% 
   select(-term) %>% 
   relocate(analysis, .before = estimate) %>% 
-  mutate(across(tidyselect::where(is.numeric), ~round(.x, 2)))
+  mutate(across(where(is.numeric), ~round(.x, 2)))
 
-gridExtra::grid.arrange(gridExtra::tableGrob(table, rows = NULL), forest)
+grid.arrange(tableGrob(table, rows = NULL), forest)
 ```
 
 The deviation of the complete case and multiple imputation estimates aren't too off which has to do with `age_num` being a rather moderate confounder in this simulation. Nevertheless, in reality we don't know this for sure and a sensitivity analysis would probably make sense to test the robustness of our primary analysis.
@@ -207,7 +213,7 @@ data_combined <- rbind(
   smdi_data_mnar_v %>% mutate(complete_dataset = 0)
   )
 
-cond_mean_diff <- stats::lm(lm_form, data = data_combined)$coefficients[["complete_dataset"]]
+cond_mean_diff <- lm(lm_form, data = data_combined)$coefficients[["complete_dataset"]]
 cond_mean_diff
 ```
 
@@ -243,7 +249,7 @@ narfcs_modeled <- function(i){
     print = FALSE
     ) %>% 
     with(
-      expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
+      expr = coxph(formula(paste(format(cox_form), collapse = "")))
       ) %>% 
     pool() %>% 
     summary(conf.int = TRUE, exponentiate = TRUE) %>% 
@@ -260,7 +266,7 @@ narfcs_range <- lapply(
 
 narfcs_range_df <- do.call(rbind, narfcs_range)
 
-reference_lines <- tibble::tibble(
+reference_lines <- tibble(
   yintercept = c(cox_fit_true[[2]]),
   Reference = c("TRUE HR"),
   color = c("darkgreen")
@@ -287,8 +293,8 @@ Based on this tipping point analysis, the systematic difference between observed
 Now, we can do the same in our *missing* `smdi_data` dataset. However, this gets a little tricky since we have multiple missing covariates, each of which follow different missingness mechanisms. Here is again a quick overview of the missing variables using the `smdi_summarize()` function.
 
 ```{r}
-smdi::smdi_data %>% 
-  smdi::smdi_summarize()
+smdi_data %>% 
+  smdi_summarize()
 ```
 
 ## NARFCS imputation
@@ -300,8 +306,8 @@ Given the `smdi_diagnose` analysis, we hypothesize that `pdl1_num` may be MNAR(v
 ```{r}
 # we one hot encode the `ses_cat` variable again 
 # in the smdi_data dataset
-smdi_data <- smdi::smdi_data %>% 
-  fastDummies::dummy_columns(
+smdi_data <- smdi_data %>% 
+  dummy_columns(
     select_columns = "ses_cat",
     remove_most_frequent_dummy = TRUE,
     remove_selected_columns = TRUE
@@ -336,7 +342,7 @@ narfcs_modeled <- function(i){
     print = FALSE
     ) %>%
     with(
-      expr = survival::coxph(formula(paste(format(cox_form), collapse = "")))
+      expr = coxph(formula(paste(format(cox_form), collapse = "")))
       ) %>%
     pool() %>%
     summary(conf.int = TRUE, exponentiate = TRUE) %>%
@@ -353,7 +359,7 @@ narfcs_range <- lapply(
 
 narfcs_range_df <- do.call(rbind, narfcs_range)
 
-reference_lines <- tibble::tibble(
+reference_lines <- tibble(
   yintercept = c(cox_fit_true[[2]]),
   Reference = c("TRUE HR"),
   color = c("darkgreen")

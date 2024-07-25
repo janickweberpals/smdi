@@ -46,19 +46,19 @@ smdi object including a summary table of all three smdi group diagnostics:
 
 \strong{Group 1 diagnostic:}
 \itemize{
-\item asmd_{mean/median}: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
+\item \code{asmd_mean} or \code{asmd_median}: average/median absolute standardized mean difference (and min, max) of patient characteristics between those without (1) and with (0) observed covariate
 \item hotteling_p: p-value of hotelling test. Rejecting the H0 means that Hotelling's test detects a significant difference in the distribution between patients without (1) and with (0) the observed covariate
 }
 
 \strong{Group 2 diagnostic:}
 \itemize{
-\item rf_auc: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
+\item \code{rf_auc}: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
 }
 
 \strong{Group 3 diagnostic:}
 \itemize{
-\item estimate_univariate: univariate association between missingness indicator of covar and outcome
-\item estimate_adjusted: association between missingness indicator of covar and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
+\item \code{estimate_univariate}: univariate association between missingness indicator of covar and outcome
+\item \code{estimate_adjusted}: association between missingness indicator of covar and outcome conditional on other fully observed covariates and missing indicator variables of other partially observed covariates
 }
 }
 \description{

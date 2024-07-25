@@ -32,10 +32,12 @@ knitr::opts_chunk$set(
   )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library(smdi)
 library(gt)
-suppressPackageStartupMessages(library(dplyr))
+library(dplyr)
+library(here)
+library(knitr)
 ```
 
 # `smdi` main functionalities
@@ -47,7 +49,7 @@ The `smdi` flagship function is `smdi_diagnose()` which calls multiple sub-funct
 :::
 
 ```{r, fig-group_diagnostics, fig.cap = "Overview three group diagnostics", echo = FALSE}
-knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
+include_graphics(here("vignettes", "smdi_diagnose_table.png"))
 ```
 
 ::: {.alert .alert-info}
@@ -55,18 +57,18 @@ knitr::include_graphics(here::here("vignettes", "smdi_diagnose_table.png"))
 :::
 
 ```{r, fig-guidance, fig.cap = "Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study.", echo = FALSE}
-knitr::include_graphics(here::here("vignettes", "smdi_examples.png"))
+include_graphics(here("vignettes", "smdi_examples.png"))
 ```
 
 ## Illustrative dataset
 
 To illustrate the usage of the `smdi` package main functions, we use the `smdi_data` dataset which is an example dataset that comes bundled with the package and includes some ready to use simulated partially observed covariates. If you prefer to simulate missingness yourself, you can do so using the `smdi_data_complete` dataset.
 
-In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the previous [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html) article.
+In brief, the `smdi_data` dataset consists of a simulated lung cancer cohort with a fictional comparison of two antineoplastic systemic therapy regimens and a time-to-event outcome. More information on the underlying dataset is given in the previous [Data generation](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/a_data_generation.html) article.
 
 ```{r}
 smdi_data %>% 
-  dplyr::glimpse()
+  glimpse()
 ```
 
 The dataset consists of `r formatC(nrow(smdi_data), format = "fg", big.mark = ",")` patients and `r ncol(smdi_data)` variables with `exposure` representing the two treatment regimens under comparison and `status` and `eventtime` the vital status and censoring time, respectively. For more information, please checkout:
@@ -113,7 +115,7 @@ smdi_data %>%
 
 Besides describing the proportion missingness by covariate (and potentially stratified by another variable), it is also of great importance to check the missingness patterns. This can give important hints if the missingness in two or more partially observed covariates may follow a monotone or non-monotone missingness pattern. If former is the case, one should be careful and potentially run the below-described `smdi` diagnostics variable-by-variable instead of jointly.
 
-> We recommend checking both missingness proportions and patterns as a first step. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/multivariate_missingness.html).
+> We recommend checking both missingness proportions and patterns as a first step. In case of monotonocity, the `smdi` package may likely culminate in misleading results. Please check the [article on multivariate missingness and monotonicity](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/c_multivariate_missingness.html).
 
 To check missingness patterns, the `smdi` comes with re-exports of the `naniar::gg_miss_upset` and `mice::md.pattern` functions.
 
@@ -235,7 +237,7 @@ auc$ecog_cat$rf_plot
 
 The group 3 diagnostic focuses on assessing the association between the missing indicator of the partially observed `covar` and the outcome under study. This may reveal important covariate relationships with the outcome and could give additional pieces of information.
 
-Currently, the main types of outcome regressions are supported, namely logistic (*glm*), linear (*lm*) and Cox proportional hazards (*survival*) models are supported and need to be specified using the *model* and *form_lhs* parameters. For more details, see the `smdi_outcome` function documentation via
+Currently, all main types of outcome regressions are supported, namely *glm*, linear (*lm*) and Cox proportional hazards (*survival*) regression models are supported and need to be specified using the *model* and *form_lhs* parameters. If *glm* is specified, any *glm_family* regression type can be used which includes binomial (default), gaussian, Gamma, inverse.gaussian, poisson, quasi, quasibinomial and quasipoisson (for more information see `?stats::family`). Further details on the `smdi_outcome` function can be accessed via
 
 ```{r, eval=FALSE}
 ?smdi::smdi_outcome()

@@ -11,7 +11,7 @@
 #' CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 #'
 #' @seealso
-#' \code{\link{mcar_test}}
+#' \code{\link[naniar]{mcar_test}}
 #'
 #' @references
 #' Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.
@@ -40,7 +40,35 @@ smdi_little <- function(data = NULL
   # pre-checks
   if(is.null(data)){stop("No dataframe provided.")}
 
-  little <- naniar::mcar_test(data = data)
+  # for little we need to one-hot-encode categorical variables
+  # multi-categorical variables if exist
+  if(any(sapply(data, function(.x) is.factor(.x) || is.character(.x)))){
+
+    data_encoded <- data %>%
+      fastDummies::dummy_columns(
+        remove_most_frequent_dummy = TRUE,
+        # as opposed to smdi_hotelling, for
+        # smdi_little ignore_na is set to true
+        # since for mcar_test, there need to be missing cells
+        # (ignore_na = FALSE would create a missing indicator column)
+        ignore_na = TRUE,
+        remove_selected_columns = TRUE
+        )
+
+    }else{
+
+    data_encoded <- data
+
+    }
+
+  # expect at least one column with missing values
+  if(!any(sapply(data, function(.x) is.na(.x)))){
+
+    stop("<data> does not contain any column with missing values.")
+
+    }
+
+  little <- naniar::mcar_test(data = data_encoded)
 
   class(little) <- "little"
 

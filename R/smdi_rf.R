@@ -8,13 +8,13 @@
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' The random forest utilizes the \link{randomForest} engine.
+#' The random forest utilizes the \link[randomForest]{randomForest} engine.
 #'
 #' CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
 #' this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
 #'
 #' @seealso
-#' \code{\link{randomForest}}
+#' \code{\link[randomForest]{randomForest}}
 #'
 #' @references
 #' Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. <doi: 10.1002/psp4.12998.> Epub ahead of print. PMID: 37322818.
@@ -23,6 +23,7 @@
 #' @param covar character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors
 #' @param ntree integer, number of trees (defaults to 1000 trees)
 #' @param train_test_ratio numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default
+#' @param tune logical,if TRUE, a 5-fold cross validation is performed combined with a random search for the optimal number of optimal number of variables randomly sampled as candidates at each split (mtry). FALSE is the default due to potentially extensive computation times.
 #' @param set_seed seed for reproducibility, defaults to 42
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
@@ -33,8 +34,12 @@
 #' - rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
 #' That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.
 #'
+#' - OOB: estimated OOB error for each investigated partially observed confounder (indicates the performance of the random forest model for data points that are not used in training a tree.)
+#'
+#' @importFrom caret trainControl train
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
+#' @importFrom dplyr all_of
 #' @importFrom forcats fct_reorder
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
@@ -53,8 +58,6 @@
 #' @importFrom stringr str_remove
 #' @importFrom tibble tibble
 #' @importFrom tibble rownames_to_column
-#' @importFrom tidyselect all_of
-#'
 #' @export
 #'
 #' @examples
@@ -66,6 +69,7 @@
 smdi_rf <- function(data = NULL,
                     covar = NULL,
                     train_test_ratio = c(.7, .3),
+                    tune = FALSE,
                     set_seed = 42,
                     ntree = 1000,
                     n_cores = 1
@@ -79,13 +83,13 @@ smdi_rf <- function(data = NULL,
 
   # n_cores on windows
   if(Sys.info()[["sysname"]]=="Windows"){
-    warning("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
+    message("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
     n_cores = 1
   }
 
   # more cores than available
   if(n_cores > parallel::detectCores()){
-    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+    message("You specified more <n_cores> than you have available. The function will use all cores available to it.")
   }
 
   # check for missing covariate of interest
@@ -112,7 +116,7 @@ smdi_rf <- function(data = NULL,
     # format missing indicator (target_var) variable correctly
     data_encoded <- data_encoded %>%
       dplyr::mutate(target_var = as.factor(.data[[target_var]])) %>%
-      dplyr::select(-tidyselect::all_of(target_var))
+      dplyr::select(-dplyr::all_of(target_var))
 
     # use x% of dataset as training set and y% as test set
     set.seed(set_seed)
@@ -120,8 +124,49 @@ smdi_rf <- function(data = NULL,
     train  <- data_encoded[sample, ]
     test   <- data_encoded[!sample, ]
 
-    set.seed(set_seed)
-    rf <- randomForest::randomForest(as.factor(target_var) ~ ., data = train, ntree = ntree, importance = TRUE)
+    # tune mtry if desired
+    if(tune){
+
+      # cv 5 folds repeat 1 time & random search for mtry
+      control <- caret::trainControl(
+        method = 'repeatedcv',
+        number = 5,
+        repeats = 1,
+        search = "random"
+        )
+
+      set.seed(set_seed)
+      rf_train <- caret::train(
+        as.factor(target_var) ~ . ,
+        data = train,
+        ntree = ntree,
+        method = "rf",
+        metric = 'Accuracy',
+        trControl = control
+        )
+
+      set.seed(set_seed)
+      rf <- randomForest::randomForest(
+        as.factor(target_var) ~ .,
+        data = train,
+        ntree = ntree,
+        mtry = rf_train$bestTune$mtry
+        )
+
+      # compute OOB for cross-validated rf model
+      conf <- rf$confusion[,-ncol(rf$confusion)]
+      oob <- glue::glue("Estimated OOB error for {i}: {formatC((1 - (sum(diag(conf))/sum(conf)))*100, 4)}%")
+
+      }else{
+
+        set.seed(set_seed)
+        rf <- randomForest::randomForest(as.factor(target_var) ~ ., data = train, ntree = ntree, importance = TRUE)
+
+        # compute OOB
+        conf <- rf$confusion[,-ncol(rf$confusion)]
+        oob <- glue::glue("Estimated OOB error for {i}: {formatC((1 - (sum(diag(conf))/sum(conf)))*100, 4)}%")
+
+        }
 
     # evaluate on test set
     rf_test <- stats::predict(rf, newdata = test, type = "response", importance = T)
@@ -169,7 +214,8 @@ smdi_rf <- function(data = NULL,
 
     rf_out <- list(
       rf_table = rf_tbl_out,
-      rf_plot = rf_plot_out
+      rf_plot = rf_plot_out,
+      OOB = oob
       )
 
     return(rf_out)

@@ -2,12 +2,12 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new initial release.
+* Changed maintainer email in Description file (please change maintainer email to janick.developer@gmail.com as jweberpals@bwh.harvard.edu will be deprecated soon)
+
+* Fixed broom.helpers dependency issue as pointed out on 24 July 2024 by Kurt Hornik <Kurt.Hornik@wu.ac.at>
+
+* Added reference to published package paper in Description file
+
+* revdepcheck indicated no problems
 
 * Vignettes can take a bit of time to build
-
-* Addressed CRAN comments from initial submission:
-
-- added reference in the description field of your DESCRIPTION file
-- unwrapped examples and checked they are executable in < 5 sec
-- checked that none of the examples, vignettes, etc. uses more than 2 cores

@@ -35,7 +35,7 @@
 #' the function automatically looks for all variables/columns with NA (powered by the \code{\link{smdi_summarize}} function)
 #'
 #' @seealso
-#' \code{\link{CreateTableOne}}
+#' \code{\link[tableone]{CreateTableOne}}
 #'
 #' @references
 #' Austin PC. Balance diagnostics for comparing the distribution of baseline covariates between treatment groups in propensity-score matched samples. Stat Med. 2009 Nov 10;28(25):3083-107.
@@ -65,6 +65,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr pull
 #' @importFrom dplyr summarize_all
+#' @importFrom dplyr where
 #' @importFrom fastDummies dummy_cols
 #' @importFrom forcats fct_reorder
 #' @importFrom ggplot2 aes
@@ -81,9 +82,6 @@
 #' @importFrom tableone ExtractSmd
 #' @importFrom tibble tibble
 #' @importFrom tibble rownames_to_column
-#' @importFrom tidyselect all_of
-#' @importFrom tidyselect everything
-#' @importFrom tidyselect where
 #'
 #' @export
 #'
@@ -115,13 +113,13 @@ smdi_asmd <- function(data = NULL,
 
   # n_cores on windows
   if(Sys.info()[["sysname"]]=="Windows"){
-    warning("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
+    message("Windows does not support parallelization based on forking. <n_cores> will be set to 1.")
     n_cores = 1
   }
 
   # more cores than available
   if(n_cores > parallel::detectCores()){
-    warning("You specified more <n_cores> than you have available. The function will use all cores available to it.")
+    message("You specified more <n_cores> than you have available. The function will use all cores available to it.")
     }
 
   # pick missing indicator columns/partially observed covariates
@@ -208,7 +206,7 @@ smdi_asmd <- function(data = NULL,
     asmd_aggregate <- asmd_aggregate %>%
       dplyr::mutate(
         dplyr::across(
-          tidyselect::where(is.numeric),
+          dplyr::where(is.numeric),
           ~formatC(.x, format = "f", digits = 3)
           )
         )

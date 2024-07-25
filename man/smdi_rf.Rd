@@ -8,6 +8,7 @@ smdi_rf(
   data = NULL,
   covar = NULL,
   train_test_ratio = c(0.7, 0.3),
+  tune = FALSE,
   set_seed = 42,
   ntree = 1000,
   n_cores = 1
@@ -19,6 +20,8 @@ smdi_rf(
 \item{covar}{character covariate or covariate vector with partially observed variable/column name(s) to investigate. If NULL, the function automatically includes all columns with at least one missing observation and all remaining covariates will be used as predictors}
 
 \item{train_test_ratio}{numeric vector to indicate the test/train split ratio, e.g. c(.7, .3) which is the default}
+
+\item{tune}{logical,if TRUE, a 5-fold cross validation is performed combined with a random search for the optimal number of optimal number of variables randomly sampled as candidates at each split (mtry). FALSE is the default due to potentially extensive computation times.}
 
 \item{set_seed}{seed for reproducibility, defaults to 42}
 
@@ -32,6 +35,7 @@ returns an rf object which comes as a list that contains the ROC AUC value and c
 \item rf_table: The area under the receiver operating curve (AUC) as a measure of the ability to predict the missingness of the partially observed covariate
 \item rf_plot: ggplot object illustrating the variable importance for the prediction made expressed by the mean decrease in accuracy per predictor.
 That is how much would the accuracy of the prediction (# of correct predictions/Total # of predictions made) decrease, had we left out this specific predictor.
+\item OOB: estimated OOB error for each investigated partially observed confounder (indicates the performance of the random forest model for data points that are not used in training a tree.)
 }
 }
 \description{
@@ -42,7 +46,7 @@ MAR may be a likely scenario and would imply that imputation may be feasible.
 Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-The random forest utilizes the \link{randomForest} engine.
+The random forest utilizes the \link[randomForest]{randomForest} engine.
 
 CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
 this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
@@ -57,5 +61,5 @@ smdi_rf(data = smdi_data, covar = "ecog_cat")
 Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. <doi: 10.1002/psp4.12998.> Epub ahead of print. PMID: 37322818.
 }
 \seealso{
-\code{\link{randomForest}}
+\code{\link[randomForest]{randomForest}}
 }
