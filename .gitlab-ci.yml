@@ -1,4 +1,4 @@
-image: rocker/tidyverse:4.2.1
+image: rocker/tidyverse:4.4.0
 
 default:
   tags:
@@ -14,12 +14,12 @@ stages:
 before_script:
   - apt-get update
 
-check:
-  stage: check
-  script:
-    - r -e 'devtools::check(vignettes = FALSE)'
-  artifacts:
-    expire_in: 1 day
+# check:
+#   stage: check
+#   script:
+#     - r -e 'devtools::check(vignettes = FALSE)'
+#   artifacts:
+#     expire_in: 1 day
 
 checkerrors:
   stage: check
@@ -53,12 +53,12 @@ checknotes:
 #     - r -e "install.packages(c('covr', 'DT'))"
 #     - r -e 'devtools::test_coverage()'
 
-install:
-  stage: install
-  script:
-    - r -e 'devtools::install()'
-  artifacts:
-    expire_in: 1 day
+# install:
+#   stage: install
+#   script:
+#     - r -e 'devtools::install()'
+#   artifacts:
+#     expire_in: 1 day
 
 # buildbinary:
 #   stage: build
