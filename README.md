@@ -33,13 +33,13 @@ The theoretical backbone of this package is based on a large-scale plasmode simu
 
 The corresponding manuscripts are published open access:
 
-Weberpals J, Raman SR, Shaw PA, Lee H, Russo M, Hammill BG, Toh S, Connolly JG, Dandreo KJ, Tian F, Liu W, Li J, Hernández-Muñoz JJ, Glynn RJ, Desai RJ. A Principled Approach to Characterize and Analyze Partially Observed Confounder Data from Electronic Health Records. **Clin Epidemiol**. 2024 May 21;16:329-343. [doi: 10.2147/CLEP.S436131.](https://www.dovepress.com/a-principled-approach-to-characterize-and-analyze-partially-observed-c-peer-reviewed-fulltext-article-CLEP) PMID: 38798915; PMCID: PMC11127690.
+Weberpals J, Raman SR, Shaw PA, Lee H, Russo M, Hammill BG, Toh S, Connolly JG, Dandreo KJ, Tian F, Liu W, Li J, Hernández-Muñoz JJ, Glynn RJ, Desai RJ. *A Principled Approach to Characterize and Analyze Partially Observed Confounder Data from Electronic Health Records*. **Clin Epidemiol**. 2024 May 21;16:329-343. [doi: 10.2147/CLEP.S436131.](https://www.dovepress.com/a-principled-approach-to-characterize-and-analyze-partially-observed-c-peer-reviewed-fulltext-article-CLEP) PMID: 38798915; PMCID: PMC11127690.
 
-Weberpals J, Raman SR, Shaw PA, Lee H, Hammill BG, Toh S, Connolly JG, Dandreo KJ, Tian F, Liu W, Li J, Hernández-Muñoz JJ, Glynn RJ, Desai RJ. smdi: an R package to perform structural missing data investigations on partially observed confounders in real-world evidence studies. **JAMIA Open**. 2024 Jan 31;7(1):ooae008. [doi: 10.1093/jamiaopen/ooae008.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10833461/) PMID: 38304248; PMCID: PMC10833461.
+Weberpals J, Raman SR, Shaw PA, Lee H, Hammill BG, Toh S, Connolly JG, Dandreo KJ, Tian F, Liu W, Li J, Hernández-Muñoz JJ, Glynn RJ, Desai RJ. *smdi: an R package to perform structural missing data investigations on partially observed confounders in real-world evidence studies*. **JAMIA Open**. 2024 Jan 31;7(1):ooae008. [doi: 10.1093/jamiaopen/ooae008.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10833461/) PMID: 38304248; PMCID: PMC10833461.
 
 
 ::: {style="color:red"}
-If you encounter any unforeseen errors or have any suggestions, comments or recommendations, please feel free to reach out to [jweberpals\@bwh.harvard.edu](mailto:jweberpals@bwh.harvard.edu) or [open an issue](https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues).
+If you encounter any unforeseen errors or have any suggestions, comments or recommendations, please feel free to reach out to [janick.developer\@gmail.com](mailto:janick.developer@gmail.com) or [open an issue](https://github.com/janickweberpals/smdi/issues).
 :::
 
 ## Installation
@@ -53,13 +53,13 @@ install.packages("smdi")
 You can install the latest GitLab release version of `smdi` using the `devtools` package via:
 
 ``` r
-devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git")
+devtools::install_git("https://github.com/janickweberpals/smdi.git")
 ```
 
 To install the development version, please use the `dev` branch:
 
 ``` r
-devtools::install_git("https://gitlab-scm.partners.org/janickweberpals/smdi.git", ref = "dev")
+devtools::install_git("https://github.com/janickweberpals/smdi.git", ref = "dev")
 ```
 
 ## About
@@ -113,8 +113,8 @@ Weberpals J, Raman SR, Shaw PA, Lee H, Russo M, Hammill BG, Toh S, Connolly JG, 
 
 Weberpals J, Raman SR, Shaw PA, Lee H, Hammill BG, Toh S, Connolly JG, Dandreo KJ, Tian F, Liu W, Li J, Hernández-Muñoz JJ, Glynn RJ, Desai RJ. smdi: an R package to perform structural missing data investigations on partially observed confounders in real-world evidence studies. **JAMIA Open**. 2024 Jan 31;7(1):ooae008. [doi: 10.1093/jamiaopen/ooae008.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10833461/) PMID: 38304248; PMCID: PMC10833461.
 
-Sondhi A$^1$, Weberpals J$^1$, Yerram P, Jiang C, Taylor MD, Samant M, Cherng S. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. doi: 10.1002/psp4.12998. Epub ahead of print. PMID: 37322818.
+Sondhi A$^1$, Weberpals J$^1$, Yerram P, Jiang C, Taylor MD, Samant M, Cherng S. A Systematic Approach Towards Missing Lab Data in Electronic Health Records: A Case Study in Non-Small Cell Lung Cancer and Multiple Myeloma. **CPT Pharmacometrics Syst Pharmacol**. 2023 Jun 15. doi: 10.1002/psp4.12998. Epub ahead of print. PMID: 37322818.
 
-Lee KJ, Tilling KM, Cornish RP, Little RJA, Bell ML, Goetghebeur E, Hogan JW, Carpenter JR; STRATOS initiative. Framework for the treatment and reporting of missing data in observational studies: The Treatment And Reporting of Missing data in Observational Studies framework. J Clin Epidemiol. 2021 Jun;134:79-88. doi: 10.1016/j.jclinepi.2021.01.008. Epub 2021 Feb 2. PMID: 33539930; PMCID: PMC8168830.
+Lee KJ, Tilling KM, Cornish RP, Little RJA, Bell ML, Goetghebeur E, Hogan JW, Carpenter JR; STRATOS initiative. Framework for the treatment and reporting of missing data in observational studies: The Treatment And Reporting of Missing data in Observational Studies framework. **J Clin Epidemiol**. 2021 Jun;134:79-88. doi: 10.1016/j.jclinepi.2021.01.008. Epub 2021 Feb 2. PMID: 33539930; PMCID: PMC8168830.
 
-Carpenter JR, Smuk M. Missing data: A statistical framework for practice. Biom J. 2021 Jun;63(5):915-947. doi: 10.1002/bimj.202000196. Epub 2021 Feb 24. PMID: 33624862.
+Carpenter JR, Smuk M. Missing data: A statistical framework for practice. **Biom J**. 2021 Jun;63(5):915-947. doi: 10.1002/bimj.202000196. Epub 2021 Feb 24. PMID: 33624862.
