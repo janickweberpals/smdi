@@ -77,7 +77,7 @@ Now, let's assume we have three partially observed covariates *X*, *Y* and *Z*, 
 
 # `smdi` in case of monotone missing data patterns
 
-While in the `smdi` package we mainly focus on missing data mechanisms, missing data patterns always need to be considered, too. Please refer to the [routine structural missing data diagnostics article](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/routine_diagnostics.html#descriptives), where we highlight the importance of describing missingness proportions and patterns before running any of the `smdi` diagnostics.
+While in the `smdi` package we mainly focus on missing data mechanisms, missing data patterns always need to be considered, too. Please refer to the [routine structural missing data diagnostics article](https://janickweberpals.gitlab-pages.partners.org/smdi/articles/b_routine_diagnostics.html#descriptives), where we highlight the importance of describing missingness proportions and patterns before running any of the `smdi` diagnostics.
 
 As mentioned in the section before, in case of monotone missing data patterns, the `smdi` functionality may be misleading.
 

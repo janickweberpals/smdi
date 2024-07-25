@@ -19,9 +19,18 @@ knitr::opts_chunk$set(
   )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library(smdi)
-suppressPackageStartupMessages(library(dplyr))
+library(dplyr)
+library(tibble)
+library(gtsummary)
+library(gt)
+library(survival)
+library(simsurv)
+library(survminer)
+library(usethis)
+library(mice)
+library(cardx)
 
 # some global simulation parameters
 seed_value <- 42
@@ -72,7 +81,7 @@ To get an overview of the dataset, this table provides a summary of the differen
 set.seed(seed_value)
 
 # start with basic dataframe, covariates and their association with exposure
-sim_covar <- tibble::tibble(
+sim_covar <- tibble(
   exposure = rbinom(n = n, size = 1, prob = 0.4),
   age_num = rnorm(n, mean = 64 - 7.5*exposure, sd = 13.7),
   female_cat = rbinom(n, size = 1, prob = 0.39 - 0.05*exposure),
@@ -87,31 +96,31 @@ sim_covar <- tibble::tibble(
   copd_cat = rbinom(n, size = 1, prob = 0.3 + 0.5*smoking_cat)
   ) %>%  
   # bring data in right format
-  dplyr::mutate(across(ends_with("num"), as.numeric)) %>% 
-  dplyr::mutate(across(ends_with("num"), function(x) round(x, digits = 2)))
+  mutate(across(ends_with("num"), as.numeric)) %>% 
+  mutate(across(ends_with("num"), function(x) round(x, digits = 2)))
 ```
 
 In the first step, we create a dataset with `r formatC(nrow(sim_covar), format = "fg", big.mark = ",")` patients and `r ncol(sim_covar)` variables with the following distributions.
 
 ```{r, distributions_covars}
 sim_covar %>% 
-  gtsummary::tbl_summary(by = "exposure") %>% 
-  gtsummary::add_difference()
+  tbl_summary(by = "exposure") %>% 
+  add_difference()
 ```
 
 The following table illustrates the odds of exposure assignment.
 
 ```{r, pr(exposure)_tbl}
-exposure_form <- as.formula(paste("exposure ~ ", paste(colnames(sim_covar %>% dplyr::select(-exposure)), collapse = " + ")))
+exposure_form <- as.formula(paste("exposure ~ ", paste(colnames(sim_covar %>% select(-exposure)), collapse = " + ")))
 
-exposure_fit <- stats::glm(
+exposure_fit <- glm(
   exposure_form,
   data = sim_covar,
   family = "binomial"
   )
 
 exposure_fit %>% 
-  gtsummary::tbl_regression(exponentiate = T)
+  tbl_regression(exponentiate = T)
 ```
 
 Fitting a generalized linear model and assessing the probability of treatment assignment, the above constellation of odds results in the following simulated distributions depicting propensities of treatment initiation (aka propensity scores).
@@ -119,14 +128,14 @@ Fitting a generalized linear model and assessing the probability of treatment as
 ```{r, pr_treatment_assignment, fig.cap="Treatment assignment probabilities."}
 # compute propensity score
 exposure_plot <- sim_covar %>% 
-  dplyr::mutate(ps = fitted(exposure_fit))
+  mutate(ps = fitted(exposure_fit))
 
 # plot density
 exposure_plot %>% 
-  ggplot2::ggplot(ggplot2::aes(x = ps, fill = factor(exposure))) +
-  ggplot2::geom_density(alpha = .5) +
-  ggplot2::theme_bw() +
-  ggplot2::labs(
+  ggplot(aes(x = ps, fill = factor(exposure))) +
+  geom_density(alpha = .5) +
+  theme_bw() +
+  labs(
     x = "Pr(exposure)",
     y = "Density",
     fill = "Exposed"
@@ -158,17 +167,17 @@ betas_os <- c(
 
 betas_os %>% 
   as.data.frame() %>% 
-  dplyr::transmute(logHR = round(`.`, 2)) %>% 
-  tibble::rownames_to_column(var = "Covariate") %>% 
-  dplyr::mutate(HR = round(exp(logHR), 2)) %>% 
-  gt::gt()
+  transmute(logHR = round(`.`, 2)) %>% 
+  rownames_to_column(var = "Covariate") %>% 
+  mutate(HR = round(exp(logHR), 2)) %>% 
+  gt()
 ```
 
 ```{r, outcome_generation, message=FALSE}
 set.seed(seed_value)
 
-sim_df <- sim_covar %>% dplyr::bind_cols(
-  simsurv::simsurv(
+sim_df <- sim_covar %>% bind_cols(
+  simsurv(
     dist = "exponential",
     lambdas = 0.05,
     betas = betas_os,
@@ -176,18 +185,18 @@ sim_df <- sim_covar %>% dplyr::bind_cols(
     maxt = 5 
     )
   ) %>% 
-  dplyr::select(-id)
+  select(-id)
 ```
 
 ### Kaplan-Meier estimates
 
-The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 5-yr survival. Unadjusted estimates belown are shown overall and by exposure for overall survival.
+The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 5-yr survival. Unadjusted estimates below are shown overall and by exposure for overall survival.
 
 ```{r, km_estimates}
-km_overall <- survival::survfit(survival::Surv(eventtime, status) ~ 1, data = sim_df)
-km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
+km_overall <- survfit(Surv(eventtime, status) ~ 1, data = sim_df)
+km_exposure <- survfit(Surv(eventtime, status) ~ exposure, data = sim_df)
 
-gtsummary::tbl_survfit(
+tbl_survfit(
   list(km_overall, km_exposure),
   times = c(1, 5),
   label_header = "**{time} Years**"
@@ -197,9 +206,9 @@ gtsummary::tbl_survfit(
 Given, that the true exposure effect is null, the crude model is severely biased as we can see even more clearly in the crude Kaplan-Meier curve.
 
 ```{r}
-km_exposure <- survival::survfit(survival::Surv(eventtime, status) ~ exposure, data = sim_df)
+km_exposure <- survfit(Surv(eventtime, status) ~ exposure, data = sim_df)
 
-survminer::ggsurvplot(
+ggsurvplot(
   km_exposure, 
   data = sim_df,
   conf.int = TRUE,
@@ -219,10 +228,10 @@ cox_lhs <- "survival::Surv(eventtime, status)"
 cox_rhs <- paste(colnames(sim_covar), collapse = " + ")
 cox_form = as.formula(paste(cox_lhs, "~ exposure +", cox_rhs))
   
-cox_fit <- survival::coxph(cox_form, data = sim_df)
+cox_fit <- coxph(cox_form, data = sim_df)
 
 cox_fit %>% 
-  gtsummary::tbl_regression(exponentiate = T)
+  tbl_regression(exponentiate = T)
 ```
 
 ## Export `smdi_data_complete`
@@ -234,7 +243,7 @@ To provide flexibility to play with the complete data *before* introducing missi
 
 ```{r, export_complete_data, message=FALSE}
 smdi_data_complete <- sim_df
-usethis::use_data(smdi_data_complete, overwrite = TRUE)
+use_data(smdi_data_complete, overwrite = TRUE)
 ```
 
 # Introduce missingness
@@ -260,7 +269,7 @@ In brief, we introduce missingness by...
 # prepare a placeholder df for missing simulation
 # we do not consider ses_cat
 tmp <- smdi_data_complete %>% 
-  dplyr::select(-c(ses_cat))
+  select(-c(ses_cat))
 
 # determine missingness pattern template
 miss_pattern <- rep(1, ncol(tmp))
@@ -285,19 +294,19 @@ miss_pattern_mcar <- replace(miss_pattern, mcar_col, 0)
 miss_prop_mcar <- .35
 
 set.seed(42)
-smdi_data_mcar <- mice::ampute(
+smdi_data_mcar <- ampute(
   data = tmp,
   prop = miss_prop_mcar,
   mech = "MCAR",
   patterns = miss_pattern_mcar,
   bycases = TRUE
   )$amp %>% 
-  dplyr::select(ecog_cat)
+  select(ecog_cat)
 
 smdi_data_mcar %>% 
-  dplyr::select(ecog_cat) %>% 
-  dplyr::mutate(ecog_cat = forcats::fct_na_value_to_level(factor(ecog_cat), level = "missing")) %>% 
-  gtsummary::tbl_summary()
+  select(ecog_cat) %>% 
+  mutate(ecog_cat = forcats::fct_na_value_to_level(factor(ecog_cat), level = "missing")) %>% 
+  tbl_summary()
 ```
 
 ## Missing at random
@@ -323,7 +332,7 @@ miss_weights_mar <- replace(miss_weights_mar, mar_col, 0)
 miss_prop_mar <- .4
 
 set.seed(42)
-smdi_data_mar <- mice::ampute(
+smdi_data_mar <- ampute(
   data = tmp,
   prop = miss_prop_mar,
   mech = "MAR",
@@ -334,9 +343,9 @@ smdi_data_mar <- mice::ampute(
   )$amp
 
 smdi_data_mar %>% 
-  dplyr::select(egfr_cat) %>% 
-  dplyr::mutate(egfr_cat = forcats::fct_na_value_to_level(factor(egfr_cat), level = "missing")) %>%
-  gtsummary::tbl_summary()
+  select(egfr_cat) %>% 
+  mutate(egfr_cat = forcats::fct_na_value_to_level(factor(egfr_cat), level = "missing")) %>%
+  tbl_summary()
 ```
 
 ## Missing not at random - value
@@ -361,7 +370,7 @@ miss_weights_mnar_v <- replace(miss_weights_mnar_v, mnar_v_col, 1)
 miss_prop_mnar_v <- .2
 
 set.seed(42)
-smdi_data_mnar_v <- mice::ampute(
+smdi_data_mnar_v <- ampute(
   data = tmp,
   prop = miss_prop_mnar_v,
   mech = "MNAR",
@@ -372,16 +381,16 @@ smdi_data_mnar_v <- mice::ampute(
   )$amp
 
 smdi_data_mnar_v %>% 
-  dplyr::select(pdl1_num) %>% 
-  gtsummary::tbl_summary()
+  select(pdl1_num) %>% 
+  tbl_summary()
 ```
 
 ## Assemble final dataset
 
 ```{r}
 smdi_data <- smdi_data_complete %>% 
-  dplyr::select(-c(ecog_cat, egfr_cat, pdl1_num)) %>% 
-  dplyr::bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, egfr_cat = smdi_data_mar$egfr_cat, pdl1_num = smdi_data_mnar_v$pdl1_num) %>% 
+  select(-c(ecog_cat, egfr_cat, pdl1_num)) %>% 
+  bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, egfr_cat = smdi_data_mar$egfr_cat, pdl1_num = smdi_data_mnar_v$pdl1_num) %>% 
   mutate(across(ends_with("cat"), as.factor))
 ```
 
@@ -391,9 +400,9 @@ Let's have a look at the final dataset.
 
 ```{r, distributions_covars_final}
 smdi_data %>% 
-  gtsummary::tbl_summary(by = "exposure") %>% 
-  gtsummary::add_overall() %>% 
-  gtsummary::add_difference()
+  tbl_summary(by = "exposure") %>% 
+  add_overall() %>% 
+  add_difference()
 ```
 
 # Export `smdi_data`
@@ -401,5 +410,5 @@ smdi_data %>%
 Exporting the data to `data/`, so it can be used for educative purposes and for playing around with the package.
 
 ```{r, export_missing_data, message=FALSE}
-usethis::use_data(smdi_data, overwrite = TRUE)
+use_data(smdi_data, overwrite = TRUE)
 ```
