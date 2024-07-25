@@ -46,5 +46,5 @@ smdi_style_gt()
 
 }
 \seealso{
-\code{\link{gt}}
+\code{\link[gt]{gt}}
 }

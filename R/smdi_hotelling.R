@@ -4,15 +4,16 @@
 #' Hotelling's multivariate t-test, which examines variable
 #' differences conditional on having an observed covariate value or not.
 #' As the power of statistical hypothesis tests can be influenced by
-#' sample size, the combined investigation along with smdi_asmd() is highly recommended.
+#' sample size, the combined investigation along with \code{\link{smdi_asmd}} is highly recommended.
 #'
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
+#' CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and
+#' it is recommended to always interpret the results along with the other diagnostics.
 #'
 #' @seealso
-#' \code{\link{hotelling.test}}
+#' \code{\link[Hotelling]{hotelling.test}}
 #'
 #' @references
 #' Hotelling H. The Generalization of Student’s Ratio. Ann Math Stat. 1931;2(3):360-378.
@@ -24,11 +25,12 @@
 #'
 #' @return returns a hotelling object with statistics on hotellings test by covariate. That is, for each covar, the following outputs are provided:
 #'
-#' - stats: hotelling test statistics (for more information see \code{\link{hotelling.test}})
+#' - stats: hotelling test statistics (for more information see \code{\link[Hotelling]{hotelling.test}})
 #'
 #' - pval: p-value of hotelling test
 #'
 #' @importFrom magrittr '%>%'
+#' @importFrom dplyr all_of
 #' @importFrom dplyr arrange
 #' @importFrom dplyr filter
 #' @importFrom dplyr mutate
@@ -38,7 +40,7 @@
 #' @importFrom parallel detectCores
 #' @importFrom parallel mclapply
 #' @importFrom tibble rownames_to_column
-#' @importFrom tidyselect all_of
+
 #'
 #' @export
 #'
@@ -116,12 +118,12 @@ smdi_hotelling <- function(data = NULL,
     # create matrices
     hotelling_matrix_missing <- data_encoded %>%
       dplyr::filter(.data[[strata_var]] == 1) %>%
-      dplyr::select(-tidyselect::all_of(strata_var)) %>%
+      dplyr::select(-dplyr::all_of(strata_var)) %>%
       as.matrix()
 
     hotelling_matrix_complete <- data_encoded %>%
       dplyr::filter(.data[[strata_var]] == 0) %>%
-      dplyr::select(-tidyselect::all_of(strata_var)) %>%
+      dplyr::select(-dplyr::all_of(strata_var)) %>%
       as.matrix()
 
     hotelling <- Hotelling::hotelling.test(hotelling_matrix_missing, hotelling_matrix_complete)

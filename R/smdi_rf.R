@@ -8,13 +8,13 @@
 #' Important: don't include variables like ID variables, ZIP codes, dates, etc.
 #'
 #' @details
-#' The random forest utilizes the \link{randomForest} engine.
+#' The random forest utilizes the \link[randomForest]{randomForest} engine.
 #'
 #' CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
 #' this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
 #'
 #' @seealso
-#' \code{\link{randomForest}}
+#' \code{\link[randomForest]{randomForest}}
 #'
 #' @references
 #' Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. <doi: 10.1002/psp4.12998.> Epub ahead of print. PMID: 37322818.
@@ -39,6 +39,7 @@
 #' @importFrom caret trainControl train
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
+#' @importFrom dplyr all_of
 #' @importFrom forcats fct_reorder
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
@@ -57,7 +58,6 @@
 #' @importFrom stringr str_remove
 #' @importFrom tibble tibble
 #' @importFrom tibble rownames_to_column
-#' @importFrom tidyselect all_of
 #' @export
 #'
 #' @examples
@@ -116,7 +116,7 @@ smdi_rf <- function(data = NULL,
     # format missing indicator (target_var) variable correctly
     data_encoded <- data_encoded %>%
       dplyr::mutate(target_var = as.factor(.data[[target_var]])) %>%
-      dplyr::select(-tidyselect::all_of(target_var))
+      dplyr::select(-dplyr::all_of(target_var))
 
     # use x% of dataset as training set and y% as test set
     set.seed(set_seed)

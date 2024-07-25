@@ -85,5 +85,5 @@ Austin PC. Balance diagnostics for comparing the distribution of baseline covari
 Normand SLT, Landrum MB, Guadagnoli E, Ayanian JZ, Ryan TJ, Cleary PD, McNeil BJ. Validating recommendations for coronary angiography following an acute myocardial infarction in the elderly: a matched analysis using propensity scores. Journal of Clinical Epidemiology. 2001;54:387–398.
 }
 \seealso{
-\code{\link{CreateTableOne}}
+\code{\link[tableone]{CreateTableOne}}
 }

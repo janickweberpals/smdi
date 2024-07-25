@@ -457,6 +457,38 @@
       ],
       "Hash": "ac6cdb8552c61bd36b0e54d07cf2aab7"
     },
+    "cards": {
+      "Package": "cards",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "REPO_NAME",
+      "Requirements": [
+        "R",
+        "cli",
+        "dplyr",
+        "glue",
+        "rlang",
+        "tidyr",
+        "tidyselect"
+      ],
+      "Hash": "9c4837e8ea64efc048919647b2a23041"
+    },
+    "cardx": {
+      "Package": "cardx",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "REPO_NAME",
+      "Requirements": [
+        "R",
+        "cards",
+        "cli",
+        "dplyr",
+        "glue",
+        "rlang",
+        "tidyr"
+      ],
+      "Hash": "40c622874954d822d123922b9708ec5a"
+    },
     "caret": {
       "Package": "caret",
       "Version": "6.0-94",

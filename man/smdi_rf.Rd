@@ -46,7 +46,7 @@ MAR may be a likely scenario and would imply that imputation may be feasible.
 Important: don't include variables like ID variables, ZIP codes, dates, etc.
 }
 \details{
-The random forest utilizes the \link{randomForest} engine.
+The random forest utilizes the \link[randomForest]{randomForest} engine.
 
 CAVE: If the missingness indicator variables of other partially observed covariates (indicated by suffix _NA) have an extremely high variable importance (combined with an unusually high AUC),
 this might be an indicator of a monotone missing data pattern. In this case it is advisable to exclude other partially observed covariates and run missingness diagnostics separately.
@@ -61,5 +61,5 @@ smdi_rf(data = smdi_data, covar = "ecog_cat")
 Sondhi A, Weberpals J, Yerram P, Jiang C, Taylor M, Samant M, Cherng S. A systematic approach towards missing lab data in electronic health records: A case study in non-small cell lung cancer and multiple myeloma. CPT Pharmacometrics Syst Pharmacol. 2023 Jun 15. <doi: 10.1002/psp4.12998.> Epub ahead of print. PMID: 37322818.
 }
 \seealso{
-\code{\link{randomForest}}
+\code{\link[randomForest]{randomForest}}
 }

@@ -70,6 +70,6 @@ smdi_outcome(
 ...
 }
 \seealso{
-\code{\link{stats}}
-\code{\link{survival}}
+\code{\link[stats]{glm}}
+\code{\link[survival]{coxph}}
 }

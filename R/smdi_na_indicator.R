@@ -18,7 +18,7 @@
 #'
 #' @importFrom magrittr '%>%'
 #' @importFrom dplyr across
-#' @importFrom tidyselect all_of
+#' @importFrom dplyr all_of
 #'
 #' @export
 #'
@@ -54,13 +54,13 @@ smdi_na_indicator <- function(data = NULL,
   # Strategy 1: columns with NA will be retained ----------------------------
   data_encoded <- data %>%
     # first we create a NA category for continuous covariates and then median impute the missings
-    dplyr::mutate(dplyr::across(tidyselect::all_of(covar_miss), ~ ifelse(is.na(.x), 1, 0), .names = "{.col}_NA"))
+    dplyr::mutate(dplyr::across(dplyr::all_of(covar_miss), ~ ifelse(is.na(.x), 1, 0), .names = "{.col}_NA"))
 
   # Strategy 2: columns with NA will be dropped -----------------------------
   if(isTRUE(drop_NA_col)){
 
     data_encoded <- data_encoded %>%
-      dplyr::select(-tidyselect::all_of(covar_miss))
+      dplyr::select(-dplyr::all_of(covar_miss))
 
     }
 

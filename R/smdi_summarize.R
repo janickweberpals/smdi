@@ -16,6 +16,7 @@
 #' patients in the respective stratum.
 #'
 #' @importFrom magrittr '%>%'
+#' @importFrom dplyr all_of
 #' @importFrom dplyr across
 #' @importFrom dplyr arrange
 #' @importFrom dplyr desc
@@ -25,7 +26,6 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr summarize
 #' @importFrom tidyr pivot_longer
-#' @importFrom tidyselect all_of
 #'
 #' @export
 #'
@@ -89,7 +89,7 @@ smdi_summarize <- function(data = NULL,
   data_summary <- data %>%
     dplyr::summarize(
       dplyr::across(
-        tidyselect::all_of(covar_miss),
+        dplyr::all_of(covar_miss),
         .fns = list(
           n_miss = ~ sum(is.na(.x)),
           prop_miss = ~ sum(is.na(.x))/dplyr::n()*100 # n is denominator size => stratum (if grouped) or total (if ungrouped)

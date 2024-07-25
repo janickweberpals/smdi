@@ -11,7 +11,7 @@
 #' CAVE: Hotelling's and Little's show high susceptibility with large sample sizes and it is recommended to always interpret the results along with the other diagnostics.
 #'
 #' @seealso
-#' \code{\link{mcar_test}}
+#' \code{\link[naniar]{mcar_test}}
 #'
 #' @references
 #' Little RJA. A Test of Missing Completely at Random for Multivariate Data with Missing Values.

@@ -9,8 +9,8 @@
 #' @importFrom dplyr pull
 #' @importFrom dplyr pull
 #' @importFrom glue glue
-#' @importFrom tidyselect where
-#' @importFrom tidyselect all_of
+#' @importFrom dplyr where
+#' @importFrom dplyr all_of
 #'
 #' @export
 #'
@@ -37,8 +37,8 @@ smdi_check_covar <- function(data = NULL,
 
       # check if there are variables specified in <covar> which are NOT missing
       covar_fully_obs <- data %>%
-        dplyr::select(tidyselect::all_of(covar)) %>%
-        dplyr::select(tidyselect::where(~sum(is.na(.x)) == 0))
+        dplyr::select(dplyr::all_of(covar)) %>%
+        dplyr::select(dplyr::where(~sum(is.na(.x)) == 0))
 
       # give warning if not all of the specified <covar> variables have a missing => select only the ones with missing and return message
       if(ncol(covar_fully_obs) > 0){
@@ -49,8 +49,8 @@ smdi_check_covar <- function(data = NULL,
 
         # drop fully observed covariates
         covar_miss <- data %>%
-          dplyr::select(tidyselect::all_of(covar)) %>%
-          dplyr::select(-tidyselect::all_of(names(covar_fully_obs))) %>%
+          dplyr::select(dplyr::all_of(covar)) %>%
+          dplyr::select(-dplyr::all_of(names(covar_fully_obs))) %>%
           names()
 
         }else{ # if all <covar> are present and all have at least one NA
@@ -67,7 +67,7 @@ smdi_check_covar <- function(data = NULL,
 
       # select all covariates that have at least one NA value
       covar_miss <- data %>%
-        dplyr::select(tidyselect::where(~sum(is.na(.x)) > 0)) %>%
+        dplyr::select(dplyr::where(~sum(is.na(.x)) > 0)) %>%
         names()
 
       } # end: if no <covar> are specified

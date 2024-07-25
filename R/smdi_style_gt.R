@@ -18,10 +18,9 @@
 #' @importFrom magrittr '%>%'
 #' @importFrom gt gt tab_footnote html cells_column_labels cols_label tab_options px
 #' @importFrom glue glue
-#' @importFrom methods is
 #'
 #' @seealso
-#' \code{\link{gt}}
+#' \code{\link[gt]{gt}}
 #'
 #' @export
 #'
@@ -48,7 +47,7 @@ smdi_style_gt <- function(smdi_object = NULL,
   asmd_median_min_max <- hotteling_p <- rf_auc <- estimate_univariate <- estimate_adjusted <- NULL
 
   # check if smdi object or table
-  if(methods::is(smdi_object, "smdi")){
+  if(inherits(smdi_object, "smdi")){
 
     smdi_table <- smdi_object$smdi_tbl
 
@@ -63,23 +62,22 @@ smdi_style_gt <- function(smdi_object = NULL,
   }
 
   # little checks
-  if(isTRUE(include_little) & !methods::is(smdi_object, "smdi")){
+  if(isTRUE(include_little) & !inherits(smdi_object, "smdi")){
 
     warning("If include_little = TRUE, <smdi_object> needs to be of class 'smdi' (not dataframe or tibble). No p-value for Little displayed.")
 
   }
 
   # little (if specified)
-  if(isTRUE(include_little) & methods::is(smdi_object, "smdi")){
+  if(isTRUE(include_little) & inherits(smdi_object, "smdi")){
 
-    # in smdi object, the p-value if already formatted
+    # in smdi object, the p-value is already formatted
     little_foot <- glue::glue("{stringr::str_replace(smdi_object$p_little, '_', ' ')}, ")
-    little_foot <- glue::glue("{stringr::str_replace(little_foot, '<', '&lt;')}")
 
-    }else if(methods::is(include_little, "little")){
+    }else if(inherits(include_little, "little")){
 
     # same formatting as in smdi_diagnose():
-    p_little_value <- ifelse(include_little$p.value < 0.001, '&lt;.001', formatC(include_little$p.value, format = 'f', digits = 3))
+    p_little_value <- ifelse(include_little$p.value < 0.001, '<.001', formatC(include_little$p.value, format = 'f', digits = 3))
     little_foot <- glue::glue("p little: {p_little_value}, ")
 
     }else{

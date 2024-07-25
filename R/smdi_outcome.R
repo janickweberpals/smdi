@@ -38,8 +38,8 @@
 #' @param n_cores integer, if >1, computations will be parallelized across amount of cores specified in n_cores (only UNIX systems)
 #'
 #' @seealso
-#' \code{\link{stats}}
-#' \code{\link{survival}}
+#' \code{\link[stats]{glm}}
+#' \code{\link[survival]{coxph}}
 #'
 #' @return returns a tibble with univariate and adjusted estimates for each partially observed covar:
 #'
@@ -185,7 +185,7 @@ smdi_outcome <- function(data = NULL,
 
   if(model == "glm"){
 
-    adjusted_fit <- stats::glm(form_adjusted, family = "binomial", data = data_encoded)
+    adjusted_fit <- stats::glm(form_adjusted, family = glm_family, data = data_encoded)
 
   }else if(model == "linear"){
 
