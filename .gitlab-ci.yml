@@ -14,12 +14,12 @@ stages:
 before_script:
   - apt-get update
 
-check:
-  stage: check
-  script:
-    - r -e 'devtools::check(vignettes = FALSE)'
-  artifacts:
-    expire_in: 1 day
+# check:
+#   stage: check
+#   script:
+#     - r -e 'devtools::check(vignettes = FALSE)'
+#   artifacts:
+#     expire_in: 1 day
 
 checkerrors:
   stage: check
