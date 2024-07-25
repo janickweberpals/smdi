@@ -114,3 +114,34 @@ test_that("model='logistic' lifecycle warning", {
   # Perform assertions on the result
   expect_error(smdi_outcome(data = data, model = "logistic", form_lhs = "outcome"))
 })
+
+# glm family
+test_that("Incompatible model and glm_family calls", {
+  set.seed(42)
+  data <- data.frame(outcome = rbinom(100, 1, 0.5),
+                     covariate1 = rnorm(100),
+                     covariate2 = rnorm(100),
+                     covariate3 = rnorm(100),
+                     covariate4 = sample(c(1, 2, NA), 100, replace = TRUE))
+
+  # Perform assertions on the result
+  expect_error(smdi_outcome(data = data, model = "cox", glm_family =  poisson(link = "log"), form_lhs = "outcome"))
+})
+
+# glm family
+test_that("No error for compatible model and glm_family calls", {
+  set.seed(42)
+  data <- data.frame(outcome = rbinom(100, 1, 0.5),
+                     covariate1 = rnorm(100),
+                     covariate2 = rnorm(100),
+                     covariate3 = rnorm(100),
+                     covariate4 = sample(c(1, 2, NA), 100, replace = TRUE))
+
+  # Perform assertions on the result
+  result_smdi <- smdi_outcome(data = data, model = "glm", glm_family =  poisson(link = "log"), exponentiated = F, form_lhs = "outcome")
+  result_manual <- glm(formula = outcome ~ covariate1 + covariate2 + covariate3 + is.na(covariate4), data = data, family = poisson(link = "log"))
+
+  expect_no_error(result_smdi)
+  expect_contains(class(result_smdi), "data.frame")
+
+  })
