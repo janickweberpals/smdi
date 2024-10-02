@@ -1,3 +1,5 @@
+# smdi (development version)
+
 # smdi 0.3.0
 
 * Incorporated comments from peer-review in JAMIA Open (Weberpals et al. 2024, <doi:10.1093/jamiaopen/ooae008>)
