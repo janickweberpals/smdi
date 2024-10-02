@@ -100,9 +100,9 @@ sim_covar <- tibble(
   mutate(across(ends_with("num"), function(x) round(x, digits = 2)))
 ```
 
-In the first step, we create a dataset with `r formatC(nrow(sim_covar), format = "fg", big.mark = ",")` patients and `r ncol(sim_covar)` variables with the following distributions.
+In the first step, we create a dataset with `r formatC(nrow(sim_covar), format = "fg", big.mark = ",")` patients and `r ncol(sim_covar)` variables.
 
-```{r, distributions_covars}
+```{r, distributions_covars, include = FALSE, eval = FALSE}
 sim_covar %>% 
   tbl_summary(by = "exposure") %>% 
   add_difference()
@@ -190,9 +190,9 @@ sim_df <- sim_covar %>% bind_cols(
 
 ### Kaplan-Meier estimates
 
-The simulation resulted in the following crude Kaplan-Meier estimates for 1-yr and 5-yr survival. Unadjusted estimates below are shown overall and by exposure for overall survival.
+The simulation resulted in the following crude Kaplan-Meier estimates for overall survival.
 
-```{r, km_estimates}
+```{r, km_estimates, include = FALSE, eval = FALSE}
 km_overall <- survfit(Surv(eventtime, status) ~ 1, data = sim_df)
 km_exposure <- survfit(Surv(eventtime, status) ~ exposure, data = sim_df)
 
@@ -201,6 +201,14 @@ tbl_survfit(
   times = c(1, 5),
   label_header = "**{time} Years**"
   )
+```
+
+```{r, km_estimates2}
+km_overall <- survfit(Surv(eventtime, status) ~ 1, data = sim_df)
+km_overall
+
+km_exposure <- survfit(Surv(eventtime, status) ~ exposure, data = sim_df)
+km_exposure
 ```
 
 Given, that the true exposure effect is null, the crude model is severely biased as we can see even more clearly in the crude Kaplan-Meier curve.
@@ -302,11 +310,6 @@ smdi_data_mcar <- ampute(
   bycases = TRUE
   )$amp %>% 
   select(ecog_cat)
-
-smdi_data_mcar %>% 
-  select(ecog_cat) %>% 
-  mutate(ecog_cat = forcats::fct_na_value_to_level(factor(ecog_cat), level = "missing")) %>% 
-  tbl_summary()
 ```
 
 ## Missing at random
@@ -341,11 +344,6 @@ smdi_data_mar <- ampute(
   bycases = TRUE,
   type = "RIGHT"
   )$amp
-
-smdi_data_mar %>% 
-  select(egfr_cat) %>% 
-  mutate(egfr_cat = forcats::fct_na_value_to_level(factor(egfr_cat), level = "missing")) %>%
-  tbl_summary()
 ```
 
 ## Missing not at random - value
@@ -379,10 +377,6 @@ smdi_data_mnar_v <- ampute(
   bycases = TRUE,
   type = "LEFT"
   )$amp
-
-smdi_data_mnar_v %>% 
-  select(pdl1_num) %>% 
-  tbl_summary()
 ```
 
 ## Assemble final dataset
@@ -392,17 +386,6 @@ smdi_data <- smdi_data_complete %>%
   select(-c(ecog_cat, egfr_cat, pdl1_num)) %>% 
   bind_cols(ecog_cat = smdi_data_mcar$ecog_cat, egfr_cat = smdi_data_mar$egfr_cat, pdl1_num = smdi_data_mnar_v$pdl1_num) %>% 
   mutate(across(ends_with("cat"), as.factor))
-```
-
-# Overview final simulated dataset
-
-Let's have a look at the final dataset.
-
-```{r, distributions_covars_final}
-smdi_data %>% 
-  tbl_summary(by = "exposure") %>% 
-  add_overall() %>% 
-  add_difference()
 ```
 
 # Export `smdi_data`
