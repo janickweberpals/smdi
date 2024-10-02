@@ -1,8 +1,5 @@
 # smdi 0.3.1
 
-
-# smdi 0.3.0.9000 (development version)
-
 * Minor changes to vignettes and suggests
 
 
@@ -21,6 +18,7 @@
 * Improvement to `smdi_style_gt` to show correct formatting in `gt` exports of any supported type
 
 * General maintenance and dependency management
+
 
 # smdi 0.2.2
 
