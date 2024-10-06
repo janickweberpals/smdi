@@ -1,3 +1,8 @@
+# smdi 0.3.1
+
+* Minor changes to vignettes and suggests
+
+
 # smdi 0.3.0
 
 * Incorporated comments from peer-review in JAMIA Open (Weberpals et al. 2024, <doi:10.1093/jamiaopen/ooae008>)
@@ -13,6 +18,7 @@
 * Improvement to `smdi_style_gt` to show correct formatting in `gt` exports of any supported type
 
 * General maintenance and dependency management
+
 
 # smdi 0.2.2
 
@@ -39,6 +45,7 @@
 
 * Some improved documentation here and there.
 
+
 # smdi 0.2.0
 
 * `smdi_asmd()`, and consequently also `smdi_diagnose()`, now also outputs the minimum (min) and maximum (max) absolute standardized mean difference (asmd) in addition to the mean/median to provide more comprehensive information about the asmd range without having to look at each asmd plot individually.
@@ -50,6 +57,7 @@
 * Change of colors in plots produced by `smdi_rf()` to address color-blindness
 
 * Some improved documentation for smdi_diagnose, smdi_asmd and smdi_rf
+
 
 # smdi 0.1.0
 

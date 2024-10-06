@@ -1,87 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/404.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/a_data_generation.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/b_routine_diagnostics.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/c_multivariate_missingness.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/d_narfcs_sensitivity_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/smdi.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/coverage.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/index.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi-package.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_asmd.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_check_covar.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_data.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_data_complete.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_diagnose.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_hotelling.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_little.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_na_indicator.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_outcome.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_rf.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_style_gt.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_summarize.html</loc>
-  </url>
-  <url>
-    <loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_vis.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/404.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/LICENSE.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/a_data_generation.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/b_routine_diagnostics.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/c_multivariate_missingness.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/d_narfcs_sensitivity_analysis.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/index.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/articles/smdi.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/authors.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/coverage.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/index.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/news/index.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/index.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/reexports.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi-package.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_asmd.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_check_covar.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_data.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_data_complete.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_diagnose.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_hotelling.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_little.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_na_indicator.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_outcome.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_rf.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_style_gt.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_summarize.html</loc></url>
+<url><loc>https://janickweberpals.gitlab-pages.partners.org/smdi/index/reference/smdi_vis.html</loc></url>
 </urlset>
+
