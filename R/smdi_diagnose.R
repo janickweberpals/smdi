@@ -95,7 +95,8 @@ smdi_diagnose <- function(data = NULL,
     data = data,
     covar = covar_miss,
     median = median,
-    includeNA = includeNA
+    includeNA = includeNA,
+    n_cores = n_cores
     )
 
   tbl_asmd <- summary(asmd_out)
@@ -106,7 +107,8 @@ smdi_diagnose <- function(data = NULL,
   # hotelling ---------------------------------------------------------------
   hotelling_out <- smdi::smdi_hotelling(
     data = data,
-    covar = covar_miss
+    covar = covar_miss,
+    n_cores = n_cores
     )
 
   tbl_hotelling <- summary(hotelling_out)
@@ -125,7 +127,8 @@ smdi_diagnose <- function(data = NULL,
     covar = covar_miss,
     train_test_ratio = train_test_ratio,
     set_seed = set_seed,
-    ntree = ntree
+    ntree = ntree,
+    n_cores = n_cores
     )
 
   tbl_rf <- summary(rf_out)
@@ -136,7 +139,8 @@ smdi_diagnose <- function(data = NULL,
     data = data,
     model = model,
     form_lhs = form_lhs,
-    exponentiated = exponentiated
+    exponentiated = exponentiated,
+    n_cores = n_cores
     )
 
   # combine -----------------------------------------------------------------

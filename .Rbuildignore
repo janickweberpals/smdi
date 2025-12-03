@@ -32,3 +32,6 @@ lib
 ^doc$
 ^Meta$
 ^revdep$
+
+^.rpkg$
+^.requirements.sh$
