@@ -17,3 +17,11 @@ inst/doc
 # docs
 /doc/
 /Meta/
+
+.rpkg/
+
+*.xlsx
+*.csv
+*.txt
+*.parquet
+

@@ -1,7 +1,10 @@
+# smdi 0.3.2
+
+* Passing on `n_cores` parameter to downstream functions in `smdi_diagnose` wrapper
+
 # smdi 0.3.1
 
 * Minor changes to vignettes and suggests
-
 
 # smdi 0.3.0
 

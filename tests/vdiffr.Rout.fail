@@ -1,0 +1,70 @@
+Environment:
+- vdiffr-svg-engine: 2.0
+- vdiffr: 1.0.8
+
+
+Failed doppelganger: ggplot2-bar (/Users/janickweberpals/Documents/Projects/smdi/tests/testthat/_snaps/smdi_vis/ggplot2-bar.svg)
+
+< before                                                                        
+> after                                                                         
+@@ 42,7 / 42,7 @@                                                               
+  <rect x='59.11' y='210.50' width='567.46' height='146.91' style='stroke-width:
+   1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #8B1A1A;' />       
+  <rect x='59.11' y='47.27' width='567.46' height='146.91' style='stroke-width: 
+  1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #8B1A1A;' />        
+< <text x='664.40' y='450.97' text-anchor='middle' style='font-size: 11.04px; fo
+: nt-family: sans;' textLength='43.58px' lengthAdjust='spacingAndGlyphs'>100.00%
+: </text>                                                                       
+> <text x='664.40' y='450.96' text-anchor='middle' style='font-size: 11.00px; fo
+: nt-family: sans;' textLength='43.43px' lengthAdjust='spacingAndGlyphs'>100.00%
+: </text>                                                                       
+< <text x='664.40' y='287.75' text-anchor='middle' style='font-size: 11.04px; fo
+: nt-family: sans;' textLength='43.58px' lengthAdjust='spacingAndGlyphs'>100.00%
+: </text>                                                                       
+> <text x='664.40' y='287.73' text-anchor='middle' style='font-size: 11.00px; fo
+: nt-family: sans;' textLength='43.43px' lengthAdjust='spacingAndGlyphs'>100.00%
+: </text>                                                                       
+< <text x='664.40' y='124.52' text-anchor='middle' style='font-size: 11.04px; fo
+: nt-family: sans;' textLength='43.58px' lengthAdjust='spacingAndGlyphs'>100.00%
+: </text>                                                                       
+> <text x='664.40' y='124.51' text-anchor='middle' style='font-size: 11.00px; fo
+: nt-family: sans;' textLength='43.43px' lengthAdjust='spacingAndGlyphs'>100.00%
+: </text>                                                                       
+  <rect x='27.90' y='22.78' width='686.62' height='522.33' style='stroke-width: 
+  1.07; stroke: #333333;' />                                                    
+  </g>                                                                          
+
+
+Failed doppelganger: ggplot2-bar-stratified (/Users/janickweberpals/Documents/Projects/smdi/tests/testthat/_snaps/smdi_vis/ggplot2-bar-stratified.svg)
+
+< before                                                                        
+> after                                                                         
+@@ 36,5 / 36,5 @@                                                               
+  <polyline points='268.55,531.75 268.55,54.77 ' style='stroke-width: 1.07; stro
+  ke: #EBEBEB; stroke-linecap: butt;' />                                        
+  <rect x='43.38' y='114.39' width='281.46' height='357.74' style='stroke-width:
+   1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #8B1A1A;' />       
+< <text x='343.61' y='297.06' text-anchor='middle' style='font-size: 11.04px; fo
+: nt-family: sans;' textLength='37.44px' lengthAdjust='spacingAndGlyphs'>50.00%<
+: /text>                                                                        
+> <text x='343.61' y='297.04' text-anchor='middle' style='font-size: 11.00px; fo
+: nt-family: sans;' textLength='37.31px' lengthAdjust='spacingAndGlyphs'>50.00%<
+: /text>                                                                        
+  <rect x='27.90' y='54.77' width='340.57' height='476.98' style='stroke-width: 
+  1.07; stroke: #333333;' />                                                    
+  </g>                                                                          
+@@ 56,5 / 56,5 @@                                                               
+  <polyline points='614.60,531.75 614.60,54.77 ' style='stroke-width: 1.07; stro
+  ke: #EBEBEB; stroke-linecap: butt;' />                                        
+  <rect x='389.43' y='114.39' width='281.46' height='357.74' style='stroke-width
+  : 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #8B1A1A;' />      
+< <text x='689.66' y='297.06' text-anchor='middle' style='font-size: 11.04px; fo
+: nt-family: sans;' textLength='37.44px' lengthAdjust='spacingAndGlyphs'>50.00%<
+: /text>                                                                        
+> <text x='689.66' y='297.04' text-anchor='middle' style='font-size: 11.00px; fo
+: nt-family: sans;' textLength='37.31px' lengthAdjust='spacingAndGlyphs'>50.00%<
+: /text>                                                                        
+  <rect x='373.95' y='54.77' width='340.57' height='476.98' style='stroke-width:
+   1.07; stroke: #333333;' />                                                   
+  </g>                                                                          
+
