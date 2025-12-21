@@ -1,7 +1,3 @@
-# For reproducibility, create a project-specific library
-
-# Set the default repository option
-options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 # The following code creates a local directory for your projects packages and
 # removes the users home package directory to stop issues with using packages
