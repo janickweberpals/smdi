@@ -8,8 +8,8 @@
 <title>Routine structural missing data diagnostics • smdi</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Routine structural missing data diagnostics">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,6 +89,7 @@ font-style: italic;
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi/" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com" class="external-link">gt</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'gt' was built under R version 4.5.2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span></code></pre></div>
@@ -108,7 +109,7 @@ characteristic patterns of diagnostic parameters matched to common
 missing data structures based on three group diagnostics:</p>
 </div>
 <div class="figure">
-<img src="smdi_diagnose_table.png" alt="Overview three group diagnostics" width="1616"><p class="caption">
+<img src="smdi_diagnose_table.png" class="r-plt" alt="Overview three group diagnostics" width="1616"><p class="caption">
 Overview three group diagnostics
 </p>
 </div>
@@ -122,7 +123,7 @@ effort. This is how an <strong>example</strong> could look like in a
 real-world database study:</p>
 </div>
 <div class="figure">
-<img src="smdi_examples.png" alt="Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study." width="853"><p class="caption">
+<img src="smdi_examples.png" class="r-plt" alt="Example of how `smdi` diagnostics can be applied to give insights into the likelihood of underlying missingness structures in a real-world database study." width="853"><p class="caption">
 Example of how <code>smdi</code> diagnostics can be applied to give
 insights into the likelihood of underlying missingness structures in a
 real-world database study.
@@ -147,20 +148,20 @@ generation</a> article.</p>
 <span>  <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 2,500</span></span>
 <span><span class="co">#&gt; Columns: 14</span></span>
-<span><span class="co">#&gt; $ exposure      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ age_num       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.24, 51.18, 88.17, 50.79, 40.52, 64.57, 73.58, 42.38, …</span></span>
-<span><span class="co">#&gt; $ female_cat    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ smoking_cat   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1,…</span></span>
-<span><span class="co">#&gt; $ physical_cat  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ alk_cat       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ histology_cat <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ ses_cat       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 2_middle, 3_high, 2_middle, 2_middle, 2_middle, 2_middle…</span></span>
-<span><span class="co">#&gt; $ copd_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1,…</span></span>
-<span><span class="co">#&gt; $ eventtime     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 5.000000000, 4.754220474, 0.253391563, 5.000000000, 5.00…</span></span>
-<span><span class="co">#&gt; $ status        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ ecog_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1, NA, 0, 1, NA, 0, 1, 0, 1, NA, 1, NA, NA, 1, 1, 0, 1, …</span></span>
-<span><span class="co">#&gt; $ egfr_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> NA, 0, 1, NA, 1, NA, NA, 0, NA, 0, 1, NA, 0, NA, NA, 0, …</span></span>
-<span><span class="co">#&gt; $ pdl1_num      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 45.03, NA, 41.74, 45.51, 31.28, NA, 47.28, 37.28, 46.47,…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ exposure      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ age_num       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.24<span style="color: #949494;">, </span>51.18<span style="color: #949494;">, </span>88.17<span style="color: #949494;">, </span>50.79<span style="color: #949494;">, </span>40.52<span style="color: #949494;">, </span>64.57<span style="color: #949494;">, </span>73.58<span style="color: #949494;">, </span>42.38<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ female_cat    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ smoking_cat   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ physical_cat  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ alk_cat       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ histology_cat <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ ses_cat       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 2_middle<span style="color: #949494;">, </span>3_high<span style="color: #949494;">, </span>2_middle<span style="color: #949494;">, </span>2_middle<span style="color: #949494;">, </span>2_middle<span style="color: #949494;">, </span>2_middle…</span></span>
+<span><span class="co">#&gt; $ copd_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ eventtime     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 5.000000000<span style="color: #949494;">, </span>4.754220474<span style="color: #949494;">, </span>0.253391563<span style="color: #949494;">, </span>5.000000000<span style="color: #949494;">, </span>5.00…</span></span>
+<span><span class="co">#&gt; $ status        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ ecog_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> 1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ egfr_cat      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ pdl1_num      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 45.03<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>41.74<span style="color: #949494;">, </span>45.51<span style="color: #949494;">, </span>31.28<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>47.28<span style="color: #949494;">, </span>37.28<span style="color: #949494;">, </span>46.47<span style="color: #949494;">,</span>…</span></span></code></pre></div>
 <p>The dataset consists of 2,500 patients and 14 variables with
 <code>exposure</code> representing the two treatment regimens under
 comparison and <code>status</code> and <code>eventtime</code> the vital
@@ -200,7 +201,7 @@ convenient functions to screen the data for missingness.</p>
 <span></span>
 <span><span class="va">smdi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/smdi_vis.html">smdi_vis</a></span><span class="op">(</span>covar <span class="op">=</span> <span class="va">covars_missing</span><span class="op">)</span></span></code></pre></div>
-<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-5-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="900"></p>
 <p>The plot also provides flexibility to stratify, e.g. by
 <code>exposure</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -209,7 +210,7 @@ convenient functions to screen the data for missingness.</p>
 <span><span class="co">#&gt; Warning in smdi_summarize(data = data, covar = covar, strata = strata): Strata</span></span>
 <span><span class="co">#&gt; variable is not a character/factor or has &gt; 10 unique levels. Consider</span></span>
 <span><span class="co">#&gt; re-categorizing.</span></span></code></pre></div>
-<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="900"></p>
 </div>
 <div class="section level4">
 <h4 class="tabset" id="missingness-patterns">Missingness patterns<a class="anchor" aria-label="anchor" href="#missingness-patterns"></a>
@@ -235,8 +236,30 @@ re-exports of the <code><a href="https://naniar.njtierney.com/reference/gg_miss_
 <h5 id="upset-plot">Upset plot<a class="anchor" aria-label="anchor" href="#upset-plot"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://naniar.njtierney.com/reference/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span></code></pre></div>
-<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="900"></p>
+<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://naniar.njtierney.com/reference/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">smdi_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `aes_string()` was deprecated in ggplot2 3.0.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use tidy evaluation idioms with `aes()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See also `vignette("ggplot2-in-packages")` for more information.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">UpSetR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">UpSetR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use the `linewidth` argument instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">UpSetR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="900"></p>
 <p>The upset plot and the pattern matrix show that only a small fraction
 of observations (N = 97) is missing in all the partially observed
 covariates at the same. A non-monotone missingness pattern is
@@ -340,7 +363,7 @@ information in the following structure that can be accessed using the
 <span><span class="co">#&gt;   pdl1_num (mean (SD))  "44.07 (10.37)" "49.33 (11.31)" "&lt;0.001" ""   " 0.485"</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_plot</span></span></code></pre></div>
-<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="900"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asmd</span><span class="op">$</span><span class="va">egfr_cat</span><span class="op">$</span><span class="va">asmd_aggregate</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -470,7 +493,7 @@ computation of the function can take some minutes.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ecog_cat  0.510</span></span>
 <span><span class="va">auc</span><span class="op">$</span><span class="va">ecog_cat</span><span class="op">$</span><span class="va">rf_plot</span></span></code></pre></div>
-<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-17-1.png" width="900"></p>
+<p><img src="b_routine_diagnostics_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="900"></p>
 <blockquote>
 <p>CAVE: If the missingness indicator variables of other partially
 observed covariates (indicated by suffix _NA) have an extremely high
@@ -1019,19 +1042,19 @@ the <code>smdi_gt_style()</code> function:</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;'>ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">Covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="asmd_median_min_max">ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;p Hotelling&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">
+<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;'>AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rf_auc">AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta univariate (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_univariate">
+<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">
+<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
     </tr></thead>
 <tbody class="gt_table_body">
@@ -1060,22 +1083,22 @@ the <code>smdi_gt_style()</code> function:</p>
 <td headers="estimate_adjusted" class="gt_row gt_left">0.11 (95% CI -0.00, 0.22)</td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes">
-<tr>
+<tfoot>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6"> <span class="gt_from_md">p little: &lt;.001,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</span>
 </td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>
@@ -1122,7 +1145,7 @@ the American Statistical Association</em> 83 (404): 1198–1202. <a href="https:
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

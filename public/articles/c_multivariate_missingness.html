@@ -8,8 +8,8 @@
 <title>Multivariate missingness and monotonicity • smdi</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multivariate missingness and monotonicity">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,6 +89,7 @@ font-style: italic;
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://janickweberpals.gitlab-pages.partners.org/smdi/" class="external-link">smdi</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com" class="external-link">gt</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'gt' was built under R version 4.5.2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="multivariate-missing-data-in-smdi">Multivariate missing data in <code>smdi</code><a class="anchor" aria-label="anchor" href="#multivariate-missing-data-in-smdi"></a>
@@ -710,8 +711,30 @@ also missing.</p>
 <span><span class="va">data_monotone</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">503</span>, <span class="st">"lab1"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="va">data_monotone</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span>, <span class="st">"lab2"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://naniar.njtierney.com/reference/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_monotone</span><span class="op">)</span></span></code></pre></div>
-<p><img src="c_multivariate_missingness_files/figure-html/unnamed-chunk-4-1.png" width="900"></p>
+<code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://naniar.njtierney.com/reference/gg_miss_upset.html" class="external-link">gg_miss_upset</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_monotone</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `aes_string()` was deprecated in ggplot2 3.0.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use tidy evaluation idioms with `aes()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See also `vignette("ggplot2-in-packages")` for more information.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">UpSetR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">UpSetR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use the `linewidth` argument instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">UpSetR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<p><img src="c_multivariate_missingness_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="900"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">smdi</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html" class="external-link">md.pattern</a></span><span class="op">(</span><span class="va">data_monotone</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lab1"</span>, <span class="st">"lab2"</span><span class="op">)</span><span class="op">]</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      lab2 lab1     </span></span>
@@ -1197,19 +1220,19 @@ such instances.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;'>ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">Covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="asmd_median_min_max">ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;p Hotelling&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">
+<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;'>AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rf_auc">AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta univariate (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_univariate">
+<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">
+<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
     </tr></thead>
 <tbody class="gt_table_body">
@@ -1230,22 +1253,22 @@ such instances.</p>
 <td headers="estimate_adjusted" class="gt_row gt_left">-1.11 (95% CI -2.16, -0.05)</td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes">
-<tr>
+<tfoot>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6"> <span class="gt_from_md">p little: 0.245,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</span>
 </td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>
@@ -1718,19 +1741,19 @@ variable at a time.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;'>ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">Covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="asmd_median_min_max">ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;p Hotelling&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">
+<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;'>AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rf_auc">AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta univariate (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_univariate">
+<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">
+<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
     </tr></thead>
 <tbody class="gt_table_body"><tr>
@@ -1741,22 +1764,22 @@ variable at a time.</p>
 <td headers="estimate_univariate" class="gt_row gt_left">-0.01 (95% CI -0.12, 0.09)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.04 (95% CI -0.15, 0.07)</td>
 </tr></tbody>
-<tfoot class="gt_footnotes">
-<tr>
+<tfoot>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6"> <span class="gt_from_md">p little: 0.295,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</span>
 </td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>
@@ -2226,19 +2249,19 @@ variable at a time.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;'>ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">Covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="asmd_median_min_max">ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;p Hotelling&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">
+<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;'>AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rf_auc">AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta univariate (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_univariate">
+<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">
+<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
     </tr></thead>
 <tbody class="gt_table_body"><tr>
@@ -2249,22 +2272,22 @@ variable at a time.</p>
 <td headers="estimate_univariate" class="gt_row gt_left">-0.03 (95% CI -0.14, 0.08)</td>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.05 (95% CI -0.16, 0.06)</td>
 </tr></tbody>
-<tfoot class="gt_footnotes">
-<tr>
+<tfoot>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6"> <span class="gt_from_md">p little: 0.291,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</span>
 </td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>
@@ -2286,23 +2309,23 @@ dataset.</p>
 <span>  smdi_object <span class="op">=</span> <span class="fu"><a href="https://amices.org/mice/reference/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">lab1_diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span>, <span class="va">lab2_diagnostics</span><span class="op">$</span><span class="va">smdi_tbl</span><span class="op">)</span>, </span>
 <span>  include_little <span class="op">=</span> <span class="va">little_global</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div id="rbjhdmwrep" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rbjhdmwrep table {
+<div id="afbroctcow" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#afbroctcow table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rbjhdmwrep thead, #rbjhdmwrep tbody, #rbjhdmwrep tfoot, #rbjhdmwrep tr, #rbjhdmwrep td, #rbjhdmwrep th {
+#afbroctcow thead, #afbroctcow tbody, #afbroctcow tfoot, #afbroctcow tr, #afbroctcow td, #afbroctcow th {
   border-style: none;
 }
 
-#rbjhdmwrep p {
+#afbroctcow p {
   margin: 0;
   padding: 0;
 }
 
-#rbjhdmwrep .gt_table {
+#afbroctcow .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2328,12 +2351,12 @@ dataset.</p>
   border-left-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_caption {
+#afbroctcow .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rbjhdmwrep .gt_title {
+#afbroctcow .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2345,7 +2368,7 @@ dataset.</p>
   border-bottom-width: 0;
 }
 
-#rbjhdmwrep .gt_subtitle {
+#afbroctcow .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2357,7 +2380,7 @@ dataset.</p>
   border-top-width: 0;
 }
 
-#rbjhdmwrep .gt_heading {
+#afbroctcow .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2369,13 +2392,13 @@ dataset.</p>
   border-right-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_bottom_border {
+#afbroctcow .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_col_headings {
+#afbroctcow .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2390,7 +2413,7 @@ dataset.</p>
   border-right-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_col_heading {
+#afbroctcow .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2410,7 +2433,7 @@ dataset.</p>
   overflow-x: hidden;
 }
 
-#rbjhdmwrep .gt_column_spanner_outer {
+#afbroctcow .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2422,15 +2445,15 @@ dataset.</p>
   padding-right: 4px;
 }
 
-#rbjhdmwrep .gt_column_spanner_outer:first-child {
+#afbroctcow .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rbjhdmwrep .gt_column_spanner_outer:last-child {
+#afbroctcow .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rbjhdmwrep .gt_column_spanner {
+#afbroctcow .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2442,11 +2465,11 @@ dataset.</p>
   width: 100%;
 }
 
-#rbjhdmwrep .gt_spanner_row {
+#afbroctcow .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rbjhdmwrep .gt_group_heading {
+#afbroctcow .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2472,7 +2495,7 @@ dataset.</p>
   text-align: left;
 }
 
-#rbjhdmwrep .gt_empty_group_heading {
+#afbroctcow .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2487,15 +2510,15 @@ dataset.</p>
   vertical-align: middle;
 }
 
-#rbjhdmwrep .gt_from_md > :first-child {
+#afbroctcow .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rbjhdmwrep .gt_from_md > :last-child {
+#afbroctcow .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rbjhdmwrep .gt_row {
+#afbroctcow .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -2514,7 +2537,7 @@ dataset.</p>
   overflow-x: hidden;
 }
 
-#rbjhdmwrep .gt_stub {
+#afbroctcow .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2527,7 +2550,7 @@ dataset.</p>
   padding-right: 5px;
 }
 
-#rbjhdmwrep .gt_stub_row_group {
+#afbroctcow .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2541,15 +2564,15 @@ dataset.</p>
   vertical-align: top;
 }
 
-#rbjhdmwrep .gt_row_group_first td {
+#afbroctcow .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rbjhdmwrep .gt_row_group_first th {
+#afbroctcow .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rbjhdmwrep .gt_summary_row {
+#afbroctcow .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2559,16 +2582,16 @@ dataset.</p>
   padding-right: 5px;
 }
 
-#rbjhdmwrep .gt_first_summary_row {
+#afbroctcow .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_first_summary_row.thick {
+#afbroctcow .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rbjhdmwrep .gt_last_summary_row {
+#afbroctcow .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2578,7 +2601,7 @@ dataset.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_grand_summary_row {
+#afbroctcow .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2588,7 +2611,7 @@ dataset.</p>
   padding-right: 5px;
 }
 
-#rbjhdmwrep .gt_first_grand_summary_row {
+#afbroctcow .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2598,7 +2621,7 @@ dataset.</p>
   border-top-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_last_grand_summary_row_top {
+#afbroctcow .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2608,11 +2631,11 @@ dataset.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_striped {
+#afbroctcow .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rbjhdmwrep .gt_table_body {
+#afbroctcow .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2621,7 +2644,7 @@ dataset.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_footnotes {
+#afbroctcow .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2635,7 +2658,7 @@ dataset.</p>
   border-right-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_footnote {
+#afbroctcow .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2644,7 +2667,7 @@ dataset.</p>
   padding-right: 5px;
 }
 
-#rbjhdmwrep .gt_sourcenotes {
+#afbroctcow .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2658,7 +2681,7 @@ dataset.</p>
   border-right-color: #D3D3D3;
 }
 
-#rbjhdmwrep .gt_sourcenote {
+#afbroctcow .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2666,90 +2689,90 @@ dataset.</p>
   padding-right: 5px;
 }
 
-#rbjhdmwrep .gt_left {
+#afbroctcow .gt_left {
   text-align: left;
 }
 
-#rbjhdmwrep .gt_center {
+#afbroctcow .gt_center {
   text-align: center;
 }
 
-#rbjhdmwrep .gt_right {
+#afbroctcow .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rbjhdmwrep .gt_font_normal {
+#afbroctcow .gt_font_normal {
   font-weight: normal;
 }
 
-#rbjhdmwrep .gt_font_bold {
+#afbroctcow .gt_font_bold {
   font-weight: bold;
 }
 
-#rbjhdmwrep .gt_font_italic {
+#afbroctcow .gt_font_italic {
   font-style: italic;
 }
 
-#rbjhdmwrep .gt_super {
+#afbroctcow .gt_super {
   font-size: 65%;
 }
 
-#rbjhdmwrep .gt_footnote_marks {
+#afbroctcow .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rbjhdmwrep .gt_asterisk {
+#afbroctcow .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rbjhdmwrep .gt_indent_1 {
+#afbroctcow .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rbjhdmwrep .gt_indent_2 {
+#afbroctcow .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rbjhdmwrep .gt_indent_3 {
+#afbroctcow .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rbjhdmwrep .gt_indent_4 {
+#afbroctcow .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rbjhdmwrep .gt_indent_5 {
+#afbroctcow .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rbjhdmwrep .katex-display {
+#afbroctcow .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rbjhdmwrep div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#afbroctcow div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Covariate">Covariate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='ASMD (min/max)&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;'>ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="covariate">Covariate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="asmd_median_min_max">ASMD (min/max)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;p Hotelling&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hotteling_p">
+<span class="gt_from_md">p Hotelling</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id='AUC&lt;span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;'>AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rf_auc">AUC<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta univariate (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_univariate">
+<span class="gt_from_md">beta univariate (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;beta (95% CI)&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="estimate_adjusted">
+<span class="gt_from_md">beta (95% CI)</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span>
 </th>
     </tr></thead>
 <tbody class="gt_table_body">
@@ -2770,22 +2793,22 @@ dataset.</p>
 <td headers="estimate_adjusted" class="gt_row gt_left">-0.05 (95% CI -0.16, 0.06)</td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes">
-<tr>
+<tfoot>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6"> <span class="gt_from_md">p little: 0.245,  Abbreviations: ASMD = Median absolute standardized mean difference across all covariates, AUC = Area under the curve, beta = beta coefficient, CI = Confidence interval, max = Maximum, min = Minimum</span>
 </td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Group 1 diagnostic: Differences in patient characteristics between patients with and without covariate</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Group 2 diagnostic: Ability to predict missingness</td>
     </tr>
-<tr>
+<tr class="gt_footnotes">
 <td class="gt_footnote" colspan="6">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>3</sup></span> Group 3 diagnostic: Assessment if missingness is associated with the outcome (univariate, adjusted)</td>
     </tr>
 </tfoot>
 </table>
@@ -2807,7 +2830,7 @@ diagnostics patterns one would expect from an MCAR mechanism.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
