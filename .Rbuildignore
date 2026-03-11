@@ -35,3 +35,4 @@ lib
 
 ^.rpkg$
 ^.requirements.sh$
+^\.github$

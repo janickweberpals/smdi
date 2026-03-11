@@ -8,8 +8,8 @@
 <title>Data generation • smdi</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Data generation">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">smdi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,13 +83,18 @@ Weberpals</h4>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ddsjoberg/gtsummary" class="external-link">gtsummary</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'gtsummary' was built under R version 4.5.2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com" class="external-link">gt</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'gt' was built under R version 4.5.2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">simsurv</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/survminer/index.html" class="external-link">survminer</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.5.2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org" class="external-link">usethis</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice" class="external-link">mice</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://insightsengineering.github.io/cardx/" class="external-link">cardx</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'mice' was built under R version 4.5.2</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/insightsengineering/cardx" class="external-link">cardx</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'cardx' was built under R version 4.5.2</span></span>
 <span></span>
 <span><span class="co"># some global simulation parameters</span></span>
 <span><span class="va">seed_value</span> <span class="op">&lt;-</span> <span class="fl">42</span></span>
@@ -718,21 +723,17 @@ variables.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Characteristic&lt;/strong&gt;&lt;/span&gt;"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;OR&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md"><strong>OR</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;95% CI&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md"><strong>95% CI</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;p-value&lt;/strong&gt;&lt;/span&gt;"><span class="gt_from_md"><strong>p-value</strong></span></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate"><span class="gt_from_md"><strong>OR</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low"><span class="gt_from_md"><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span></th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
 <td headers="label" class="gt_row gt_left">age_num</td>
 <td headers="estimate" class="gt_row gt_center">0.97</td>
 <td headers="conf.low" class="gt_row gt_center">0.96, 0.97</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">female_cat</td>
@@ -762,7 +763,7 @@ variables.</p>
 <td headers="label" class="gt_row gt_left">egfr_cat</td>
 <td headers="estimate" class="gt_row gt_center">1.47</td>
 <td headers="conf.low" class="gt_row gt_center">1.18, 1.84</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">alk_cat</td>
@@ -774,7 +775,7 @@ variables.</p>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
 <td headers="estimate" class="gt_row gt_center">1.10</td>
 <td headers="conf.low" class="gt_row gt_center">1.08, 1.11</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">histology_cat</td>
@@ -813,10 +814,8 @@ variables.</p>
 <td headers="p.value" class="gt_row gt_center">0.003</td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes"><tr>
-<td class="gt_footnote" colspan="4">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> <span class="gt_from_md">OR = Odds Ratio, CI = Confidence Interval</span>
-</td>
+<tfoot><tr class="gt_sourcenotes">
+<td class="gt_sourcenote" colspan="4"><span class="gt_from_md">Abbreviations: CI = Confidence Interval, OR = Odds Ratio</span></td>
     </tr></tfoot>
 </table>
 </div>
@@ -840,7 +839,7 @@ initiation (aka propensity scores).</p>
 <span>    fill <span class="op">=</span> <span class="st">"Exposed"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="a_data_generation_files/figure-html/pr_treatment_assignment-1.png" alt="Treatment assignment probabilities." width="900"><p class="caption">
+<img src="a_data_generation_files/figure-html/pr_treatment_assignment-1.png" class="r-plt" alt="Treatment assignment probabilities." width="900"><p class="caption">
 Treatment assignment probabilities.
 </p>
 </div>
@@ -878,23 +877,23 @@ following</li>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"Covariate"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>HR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">logHR</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html" class="external-link">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="uyslvikjiw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uyslvikjiw table {
+<div id="oisknyptjv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oisknyptjv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uyslvikjiw thead, #uyslvikjiw tbody, #uyslvikjiw tfoot, #uyslvikjiw tr, #uyslvikjiw td, #uyslvikjiw th {
+#oisknyptjv thead, #oisknyptjv tbody, #oisknyptjv tfoot, #oisknyptjv tr, #oisknyptjv td, #oisknyptjv th {
   border-style: none;
 }
 
-#uyslvikjiw p {
+#oisknyptjv p {
   margin: 0;
   padding: 0;
 }
 
-#uyslvikjiw .gt_table {
+#oisknyptjv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -920,12 +919,12 @@ following</li>
   border-left-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_caption {
+#oisknyptjv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uyslvikjiw .gt_title {
+#oisknyptjv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -937,7 +936,7 @@ following</li>
   border-bottom-width: 0;
 }
 
-#uyslvikjiw .gt_subtitle {
+#oisknyptjv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -949,7 +948,7 @@ following</li>
   border-top-width: 0;
 }
 
-#uyslvikjiw .gt_heading {
+#oisknyptjv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -961,13 +960,13 @@ following</li>
   border-right-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_bottom_border {
+#oisknyptjv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_col_headings {
+#oisknyptjv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -982,7 +981,7 @@ following</li>
   border-right-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_col_heading {
+#oisknyptjv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1002,7 +1001,7 @@ following</li>
   overflow-x: hidden;
 }
 
-#uyslvikjiw .gt_column_spanner_outer {
+#oisknyptjv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1014,15 +1013,15 @@ following</li>
   padding-right: 4px;
 }
 
-#uyslvikjiw .gt_column_spanner_outer:first-child {
+#oisknyptjv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uyslvikjiw .gt_column_spanner_outer:last-child {
+#oisknyptjv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uyslvikjiw .gt_column_spanner {
+#oisknyptjv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1034,11 +1033,11 @@ following</li>
   width: 100%;
 }
 
-#uyslvikjiw .gt_spanner_row {
+#oisknyptjv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uyslvikjiw .gt_group_heading {
+#oisknyptjv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1064,7 +1063,7 @@ following</li>
   text-align: left;
 }
 
-#uyslvikjiw .gt_empty_group_heading {
+#oisknyptjv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1079,15 +1078,15 @@ following</li>
   vertical-align: middle;
 }
 
-#uyslvikjiw .gt_from_md > :first-child {
+#oisknyptjv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uyslvikjiw .gt_from_md > :last-child {
+#oisknyptjv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uyslvikjiw .gt_row {
+#oisknyptjv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1106,7 +1105,7 @@ following</li>
   overflow-x: hidden;
 }
 
-#uyslvikjiw .gt_stub {
+#oisknyptjv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1119,7 +1118,7 @@ following</li>
   padding-right: 5px;
 }
 
-#uyslvikjiw .gt_stub_row_group {
+#oisknyptjv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1133,15 +1132,15 @@ following</li>
   vertical-align: top;
 }
 
-#uyslvikjiw .gt_row_group_first td {
+#oisknyptjv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uyslvikjiw .gt_row_group_first th {
+#oisknyptjv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uyslvikjiw .gt_summary_row {
+#oisknyptjv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1151,16 +1150,16 @@ following</li>
   padding-right: 5px;
 }
 
-#uyslvikjiw .gt_first_summary_row {
+#oisknyptjv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_first_summary_row.thick {
+#oisknyptjv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uyslvikjiw .gt_last_summary_row {
+#oisknyptjv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1170,7 +1169,7 @@ following</li>
   border-bottom-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_grand_summary_row {
+#oisknyptjv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1180,7 +1179,7 @@ following</li>
   padding-right: 5px;
 }
 
-#uyslvikjiw .gt_first_grand_summary_row {
+#oisknyptjv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1190,7 +1189,7 @@ following</li>
   border-top-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_last_grand_summary_row_top {
+#oisknyptjv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1200,11 +1199,11 @@ following</li>
   border-bottom-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_striped {
+#oisknyptjv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uyslvikjiw .gt_table_body {
+#oisknyptjv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1213,7 +1212,7 @@ following</li>
   border-bottom-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_footnotes {
+#oisknyptjv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1227,7 +1226,7 @@ following</li>
   border-right-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_footnote {
+#oisknyptjv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1236,7 +1235,7 @@ following</li>
   padding-right: 5px;
 }
 
-#uyslvikjiw .gt_sourcenotes {
+#oisknyptjv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1250,7 +1249,7 @@ following</li>
   border-right-color: #D3D3D3;
 }
 
-#uyslvikjiw .gt_sourcenote {
+#oisknyptjv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1258,72 +1257,72 @@ following</li>
   padding-right: 5px;
 }
 
-#uyslvikjiw .gt_left {
+#oisknyptjv .gt_left {
   text-align: left;
 }
 
-#uyslvikjiw .gt_center {
+#oisknyptjv .gt_center {
   text-align: center;
 }
 
-#uyslvikjiw .gt_right {
+#oisknyptjv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uyslvikjiw .gt_font_normal {
+#oisknyptjv .gt_font_normal {
   font-weight: normal;
 }
 
-#uyslvikjiw .gt_font_bold {
+#oisknyptjv .gt_font_bold {
   font-weight: bold;
 }
 
-#uyslvikjiw .gt_font_italic {
+#oisknyptjv .gt_font_italic {
   font-style: italic;
 }
 
-#uyslvikjiw .gt_super {
+#oisknyptjv .gt_super {
   font-size: 65%;
 }
 
-#uyslvikjiw .gt_footnote_marks {
+#oisknyptjv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uyslvikjiw .gt_asterisk {
+#oisknyptjv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uyslvikjiw .gt_indent_1 {
+#oisknyptjv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uyslvikjiw .gt_indent_2 {
+#oisknyptjv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uyslvikjiw .gt_indent_3 {
+#oisknyptjv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uyslvikjiw .gt_indent_4 {
+#oisknyptjv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uyslvikjiw .gt_indent_5 {
+#oisknyptjv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#uyslvikjiw .katex-display {
+#oisknyptjv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#uyslvikjiw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oisknyptjv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1435,13 +1434,14 @@ Kaplan-Meier curve.</p>
 <span>  xlab <span class="op">=</span> <span class="st">"Time [Years]"</span>,</span>
 <span>  legend.labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Comparator"</span>, <span class="st">"Exposure of interest"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in geom_segment(aes(x = 0, y = max(y2), xend = max(x1), yend = max(y2)), : All aesthetics have length 1, but the data has 2 rows.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span></span>
-<span><span class="co">#&gt;   a single row.</span></span>
-<span><span class="co">#&gt; All aesthetics have length 1, but the data has 2 rows.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span></span>
-<span><span class="co">#&gt;   a single row.</span></span></code></pre></div>
-<p><img src="a_data_generation_files/figure-html/unnamed-chunk-2-1.png" width="900"></p>
+<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ggpubr</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/kassambara/ggpubr/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<p><img src="a_data_generation_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="900"></p>
 </div>
 <div class="section level4">
 <h4 id="cox-proportional-hazards">Cox proportional hazards<a class="anchor" aria-label="anchor" href="#cox-proportional-hazards"></a>
@@ -1908,14 +1908,10 @@ ratio (HR) estimates.</p>
 </style>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Characteristic&lt;/strong&gt;&lt;/span&gt;"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;HR&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md"><strong>HR</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;95% CI&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;">
-<span class="gt_from_md"><strong>95% CI</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
-</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;p-value&lt;/strong&gt;&lt;/span&gt;"><span class="gt_from_md"><strong>p-value</strong></span></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate"><span class="gt_from_md"><strong>HR</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low"><span class="gt_from_md"><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span></th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -1928,7 +1924,7 @@ ratio (HR) estimates.</p>
 <td headers="label" class="gt_row gt_left">age_num</td>
 <td headers="estimate" class="gt_row gt_center">1.05</td>
 <td headers="conf.low" class="gt_row gt_center">1.04, 1.05</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">female_cat</td>
@@ -1946,19 +1942,19 @@ ratio (HR) estimates.</p>
 <td headers="label" class="gt_row gt_left">smoking_cat</td>
 <td headers="estimate" class="gt_row gt_center">1.44</td>
 <td headers="conf.low" class="gt_row gt_center">1.30, 1.60</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">physical_cat</td>
 <td headers="estimate" class="gt_row gt_center">0.84</td>
 <td headers="conf.low" class="gt_row gt_center">0.77, 0.92</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">egfr_cat</td>
 <td headers="estimate" class="gt_row gt_center">0.52</td>
 <td headers="conf.low" class="gt_row gt_center">0.46, 0.58</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">alk_cat</td>
@@ -1970,7 +1966,7 @@ ratio (HR) estimates.</p>
 <td headers="label" class="gt_row gt_left">pdl1_num</td>
 <td headers="estimate" class="gt_row gt_center">0.98</td>
 <td headers="conf.low" class="gt_row gt_center">0.98, 0.98</td>
-<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
 </tr>
 <tr>
 <td headers="label" class="gt_row gt_left">histology_cat</td>
@@ -2009,10 +2005,8 @@ ratio (HR) estimates.</p>
 <td headers="p.value" class="gt_row gt_center">0.042</td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes"><tr>
-<td class="gt_footnote" colspan="4">
-<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span> <span class="gt_from_md">HR = Hazard Ratio, CI = Confidence Interval</span>
-</td>
+<tfoot><tr class="gt_sourcenotes">
+<td class="gt_sourcenote" colspan="4"><span class="gt_from_md">Abbreviations: CI = Confidence Interval, HR = Hazard Ratio</span></td>
     </tr></tfoot>
 </table>
 </div>
@@ -2228,7 +2222,7 @@ educative purposes and for playing around with the package.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
