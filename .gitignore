@@ -13,7 +13,6 @@
 /.quarto/
 inst/doc
 
-# for now we do local builds until we figure out a way to continuously deploy it on GitLab
 # docs
 /doc/
 /Meta/
@@ -25,3 +24,7 @@ inst/doc
 *.txt
 *.parquet
 
+
+# pkgdown output, built and deployed by .github/workflows/pkgdown.yaml
+/docs/
+docs

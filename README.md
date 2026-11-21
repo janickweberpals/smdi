@@ -13,16 +13,13 @@ font-style: italic;
 
 **`S`tructural `M`issing `D`ata `I`nvestigations**
 
- ⁠<!-- badges: start -->
+<!-- badges: start -->
 
-![](https://gitlab-scm.partners.org/janickweberpals/smdi/badges/main/pipeline.svg)
-
+[![R-CMD-check](https://github.com/janickweberpals/smdi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/janickweberpals/smdi/actions/workflows/R-CMD-check.yaml)
 ![](https://www.r-pkg.org/badges/version/smdi)
-
 ![](https://cranlogs.r-pkg.org/badges/last-month/smdi)
-
 ![](https://cranlogs.r-pkg.org/badges/grand-total/smdi)
-
+[![Codecov test coverage](https://codecov.io/gh/janickweberpals/smdi/graph/badge.svg)](https://app.codecov.io/gh/janickweberpals/smdi)
 <!-- badges: end -->
 
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.
@@ -50,16 +47,16 @@ To install the CRAN version of the package, run the following command:
 install.packages("smdi")
 ```
 
-You can install the latest GitLab release version of `smdi` using the `devtools` package via:
+You can install the latest GitHub release version of `smdi` using the `devtools` package via:
 
 ``` r
-devtools::install_git("https://github.com/janickweberpals/smdi.git")
+devtools::install_github("janickweberpals/smdi")
 ```
 
 To install the development version, please use the `dev` branch:
 
 ``` r
-devtools::install_git("https://github.com/janickweberpals/smdi.git", ref = "dev")
+devtools::install_github("janickweberpals/smdi", ref = "dev")
 ```
 
 ## About
@@ -103,7 +100,7 @@ While the manuscript is underway, in the meantime please refer to the [presentat
 
 Check out the `smdi` pkgdown website:
 
-[janickweberpals.gitlab-pages.partners.org/smdi](https://janickweberpals.gitlab-pages.partners.org/smdi)
+[janickweberpals.github.io/smdi](https://janickweberpals.github.io/smdi/)
 
 ## Further references
 

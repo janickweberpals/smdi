@@ -19,8 +19,6 @@ datmis.csv
 ^public$
 ^pkgdown$
 
-.gitlab-ci.yml
-^.gitlab-ci.yml$
 
 coverage.html
 ^coverage.html$
@@ -36,3 +34,4 @@ lib
 ^.rpkg$
 ^.requirements.sh$
 ^\.github$
+^codecov\.yml$
