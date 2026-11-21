@@ -1,3 +1,9 @@
+# smdi 0.3.3
+
+* Updated the NARFCS vignette for `mice` 3.20.0, which renames the pooled confidence interval columns to `conf.low` and `conf.high`; requires `mice` >= 3.19.0
+
+* Moved project hosting from GitLab to GitHub and updated the package website and bug report links
+
 # smdi 0.3.2
 
 * Passing on `n_cores` parameter to downstream functions in `smdi_diagnose` wrapper
