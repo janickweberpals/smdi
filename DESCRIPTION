@@ -22,7 +22,7 @@ Imports:
     Hotelling,
     lifecycle,
     magrittr,
-    mice,
+    mice (>= 3.19.0),
     naniar,
     parallel,
     pROC,
