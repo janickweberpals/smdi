@@ -46,16 +46,16 @@ To install the CRAN version of the package, run the following command:
 install.packages("smdi")
 ```
 
-You can install the latest GitHub release version of `smdi` using the `devtools` package via:
+You can install the latest GitHub release version of `smdi` using the `pak` package via:
 
 ``` r
-devtools::install_github("janickweberpals/smdi")
+pak::pak("janickweberpals/smdi")
 ```
 
 To install the development version, please use the `dev` branch:
 
 ``` r
-devtools::install_github("janickweberpals/smdi", ref = "dev")
+pak::pak("janickweberpals/smdi@dev")
 ```
 
 ## About
