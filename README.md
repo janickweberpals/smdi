@@ -19,7 +19,6 @@ font-style: italic;
 ![](https://www.r-pkg.org/badges/version/smdi)
 ![](https://cranlogs.r-pkg.org/badges/last-month/smdi)
 ![](https://cranlogs.r-pkg.org/badges/grand-total/smdi)
-[![Codecov test coverage](https://codecov.io/gh/janickweberpals/smdi/graph/badge.svg)](https://app.codecov.io/gh/janickweberpals/smdi)
 <!-- badges: end -->
 
 This package aims to be a helpful addition to routine healthcare database analytics with a focus on structural missing data investigations.

@@ -34,4 +34,3 @@ lib
 ^.rpkg$
 ^.requirements.sh$
 ^\.github$
-^codecov\.yml$
