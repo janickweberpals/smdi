@@ -176,7 +176,7 @@ cox_fit_imp <- mice(
   pool() %>% 
   summary(conf.int = TRUE, exponentiate = TRUE) %>% 
   filter(term == "exposure") %>% 
-  select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>% 
+  select(term, estimate, conf.low, conf.high, std.error) %>% 
   mutate(analysis = "Multiple imputation")
 
 forest <- bind_rows(cox_fit_true, cox_fit_cc, cox_fit_imp) %>% 
@@ -254,7 +254,7 @@ narfcs_modeled <- function(i){
     pool() %>% 
     summary(conf.int = TRUE, exponentiate = TRUE) %>% 
     filter(term == "exposure") %>% 
-    select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>% 
+    select(term, estimate, conf.low, conf.high, std.error) %>% 
     mutate(delta = i)
   
 } 
@@ -347,7 +347,7 @@ narfcs_modeled <- function(i){
     pool() %>%
     summary(conf.int = TRUE, exponentiate = TRUE) %>%
     filter(term == "exposure") %>%
-    select(term, estimate, conf.low = `2.5 %`, conf.high = `97.5 %`, std.error) %>%
+    select(term, estimate, conf.low, conf.high, std.error) %>%
     mutate(delta = i)
   
 } 

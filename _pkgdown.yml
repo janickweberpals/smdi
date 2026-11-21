@@ -1,9 +1,6 @@
-url: https://janickweberpals.gitlab-pages.partners.org/smdi/index
+url: https://janickweberpals.github.io/smdi/
 template:
   bootstrap: 5
-
-# Our GitLab runner can just deploy public/
-destination: public/
 
 navbar:
   structure:
@@ -14,4 +11,4 @@ navbar:
     text: Reports
     menu:
     - text: Coverage report
-      href: coverage.html # covr::gitlab()
+      href: coverage.html

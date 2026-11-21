@@ -19,8 +19,6 @@ datmis.csv
 ^public$
 ^pkgdown$
 
-.gitlab-ci.yml
-^.gitlab-ci.yml$
 
 coverage.html
 ^coverage.html$

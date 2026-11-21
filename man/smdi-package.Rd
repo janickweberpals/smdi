@@ -11,8 +11,8 @@ An easy to use implementation of routine structural missing data diagnostics wit
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://janickweberpals.gitlab-pages.partners.org/smdi/}
-  \item Report bugs at \url{https://gitlab-scm.partners.org/janickweberpals/smdi/-/issues}
+  \item \url{https://janickweberpals.github.io/smdi/}
+  \item Report bugs at \url{https://github.com/janickweberpals/smdi/issues}
 }
 
 }

@@ -27,7 +27,7 @@ A data frame with 2,500 rows and 14 columns:
 }
 }
 \source{
-https://janickweberpals.gitlab-pages.partners.org/smdi/articles/data_generation.html
+https://janickweberpals.github.io/smdi/articles/a_data_generation.html
 }
 \usage{
 smdi_data
