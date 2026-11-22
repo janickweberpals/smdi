@@ -12,6 +12,7 @@ An easy to use implementation of routine structural missing data diagnostics wit
 Useful links:
 \itemize{
   \item \url{https://janickweberpals.github.io/smdi/}
+  \item \url{https://github.com/janickweberpals/smdi}
   \item Report bugs at \url{https://github.com/janickweberpals/smdi/issues}
 }
 
