@@ -2,6 +2,6 @@
 
 0 errors | 0 warnings | 0 notes
 
-* Improved efficiency of smdi_diagnose() by parallel processing for model fitting
+* Updated the NARFCS vignette for `mice` 3.20.0 release, which renames the pooled confidence interval columns to `conf.low` and `conf.high`
 
-* Vignettes can take a bit of time to build
+* Moved project hosting from GitLab to GitHub and updated the package website and bug report links
